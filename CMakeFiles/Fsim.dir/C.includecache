@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/rak/Dropbox/Fsim/src/render/shader.c
+render/shader.h
+-
+
+/home/rak/Dropbox/Fsim/src/render/window.c
+render/window.h
+-
+
+src/render/shader.h
+
+src/render/window.h
+
