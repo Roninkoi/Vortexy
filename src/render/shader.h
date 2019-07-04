@@ -4,6 +4,6 @@
 struct Shader {
 };
 
-void r_loadShader(char* path);
+void r_loadShader(char *path);
 
 #endif

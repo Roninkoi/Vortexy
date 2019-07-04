@@ -5,6 +5,6 @@ struct Window {
   
 };
 
-void r_windowInit(struct Window* w);
+void r_windowInit(struct Window *w);
 
 #endif

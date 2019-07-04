@@ -10,12 +10,12 @@ unsigned int timeNow()
     return time(NULL);
 }
 
-const char* currentDateTime()
+const char *currentDateTime()
 {
     time_t now = time(0);
     struct tm tstruct;
     int size = 80 * sizeof(char);
-    char* buf = malloc(size);
+    char *buf = malloc(size);
     tstruct = *localtime(&now);
     strftime(buf, size, "%Y-%m-%d.%X", &tstruct);
 

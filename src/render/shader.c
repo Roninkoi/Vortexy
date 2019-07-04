@@ -1,5 +1,5 @@
-#include <render/shader.h>
+#include "render/shader.h"
 
-void r_loadShader(char* path)
+void r_loadShader(char *path)
 {
 }

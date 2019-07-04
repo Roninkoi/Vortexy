@@ -10,6 +10,6 @@ struct Mesh {
   int indexData;
 };
 
-void p_loadMesh(struct Mesh* m, char* path);
+void p_loadMesh(struct Mesh *m, char *path);
 
 #endif

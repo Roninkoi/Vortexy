@@ -1,8 +1,9 @@
 #ifndef RANDOM_H
 #define RANDOM_H
 
-#include <util/timeUtil.h>
 #include <stdlib.h>
+
+#include "util/timeUtil.h"
 
 float randomFloat()
 {

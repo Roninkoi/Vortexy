@@ -1,7 +1,7 @@
-#include <render/texture.h>
-#include <util/texLoader.h>
+#include "render/texture.h"
+#include "util/texLoader.h"
 
-void loadTex(struct Texture* t, char* path)
+void loadTex(struct Texture *t, char *path)
 {
   struct Field f;
 
@@ -10,6 +10,6 @@ void loadTex(struct Texture* t, char* path)
   fieldToTex(&f, t);
 }
 
-void fieldToTex(struct Field* f, struct Texture* t)
+void fieldToTex(struct Field *f, struct Texture *t)
 {
 }

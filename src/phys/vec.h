@@ -13,7 +13,7 @@ typedef struct {
 } p_vec4;
 
 p_vec4 p_vec4Make(float x, float y, float z, float w);
-void p_vec4Init(p_vec4* v, float x, float y, float z, float w);
-void p_vec4Print(p_vec4* v);
+void p_vec4Init(p_vec4 *v, float x, float y, float z, float w);
+void p_vec4Print(p_vec4 *v);
 
 #endif

@@ -1,6 +1,6 @@
-#include <sim.h>
+#include "sim.h"
 
-void s_init(struct Sim* s)
+void s_init(struct Sim *s)
 {    
   s->running = true;
 
@@ -16,7 +16,7 @@ void s_init(struct Sim* s)
 }
 
 // main loop
-void s_run(struct Sim* s)
+void s_run(struct Sim *s)
 {
   while(s->running) {
     s_tick(s);
@@ -28,7 +28,7 @@ void s_run(struct Sim* s)
   }
 }
 
-void s_tick(struct Sim* s)
+void s_tick(struct Sim *s)
 {
   ++s->ticks;
   

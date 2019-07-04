@@ -1,5 +1,5 @@
-#include <phys/sys.h>
+#include "phys/sys.h"
 
-void p_sysInit(struct Sys* s)
+void p_sysInit(struct Sys *s)
 {
 }

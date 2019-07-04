@@ -9,6 +9,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define CL_USE_DEPRECATED_OPENCL_1_2_APIS
+
 // OpenCL
 #include <CL/cl.h>
 
@@ -17,11 +19,11 @@
 
 // renderer include
 #if RENDER_ENABLED == true
-#include <render/render.h>
+#include "render/render.h"
 #endif
 
-#include <phys/sys.h>
-#include <util/randomUtil.h>
+#include "phys/sys.h"
+#include "util/randomUtil.h"
 
 // types
 typedef unsigned char byte;
@@ -44,8 +46,8 @@ struct Sim {
   float dt; // time step
 };
 
-void s_init(struct Sim* s);
-void s_run(struct Sim* s);
-void s_tick(struct Sim* s);
+void s_init(struct Sim *s);
+void s_run(struct Sim *s);
+void s_tick(struct Sim *s);
 
 #endif

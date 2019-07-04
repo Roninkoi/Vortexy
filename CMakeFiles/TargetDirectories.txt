@@ -1,3 +1,3 @@
-/home/rak/Dropbox/Vortexy/CMakeFiles/rebuild_cache.dir
-/home/rak/Dropbox/Vortexy/CMakeFiles/Vortexy.dir
-/home/rak/Dropbox/Vortexy/CMakeFiles/edit_cache.dir
+/home/rak/Dropbox/Dev/Vortexy/CMakeFiles/rebuild_cache.dir
+/home/rak/Dropbox/Dev/Vortexy/CMakeFiles/Vortexy.dir
+/home/rak/Dropbox/Dev/Vortexy/CMakeFiles/edit_cache.dir

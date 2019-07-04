@@ -1,6 +1,6 @@
-#include <render/window.h>
+#include "render/window.h"
 
-void r_windowInit(struct Window* w)
+void r_windowInit(struct Window *w)
 {
   
 }

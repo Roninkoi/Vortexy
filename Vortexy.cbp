@@ -8,153 +8,165 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/home/rak/Dropbox/Vortexy"/>
+				<Option working_dir="/home/rak/Dropbox/Dev/Vortexy"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Vortexy/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/home/rak/Dropbox/Vortexy"/>
+				<Option working_dir="/home/rak/Dropbox/Dev/Vortexy"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Vortexy/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="Vortexy">
-				<Option output="/home/rak/Dropbox/Vortexy/Vortexy" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/rak/Dropbox/Vortexy"/>
+				<Option output="/home/rak/Dropbox/Dev/Vortexy/Vortexy" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/rak/Dropbox/Dev/Vortexy"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/home/rak/Dropbox/Vortexy/src"/>
+					<Add directory="/home/rak/Dropbox/Dev/Vortexy/src"/>
+					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/8/../../../../include/c++/8"/>
+					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/8/../../../../include/c++/8/x86_64-redhat-linux"/>
+					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/8/../../../../include/c++/8/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/8/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Vortexy/Makefile&quot;  VERBOSE=1 Vortexy"/>
-					<CompileFile command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 Vortexy"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="Vortexy/fast">
-				<Option output="/home/rak/Dropbox/Vortexy/Vortexy" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/rak/Dropbox/Vortexy"/>
+				<Option output="/home/rak/Dropbox/Dev/Vortexy/Vortexy" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/rak/Dropbox/Dev/Vortexy"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/home/rak/Dropbox/Vortexy/src"/>
+					<Add directory="/home/rak/Dropbox/Dev/Vortexy/src"/>
+					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/8/../../../../include/c++/8"/>
+					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/8/../../../../include/c++/8/x86_64-redhat-linux"/>
+					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/8/../../../../include/c++/8/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/8/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Vortexy/Makefile&quot;  VERBOSE=1 Vortexy/fast"/>
-					<CompileFile command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 Vortexy/fast"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/home/rak/Dropbox/Vortexy"/>
+				<Option working_dir="/home/rak/Dropbox/Dev/Vortexy"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Vortexy/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/rak/Dropbox/Vortexy/src/main.c">
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/main.c">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Vortexy/src/phys/field.c">
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/field.c">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Vortexy/src/phys/field.h">
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/field.h">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Vortexy/src/phys/fluid.h">
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/fluid.h">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Vortexy/src/phys/mesh.c">
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/mesh.c">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Vortexy/src/phys/mesh.h">
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/mesh.h">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Vortexy/src/phys/obj.c">
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/obj.c">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Vortexy/src/phys/obj.h">
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/obj.h">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Vortexy/src/phys/sys.c">
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/sys.c">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Vortexy/src/phys/sys.h">
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/sys.h">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Vortexy/src/phys/vec.c">
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/vec.c">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Vortexy/src/phys/vec.h">
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/vec.h">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Vortexy/src/render/draw.c">
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/render/draw.c">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Vortexy/src/render/render.c">
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/render/render.c">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Vortexy/src/render/render.h">
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/render/render.h">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Vortexy/src/render/shader.c">
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/render/shader.c">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Vortexy/src/render/shader.h">
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/render/shader.h">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Vortexy/src/render/texture.c">
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/render/texture.c">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Vortexy/src/render/texture.h">
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/render/texture.h">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Vortexy/src/render/window.c">
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/render/window.c">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Vortexy/src/render/window.h">
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/render/window.h">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Vortexy/src/sim.c">
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/sim.c">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Vortexy/src/sim.h">
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/sim.h">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Vortexy/src/util/cfgParser.h">
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/util/cfgParser.h">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Vortexy/src/util/objParser.h">
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/util/objParser.h">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Vortexy/src/util/randomUtil.h">
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/util/randomUtil.h">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Vortexy/src/util/texLoader.h">
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/util/texLoader.h">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Vortexy/src/util/timeUtil.h">
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/util/timeUtil.h">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Vortexy/CMakeLists.txt">
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>
