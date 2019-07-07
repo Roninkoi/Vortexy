@@ -48,8 +48,8 @@ void ppmLoader(struct Field *f, char *path)
 
 		if (c[0] != '#' && c[0] != 'P') {
 			if (width == 0 && height == 0) { // parse dimensions
-				char *ws = (char *) malloc(sizeof(char) * 3);
-				char *hs = (char *) malloc(sizeof(char) * 3);
+				char *ws = (char *) malloc(sizeof(char) * 6);
+				char *hs = (char *) malloc(sizeof(char) * 6);
 
 				int k = 0;
 				for (j = 0; c[j] != ' ' && c[j]; ++j) { // texture width
@@ -100,8 +100,11 @@ void ppmLoader(struct Field *f, char *path)
 						break;
 				}
 
-				++ti; // texture index
 				++ch; // channel
+
+				if (ch % 3 == 0) {
+					++ti; // texture index
+				}
 			}
 		}
 	}
