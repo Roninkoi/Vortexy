@@ -94,6 +94,12 @@
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/fluid.h">
 			<Option target="Vortexy"/>
 		</Unit>
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/mat.c">
+			<Option target="Vortexy"/>
+		</Unit>
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/mat.h">
+			<Option target="Vortexy"/>
+		</Unit>
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/mesh.c">
 			<Option target="Vortexy"/>
 		</Unit>

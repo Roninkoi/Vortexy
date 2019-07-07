@@ -7,7 +7,7 @@
 // (texture on GPU)
 struct Field {
   unsigned int res; // field resolution
-  p_vec4 **f; // res x res
+  vec4 **f; // res x res
 };
 
 void p_fieldInit(struct Field *f, unsigned int r);

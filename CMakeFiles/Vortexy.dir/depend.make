@@ -13,11 +13,16 @@ CMakeFiles/Vortexy.dir/src/main.c.o: src/phys/mesh.h
 CMakeFiles/Vortexy.dir/src/main.c.o: src/phys/obj.h
 CMakeFiles/Vortexy.dir/src/main.c.o: src/phys/vec.h
 CMakeFiles/Vortexy.dir/src/main.c.o: src/render/window.h
+CMakeFiles/Vortexy.dir/src/main.c.o: src/util/texLoader.h
 CMakeFiles/Vortexy.dir/src/main.c.o: src/util/timeUtil.h
 
 CMakeFiles/Vortexy.dir/src/phys/field.c.o: src/phys/field.c
 CMakeFiles/Vortexy.dir/src/phys/field.c.o: src/phys/field.h
 CMakeFiles/Vortexy.dir/src/phys/field.c.o: src/phys/vec.h
+
+CMakeFiles/Vortexy.dir/src/phys/mat.c.o: src/phys/mat.c
+CMakeFiles/Vortexy.dir/src/phys/mat.c.o: src/phys/mat.h
+CMakeFiles/Vortexy.dir/src/phys/mat.c.o: src/phys/vec.h
 
 CMakeFiles/Vortexy.dir/src/phys/mesh.c.o: src/phys/mesh.c
 CMakeFiles/Vortexy.dir/src/phys/mesh.c.o: src/phys/mesh.h

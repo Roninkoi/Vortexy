@@ -6,29 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/home/rak/Dropbox/Dev/Vortexy/src/main.c
-sim.h
-/home/rak/Dropbox/Dev/Vortexy/src/sim.h
-util/cfgParser.h
-/home/rak/Dropbox/Dev/Vortexy/src/util/cfgParser.h
-
 /home/rak/Dropbox/Dev/Vortexy/src/phys/field.c
 phys/field.h
 /home/rak/Dropbox/Dev/Vortexy/src/phys/phys/field.h
-
-/home/rak/Dropbox/Dev/Vortexy/src/phys/mesh.c
-phys/mesh.h
-/home/rak/Dropbox/Dev/Vortexy/src/phys/phys/mesh.h
-util/objParser.h
-/home/rak/Dropbox/Dev/Vortexy/src/phys/util/objParser.h
-
-/home/rak/Dropbox/Dev/Vortexy/src/phys/obj.c
-phys/obj.h
--
-
-/home/rak/Dropbox/Dev/Vortexy/src/phys/sys.c
-phys/sys.h
-/home/rak/Dropbox/Dev/Vortexy/src/phys/phys/sys.h
 
 /home/rak/Dropbox/Dev/Vortexy/src/phys/sys.h
 phys/fluid.h
@@ -36,37 +16,11 @@ phys/fluid.h
 phys/obj.h
 /home/rak/Dropbox/Dev/Vortexy/src/phys/phys/obj.h
 
-/home/rak/Dropbox/Dev/Vortexy/src/phys/vec.c
-phys/vec.h
-/home/rak/Dropbox/Dev/Vortexy/src/phys/phys/vec.h
-
-/home/rak/Dropbox/Dev/Vortexy/src/render/draw.c
-render/render.h
-/home/rak/Dropbox/Dev/Vortexy/src/render/render/render.h
-
-/home/rak/Dropbox/Dev/Vortexy/src/render/render.c
-render/render.h
-/home/rak/Dropbox/Dev/Vortexy/src/render/render/render.h
-
 /home/rak/Dropbox/Dev/Vortexy/src/render/render.h
 render/window.h
 /home/rak/Dropbox/Dev/Vortexy/src/render/render/window.h
 phys/mesh.h
 /home/rak/Dropbox/Dev/Vortexy/src/render/phys/mesh.h
-
-/home/rak/Dropbox/Dev/Vortexy/src/render/shader.c
-render/shader.h
-/home/rak/Dropbox/Dev/Vortexy/src/render/render/shader.h
-
-/home/rak/Dropbox/Dev/Vortexy/src/render/texture.c
-render/texture.h
-/home/rak/Dropbox/Dev/Vortexy/src/render/render/texture.h
-util/texLoader.h
-/home/rak/Dropbox/Dev/Vortexy/src/render/util/texLoader.h
-
-/home/rak/Dropbox/Dev/Vortexy/src/render/window.c
-render/window.h
-/home/rak/Dropbox/Dev/Vortexy/src/render/render/window.h
 
 /home/rak/Dropbox/Dev/Vortexy/src/sim.c
 sim.h
@@ -85,12 +39,6 @@ phys/sys.h
 /home/rak/Dropbox/Dev/Vortexy/src/phys/sys.h
 util/randomUtil.h
 /home/rak/Dropbox/Dev/Vortexy/src/util/randomUtil.h
-
-/home/rak/Dropbox/Dev/Vortexy/src/util/cfgParser.h
-phys/fluid.h
-/home/rak/Dropbox/Dev/Vortexy/src/util/phys/fluid.h
-sim.h
-/home/rak/Dropbox/Dev/Vortexy/src/util/sim.h
 
 /home/rak/Dropbox/Dev/Vortexy/src/util/randomUtil.h
 stdlib.h
@@ -112,39 +60,15 @@ src/phys/phys/mesh.h
 phys/field.h
 src/phys/phys/field.h
 
-src/phys/sys.h
-phys/fluid.h
-src/phys/phys/fluid.h
-phys/obj.h
-src/phys/phys/obj.h
-
 src/phys/vec.h
 stdio.h
 -
 stdlib.h
 -
-
-src/render/render.h
-render/window.h
-src/render/render/window.h
-phys/mesh.h
-src/render/phys/mesh.h
-
-src/render/shader.h
-
-src/render/texture.h
-phys/field.h
-src/render/phys/field.h
+math.h
+-
 
 src/render/window.h
-
-src/util/objParser.h
-phys/mesh.h
-src/util/phys/mesh.h
-
-src/util/texLoader.h
-phys/field.h
-src/util/phys/field.h
 
 src/util/timeUtil.h
 stdlib.h

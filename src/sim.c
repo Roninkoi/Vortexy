@@ -1,7 +1,7 @@
 #include "sim.h"
 
 void s_init(struct Sim *s)
-{    
+{
   s->running = true;
 
   s->time = 0.0f;
@@ -9,7 +9,7 @@ void s_init(struct Sim *s)
 
   // intialize random
   srand(timeNow());
-  
+
 #if RENDER_ENABLED == true
   r_init(&s->renderer);
 #endif
@@ -31,14 +31,16 @@ void s_run(struct Sim *s)
 void s_tick(struct Sim *s)
 {
   ++s->ticks;
-  
+
   s->time += s->dt; // increment time
 
   struct Field test;
 
+  //ppmLoader(&test, "");
+
   p_fieldInit(&test, 128);
 
-  test.f[0][0] = p_vec4Make(0.0f, 0.0f, 0.0f, 0.0f);
+  test.f[0][0] = p_vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
   const int size = 1024;
 

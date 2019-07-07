@@ -23,7 +23,7 @@ add_executable(
         Vortexy ${SOURCE_FILES} ${SOURCES}
 )
 
-target_link_libraries(Vortexy OpenCL)
+target_link_libraries(Vortexy OpenCL m)
 #target_link_libraries(Vortexy /usr/lib64/libOpenCL.so.1)
 
 target_link_libraries(Vortexy "-Wl,--allow-multiple-definition")

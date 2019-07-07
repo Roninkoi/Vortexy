@@ -51,6 +51,9 @@ s = simulator
 p = physics
 r = renderer
 
-- constructors are called "Make" e.g. p_vec4Make()
+- constructor names are the type e.g. p_vec4()
 - initializers are called "Init" e.g. p_vec4Init()
+- destructors are called "Destroy" e.g. p_fieldDestroy()
+- constructors / initializers should be paired with a destructor if one exists
+
 

@@ -6,7 +6,7 @@
 struct Texture {
 };
 
-void loadTex(struct Texture *t, char *path);
-void fieldToTex(struct Field *f, struct Texture *t);
+void r_loadTex(struct Texture *t, char *path);
+void r_fieldToTex(struct Field *f, struct Texture *t);
 
 #endif

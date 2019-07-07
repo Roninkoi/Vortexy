@@ -6,14 +6,23 @@ void p_fieldInit(struct Field *f, unsigned int r)
   f->res = r;
   
   // allocate memory for 2d array
-  f->f = (p_vec4 **) malloc(f->res * sizeof(p_vec4 *));
+  f->f = (vec4 **) malloc(f->res * sizeof(vec4 *));
 
   for (int i = 0; i < f->res; ++i) {
-    f->f[i] = (p_vec4 *) malloc(f->res * sizeof(p_vec4));
+    f->f[i] = (vec4 *) malloc(f->res * sizeof(vec4));
   }
 
   // initialize to zero
   p_fieldSet(f, 0.0f, 0.0f, 0.0f, 0.0f);
+}
+
+void p_fieldDestroy(struct Field *f) // check this later
+{
+    for (int i = 0; i < f->res; ++i) {
+        free(f->f[i]);
+    }
+
+    free(f->f);
 }
 
 void p_fieldSet(struct Field *f, float x, float y, float z, float w)

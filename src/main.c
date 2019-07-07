@@ -1,3 +1,4 @@
+#include <util/texLoader.h>
 #include "sim.h"
 #include "util/cfgParser.h"
 
@@ -9,9 +10,19 @@ int main(int argc, char *argv[])
     return 0;
   }
 
-  printf("Vortexy Roninkoi %s\n", currentDateTime());
+  char *date = currentDateTime();
+
+  printf("Vortexy Roninkoi %s\n", date);
+
+  free(date);
 
   struct Sim sim;
+
+  struct Field test;
+
+  ppmLoader(&test, "");
+
+  return 0;
 
   // initialize simulation
   s_init(&sim);

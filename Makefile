@@ -177,6 +177,33 @@ src/phys/field.c.s:
 	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/phys/field.c.s
 .PHONY : src/phys/field.c.s
 
+src/phys/mat.o: src/phys/mat.c.o
+
+.PHONY : src/phys/mat.o
+
+# target to build an object file
+src/phys/mat.c.o:
+	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/phys/mat.c.o
+.PHONY : src/phys/mat.c.o
+
+src/phys/mat.i: src/phys/mat.c.i
+
+.PHONY : src/phys/mat.i
+
+# target to preprocess a source file
+src/phys/mat.c.i:
+	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/phys/mat.c.i
+.PHONY : src/phys/mat.c.i
+
+src/phys/mat.s: src/phys/mat.c.s
+
+.PHONY : src/phys/mat.s
+
+# target to generate assembly for a file
+src/phys/mat.c.s:
+	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/phys/mat.c.s
+.PHONY : src/phys/mat.c.s
+
 src/phys/mesh.o: src/phys/mesh.c.o
 
 .PHONY : src/phys/mesh.o
@@ -462,6 +489,9 @@ help:
 	@echo "... src/phys/field.o"
 	@echo "... src/phys/field.i"
 	@echo "... src/phys/field.s"
+	@echo "... src/phys/mat.o"
+	@echo "... src/phys/mat.i"
+	@echo "... src/phys/mat.s"
 	@echo "... src/phys/mesh.o"
 	@echo "... src/phys/mesh.i"
 	@echo "... src/phys/mesh.s"

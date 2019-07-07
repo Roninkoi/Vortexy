@@ -14,10 +14,15 @@ CMakeFiles/Vortexy.dir/src/main.c.o
  src/phys/obj.h
  src/phys/vec.h
  src/render/window.h
+ src/util/texLoader.h
  src/util/timeUtil.h
 CMakeFiles/Vortexy.dir/src/phys/field.c.o
  /home/rak/Dropbox/Dev/Vortexy/src/phys/field.c
  src/phys/field.h
+ src/phys/vec.h
+CMakeFiles/Vortexy.dir/src/phys/mat.c.o
+ /home/rak/Dropbox/Dev/Vortexy/src/phys/mat.c
+ src/phys/mat.h
  src/phys/vec.h
 CMakeFiles/Vortexy.dir/src/phys/mesh.c.o
  /home/rak/Dropbox/Dev/Vortexy/src/phys/mesh.c
