@@ -14,4 +14,6 @@ void p_fieldInit(struct Field *f, unsigned int r);
 
 void p_fieldSet(struct Field *f, float x, float y, float z, float w);
 
+void p_fieldPrint(struct Field *f);
+
 #endif

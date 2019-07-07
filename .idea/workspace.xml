@@ -12,95 +12,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2355b07f-7336-4c5e-9656-ebfc15cb9981" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeCache.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/CMakeOutput.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Makefile.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/C.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/main.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/main.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/field.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/field.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/mat.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/mat.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/mesh.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/mesh.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/obj.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/obj.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/sys.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/sys.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/vec.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/vec.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/render/draw.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/render/draw.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/render/render.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/render/render.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/render/shader.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/render/shader.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/render/texture.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/render/texture.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/render/window.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/render/window.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/sim.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/sim.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/clion-log.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Vortexy" beforeDir="false" afterPath="$PROJECT_DIR$/Vortexy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Vortexy.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/Vortexy.cbp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/.tags" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.3/CMakeCCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.3/CMakeCXXCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.3/CMakeDetermineCompilerABI_C.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.3/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.3/CMakeSystem.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.3/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.3/CompilerIdC/a.out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.3/CompilerIdCXX/CMakeCXXCompilerId.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.3/CompilerIdCXX/a.out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Fsim.dir/C.includecache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Fsim.dir/DependInfo.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Fsim.dir/build.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Fsim.dir/cmake_clean.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Fsim.dir/depend.internal" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Fsim.dir/depend.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Fsim.dir/flags.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Fsim.dir/link.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Fsim.dir/progress.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Fsim.dir/src/main.c.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Fsim.dir/src/sim.c.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Progress/1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Progress/3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Progress/count.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/cmake.check_cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.cxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Fsim.cbp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Project.cbp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/kernel/add.cl" beforeDir="false" afterPath="$PROJECT_DIR$/src/kernel/add.cl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/phys/field.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/phys/field.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/phys/field.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/phys/field.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/phys/mat.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/phys/mat.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/phys/mat.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/phys/mat.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/phys/mesh.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/phys/mesh.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/phys/mesh.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/phys/mesh.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/phys/obj.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/phys/obj.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/phys/sys.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/phys/sys.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/phys/vec.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/phys/vec.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/phys/vec.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/phys/vec.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/render/render.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/render/render.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/render/shader/main.vert" beforeDir="false" afterPath="$PROJECT_DIR$/src/render/shader/main.vert" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/render/texture.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/render/texture.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/render/texture.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/render/texture.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/render/window.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/render/window.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/render/window.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/render/window.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sim.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/sim.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sim.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/sim.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/randomUtil.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/randomUtil.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/util/texLoader.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/texLoader.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/timeUtil.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/timeUtil.h" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/CMakeFiles/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -116,10 +33,61 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/util/cfgParser.h">
+        <entry file="file://$PROJECT_DIR$/src/util/texLoader.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="15" selection-start-line="15" selection-end-line="15" />
+            <state relative-caret-position="339">
+              <caret line="111" lean-forward="true" selection-start-line="111" selection-end-line="111" />
+              <folding>
+                <element signature="e#43#62#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/phys/vec.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="216">
+              <caret line="21" selection-start-line="21" selection-end-line="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/phys/field.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="366">
+              <caret line="44" column="37" lean-forward="true" selection-start-line="44" selection-start-column="37" selection-end-line="44" selection-end-column="37" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/phys/field.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="324">
+              <caret line="18" column="6" lean-forward="true" selection-start-line="18" selection-start-column="6" selection-end-line="18" selection-end-column="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/sim.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="216">
+              <caret line="12" column="26" selection-start-line="12" selection-start-column="26" selection-end-line="12" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="288">
+              <caret line="22" column="38" selection-start-line="22" selection-start-column="38" selection-end-line="22" selection-end-column="38" />
+              <folding>
+                <element signature="e#0#27#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -134,10 +102,6 @@
       <list>
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/src/sim.h" />
-        <option value="$PROJECT_DIR$/src/main.c" />
-        <option value="$PROJECT_DIR$/src/sim.c" />
-        <option value="$PROJECT_DIR$/src/phys/field.c" />
-        <option value="$PROJECT_DIR$/src/phys/field.h" />
         <option value="$PROJECT_DIR$/src/phys/mat.h" />
         <option value="$PROJECT_DIR$/src/phys/vec.h" />
         <option value="$PROJECT_DIR$/src/phys/vec.c" />
@@ -155,8 +119,12 @@
         <option value="$PROJECT_DIR$/src/render/shader/main.vert" />
         <option value="$PROJECT_DIR$/src/render/shader/main.frag" />
         <option value="$PROJECT_DIR$/src/util/timeUtil.h" />
-        <option value="$PROJECT_DIR$/src/util/texLoader.h" />
         <option value="$PROJECT_DIR$/src/util/randomUtil.h" />
+        <option value="$PROJECT_DIR$/src/sim.c" />
+        <option value="$PROJECT_DIR$/src/phys/field.h" />
+        <option value="$PROJECT_DIR$/src/phys/field.c" />
+        <option value="$PROJECT_DIR$/src/main.c" />
+        <option value="$PROJECT_DIR$/src/util/texLoader.h" />
       </list>
     </option>
   </component>
@@ -190,6 +158,12 @@
               <item name="Vortexy" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="kernel" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Vortexy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Vortexy" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="phys" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Vortexy" type="b2602c69:ProjectViewProjectNode" />
@@ -245,24 +219,24 @@
       <workItem from="1562463933817" duration="1334000" />
       <workItem from="1562465292295" duration="1554000" />
       <workItem from="1562473904431" duration="1069000" />
-      <workItem from="1562474985064" duration="89000" />
+      <workItem from="1562474985064" duration="5662000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="4116000" />
+    <option name="totallyTimeSpent" value="9689000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="25" width="1920" height="1025" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26040554" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26040554" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32960895" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -282,6 +256,13 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="CMakeRunConfiguration">
+        <watch expression="dp" />
+      </configuration>
+    </watches-manager>
+  </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Makefile">
       <provider selected="true" editor-type-id="text-editor" />
@@ -293,27 +274,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/phys/field.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="473">
-          <caret line="33" column="29" selection-start-line="33" selection-start-column="29" selection-end-line="33" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/phys/field.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="17" selection-start-line="17" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/phys/fluid.h">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/phys/vec.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-756" />
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/phys/sys.h">
       <provider selected="true" editor-type-id="text-editor" />
@@ -429,34 +391,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sim.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="100" column="4" selection-start-line="100" selection-start-column="4" selection-end-line="100" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/util/timeUtil.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="468">
           <caret line="28" selection-start-line="28" selection-end-line="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/util/texLoader.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="19" column="41" selection-start-line="19" selection-start-column="41" selection-end-line="19" selection-end-column="41" />
         </state>
       </provider>
     </entry>
@@ -470,6 +408,54 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
           <caret line="15" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sim.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="12" column="26" selection-start-line="12" selection-start-column="26" selection-end-line="12" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/phys/field.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="18" column="6" lean-forward="true" selection-start-line="18" selection-start-column="6" selection-end-line="18" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/phys/field.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="366">
+          <caret line="44" column="37" lean-forward="true" selection-start-line="44" selection-start-column="37" selection-end-line="44" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="22" column="38" selection-start-line="22" selection-start-column="38" selection-end-line="22" selection-end-column="38" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/phys/vec.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/util/texLoader.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="339">
+          <caret line="111" lean-forward="true" selection-start-line="111" selection-end-line="111" />
+          <folding>
+            <element signature="e#43#62#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -37,3 +37,12 @@ void p_fieldSet(struct Field *f, float x, float y, float z, float w)
 	}
 }
 
+void p_fieldPrint(struct Field *f)
+{
+
+	for (int i = 0; i < f->res; ++i) {
+		for (int j = 0; j < f->res; ++j) {
+			p_vec4Print(&f->f[i][j]);
+		}
+	}
+}
