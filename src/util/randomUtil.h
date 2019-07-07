@@ -7,20 +7,20 @@
 
 float randomFloat()
 {
-    int r = rand(); // not very random
+	int r = rand(); // not very random
 
-    float fr = (float) r / (float) RAND_MAX;
+	float fr = (float) r / (float) RAND_MAX;
 
-    return fr;
+	return fr;
 }
 
 int randomRange(int min, int max)
 {
-    float fr = randomFloat();
+	float fr = randomFloat();
 
-    int rr = (int)(fr * (float) (max - min) + min);
+	int rr = (int) (fr * (float) (max - min) + min);
 
-    return rr;
+	return rr;
 }
 
 #endif

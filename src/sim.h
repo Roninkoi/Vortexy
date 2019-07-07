@@ -19,7 +19,9 @@
 
 // renderer include
 #if RENDER_ENABLED == true
+
 #include "render/render.h"
+
 #endif
 
 #include "phys/sys.h"
@@ -27,27 +29,31 @@
 
 // types
 typedef unsigned char byte;
-typedef enum {false, true} bool;
+typedef enum {
+	false, true
+} bool;
 
 struct Sim {
 #if RENDER_ENABLED == true
-  struct Renderer renderer;
+	struct Renderer renderer;
 #endif
 
-  struct Sys sys;
+	struct Sys sys;
 
-  int ticks;
-  bool running;
-  
-  bool rendered;
-  bool usegpu;
+	int ticks;
+	bool running;
 
-  float time; // simulated time
-  float dt; // time step
+	bool rendered;
+	bool usegpu;
+
+	float time; // simulated time
+	float dt; // time step
 };
 
 void s_init(struct Sim *s);
+
 void s_run(struct Sim *s);
+
 void s_tick(struct Sim *s);
 
 #endif

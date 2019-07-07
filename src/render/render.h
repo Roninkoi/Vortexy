@@ -10,11 +10,12 @@
 #include "phys/mesh.h"
 
 struct Renderer {
-  struct Window window;
+	struct Window window;
 };
 
 // render
 void r_render(struct Renderer *r);
+
 void r_init(struct Renderer *r);
 
 // draw

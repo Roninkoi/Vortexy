@@ -5,8 +5,8 @@
 #include "phys/field.h"
 
 struct Obj {
-  struct Mesh mesh;
-  struct Field field;
+	struct Mesh mesh;
+	struct Field field;
 };
 
 void p_loadObj(char *path);

@@ -3,5 +3,5 @@
 
 void p_loadMesh(struct Mesh *m, char *path)
 {
-  objParser(m, path);
+	objParser(m, path);
 }

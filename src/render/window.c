@@ -2,5 +2,5 @@
 
 void r_windowInit(struct Window *w)
 {
-  
+
 }

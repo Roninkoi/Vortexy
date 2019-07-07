@@ -7,7 +7,7 @@
 
 // 4 x 4 square matrix type
 typedef struct {
-  float m[4][4];
+	float m[4][4];
 } mat4;
 
 
@@ -16,8 +16,8 @@ mat4 p_mat4(float s);
 mat4 p_imat4(); // identity
 mat4 p_zmat4(); // zero
 
-vec4 p_mat4vec4(mat4* m, vec4* v); // mat4 x vec4
-mat4 p_mat4mat4(mat4* m0, mat4* m1); // mat4 x mat4
+vec4 p_mat4vec4(mat4 *m, vec4 *v); // mat4 x vec4
+mat4 p_mat4mat4(mat4 *m0, mat4 *m1); // mat4 x mat4
 
 mat4 p_mat4Translate(mat4 *m, vec4 v); // translate matrix by vec
 

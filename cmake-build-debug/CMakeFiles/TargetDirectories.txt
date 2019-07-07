@@ -1,3 +1,0 @@
-/home/rak/Dropbox/Fsim/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/rak/Dropbox/Fsim/cmake-build-debug/CMakeFiles/Fsim.dir
-/home/rak/Dropbox/Fsim/cmake-build-debug/CMakeFiles/edit_cache.dir

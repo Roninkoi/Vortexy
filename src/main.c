@@ -4,34 +4,34 @@
 
 int main(int argc, char *argv[])
 {
-  if (argc < 2) {
-    printf("No config file!\n");
-    printf("Usage: ./Vortexy <sim.cfg>\n");
-    return 0;
-  }
+	if (argc < 2) {
+		printf("No config file!\n");
+		printf("Usage: ./Vortexy <sim.cfg>\n");
+		return 0;
+	}
 
-  char *date = currentDateTime();
+	char *date = currentDateTime();
 
-  printf("Vortexy Roninkoi %s\n", date);
+	printf("Vortexy Roninkoi %s\n", date);
 
-  free(date);
+	free(date);
 
-  struct Sim sim;
+	struct Sim sim;
 
-  struct Field test;
+	struct Field test;
 
-  ppmLoader(&test, "");
+	ppmLoader(&test, "");
 
-  return 0;
+	return 0;
 
-  // initialize simulation
-  s_init(&sim);
+	// initialize simulation
+	s_init(&sim);
 
-  // load simulation configuration
-  simParser(&sim, argv[1]);
+	// load simulation configuration
+	simParser(&sim, argv[1]);
 
-  // start
-  s_run(&sim);
+	// start
+	s_run(&sim);
 
-  return 0;
+	return 0;
 }

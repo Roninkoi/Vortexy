@@ -3,11 +3,11 @@
 
 void r_loadTex(struct Texture *t, char *path)
 {
-  struct Field f;
+	struct Field f;
 
-  ppmLoader(&f, path);
+	ppmLoader(&f, path);
 
-  r_fieldToTex(&f, t);
+	r_fieldToTex(&f, t);
 }
 
 void r_fieldToTex(struct Field *f, struct Texture *t)

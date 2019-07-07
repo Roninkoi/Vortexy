@@ -7,22 +7,22 @@
 
 unsigned int timeNow()
 {
-    return time(NULL);
+	return time(NULL);
 }
 
 char *currentDateTime()
 {
-    time_t now = timeNow();
-    struct tm tstruct;
+	time_t now = timeNow();
+	struct tm tstruct;
 
-    int size = 80 * sizeof(char);
+	int size = 80 * sizeof(char);
 
-    char *buf = malloc(size);
-    tstruct = *localtime(&now);
+	char *buf = malloc(size);
+	tstruct = *localtime(&now);
 
-    strftime(buf, size, "%d.%m.%Y %X", &tstruct);
+	strftime(buf, size, "%d.%m.%Y %X", &tstruct);
 
-    return buf;
+	return buf;
 }
 
 #endif

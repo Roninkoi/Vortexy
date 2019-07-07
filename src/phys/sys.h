@@ -6,9 +6,9 @@
 
 // physical system
 struct Sys {
-  struct Fluid fluid;
+	struct Fluid fluid;
 
-  struct Obj *objs;
+	struct Obj *objs;
 };
 
 void p_sysInit(struct Sys *s);

@@ -6,20 +6,20 @@
 // loads a ppm image into a field
 void ppmLoader(struct Field *f, char *path)
 {
-  FILE *fp;
-  char *src;
-  size_t src_size;
+	FILE *fp;
+	char *data;
+	size_t fsize;
 
-  fp = fopen("data/test.ppm", "r");
+	fp = fopen(path, "r");
 
-  if (!fp) {
-    exit(1);
-  }
+	if (!fp) {
+		exit(1);
+	}
 
-  src = (char *) malloc(0x100000);
-  src_size = fread(src, 1, 0x100000, fp);
+	data = (char *) malloc(0x100000);
+	fsize = fread(data, 1, 0x100000, fp);
 
-  printf("%i\n", src_size);
+	free(data);
 }
 
 #endif
