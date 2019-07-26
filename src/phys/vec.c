@@ -27,7 +27,7 @@ vec4 p_ivec4()
 	return p_vec4(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
-vec4 p_zvec4()
+vec4 p_nvec4()
 {
 	return p_vec4(0.0f, 0.0f, 0.0f, 0.0f);
 }

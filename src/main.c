@@ -18,14 +18,6 @@ int main(int argc, char *argv[])
 
 	struct Sim sim;
 
-	struct Field test;
-
-	ppmLoader(&test, "data/test.ppm");
-
-	p_fieldPrint(&test);
-
-	return 0;
-
 	// initialize simulation
 	s_init(&sim);
 

@@ -2,7 +2,9 @@
 
 void s_init(struct Sim *s)
 {
-	s->running = true;
+	s->running = 1;
+
+	s->usegpu = 1;
 
 	s->time = 0.0f;
 	s->dt = 1.0f;
@@ -11,7 +13,7 @@ void s_init(struct Sim *s)
 	srand(timeNow());
 
 #if RENDER_ENABLED == true
-	r_init(&s->renderer);
+	r_init(&s->renderer, &s->running);
 #endif
 }
 
@@ -34,7 +36,7 @@ void s_tick(struct Sim *s)
 
 	s->time += s->dt; // increment time
 
-	struct Field test;
+	Field test;
 
 	//ppmLoader(&test, "");
 
@@ -62,8 +64,8 @@ void s_tick(struct Sim *s)
 		exit(1);
 	}
 
-	src = (char *) malloc(0x100000);
-	src_size = fread(src, 1, 0x100000, fp);
+	src = (char *) malloc(SRC_MAX);
+	src_size = fread(src, 1, SRC_MAX, fp);
 
 	fclose(fp);
 

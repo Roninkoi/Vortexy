@@ -3,11 +3,12 @@
 
 // triangular mesh
 struct Mesh {
-	float vertexData;
+	float vertData;
 	float texData;
-	float normalData;
+	float normData;
+	float colData;
 
-	int indexData;
+	int indData;
 };
 
 void p_loadMesh(struct Mesh *m, char *path);

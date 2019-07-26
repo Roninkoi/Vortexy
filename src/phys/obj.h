@@ -6,7 +6,7 @@
 
 struct Obj {
 	struct Mesh mesh;
-	struct Field field;
+	Field field;
 };
 
 void p_loadObj(char *path);

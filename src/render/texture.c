@@ -1,15 +1,35 @@
 #include "render/texture.h"
 #include "util/texLoader.h"
 
-void r_loadTex(struct Texture *t, char *path)
+void r_loadTex(Texture *t, char *path)
 {
-	struct Field f;
+	t->path = path;
 
-	ppmLoader(&f, path);
+	glGenTextures(1, &t->tex);
 
-	r_fieldToTex(&f, t);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, t->tex);
+
+	unsigned char *image = ppmLoader(path, &t->w, &t->h);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, t->w, t->h, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+
+	free(image);
 }
 
-void r_fieldToTex(struct Field *f, struct Texture *t)
+void r_fieldToTex(Field *f, Texture *t)
 {
+}
+
+void r_destroyTex(Texture *t)
+{
+	if (t->tex > 0) {
+		glDeleteTextures(1, &t->tex);
+		t->tex = 0;
+	}
 }

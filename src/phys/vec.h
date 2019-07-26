@@ -21,7 +21,7 @@ void p_vec4Print(vec4 *v);
 
 vec4 p_ivec4();
 
-vec4 p_zvec4();
+vec4 p_nvec4();
 
 void p_vec4Add(vec4 *v0, vec4 *v1);
 

@@ -17,6 +17,9 @@
 // enable rendering
 #define RENDER_ENABLED true
 
+// kernel size
+#define SRC_MAX 0x100000
+
 // renderer include
 #if RENDER_ENABLED == true
 
@@ -27,12 +30,6 @@
 #include "phys/sys.h"
 #include "util/randomUtil.h"
 
-// types
-typedef unsigned char byte;
-typedef enum {
-	false, true
-} bool;
-
 struct Sim {
 #if RENDER_ENABLED == true
 	struct Renderer renderer;
@@ -41,10 +38,10 @@ struct Sim {
 	struct Sys sys;
 
 	int ticks;
-	bool running;
+	int running;
 
-	bool rendered;
-	bool usegpu;
+	int rendered;
+	int usegpu;
 
 	float time; // simulated time
 	float dt; // time step

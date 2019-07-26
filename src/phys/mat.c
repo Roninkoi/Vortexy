@@ -32,14 +32,14 @@ mat4 p_imat4() // identity
 	return p_mat4(1.0f);
 }
 
-mat4 p_zmat4() // zero
+mat4 p_nmat4() // zero
 {
 	return p_mat4(0.0f);
 }
 
 vec4 p_mat4vec4(mat4 *m, vec4 *v) // mat4 x vec4
 {
-	vec4 r = p_zvec4();
+	vec4 r = p_nvec4();
 
 	r.x += m->m[0][0] * v->x;
 	r.x += m->m[0][1] * v->y;

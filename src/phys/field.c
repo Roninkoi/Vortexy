@@ -1,6 +1,6 @@
 #include "phys/field.h"
 
-void p_fieldInit(struct Field *f, unsigned int r)
+void p_fieldInit(Field *f, unsigned int r)
 {
 	// set resolution
 	f->res = r;
@@ -16,7 +16,7 @@ void p_fieldInit(struct Field *f, unsigned int r)
 	p_fieldSet(f, 0.0f, 0.0f, 0.0f, 0.0f);
 }
 
-void p_fieldDestroy(struct Field *f) // check this later
+void p_fieldDestroy(Field *f) // check this later
 {
 	for (int i = 0; i < f->res; ++i) {
 		free(f->f[i]);
@@ -25,7 +25,7 @@ void p_fieldDestroy(struct Field *f) // check this later
 	free(f->f);
 }
 
-void p_fieldSet(struct Field *f, float x, float y, float z, float w)
+void p_fieldSet(Field *f, float x, float y, float z, float w)
 {
 	for (int i = 0; i < f->res; ++i) {
 		for (int j = 0; j < f->res; ++j) {
@@ -37,7 +37,7 @@ void p_fieldSet(struct Field *f, float x, float y, float z, float w)
 	}
 }
 
-void p_fieldPrint(struct Field *f)
+void p_fieldPrint(Field *f)
 {
 
 	for (int i = 0; i < f->res; ++i) {
