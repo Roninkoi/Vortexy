@@ -30,6 +30,12 @@
 #include "phys/sys.h"
 #include "util/randomUtil.h"
 
+// types
+typedef unsigned char byte;
+typedef enum {
+	false, true
+} bool;
+
 struct Sim {
 #if RENDER_ENABLED == true
 	struct Renderer renderer;

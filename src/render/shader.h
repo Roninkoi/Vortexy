@@ -10,6 +10,7 @@ struct Shader {
 	GLuint fragShader;
 };
 
+// load and compile GLSL shader for rendering
 void r_loadShader(struct Shader *s, char *vertPath, char *fragPath);
 
 void r_destroyShader(struct Shader *s);

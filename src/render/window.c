@@ -5,6 +5,9 @@ void r_createWindow(struct Window *w)
 	w->width = WINDOW_WIDTH;
 	w->height = WINDOW_HEIGHT;
 
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+
 	w->monitor = glfwGetPrimaryMonitor();
 
 	w->window = glfwCreateWindow(w->width, w->height, "Vortexy", NULL, NULL);

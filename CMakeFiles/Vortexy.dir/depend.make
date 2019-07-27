@@ -66,7 +66,19 @@ CMakeFiles/Vortexy.dir/src/render/render.c.o: src/render/texture.h
 CMakeFiles/Vortexy.dir/src/render/render.c.o: src/render/window.h
 
 CMakeFiles/Vortexy.dir/src/render/shader.c.o: src/render/shader.c
+CMakeFiles/Vortexy.dir/src/render/shader.c.o: src/phys/field.h
+CMakeFiles/Vortexy.dir/src/render/shader.c.o: src/phys/fluid.h
+CMakeFiles/Vortexy.dir/src/render/shader.c.o: src/phys/mesh.h
+CMakeFiles/Vortexy.dir/src/render/shader.c.o: src/phys/obj.h
+CMakeFiles/Vortexy.dir/src/render/shader.c.o: src/phys/sys.h
+CMakeFiles/Vortexy.dir/src/render/shader.c.o: src/phys/vec.h
+CMakeFiles/Vortexy.dir/src/render/shader.c.o: src/render/render.h
 CMakeFiles/Vortexy.dir/src/render/shader.c.o: src/render/shader.h
+CMakeFiles/Vortexy.dir/src/render/shader.c.o: src/render/texture.h
+CMakeFiles/Vortexy.dir/src/render/shader.c.o: src/render/window.h
+CMakeFiles/Vortexy.dir/src/render/shader.c.o: src/sim.h
+CMakeFiles/Vortexy.dir/src/render/shader.c.o: src/util/randomUtil.h
+CMakeFiles/Vortexy.dir/src/render/shader.c.o: src/util/timeUtil.h
 
 CMakeFiles/Vortexy.dir/src/render/texture.c.o: src/render/texture.c
 CMakeFiles/Vortexy.dir/src/render/texture.c.o: src/phys/field.h

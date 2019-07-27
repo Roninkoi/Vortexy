@@ -113,8 +113,8 @@ void s_tick(struct Sim *s)
 
 	ret = clEnqueueReadBuffer(queue, c_mem, CL_TRUE, 0, size * sizeof(int), C, 0, NULL, NULL);
 
-	for (int i = 0; i < size; i++)
-		printf("%d + %d = %d\n", A[i], B[i], C[i]);
+	//for (int i = 0; i < size; i++)
+	//	printf("%d + %d = %d\n", A[i], B[i], C[i]);
 
 	ret = clFlush(queue);
 	ret = clFinish(queue);

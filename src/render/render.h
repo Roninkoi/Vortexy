@@ -47,6 +47,11 @@ struct Renderer {
 	struct Shader shader;
 
 	int *running;
+
+	int batches;
+
+	int vertexNum;
+	int indexNum;
 };
 
 // render
@@ -55,6 +60,12 @@ void r_render(struct Renderer *r);
 void r_update(struct Renderer *r);
 
 void r_init(struct Renderer *r, int *running);
+
+void r_add(struct Renderer *r);
+
+void r_upload(struct Renderer *r);
+
+void r_flush(struct Renderer *r);
 
 // draw
 void r_drawMesh(struct Mesh *m);
