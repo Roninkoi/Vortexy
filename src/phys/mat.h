@@ -10,7 +10,6 @@ typedef struct {
 	float m[4][4];
 } mat4;
 
-
 mat4 p_mat4(float s);
 
 mat4 p_imat4(); // identity

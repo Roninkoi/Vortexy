@@ -13,6 +13,7 @@
 #include "phys/mesh.h"
 #include "texture.h"
 #include "shader.h"
+#include "phys/mat.h"
 
 #define VERT_PATH "src/render/shader/main.vert"
 #define FRAG_PATH "src/render/shader/main.frag"
@@ -33,6 +34,12 @@ struct Renderer {
 	GLuint colBuffer;
 	GLuint indBuffer;
 
+	GLuint modelUni;
+	GLuint viewUni;
+	GLuint projUni;
+
+	GLuint texUni;
+
 	float vertices[BATCH_SIZE];
 	float texes[BATCH_SIZE];
 	float normals[BATCH_SIZE];
@@ -47,27 +54,37 @@ struct Renderer {
 	struct Shader shader;
 
 	int *running;
+	float ticks;
 
 	int batches;
 
 	int vertexNum;
 	int indexNum;
+
+	mat4 model;
+	mat4 view;
+	mat4 proj;
 };
 
 // render
-void r_render(struct Renderer *r);
+void r_init(struct Renderer *r, int *running);
 
 void r_update(struct Renderer *r);
 
-void r_init(struct Renderer *r, int *running);
-
+// add data to buffers
 void r_add(struct Renderer *r);
 
-void r_upload(struct Renderer *r);
+// copu data to gpu
+void r_copy(struct Renderer *r);
 
+// flush remaining data for drawing
 void r_flush(struct Renderer *r);
 
 // draw
-void r_drawMesh(struct Mesh *m);
+void r_drawMesh(Mesh *m);
+
+void r_draw(struct Renderer *r);
+
+void r_render(struct Renderer *r);
 
 #endif

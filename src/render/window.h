@@ -12,6 +12,8 @@ struct Window {
 	int width;
 	int height;
 
+	int swapInterval;
+
 	GLFWmonitor *monitor;
 };
 

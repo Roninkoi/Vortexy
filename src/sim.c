@@ -5,14 +5,20 @@ void s_init(struct Sim *s)
 	s->running = 1;
 
 	s->usegpu = 1;
+	s->rendered = 1;
 
 	s->time = 0.0f;
 	s->dt = 1.0f;
 
+	s->timeOld = timeNow();
+	s->tps = 0;
+	s->ticks = 0;
+	s->ticksOld = 0;
+
 	// intialize random
 	srand(timeNow());
 
-#if RENDER_ENABLED == true
+#if RENDER_ENABLED == 1
 	r_init(&s->renderer, &s->running);
 #endif
 }
@@ -21,11 +27,20 @@ void s_init(struct Sim *s)
 void s_run(struct Sim *s)
 {
 	while (s->running) {
+		if (timeNow() - s->timeOld >= 1) {
+			s->timeOld = timeNow();
+			s->tps = s->ticks - s->ticksOld;
+			s->ticksOld = s->ticks;
+
+			printf("time: %.2f, tps: %i\n", s->time, s->tps);
+		}
+
 		s_tick(s);
 
-#if RENDER_ENABLED == true
-		if (s->rendered)
+#if RENDER_ENABLED == 1
+		if (s->rendered) {
 			r_render(&s->renderer);
+		}
 #endif
 	}
 }
@@ -44,7 +59,7 @@ void s_tick(struct Sim *s)
 
 	test.f[0][0] = p_vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
-	const int size = 1024;
+	const int size = 128;
 
 	int *A = (int *) malloc(sizeof(int) * size);
 	int *B = (int *) malloc(sizeof(int) * size);
@@ -78,7 +93,7 @@ void s_tick(struct Sim *s)
 
 	ret = clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_GPU, 1, &device_id, &num_devices);
 
-	cl_context context = clCreateContext(NULL, 1, &device_id, NULL, NULL, &ret);
+	cl_context context = clCreateContext(NULL, 2, &device_id, NULL, NULL, &ret);
 
 	cl_command_queue queue = clCreateCommandQueue(context, device_id, 0, &ret);
 

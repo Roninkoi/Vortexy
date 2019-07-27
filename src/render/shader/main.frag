@@ -7,7 +7,9 @@ in vec4 vTex;
 in vec4 vNorm;
 in vec4 vCol;
 
+uniform sampler2D tex;
+
 void main()
 {
-    fCol = vCol;
+    fCol = texture(tex, vTex.st) * vCol;
 } 

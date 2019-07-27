@@ -16,4 +16,6 @@ void p_fieldSet(Field *f, float x, float y, float z, float w);
 
 void p_fieldPrint(Field *f);
 
+void p_fieldLoader(Field *f, int width, int height, unsigned char *data);
+
 #endif

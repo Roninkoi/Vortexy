@@ -12,11 +12,11 @@ CMakeFiles/Vortexy.dir/src/main.c.o
  /home/rak/Dropbox/Dev/Vortexy/src/util/randomUtil.h
  src/phys/field.h
  src/phys/fluid.h
+ src/phys/mat.h
  src/phys/mesh.h
  src/phys/obj.h
  src/phys/vec.h
  src/render/window.h
- src/util/texLoader.h
  src/util/timeUtil.h
 CMakeFiles/Vortexy.dir/src/phys/field.c.o
  /home/rak/Dropbox/Dev/Vortexy/src/phys/field.c
@@ -30,6 +30,7 @@ CMakeFiles/Vortexy.dir/src/phys/mesh.c.o
  /home/rak/Dropbox/Dev/Vortexy/src/phys/mesh.c
  src/phys/mesh.h
  src/util/objParser.h
+ src/util/util.h
 CMakeFiles/Vortexy.dir/src/phys/obj.c.o
  /home/rak/Dropbox/Dev/Vortexy/src/phys/obj.c
  src/phys/field.h
@@ -50,6 +51,7 @@ CMakeFiles/Vortexy.dir/src/phys/vec.c.o
 CMakeFiles/Vortexy.dir/src/render/draw.c.o
  /home/rak/Dropbox/Dev/Vortexy/src/render/draw.c
  src/phys/field.h
+ src/phys/mat.h
  src/phys/mesh.h
  src/phys/vec.h
  src/render/render.h
@@ -59,6 +61,7 @@ CMakeFiles/Vortexy.dir/src/render/draw.c.o
 CMakeFiles/Vortexy.dir/src/render/render.c.o
  /home/rak/Dropbox/Dev/Vortexy/src/render/render.c
  src/phys/field.h
+ src/phys/mat.h
  src/phys/mesh.h
  src/phys/vec.h
  src/render/render.h
@@ -69,6 +72,7 @@ CMakeFiles/Vortexy.dir/src/render/shader.c.o
  /home/rak/Dropbox/Dev/Vortexy/src/render/shader.c
  src/phys/field.h
  src/phys/fluid.h
+ src/phys/mat.h
  src/phys/mesh.h
  src/phys/obj.h
  src/phys/sys.h
@@ -99,6 +103,7 @@ CMakeFiles/Vortexy.dir/src/sim.c.o
  /home/rak/Dropbox/Dev/Vortexy/src/util/randomUtil.h
  src/phys/field.h
  src/phys/fluid.h
+ src/phys/mat.h
  src/phys/mesh.h
  src/phys/obj.h
  src/phys/vec.h

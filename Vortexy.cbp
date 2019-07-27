@@ -145,6 +145,9 @@
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/sim.h">
 			<Option target="Vortexy"/>
 		</Unit>
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/util/arrayUtil.h">
+			<Option target="Vortexy"/>
+		</Unit>
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/util/cfgParser.h">
 			<Option target="Vortexy"/>
 		</Unit>

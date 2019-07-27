@@ -8,6 +8,9 @@ void r_createWindow(struct Window *w)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 
+	glfwWindowHint(GLFW_REFRESH_RATE, GLFW_DONT_CARE);
+	w->swapInterval = -1;
+
 	w->monitor = glfwGetPrimaryMonitor();
 
 	w->window = glfwCreateWindow(w->width, w->height, "Vortexy", NULL, NULL);
@@ -17,6 +20,8 @@ void r_createWindow(struct Window *w)
 
 void r_updateWindow(struct Window *w, int *running)
 {
+	glfwSwapInterval(w->swapInterval);
+
 	glfwSwapBuffers(w->window);
 
 	glfwPollEvents();

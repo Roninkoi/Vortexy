@@ -4,10 +4,10 @@
 #include "phys/mesh.h"
 #include "phys/field.h"
 
-struct Obj {
-	struct Mesh mesh;
+typedef struct {
+	Mesh mesh;
 	Field field;
-};
+} Obj;
 
 void p_loadObj(char *path);
 

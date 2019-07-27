@@ -15,13 +15,13 @@
 #include <CL/cl.h>
 
 // enable rendering
-#define RENDER_ENABLED true
+#define RENDER_ENABLED 1
 
 // kernel size
 #define SRC_MAX 0x100000
 
 // renderer include
-#if RENDER_ENABLED == true
+#if RENDER_ENABLED == 1
 
 #include "render/render.h"
 
@@ -37,7 +37,7 @@ typedef enum {
 } bool;
 
 struct Sim {
-#if RENDER_ENABLED == true
+#if RENDER_ENABLED == 1
 	struct Renderer renderer;
 #endif
 
@@ -45,6 +45,10 @@ struct Sim {
 
 	int ticks;
 	int running;
+
+	int tps; // ticks per second
+	unsigned int timeOld;
+	int ticksOld;
 
 	int rendered;
 	int usegpu;

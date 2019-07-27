@@ -3,6 +3,7 @@
 void r_init(struct Renderer *r, int *running)
 {
 	r->running = running;
+	r->ticks = 0.0f;
 
 	r->width = SCREEN_WIDTH;
 	r->height = SCREEN_HEIGHT;
@@ -30,17 +31,45 @@ void r_init(struct Renderer *r, int *running)
 	glGenBuffers(1, &r->normBuffer);
 	glGenBuffers(1, &r->colBuffer);
 	glGenBuffers(1, &r->indBuffer);
+
+	r->texUni = glGetUniformLocation(r->shader.program, "tex");
+
+	r->modelUni = glGetUniformLocation(r->shader.program, "model");
+	r->viewUni = glGetUniformLocation(r->shader.program, "view");
+	r->projUni = glGetUniformLocation(r->shader.program, "proj");
+
+	r->model = p_imat4();
+	r->view = p_imat4();
+	r->proj = p_imat4();
+
+	r_loadTex(&r->tex, "data/test.ppm");
 }
 
 void r_update(struct Renderer *r)
 {
+	r->ticks += 1.0f;
+
+	r_updateWindow(&r->window, r->running);
+
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	r->width = r->window.width;
+	r->height = r->window.height;
 	glViewport(0, 0, r->width, r->height);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, r->tex.tex);
+	glUniform1i(r->texUni, 0);
+
+	r->model = p_mat4RotateY(&r->model, 0.01f);
+
+	glUniformMatrix4fv(r->modelUni, 1, GL_FALSE, &r->model.m[0][0]);
+	glUniformMatrix4fv(r->projUni, 1, GL_FALSE, &r->proj.m[0][0]);
+	glUniformMatrix4fv(r->viewUni, 1, GL_FALSE, &r->view.m[0][0]);
 }
 
 void r_add(struct Renderer *r)
@@ -48,7 +77,7 @@ void r_add(struct Renderer *r)
 
 }
 
-void r_upload(struct Renderer *r)
+void r_copy(struct Renderer *r)
 {
 	glBindBuffer(GL_ARRAY_BUFFER, r->vertBuffer);
 	glBufferData(GL_ARRAY_BUFFER, r->vertexNum * sizeof(float), r->vertices, GL_DYNAMIC_DRAW);
@@ -112,38 +141,4 @@ void r_flush(struct Renderer *r)
 
 	r->vertexNum = 0;
 	r->indexNum = 0;
-}
-
-void r_render(struct Renderer *r)
-{
-	r_update(r);
-
-	r->vertices[0] = 0.0f;
-	r->vertices[1] = 0.0f;
-	r->vertices[2] = 0.0f;
-	r->vertices[3] = 0.0f;
-
-	r->vertices[4] = 1.0f;
-	r->vertices[5] = 0.0f;
-	r->vertices[6] = 0.0f;
-	r->vertices[7] = 0.0f;
-
-	r->vertices[8] = 1.0f;
-	r->vertices[9] = 1.0f;
-	r->vertices[10] = 0.0f;
-	r->vertices[11] = 0.0f;
-
-	r->vertexNum = 3 * 4;
-
-	r->indices[0] = 0;
-	r->indices[1] = 1;
-	r->indices[2] = 2;
-
-	r->indexNum = 3;
-
-	r_upload(r);
-
-	r_flush(r);
-
-	r_updateWindow(&r->window, r->running);
 }

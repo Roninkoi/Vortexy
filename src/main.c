@@ -1,4 +1,3 @@
-#include <util/texLoader.h>
 #include "sim.h"
 #include "util/cfgParser.h"
 

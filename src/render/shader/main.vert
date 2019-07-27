@@ -16,7 +16,8 @@ uniform mat4 proj;
 
 void main()
 {
-    gl_Position = vec4(pos.xyz, 1.0f);
+    gl_Position = model * pos;
+    gl_Position = vec4(gl_Position.xyz, 1.0f);
 
     vPos = pos;
     vTex = vec4(tex.s / tex.p, tex.t / tex.q, 1.0f, 1.0f);

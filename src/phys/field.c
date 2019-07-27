@@ -46,3 +46,39 @@ void p_fieldPrint(Field *f)
 		}
 	}
 }
+
+// loads an array of bytes into a field
+void p_fieldLoader(Field *f, int width, int height, unsigned char *data)
+{
+	unsigned char c;
+
+	int ti = 0;
+	int ch = 0;
+
+	p_fieldInit(f, width > height ? width : height);
+
+	for (int i = 0; data[i]; ++i) {
+		c = data[i];
+		float val = (float) c / 255.0f;
+
+		switch (ch % 3) {
+			case 0:
+				f->f[ti % f->res][(int) (ti / f->res)].x = val;
+				break;
+			case 1:
+				f->f[ti % f->res][(int) (ti / f->res)].y = val;
+				break;
+			case 2:
+				f->f[ti % f->res][(int) (ti / f->res)].z = val;
+				break;
+		}
+
+		++ch; // channel
+
+		if (ch % 3 == 0) {
+			++ti; // texture index
+		}
+	}
+
+	free(data);
+}
