@@ -25,5 +25,10 @@ void p_loadMesh(Mesh *m, char *path)
 
 void p_meshDestroy(Mesh *m)
 {
+	free(m->vertData);
+	free(m->texData);
+	free(m->normData);
+	free(m->colData);
 
+	free(m->indData);
 }

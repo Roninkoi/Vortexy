@@ -112,6 +112,9 @@
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/vec.h">
 			<Option target="Vortexy"/>
 		</Unit>
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/volume.h">
+			<Option target="Vortexy"/>
+		</Unit>
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/render/draw.c">
 			<Option target="Vortexy"/>
 		</Unit>
@@ -145,9 +148,6 @@
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/sim.h">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/util/arrayUtil.h">
-			<Option target="Vortexy"/>
-		</Unit>
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/util/cfgParser.h">
 			<Option target="Vortexy"/>
 		</Unit>
@@ -161,6 +161,9 @@
 			<Option target="Vortexy"/>
 		</Unit>
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/util/timeUtil.h">
+			<Option target="Vortexy"/>
+		</Unit>
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/util/util.h">
 			<Option target="Vortexy"/>
 		</Unit>
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/CMakeLists.txt">

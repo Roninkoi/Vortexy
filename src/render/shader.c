@@ -20,6 +20,8 @@ void r_loadShader(struct Shader *s, char *vertPath, char *fragPath)
 	vert_data = (char *) malloc(SRC_MAX);
 	vert_fsize = fread(vert_data, 1, SRC_MAX, vert_fp);
 
+	fclose(vert_fp);
+
 	// load fragment shader
 	FILE *frag_fp;
 	const char *frag_data;
@@ -33,6 +35,8 @@ void r_loadShader(struct Shader *s, char *vertPath, char *fragPath)
 
 	frag_data = (char *) malloc(SRC_MAX);
 	frag_fsize = fread(frag_data, 1, SRC_MAX, frag_fp);
+
+	fclose(frag_fp);
 
 	GLint r = GL_FALSE;
 	int ll;

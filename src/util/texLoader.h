@@ -23,6 +23,8 @@ unsigned char *ppmLoader(char *path, int *texWidth, int *texHeight)
 	data = (char *) malloc(TEX_MAX);
 	fsize = fread(data, 1, TEX_MAX, fp);
 
+	fclose(fp);
+
 	char *c = (char *) malloc(TEX_MAX);
 
 	int width = 0, height = 0;

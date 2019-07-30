@@ -82,3 +82,9 @@ void p_fieldLoader(Field *f, int width, int height, unsigned char *data)
 
 	free(data);
 }
+
+unsigned char *p_fieldBytes(Field *f)
+{
+	unsigned char *data;
+	return data;
+}

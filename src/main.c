@@ -3,10 +3,16 @@
 
 int main(int argc, char *argv[])
 {
+	char *cfg;
+
 	if (argc < 2) {
 		printf("No config file!\n");
 		printf("Usage: ./Vortexy <sim.cfg>\n");
-		return 0;
+
+		cfg = "sim.cfg";
+	}
+	else {
+		cfg = argv[1];
 	}
 
 	char *date = currentDateTime();
@@ -21,7 +27,7 @@ int main(int argc, char *argv[])
 	s_init(&sim);
 
 	// load simulation configuration
-	simParser(&sim, argv[1]);
+	simParser(&sim, cfg);
 
 	// start
 	s_run(&sim);

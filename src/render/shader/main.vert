@@ -16,11 +16,10 @@ uniform mat4 proj;
 
 void main()
 {
-    gl_Position = model * pos;
-    gl_Position = vec4(gl_Position.xyz, 1.0f);
+    gl_Position = proj * view * model * vec4(pos.xyz, 1.0f);
 
-    vPos = pos;
+    vPos = gl_Position;
     vTex = vec4(tex.s / tex.p, tex.t / tex.q, 1.0f, 1.0f);
     vNorm = norm;
-    vCol = vec4(1.0f, 0.5f, 0.0f, 1.0f);
+    vCol = col;
 }

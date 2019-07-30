@@ -172,14 +172,14 @@ mat4 p_mat4Translate(mat4 *m, vec4 v)
 	return r;
 }
 
-vec4 p_mat4GetRow(mat4 m, int r)
+vec4 p_mat4GetRow(mat4 *m, int r)
 {
 	vec4 v;
 
-	v.x = m.m[r][0];
-	v.y = m.m[r][1];
-	v.z = m.m[r][2];
-	v.w = m.m[r][3];
+	v.x = m->m[r][0];
+	v.y = m->m[r][1];
+	v.z = m->m[r][2];
+	v.w = m->m[r][3];
 
 	return v;
 }
@@ -262,4 +262,58 @@ mat4 p_mat4RotateY(mat4 *m, float a)
 	r = p_mat4mat4(m, &rm);
 
 	return r;
+}
+
+mat4 p_mat4Transpose(mat4 *m)
+{
+	mat4 r;
+
+	r.m[0][0] = m->m[0][0];
+	r.m[0][1] = m->m[1][0];
+	r.m[0][2] = m->m[2][0];
+	r.m[0][3] = m->m[3][0];
+
+	r.m[1][0] = m->m[0][1];
+	r.m[1][1] = m->m[1][1];
+	r.m[1][2] = m->m[2][1];
+	r.m[1][3] = m->m[3][1];
+
+	r.m[2][0] = m->m[0][2];
+	r.m[2][1] = m->m[1][2];
+	r.m[2][2] = m->m[2][2];
+	r.m[2][3] = m->m[3][2];
+
+	r.m[3][0] = m->m[0][3];
+	r.m[3][1] = m->m[1][3];
+	r.m[3][2] = m->m[2][3];
+	r.m[3][3] = m->m[3][3];
+
+	return r;
+}
+
+mat4 p_mat4Perspective(float fov, float aspect, float near, float far)
+{
+	mat4 m;
+
+	m.m[0][0] = 1.0f / (aspect * tanf(0.5f * fov));
+	m.m[0][1] = 0.0f;
+	m.m[0][2] = 0.0f;
+	m.m[0][3] = 0.0f;
+
+	m.m[1][0] = 0.0f;
+	m.m[1][1] = 1.0f / (tanf(0.5f * fov));
+	m.m[1][2] = 0.0f;
+	m.m[1][3] = 0.0f;
+
+	m.m[2][0] = 0.0f;
+	m.m[2][1] = 0.0f;
+	m.m[2][2] = (-near - far) / (-near - far);
+	m.m[2][3] = (2.0f * far * near) / (-near - far);
+
+	m.m[3][0] = 0.0f;
+	m.m[3][1] = 0.0f;
+	m.m[3][2] = 1.0f;
+	m.m[3][3] = 0.0f;
+
+	return m;
 }

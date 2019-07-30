@@ -9,6 +9,6 @@ typedef struct {
 	Field field;
 } Obj;
 
-void p_loadObj(char *path);
+void p_loadObj(Obj *o, char *path);
 
 #endif

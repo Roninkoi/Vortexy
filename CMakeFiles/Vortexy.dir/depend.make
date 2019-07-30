@@ -50,8 +50,11 @@ CMakeFiles/Vortexy.dir/src/phys/vec.c.o: src/phys/vec.h
 
 CMakeFiles/Vortexy.dir/src/render/draw.c.o: src/render/draw.c
 CMakeFiles/Vortexy.dir/src/render/draw.c.o: src/phys/field.h
+CMakeFiles/Vortexy.dir/src/render/draw.c.o: src/phys/fluid.h
 CMakeFiles/Vortexy.dir/src/render/draw.c.o: src/phys/mat.h
 CMakeFiles/Vortexy.dir/src/render/draw.c.o: src/phys/mesh.h
+CMakeFiles/Vortexy.dir/src/render/draw.c.o: src/phys/obj.h
+CMakeFiles/Vortexy.dir/src/render/draw.c.o: src/phys/sys.h
 CMakeFiles/Vortexy.dir/src/render/draw.c.o: src/phys/vec.h
 CMakeFiles/Vortexy.dir/src/render/draw.c.o: src/render/render.h
 CMakeFiles/Vortexy.dir/src/render/draw.c.o: src/render/shader.h
@@ -60,8 +63,11 @@ CMakeFiles/Vortexy.dir/src/render/draw.c.o: src/render/window.h
 
 CMakeFiles/Vortexy.dir/src/render/render.c.o: src/render/render.c
 CMakeFiles/Vortexy.dir/src/render/render.c.o: src/phys/field.h
+CMakeFiles/Vortexy.dir/src/render/render.c.o: src/phys/fluid.h
 CMakeFiles/Vortexy.dir/src/render/render.c.o: src/phys/mat.h
 CMakeFiles/Vortexy.dir/src/render/render.c.o: src/phys/mesh.h
+CMakeFiles/Vortexy.dir/src/render/render.c.o: src/phys/obj.h
+CMakeFiles/Vortexy.dir/src/render/render.c.o: src/phys/sys.h
 CMakeFiles/Vortexy.dir/src/render/render.c.o: src/phys/vec.h
 CMakeFiles/Vortexy.dir/src/render/render.c.o: src/render/render.h
 CMakeFiles/Vortexy.dir/src/render/render.c.o: src/render/shader.h

@@ -26,6 +26,11 @@ mat4 p_mat4RotY(float a);
 mat4 p_mat4RotateX(mat4 *m, float a); // rotate matrix by angle
 mat4 p_mat4RotateY(mat4 *m, float a);
 
-vec4 p_mat4GetRow(mat4 m, int r);
+vec4 p_mat4GetRow(mat4 *m, int r);
+
+mat4 p_mat4Transpose(mat4 *m); // transpose matrix
+
+// construct perspective matrix
+mat4 p_mat4Perspective(float fov, float aspect, float near, float far);
 
 #endif

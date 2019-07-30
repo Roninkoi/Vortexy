@@ -29,6 +29,8 @@ Mesh objParser(char *path)
 	data = (char *) malloc(OBJ_MAX);
 	fsize = fread(data, 1, OBJ_MAX, fp);
 
+	fclose(fp);
+
 	char **words = calloc(OBJ_MAX, sizeof(char *));
 
 	for (int i = 0; i < OBJ_MAX; ++i) {
@@ -76,9 +78,6 @@ Mesh objParser(char *path)
 
 			verts = floatAppend(verts, v2, vn);
 			++vn;
-
-			verts = floatAppend(verts, 0.0f, vn);
-			++vn;
 		}
 
 		if (strcmp(words[i], "vt") == 0) { // texes
@@ -93,9 +92,6 @@ Mesh objParser(char *path)
 			++tn;
 
 			texes = floatAppend(texes, v2, tn);
-			++tn;
-
-			texes = floatAppend(texes, 0.0f, tn);
 			++tn;
 		}
 
@@ -188,16 +184,6 @@ Mesh objParser(char *path)
 		}
 	}
 
-	/*for (int i = 0; i < mesh.vertNum; ++i) {
-		printf("%f\n", mesh.vertData[i]);
-		printf("%f\n", mesh.texData[i]);
-		printf("%f\n", mesh.normData[i]);
-		printf("%f\n\n", mesh.colData[i]);
-	}*/
-	/*for (int i = 0; i < mesh.indNum; ++i) {
-		printf("%i\n", mesh.indData[i]);
-	}*/
-
 	for (int i = 0; i < wordNum; ++i) {
 		free(words[i]);
 	}
@@ -210,6 +196,8 @@ Mesh objParser(char *path)
 
 	free(words);
 	free(data);
+
+	return mesh;
 }
 
 #endif

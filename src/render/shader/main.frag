@@ -12,4 +12,9 @@ uniform sampler2D tex;
 void main()
 {
     fCol = texture(tex, vTex.st) * vCol;
+
+    fCol /= max(exp(vPos.z*0.5f), 1.0f);
+
+    if (fCol.a == 0.0f)
+        discard;
 } 

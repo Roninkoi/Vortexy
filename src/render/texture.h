@@ -10,6 +10,8 @@ typedef struct {
 	int w;
 	int h;
 
+	unsigned char *data; // raw texture data in bytes
+
 	GLuint tex;
 } Texture;
 

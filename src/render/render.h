@@ -11,9 +11,10 @@
 
 #include "render/window.h"
 #include "phys/mesh.h"
+#include "phys/mat.h"
+#include "phys/sys.h"
 #include "texture.h"
 #include "shader.h"
-#include "phys/mat.h"
 
 #define VERT_PATH "src/render/shader/main.vert"
 #define FRAG_PATH "src/render/shader/main.frag"
@@ -40,6 +41,8 @@ struct Renderer {
 
 	GLuint texUni;
 
+	GLenum drawMode;
+
 	float vertices[BATCH_SIZE];
 	float texes[BATCH_SIZE];
 	float normals[BATCH_SIZE];
@@ -57,6 +60,7 @@ struct Renderer {
 	float ticks;
 
 	int batches;
+	int instances;
 
 	int vertexNum;
 	int indexNum;
@@ -66,25 +70,30 @@ struct Renderer {
 	mat4 proj;
 };
 
-// render
+// RENDER
 void r_init(struct Renderer *r, int *running);
 
 void r_update(struct Renderer *r);
 
 // add data to buffers
-void r_add(struct Renderer *r);
+void r_add(struct Renderer *r,
+		   float *vd, float *td, float *nd, float *cd, int *id,
+		   int vn, int in);
 
-// copu data to gpu
+// copy data to gpu
 void r_copy(struct Renderer *r);
 
 // flush remaining data for drawing
 void r_flush(struct Renderer *r);
 
-// draw
-void r_drawMesh(Mesh *m);
+// DRAW
 
 void r_draw(struct Renderer *r);
 
-void r_render(struct Renderer *r);
+void r_render(struct Renderer *r, struct Sys *s);
+
+void r_drawMesh(struct Renderer *r, Mesh *m);
+
+void r_drawWireMesh(struct Renderer *r, Mesh *m);
 
 #endif

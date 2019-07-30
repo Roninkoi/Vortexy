@@ -19,7 +19,7 @@ sim
 render
 - OpenGL
 - GLEW
-- GLM
+- glfw
 
 Technical description
 ---------------------

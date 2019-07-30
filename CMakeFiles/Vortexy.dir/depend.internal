@@ -51,8 +51,11 @@ CMakeFiles/Vortexy.dir/src/phys/vec.c.o
 CMakeFiles/Vortexy.dir/src/render/draw.c.o
  /home/rak/Dropbox/Dev/Vortexy/src/render/draw.c
  src/phys/field.h
+ src/phys/fluid.h
  src/phys/mat.h
  src/phys/mesh.h
+ src/phys/obj.h
+ src/phys/sys.h
  src/phys/vec.h
  src/render/render.h
  src/render/shader.h
@@ -61,8 +64,11 @@ CMakeFiles/Vortexy.dir/src/render/draw.c.o
 CMakeFiles/Vortexy.dir/src/render/render.c.o
  /home/rak/Dropbox/Dev/Vortexy/src/render/render.c
  src/phys/field.h
+ src/phys/fluid.h
  src/phys/mat.h
  src/phys/mesh.h
+ src/phys/obj.h
+ src/phys/sys.h
  src/phys/vec.h
  src/render/render.h
  src/render/shader.h

@@ -5,8 +5,15 @@ void r_init(struct Renderer *r, int *running)
 	r->running = running;
 	r->ticks = 0.0f;
 
+	r->vertexNum = 0;
+	r->indexNum = 0;
+	r->batches = 0;
+	r->instances = 0;
+
 	r->width = SCREEN_WIDTH;
 	r->height = SCREEN_HEIGHT;
+
+	r->drawMode = GL_TRIANGLES;
 
 	int glfwErr = glfwInit();
 	if (!glfwErr) {
@@ -47,6 +54,9 @@ void r_init(struct Renderer *r, int *running)
 
 void r_update(struct Renderer *r)
 {
+	r->batches = 0;
+	r->instances = 0;
+
 	r->ticks += 1.0f;
 
 	r_updateWindow(&r->window, r->running);
@@ -66,15 +76,40 @@ void r_update(struct Renderer *r)
 	glUniform1i(r->texUni, 0);
 
 	r->model = p_mat4RotateY(&r->model, 0.01f);
+	r->proj = p_mat4Perspective(1.5f, 1.78f, 0.1f, 100.0f);
 
-	glUniformMatrix4fv(r->modelUni, 1, GL_FALSE, &r->model.m[0][0]);
-	glUniformMatrix4fv(r->projUni, 1, GL_FALSE, &r->proj.m[0][0]);
-	glUniformMatrix4fv(r->viewUni, 1, GL_FALSE, &r->view.m[0][0]);
+	r->view = p_mat4(1.0f);
+	r->view = p_mat4Translate(&r->view, p_vec4(0.0f, 0.0f, 2.0f, 0.0f));
+	//r->view = p_mat4RotateY(&r->view, r->ticks * 0.01f);
+
+	glUniformMatrix4fv(r->modelUni, 1, GL_TRUE, &r->model.m[0][0]);
+	glUniformMatrix4fv(r->projUni, 1, GL_TRUE, &r->proj.m[0][0]);
+	glUniformMatrix4fv(r->viewUni, 1, GL_TRUE, &r->view.m[0][0]);
 }
 
-void r_add(struct Renderer *r)
+void r_add(struct Renderer *r,
+		   float *vd, float *td, float *nd, float *cd, int *id,
+		   int vn, int in)
 {
+	++r->instances;
 
+	if (r->vertexNum + vn >= BATCH_SIZE || r->indexNum + in >= BATCH_SIZE) {
+		return; // fix later
+	}
+
+	for (int i = 0; i < vn; ++i) {
+		r->vertices[r->vertexNum + i] = vd[i];
+		r->texes[r->vertexNum + i] = td[i];
+		r->normals[r->vertexNum + i] = nd[i];
+		r->colors[r->vertexNum + i] = cd[i];
+	}
+
+	for (int i = 0; i < in; ++i) {
+		r->indices[r->indexNum + i] = id[i];
+	}
+
+	r->vertexNum += vn;
+	r->indexNum += in;
 }
 
 void r_copy(struct Renderer *r)
@@ -101,7 +136,7 @@ void r_flush(struct Renderer *r)
 
 	glUseProgram(r->shader.program);
 
-	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_BLEND);
 
@@ -132,7 +167,7 @@ void r_flush(struct Renderer *r)
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, r->indBuffer);
 
-	glDrawElements(GL_TRIANGLES, r->indexNum, GL_UNSIGNED_INT, (void *) 0);
+	glDrawElements(r->drawMode, r->indexNum, GL_UNSIGNED_INT, (void *) 0);
 
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);

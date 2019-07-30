@@ -1,6 +1,8 @@
 #ifndef UTIL_H
 #define UTIL_H
 
+#include <string.h>
+
 // str is dynamically allocated and is freed
 char *strAppend(char *str, char c)
 {

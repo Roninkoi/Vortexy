@@ -9,6 +9,8 @@ struct Sys {
 	struct Fluid fluid;
 
 	Obj *objs;
+
+	int objNum;
 };
 
 void p_sysInit(struct Sys *s);

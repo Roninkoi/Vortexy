@@ -18,6 +18,9 @@ void s_init(struct Sim *s)
 	// intialize random
 	srand(timeNow());
 
+	// initialize system
+	p_sysInit(&s->sys);
+
 #if RENDER_ENABLED == 1
 	r_init(&s->renderer, &s->running);
 #endif
@@ -39,7 +42,7 @@ void s_run(struct Sim *s)
 
 #if RENDER_ENABLED == 1
 		if (s->rendered) {
-			r_render(&s->renderer);
+			r_render(&s->renderer, &s->sys);
 		}
 #endif
 	}
