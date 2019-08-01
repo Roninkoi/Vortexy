@@ -18,9 +18,16 @@ void p_meshInit(Mesh *m)
 	m->indNum = 0;
 }
 
+void p_meshTransform(Mesh *m, mat4 mat)
+{
+
+}
+
 void p_loadMesh(Mesh *m, char *path)
 {
 	*m = objParser(path);
+
+	m->vertData0 = floatCopy(m->vertData, m->vertNum);
 }
 
 void p_meshDestroy(Mesh *m)

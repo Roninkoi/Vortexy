@@ -258,6 +258,33 @@ src/phys/obj.c.s:
 	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/phys/obj.c.s
 .PHONY : src/phys/obj.c.s
 
+src/phys/phys.o: src/phys/phys.c.o
+
+.PHONY : src/phys/phys.o
+
+# target to build an object file
+src/phys/phys.c.o:
+	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/phys/phys.c.o
+.PHONY : src/phys/phys.c.o
+
+src/phys/phys.i: src/phys/phys.c.i
+
+.PHONY : src/phys/phys.i
+
+# target to preprocess a source file
+src/phys/phys.c.i:
+	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/phys/phys.c.i
+.PHONY : src/phys/phys.c.i
+
+src/phys/phys.s: src/phys/phys.c.s
+
+.PHONY : src/phys/phys.s
+
+# target to generate assembly for a file
+src/phys/phys.c.s:
+	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/phys/phys.c.s
+.PHONY : src/phys/phys.c.s
+
 src/phys/sys.o: src/phys/sys.c.o
 
 .PHONY : src/phys/sys.o
@@ -474,6 +501,33 @@ src/sim.c.s:
 	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/sim.c.s
 .PHONY : src/sim.c.s
 
+src/util/util.o: src/util/util.c.o
+
+.PHONY : src/util/util.o
+
+# target to build an object file
+src/util/util.c.o:
+	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/util/util.c.o
+.PHONY : src/util/util.c.o
+
+src/util/util.i: src/util/util.c.i
+
+.PHONY : src/util/util.i
+
+# target to preprocess a source file
+src/util/util.c.i:
+	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/util/util.c.i
+.PHONY : src/util/util.c.i
+
+src/util/util.s: src/util/util.c.s
+
+.PHONY : src/util/util.s
+
+# target to generate assembly for a file
+src/util/util.c.s:
+	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/util/util.c.s
+.PHONY : src/util/util.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -498,6 +552,9 @@ help:
 	@echo "... src/phys/obj.o"
 	@echo "... src/phys/obj.i"
 	@echo "... src/phys/obj.s"
+	@echo "... src/phys/phys.o"
+	@echo "... src/phys/phys.i"
+	@echo "... src/phys/phys.s"
 	@echo "... src/phys/sys.o"
 	@echo "... src/phys/sys.i"
 	@echo "... src/phys/sys.s"
@@ -522,6 +579,9 @@ help:
 	@echo "... src/sim.o"
 	@echo "... src/sim.i"
 	@echo "... src/sim.s"
+	@echo "... src/util/util.o"
+	@echo "... src/util/util.i"
+	@echo "... src/util/util.s"
 .PHONY : help
 
 

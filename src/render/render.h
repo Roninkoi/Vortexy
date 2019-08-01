@@ -58,6 +58,7 @@ struct Renderer {
 
 	int *running;
 	float ticks;
+	float delta;
 
 	int batches;
 	int instances;

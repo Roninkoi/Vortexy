@@ -27,19 +27,27 @@ CMakeFiles/Vortexy.dir/src/phys/mat.c.o: src/phys/mat.h
 CMakeFiles/Vortexy.dir/src/phys/mat.c.o: src/phys/vec.h
 
 CMakeFiles/Vortexy.dir/src/phys/mesh.c.o: src/phys/mesh.c
+CMakeFiles/Vortexy.dir/src/phys/mesh.c.o: src/phys/mat.h
 CMakeFiles/Vortexy.dir/src/phys/mesh.c.o: src/phys/mesh.h
+CMakeFiles/Vortexy.dir/src/phys/mesh.c.o: src/phys/vec.h
 CMakeFiles/Vortexy.dir/src/phys/mesh.c.o: src/util/objParser.h
 CMakeFiles/Vortexy.dir/src/phys/mesh.c.o: src/util/util.h
 
 CMakeFiles/Vortexy.dir/src/phys/obj.c.o: src/phys/obj.c
 CMakeFiles/Vortexy.dir/src/phys/obj.c.o: src/phys/field.h
+CMakeFiles/Vortexy.dir/src/phys/obj.c.o: src/phys/mat.h
 CMakeFiles/Vortexy.dir/src/phys/obj.c.o: src/phys/mesh.h
 CMakeFiles/Vortexy.dir/src/phys/obj.c.o: src/phys/obj.h
 CMakeFiles/Vortexy.dir/src/phys/obj.c.o: src/phys/vec.h
 
+CMakeFiles/Vortexy.dir/src/phys/phys.c.o: src/phys/phys.c
+CMakeFiles/Vortexy.dir/src/phys/phys.c.o: src/phys/phys.h
+CMakeFiles/Vortexy.dir/src/phys/phys.c.o: src/phys/vec.h
+
 CMakeFiles/Vortexy.dir/src/phys/sys.c.o: src/phys/sys.c
 CMakeFiles/Vortexy.dir/src/phys/sys.c.o: src/phys/field.h
 CMakeFiles/Vortexy.dir/src/phys/sys.c.o: src/phys/fluid.h
+CMakeFiles/Vortexy.dir/src/phys/sys.c.o: src/phys/mat.h
 CMakeFiles/Vortexy.dir/src/phys/sys.c.o: src/phys/mesh.h
 CMakeFiles/Vortexy.dir/src/phys/sys.c.o: src/phys/obj.h
 CMakeFiles/Vortexy.dir/src/phys/sys.c.o: src/phys/sys.h
@@ -117,4 +125,7 @@ CMakeFiles/Vortexy.dir/src/sim.c.o: src/phys/obj.h
 CMakeFiles/Vortexy.dir/src/sim.c.o: src/phys/vec.h
 CMakeFiles/Vortexy.dir/src/sim.c.o: src/render/window.h
 CMakeFiles/Vortexy.dir/src/sim.c.o: src/util/timeUtil.h
+
+CMakeFiles/Vortexy.dir/src/util/util.c.o: src/util/util.c
+CMakeFiles/Vortexy.dir/src/util/util.c.o: src/util/util.h
 

@@ -41,8 +41,9 @@ struct Sim {
 	int running;
 
 	int tps; // ticks per second
-	unsigned int timeOld;
 	int ticksOld;
+	unsigned int timeOld;
+	unsigned int tickTime;
 
 	int rendered;
 	int usegpu;

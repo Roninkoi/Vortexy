@@ -100,6 +100,12 @@
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/obj.h">
 			<Option target="Vortexy"/>
 		</Unit>
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/phys.c">
+			<Option target="Vortexy"/>
+		</Unit>
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/phys.h">
+			<Option target="Vortexy"/>
+		</Unit>
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/sys.c">
 			<Option target="Vortexy"/>
 		</Unit>
@@ -164,6 +170,9 @@
 			<Option target="Vortexy"/>
 		</Unit>
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/util/timeUtil.h">
+			<Option target="Vortexy"/>
+		</Unit>
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/util/util.c">
 			<Option target="Vortexy"/>
 		</Unit>
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/util/util.h">

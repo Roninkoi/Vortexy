@@ -7,6 +7,7 @@ void r_draw(struct Renderer *r, struct Sys *s)
 	for (int i = 0; i < 100; ++i) {
 		r_drawLine(r, p_vec4(0.0f, 0.0f, 0.0f, 0.0f), p_vec4(cosf((float) i / 100.0f), sinf((float) i / 100.0f), 0.0f, 0.0f), p_vec4(0.0f, 4.0f, 0.0f, 1.0f));
 	}
+	r_render(r);
 
 	for (int i = 0; i < s->objNum; ++i) {
 		r_drawMesh(r, &s->objs[i].mesh);
@@ -46,10 +47,6 @@ void r_drawWireMesh(struct Renderer *r, Mesh *m)
 
 void r_drawLine(struct Renderer *r, vec4 v0, vec4 v1, vec4 col)
 {
-	if (r->vertexNum > 0) {
-		r_render(r);
-	}
-
 	r->drawMode = GL_LINES;
 
 	float vd[8] = {
@@ -75,6 +72,4 @@ void r_drawLine(struct Renderer *r, vec4 v0, vec4 v1, vec4 col)
 	int id[2] = {0, 1};
 
 	r_add(r, vd, td, nd, cd, id, 8, 2);
-
-	r_render(r);
 }

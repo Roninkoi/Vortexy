@@ -56,6 +56,23 @@ r = renderer
 - destructors are called "Destroy" e.g. p_fieldDestroy()
 - constructors / initializers should be paired with a destructor if one exists
 
+Controls:
+
+W ------ cam forward
+A ------ cam left
+S ------ cam backward
+D ------ cam right
+
+R ------ cam up
+F ------ cam down
+
+UP ----- look up
+DOWN --- look down
+LEFT --- look left
+RIGHT -- look right
+
+MOUSE -- rotate
+
 TODO:
 
 - blend and sort

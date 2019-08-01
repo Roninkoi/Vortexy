@@ -27,40 +27,43 @@ void r_getInput(struct Renderer *r, struct Sys* s)
 		//r->model = p_mat4RotateX(&r->model, (float) r->window.mouseDiffY * 0.004f);
 	}
 
+	float ms = r->delta * 0.01f; // mov spd
+	float rs = r->delta * 0.02f; // rot spd
+
 	if (glfwGetKey(r->window.window, GLFW_KEY_W)) {
-		r->camPos.z += 0.01f * cosf(r->camRot.y);
-		r->camPos.x -= 0.01f * sinf(r->camRot.y);
+		r->camPos.z += ms * cosf(r->camRot.y);
+		r->camPos.x -= ms * sinf(r->camRot.y);
 	}
 	if (glfwGetKey(r->window.window, GLFW_KEY_S)) {
-		r->camPos.z -= 0.01f * cosf(r->camRot.y);
-		r->camPos.x += 0.01f * sinf(r->camRot.y);
+		r->camPos.z -= ms * cosf(r->camRot.y);
+		r->camPos.x += ms * sinf(r->camRot.y);
 	}
 	if (glfwGetKey(r->window.window, GLFW_KEY_D)) {
-		r->camPos.x += 0.01f * cosf(r->camRot.y);
-		r->camPos.z += 0.01f * sinf(r->camRot.y);
+		r->camPos.x += ms * cosf(r->camRot.y);
+		r->camPos.z += ms * sinf(r->camRot.y);
 	}
 	if (glfwGetKey(r->window.window, GLFW_KEY_A)) {
-		r->camPos.x -= 0.01f * cosf(r->camRot.y);
-		r->camPos.z -= 0.01f * sinf(r->camRot.y);
+		r->camPos.x -= ms * cosf(r->camRot.y);
+		r->camPos.z -= ms * sinf(r->camRot.y);
 	}
 	if (glfwGetKey(r->window.window, GLFW_KEY_R)) {
-		r->camPos.y += 0.01f;
+		r->camPos.y += ms;
 	}
 	if (glfwGetKey(r->window.window, GLFW_KEY_F)) {
-		r->camPos.y -= 0.01f;
+		r->camPos.y -= ms;
 	}
 
 	if (glfwGetKey(r->window.window, GLFW_KEY_UP)) {
-		r->camRot.x += 0.02f;
+		r->camRot.x += rs;
 	}
 	if (glfwGetKey(r->window.window, GLFW_KEY_DOWN)) {
-		r->camRot.x -= 0.02f;
+		r->camRot.x -= rs;
 	}
 	if (glfwGetKey(r->window.window, GLFW_KEY_LEFT)) {
-		r->camRot.y += 0.02f;
+		r->camRot.y += rs;
 	}
 	if (glfwGetKey(r->window.window, GLFW_KEY_RIGHT)) {
-		r->camRot.y -= 0.02f;
+		r->camRot.y -= rs;
 	}
 }
 

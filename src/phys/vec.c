@@ -64,6 +64,11 @@ void p_vec4Div(vec4 *v, float s)
 	v->w /= s;
 }
 
+float p_vec3Len(vec4 *v)
+{
+	return sqrtf(v->x * v->x + v->y * v->y + v->z * v->z);
+}
+
 float p_vec4Len(vec4 *v)
 {
 	return sqrtf(v->x * v->x + v->y * v->y + v->z * v->z + v->w * v->w);
@@ -85,4 +90,9 @@ vec4 p_vec4Cross(vec4 *v0, vec4 *v1)
 	v.z = v0->x * v1->y - v0->y * v1->x;
 
 	return v;
+}
+
+void p_vec4Normalize(vec4 *v)
+{
+	p_vec4Div(v, p_vec4Len(v));
 }

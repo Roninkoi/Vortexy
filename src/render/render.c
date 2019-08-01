@@ -112,7 +112,7 @@ void r_add(struct Renderer *r,
 	}
 
 	for (int i = 0; i < in; ++i) {
-		r->indices[r->indexNum + i] = id[i];
+		r->indices[r->indexNum + i] = id[i] + r->indexNum;
 	}
 
 	r->vertexNum += vn;

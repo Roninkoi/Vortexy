@@ -12,7 +12,7 @@ void s_init(struct Sim *s)
 	s->dt = 1.0f;
 
 	s->timeOld = timeNow();
-	s->tps = 0;
+	s->tps = 60;
 	s->ticks = 0;
 	s->ticksOld = 0;
 
@@ -42,6 +42,8 @@ void s_run(struct Sim *s)
 		s_tick(s);
 
 #if RENDER_ENABLED == 1
+		s->renderer.delta = 60.0f / (float) s->tps;
+
 		r_getInput(&s->renderer, &s->sys);
 
 		if (s->rendered) {
@@ -58,6 +60,8 @@ void s_tick(struct Sim *s)
 	s->time += s->dt; // increment time
 
 	p_sysTick(&s->sys);
+
+	return;
 
 	Field test;
 
