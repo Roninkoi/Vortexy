@@ -15,4 +15,6 @@ struct Sys {
 
 void p_sysInit(struct Sys *s);
 
+void p_sysTick(struct Sys *s);
+
 #endif

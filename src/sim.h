@@ -9,6 +9,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "phys/sys.h"
+#include "util/randomUtil.h"
+
 #define CL_USE_DEPRECATED_OPENCL_1_2_APIS
 
 // OpenCL
@@ -26,15 +29,6 @@
 #include "render/render.h"
 
 #endif
-
-#include "phys/sys.h"
-#include "util/randomUtil.h"
-
-// types
-typedef unsigned char byte;
-typedef enum {
-	false, true
-} bool;
 
 struct Sim {
 #if RENDER_ENABLED == 1

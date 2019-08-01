@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 		printf("No config file!\n");
 		printf("Usage: ./Vortexy <sim.cfg>\n");
 
-		cfg = "sim.cfg";
+		cfg = "sim.cfg"; // default
 	}
 	else {
 		cfg = argv[1];

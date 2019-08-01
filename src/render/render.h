@@ -68,12 +68,18 @@ struct Renderer {
 	mat4 model;
 	mat4 view;
 	mat4 proj;
+
+	vec4 camPos;
+	vec4 camRot;
 };
 
 // RENDER
 void r_init(struct Renderer *r, int *running);
 
 void r_update(struct Renderer *r);
+
+// render buffer contents
+void r_render(struct Renderer *r);
 
 // add data to buffers
 void r_add(struct Renderer *r,
@@ -87,13 +93,12 @@ void r_copy(struct Renderer *r);
 void r_flush(struct Renderer *r);
 
 // DRAW
-
-void r_draw(struct Renderer *r);
-
-void r_render(struct Renderer *r, struct Sys *s);
+void r_draw(struct Renderer *r, struct Sys *s);
 
 void r_drawMesh(struct Renderer *r, Mesh *m);
 
 void r_drawWireMesh(struct Renderer *r, Mesh *m);
+
+void r_drawLine(struct Renderer *r, vec4 v0, vec4 v1, vec4 col);
 
 #endif

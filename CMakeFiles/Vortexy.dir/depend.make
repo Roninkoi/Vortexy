@@ -44,6 +44,8 @@ CMakeFiles/Vortexy.dir/src/phys/sys.c.o: src/phys/mesh.h
 CMakeFiles/Vortexy.dir/src/phys/sys.c.o: src/phys/obj.h
 CMakeFiles/Vortexy.dir/src/phys/sys.c.o: src/phys/sys.h
 CMakeFiles/Vortexy.dir/src/phys/sys.c.o: src/phys/vec.h
+CMakeFiles/Vortexy.dir/src/phys/sys.c.o: src/util/randomUtil.h
+CMakeFiles/Vortexy.dir/src/phys/sys.c.o: src/util/timeUtil.h
 
 CMakeFiles/Vortexy.dir/src/phys/vec.c.o: src/phys/vec.c
 CMakeFiles/Vortexy.dir/src/phys/vec.c.o: src/phys/vec.h
@@ -100,6 +102,7 @@ CMakeFiles/Vortexy.dir/src/render/window.c.o: src/render/window.c
 CMakeFiles/Vortexy.dir/src/render/window.c.o: src/render/window.h
 
 CMakeFiles/Vortexy.dir/src/sim.c.o: src/phys/sys.h
+CMakeFiles/Vortexy.dir/src/sim.c.o: src/render/input.h
 CMakeFiles/Vortexy.dir/src/sim.c.o: src/render/render.h
 CMakeFiles/Vortexy.dir/src/sim.c.o: src/render/shader.h
 CMakeFiles/Vortexy.dir/src/sim.c.o: src/render/texture.h

@@ -1,59 +1,18 @@
 #include "render/render.h"
 
-void r_draw(struct Renderer *r)
-{
-
-}
-
-void r_render(struct Renderer *r, struct Sys *s)
+void r_draw(struct Renderer *r, struct Sys *s)
 {
 	r_update(r);
 
-	/*r->vertices[0] = 0.0f;
-	r->vertices[1] = 0.0f;
-	r->vertices[2] = 0.0f;
-	r->vertices[3] = 0.0f;
-
-	r->vertices[4] = 1.0f;
-	r->vertices[5] = 0.0f;
-	r->vertices[6] = 0.0f;
-	r->vertices[7] = 0.0f;
-
-	r->vertices[8] = 1.0f;
-	r->vertices[9] = 1.0f;
-	r->vertices[10] = 0.0f;
-	r->vertices[11] = 0.0f;
-
-	r->texes[0] = 0.0f;
-	r->texes[1] = 0.0f;
-	r->texes[2] = 1.0f;
-	r->texes[3] = 1.0f;
-
-	r->texes[4] = 1.0f;
-	r->texes[5] = 0.0f;
-	r->texes[6] = 1.0f;
-	r->texes[7] = 1.0f;
-
-	r->texes[8] = 1.0f;
-	r->texes[9] = 1.0f;
-	r->texes[10] = 1.0f;
-	r->texes[11] = 1.0f;
-
-	r->vertexNum = 3 * 4;
-
-	r->indices[0] = 0;
-	r->indices[1] = 1;
-	r->indices[2] = 2;
-
-	r->indexNum = 3;*/
+	for (int i = 0; i < 100; ++i) {
+		r_drawLine(r, p_vec4(0.0f, 0.0f, 0.0f, 0.0f), p_vec4(cosf((float) i / 100.0f), sinf((float) i / 100.0f), 0.0f, 0.0f), p_vec4(0.0f, 4.0f, 0.0f, 1.0f));
+	}
 
 	for (int i = 0; i < s->objNum; ++i) {
 		r_drawMesh(r, &s->objs[i].mesh);
 	}
 
-	r_copy(r);
-
-	r_flush(r);
+	r_render(r);
 }
 
 void r_drawMesh(struct Renderer *r, Mesh *m)
@@ -70,7 +29,7 @@ void r_drawWireMesh(struct Renderer *r, Mesh *m)
 
 	int newInds[2 * m->indNum];
 
-	for (int i = 0; i < m->indNum; i += 3) {
+	for (int i = 0; i < m->indNum; i += 3) { // expand tris into line segs
 		newInds[2 * i + 0] = m->indData[i + 0];
 		newInds[2 * i + 1] = m->indData[i + 1];
 
@@ -83,4 +42,39 @@ void r_drawWireMesh(struct Renderer *r, Mesh *m)
 
 	r_add(r, m->vertData, m->texData, m->normData, m->colData, &newInds[0],
 		  m->vertNum, m->indNum * 2);
+}
+
+void r_drawLine(struct Renderer *r, vec4 v0, vec4 v1, vec4 col)
+{
+	if (r->vertexNum > 0) {
+		r_render(r);
+	}
+
+	r->drawMode = GL_LINES;
+
+	float vd[8] = {
+			v0.x, v0.y, v0.z, v0.w,
+			v1.x, v1.y, v1.z, v1.w
+	};
+
+	float td[8] = {
+			0.0f, 0.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 0.0f, 0.0f
+	};
+
+	float nd[8] = {
+			0.0f, 0.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 0.0f, 0.0f
+	};
+
+	float cd[8] = {
+			col.x, col.y, col.z, col.w,
+			col.x, col.y, col.z, col.w
+	};
+
+	int id[2] = {0, 1};
+
+	r_add(r, vd, td, nd, cd, id, 8, 2);
+
+	r_render(r);
 }

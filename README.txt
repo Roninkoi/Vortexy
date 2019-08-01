@@ -56,4 +56,6 @@ r = renderer
 - destructors are called "Destroy" e.g. p_fieldDestroy()
 - constructors / initializers should be paired with a destructor if one exists
 
+TODO:
 
+- blend and sort

@@ -15,6 +15,15 @@ struct Window {
 	int swapInterval;
 
 	GLFWmonitor *monitor;
+
+	double mouseX;
+	double mouseY;
+
+	double mouseOldX;
+	double mouseOldY;
+
+	double mouseDiffX;
+	double mouseDiffY;
 };
 
 void r_createWindow(struct Window *w);

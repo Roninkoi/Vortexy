@@ -1,4 +1,5 @@
 #include "sim.h"
+#include "render/input.h"
 
 void s_init(struct Sim *s)
 {
@@ -41,8 +42,10 @@ void s_run(struct Sim *s)
 		s_tick(s);
 
 #if RENDER_ENABLED == 1
+		r_getInput(&s->renderer, &s->sys);
+
 		if (s->rendered) {
-			r_render(&s->renderer, &s->sys);
+			r_draw(&s->renderer, &s->sys);
 		}
 #endif
 	}
@@ -53,6 +56,8 @@ void s_tick(struct Sim *s)
 	++s->ticks;
 
 	s->time += s->dt; // increment time
+
+	p_sysTick(&s->sys);
 
 	Field test;
 

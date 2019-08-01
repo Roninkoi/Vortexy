@@ -3,6 +3,12 @@
 
 #include <string.h>
 
+typedef unsigned char byte;
+
+typedef enum {
+	false, true
+} bool;
+
 // str is dynamically allocated and is freed
 char *strAppend(char *str, char c)
 {

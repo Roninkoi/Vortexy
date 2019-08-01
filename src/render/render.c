@@ -49,7 +49,13 @@ void r_init(struct Renderer *r, int *running)
 	r->view = p_imat4();
 	r->proj = p_imat4();
 
-	r_loadTex(&r->tex, "data/test.ppm");
+	r->camPos = p_nvec4();
+	r->camRot = p_nvec4();
+
+	r->camPos.z = -2.0f;
+
+	//r_loadTex(&r->tex, "data/test.ppm");
+	r_flatTex(&r->tex, 255, 128, 0, 128, 128);
 }
 
 void r_update(struct Renderer *r)
@@ -75,12 +81,13 @@ void r_update(struct Renderer *r)
 	glBindTexture(GL_TEXTURE_2D, r->tex.tex);
 	glUniform1i(r->texUni, 0);
 
-	r->model = p_mat4RotateY(&r->model, 0.01f);
+	//r->model = p_mat4RotateY(&r->model, 0.01f);
 	r->proj = p_mat4Perspective(1.5f, 1.78f, 0.1f, 100.0f);
 
 	r->view = p_mat4(1.0f);
-	r->view = p_mat4Translate(&r->view, p_vec4(0.0f, 0.0f, 2.0f, 0.0f));
-	//r->view = p_mat4RotateY(&r->view, r->ticks * 0.01f);
+	r->view = p_mat4RotateX(&r->view, r->camRot.x);
+	r->view = p_mat4RotateY(&r->view, r->camRot.y);
+	r->view = p_mat4Translate(&r->view, p_vec4(-r->camPos.x, -r->camPos.y, -r->camPos.z, 0.0f));
 
 	glUniformMatrix4fv(r->modelUni, 1, GL_TRUE, &r->model.m[0][0]);
 	glUniformMatrix4fv(r->projUni, 1, GL_TRUE, &r->proj.m[0][0]);
@@ -94,7 +101,7 @@ void r_add(struct Renderer *r,
 	++r->instances;
 
 	if (r->vertexNum + vn >= BATCH_SIZE || r->indexNum + in >= BATCH_SIZE) {
-		return; // fix later
+		r_render(r); // check later
 	}
 
 	for (int i = 0; i < vn; ++i) {
@@ -176,4 +183,11 @@ void r_flush(struct Renderer *r)
 
 	r->vertexNum = 0;
 	r->indexNum = 0;
+}
+
+void r_render(struct Renderer *r)
+{
+	r_copy(r);
+
+	r_flush(r);
 }

@@ -118,6 +118,9 @@
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/render/draw.c">
 			<Option target="Vortexy"/>
 		</Unit>
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/render/input.h">
+			<Option target="Vortexy"/>
+		</Unit>
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/render/render.c">
 			<Option target="Vortexy"/>
 		</Unit>
