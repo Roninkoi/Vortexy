@@ -1,7 +1,8 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-#include "render/render.h"
+#include "window.h"
+#include "render.h"
 #include "phys/sys.h"
 
 float dist;

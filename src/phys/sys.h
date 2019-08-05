@@ -1,8 +1,8 @@
 #ifndef SYS_H
 #define SYS_H
 
-#include "phys/fluid.h"
-#include "phys/obj.h"
+#include "fluid.h"
+#include "obj.h"
 
 // physical system
 struct Sys {
@@ -11,6 +11,7 @@ struct Sys {
 	Obj *objs;
 
 	int objNum;
+	int ticks;
 };
 
 void p_sysInit(struct Sys *s);

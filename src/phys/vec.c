@@ -1,4 +1,4 @@
-#include "phys/vec.h"
+#include "vec.h"
 
 vec4 p_vec4(float x, float y, float z, float w)
 {

@@ -1,4 +1,4 @@
-#include "render/window.h"
+#include "window.h"
 
 void r_createWindow(struct Window *w)
 {

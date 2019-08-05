@@ -1,4 +1,4 @@
-#include "phys/mat.h"
+#include "mat.h"
 
 mat4 p_mat4(float s)
 {

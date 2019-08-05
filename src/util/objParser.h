@@ -11,7 +11,7 @@
 #define OBJ_MAX 0x100000
 
 // creates a mesh object and loads obj
-Mesh objParser(char *path)
+Mesh objParser(char *path, int optimize, int loadTex)
 {
 	Mesh mesh;
 
@@ -120,6 +120,10 @@ Mesh objParser(char *path)
 				int vi = atoi(vs) - 1; // obj starts at 1
 				int ti = atoi(ts) - 1;
 
+				if (!loadTex) {
+					ti = 0;
+				}
+
 				int exists = 0;
 				int t = 0;
 
@@ -128,6 +132,10 @@ Mesh objParser(char *path)
 						exists = 1;
 						t -= 1;
 					}
+				}
+
+				if (!optimize) {
+					exists = 0;
 				}
 
 				if (exists) {

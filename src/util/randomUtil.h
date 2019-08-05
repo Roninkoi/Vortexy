@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 
-#include "util/timeUtil.h"
+#include "timeUtil.h"
 
 float randomFloat()
 {

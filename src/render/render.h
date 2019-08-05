@@ -9,12 +9,12 @@
 #include <GL/glew.h>
 #include <GL/gl.h>
 
-#include "render/window.h"
+#include "window.h"
+#include "texture.h"
+#include "shader.h"
 #include "phys/mesh.h"
 #include "phys/mat.h"
 #include "phys/sys.h"
-#include "texture.h"
-#include "shader.h"
 
 #define VERT_PATH "src/render/shader/main.vert"
 #define FRAG_PATH "src/render/shader/main.frag"
@@ -49,7 +49,11 @@ struct Renderer {
 	float colors[BATCH_SIZE];
 	int indices[BATCH_SIZE];
 
-	Texture tex;
+	Texture *tex;
+
+	Texture tex0;
+
+	Texture flat;
 
 	GLuint width;
 	GLuint height;
@@ -61,7 +65,7 @@ struct Renderer {
 	float delta;
 
 	int batches;
-	int instances;
+	int draws;
 
 	int vertexNum;
 	int indexNum;
@@ -86,6 +90,9 @@ void r_render(struct Renderer *r);
 void r_add(struct Renderer *r,
 		   float *vd, float *td, float *nd, float *cd, int *id,
 		   int vn, int in);
+
+// sort triangles for blending
+void r_sort(struct Renderer *r);
 
 // copy data to gpu
 void r_copy(struct Renderer *r);

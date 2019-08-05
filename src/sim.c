@@ -31,7 +31,9 @@ void s_init(struct Sim *s)
 void s_run(struct Sim *s)
 {
 	while (s->running) {
-		if (timeNow() - s->timeOld >= 1) {
+		int p = timeNow() - s->timeOld >= 1;
+	  
+		if (p) {
 			s->timeOld = timeNow();
 			s->tps = s->ticks - s->ticksOld;
 			s->ticksOld = s->ticks;
@@ -42,6 +44,10 @@ void s_run(struct Sim *s)
 		s_tick(s);
 
 #if RENDER_ENABLED == 1
+		if (p) {
+			printf("draws: %i, batches: %i\n", s->renderer.draws, s->renderer.batches);
+		}
+		
 		s->renderer.delta = 60.0f / (float) s->tps;
 
 		r_getInput(&s->renderer, &s->sys);
@@ -105,7 +111,7 @@ void s_tick(struct Sim *s)
 
 	ret = clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_GPU, 1, &device_id, &num_devices);
 
-	cl_context context = clCreateContext(NULL, 2, &device_id, NULL, NULL, &ret);
+	cl_context context = clCreateContext(NULL, 1, &device_id, NULL, NULL, &ret);
 
 	cl_command_queue queue = clCreateCommandQueue(context, device_id, 0, &ret);
 
@@ -140,8 +146,8 @@ void s_tick(struct Sim *s)
 
 	ret = clEnqueueReadBuffer(queue, c_mem, CL_TRUE, 0, size * sizeof(int), C, 0, NULL, NULL);
 
-	//for (int i = 0; i < size; i++)
-	//	printf("%d + %d = %d\n", A[i], B[i], C[i]);
+	for (int i = 0; i < size; i++)
+		printf("%d + %d = %d\n", A[i], B[i], C[i]);
 
 	ret = clFlush(queue);
 	ret = clFinish(queue);

@@ -23,9 +23,9 @@ typedef struct {
 
 void p_meshInit(Mesh *m);
 
-void p_loadMesh(Mesh *m, char *path);
+void p_loadMesh(Mesh *m, char *path, int optimize, int loadTex);
 
-void p_meshTransform(Mesh *m, mat4 mat);
+void p_meshTransform(Mesh *m, mat4 *mat);
 
 void p_meshDestroy(Mesh *m);
 

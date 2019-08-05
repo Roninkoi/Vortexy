@@ -5,6 +5,12 @@
 #include <stdlib.h>
 #include <math.h>
 
+// general vector
+typedef struct {
+	float *v;
+	int n; // dimension
+} vec;
+
 // four-vector type
 typedef struct {
 	float x;

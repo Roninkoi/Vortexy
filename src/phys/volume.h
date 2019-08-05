@@ -5,7 +5,7 @@
 
 struct Volume;
 
-struct Face {
+struct Face { // triangle
 	float *verts;
 	int *inds;
 
@@ -17,17 +17,30 @@ struct Face {
 	vec4 normal;
 	vec4 centroid;
 
-	struct Face *other; // opposing face
-	struct Volume *thisVol; // volume this face is a part of
+	float area;
+
+	//struct Face *other; // opposing face
+	struct Volume *thisVol[2]; // volumes this face is a part of
 };
 
-struct Volume {
-	struct Face *faces;
+struct Volume { // tetrahedron
+	struct Face *faces[4];
+	struct Volume *neighbours[4]; // neighbouring volume elements
+	
 	int faceNum;
 
 	float vol;
 
 	vec4 centroid;
 };
+
+// loadFaces
+// computeArea
+// computeFaceCentroid
+
+// loadVolumes
+// computeVol
+// computeVolumeCentroid
+// computeTopology
 
 #endif

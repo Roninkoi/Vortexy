@@ -1,7 +1,9 @@
-#include "render/texture.h"
+#include "texture.h"
 #include "util/texLoader.h"
 
-void r_flatTex(Texture *t, unsigned char r, unsigned char g, unsigned char b, int w, int h)
+void r_flatTex(Texture *t,
+			   unsigned char r, unsigned char g, unsigned char b,
+			   int w, int h)
 {
 	glGenTextures(1, &t->tex);
 

@@ -1,4 +1,4 @@
-#include "phys/field.h"
+#include "field.h"
 
 void p_fieldInit(Field *f, unsigned int r)
 {
@@ -8,7 +8,7 @@ void p_fieldInit(Field *f, unsigned int r)
 	// allocate memory for 2d array
 	f->f = (vec4 **) malloc(f->res * sizeof(vec4 *));
 
-	for (int i = 0; i < f->res; ++i) {
+	for (unsigned int i = 0; i < f->res; ++i) {
 		f->f[i] = (vec4 *) malloc(f->res * sizeof(vec4));
 	}
 
@@ -18,7 +18,7 @@ void p_fieldInit(Field *f, unsigned int r)
 
 void p_fieldDestroy(Field *f) // check this later
 {
-	for (int i = 0; i < f->res; ++i) {
+	for (unsigned int i = 0; i < f->res; ++i) {
 		free(f->f[i]);
 	}
 
@@ -27,8 +27,8 @@ void p_fieldDestroy(Field *f) // check this later
 
 void p_fieldSet(Field *f, float x, float y, float z, float w)
 {
-	for (int i = 0; i < f->res; ++i) {
-		for (int j = 0; j < f->res; ++j) {
+	for (unsigned int i = 0; i < f->res; ++i) {
+		for (unsigned int j = 0; j < f->res; ++j) {
 			f->f[i][j].x = x;
 			f->f[i][j].y = y;
 			f->f[i][j].z = z;
@@ -40,8 +40,8 @@ void p_fieldSet(Field *f, float x, float y, float z, float w)
 void p_fieldPrint(Field *f)
 {
 
-	for (int i = 0; i < f->res; ++i) {
-		for (int j = 0; j < f->res; ++j) {
+	for (unsigned int i = 0; i < f->res; ++i) {
+		for (unsigned int j = 0; j < f->res; ++j) {
 			p_vec4Print(&f->f[i][j]);
 		}
 	}
@@ -76,7 +76,7 @@ void p_fieldLoader(Field *f, int width, int height, unsigned char *data)
 		++ch; // channel
 
 		if (ch % 3 == 0) {
-			++ti; // texture index
+			++ti; // index
 		}
 	}
 
@@ -86,5 +86,6 @@ void p_fieldLoader(Field *f, int width, int height, unsigned char *data)
 unsigned char *p_fieldBytes(Field *f)
 {
 	unsigned char *data;
+
 	return data;
 }

@@ -1,4 +1,4 @@
-#include "render/render.h"
+#include "render.h"
 
 void r_init(struct Renderer *r, int *running)
 {
@@ -8,7 +8,7 @@ void r_init(struct Renderer *r, int *running)
 	r->vertexNum = 0;
 	r->indexNum = 0;
 	r->batches = 0;
-	r->instances = 0;
+	r->draws = 0;
 
 	r->width = SCREEN_WIDTH;
 	r->height = SCREEN_HEIGHT;
@@ -53,15 +53,17 @@ void r_init(struct Renderer *r, int *running)
 	r->camRot = p_nvec4();
 
 	r->camPos.z = -2.0f;
+	
+	r_flatTex(&r->flat, 255, 255, 255, 128, 128);
+	r->tex = &r->flat;
 
-	//r_loadTex(&r->tex, "data/test.ppm");
-	r_flatTex(&r->tex, 255, 128, 0, 128, 128);
+	r_loadTex(&r->tex0, "data/test.ppm");
 }
 
 void r_update(struct Renderer *r)
 {
 	r->batches = 0;
-	r->instances = 0;
+	r->draws = 0;
 
 	r->ticks += 1.0f;
 
@@ -78,7 +80,6 @@ void r_update(struct Renderer *r)
 	glViewport(0, 0, r->width, r->height);
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, r->tex.tex);
 	glUniform1i(r->texUni, 0);
 
 	//r->model = p_mat4RotateY(&r->model, 0.01f);
@@ -98,7 +99,7 @@ void r_add(struct Renderer *r,
 		   float *vd, float *td, float *nd, float *cd, int *id,
 		   int vn, int in)
 {
-	++r->instances;
+	++r->draws;
 
 	if (r->vertexNum + vn >= BATCH_SIZE || r->indexNum + in >= BATCH_SIZE) {
 		r_render(r); // check later
@@ -185,8 +186,15 @@ void r_flush(struct Renderer *r)
 	r->indexNum = 0;
 }
 
+void r_sort(struct Renderer *r)
+{
+	// TODO: sort by triangle centroid
+}
+
 void r_render(struct Renderer *r)
 {
+	glBindTexture(GL_TEXTURE_2D, r->tex->tex);
+	
 	r_copy(r);
 
 	r_flush(r);

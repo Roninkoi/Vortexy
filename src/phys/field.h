@@ -1,10 +1,9 @@
 #ifndef FIELD_H
 #define FIELD_H
 
-#include "phys/vec.h"
+#include "vec.h"
 
-// vector field defined on a mesh
-// (texture on GPU)
+// vector field
 typedef struct {
 	unsigned int res; // field resolution
 	vec4 **f; // res x res

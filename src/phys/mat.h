@@ -1,9 +1,14 @@
 #ifndef MAT_H
 #define MAT_H
 
-#include <phys/vec.h>
+#include "vec.h"
 
-// matrix math
+// general matrix
+typedef struct {
+	float **m;
+	int r; // rows
+	int c; // columns
+} mat;
 
 // 4 x 4 square matrix type
 typedef struct {
