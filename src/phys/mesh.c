@@ -18,6 +18,16 @@ void p_meshInit(Mesh *m)
 	m->indNum = 0;
 }
 
+void p_meshSetCol(Mesh *m, float r, float g, float b, float a)
+{
+	for (int i = 0; i < m->colNum; i += 4) {
+		m->colData[i + 0] = r;
+		m->colData[i + 1] = g;
+		m->colData[i + 2] = b;
+		m->colData[i + 3] = a;
+	}
+}
+
 void p_meshTransform(Mesh *m, mat4 *mat)
 {
 	for (int i = 0; i < m->vertNum; i += 4) {

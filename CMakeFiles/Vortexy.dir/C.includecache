@@ -6,9 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/home/rak/Dropbox/Dev/Vortexy/src/render/draw.c
+/home/rak/Dropbox/Dev/Vortexy/src/render/render.c
 render.h
 /home/rak/Dropbox/Dev/Vortexy/src/render/render.h
+util/texLoader.h
+/home/rak/Dropbox/Dev/Vortexy/src/render/util/texLoader.h
 
 /home/rak/Dropbox/Dev/Vortexy/src/render/render.h
 GL/glew.h
@@ -87,4 +89,10 @@ math.h
 src/phys/volume.h
 vec.h
 src/phys/vec.h
+
+src/util/texLoader.h
+string.h
+-
+phys/field.h
+src/util/phys/field.h
 

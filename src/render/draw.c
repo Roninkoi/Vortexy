@@ -1,22 +1,40 @@
 #include "render.h"
 
-void r_draw(struct Renderer *r, struct Sys *s)
+void r0(struct Renderer *r, struct Sys *s)
 {
 	r_update(r);
 
 	r->tex = &r->flat;
-	/*
+	for (int i = 0; i < s->objNum; ++i) {
+		r_drawMesh(r, &s->objs[i].mesh);
+	}
+	r_render(r);
+
+	glDisable(GL_DEPTH_TEST);
+	for (int i = 0; i < s->objNum; ++i) {
+		r_drawWireMesh(r, &s->objs[i].mesh);
+	}
+
+	r_render(r);
+}
+
+void r1(struct Renderer *r, struct Sys *s)
+{
+	r_update(r);
+
+	r->tex = &r->flat;
+
 	int n = 800;
 	for (int i = 0; i < n; ++i) {
 		float f = ((float) i / (float) n);
-		
+
 		vec4 c = p_vec4(fmax(0.0f, sinf(f * 6.28f)),
 						fmax(0.0f, sinf(f * 6.28f + 2.1f)),
 						fmax(0.0f, sinf(f * 6.28f + 4.2f)), 1.0f);
-		
+
 		p_vec4Normalize(&c);
 		p_vec4Mul(&c, 4.0f);
-		
+
 		r_drawLine(r, p_vec4(0.0f, 0.0f, 0.0f, 0.0f), p_vec4(cosf(f * M_PI * 2.0f), sinf(f * M_PI * 2.0f), 0.0f, 0.0f), c);
 	}
 
@@ -29,16 +47,13 @@ void r_draw(struct Renderer *r, struct Sys *s)
 			}
 		}
 	}
-	
-	r_render(r);*/
-
-	//r->tex = &r->tex0;
-	
-	for (int i = 0; i < s->objNum; ++i) {
-		r_drawMesh(r, &s->objs[i].mesh);
-	}
 
 	r_render(r);
+}
+
+void r_draw(struct Renderer *r, struct Sys *s)
+{
+	r0(r, s);
 }
 
 void r_drawMesh(struct Renderer *r, Mesh *m)

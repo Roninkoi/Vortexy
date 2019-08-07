@@ -5,10 +5,8 @@
 #include "render.h"
 #include "phys/sys.h"
 
-float dist;
-
 void scrollCallback(GLFWwindow *window, double xoffs, double yoffs) {
-	dist += -(float) yoffs / 10.0f;
+	scroll += -(float) yoffs / 10.0f;
 }
 
 void r_getInput(struct Renderer *r, struct Sys* s)
@@ -30,6 +28,13 @@ void r_getInput(struct Renderer *r, struct Sys* s)
 
 	float ms = r->delta * 0.01f; // mov spd
 	float rs = r->delta * 0.02f; // rot spd
+
+	if (fabs(scroll) > 0.0f) { // mouse scroll = "zoom"
+		r->camPos.z -= 1.0f * scroll * cosf(r->camRot.y);
+		r->camPos.y -= 1.0f * scroll * sinf(r->camRot.x);
+		r->camPos.x += 1.0f * scroll * sinf(r->camRot.y);
+		scroll = 0.0f;
+	}
 
 	if (glfwGetKey(r->window.window, GLFW_KEY_W)) {
 		r->camPos.z += ms * cosf(r->camRot.y);

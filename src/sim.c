@@ -47,8 +47,13 @@ void s_run(struct Sim *s)
 		if (p) {
 			printf("draws: %i, batches: %i\n", s->renderer.draws, s->renderer.batches);
 		}
-		
-		s->renderer.delta = 60.0f / (float) s->tps;
+
+		if (s->tps > 0) {
+			s->renderer.delta = 60.0f / (float) s->tps;
+		}
+		else {
+			s->renderer.delta = 1.0f;
+		}
 
 		r_getInput(&s->renderer, &s->sys);
 

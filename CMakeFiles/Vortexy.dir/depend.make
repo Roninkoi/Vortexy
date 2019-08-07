@@ -97,6 +97,7 @@ CMakeFiles/Vortexy.dir/src/render/render.c.o: src/phys/phys.h
 CMakeFiles/Vortexy.dir/src/render/render.c.o: src/phys/sys.h
 CMakeFiles/Vortexy.dir/src/render/render.c.o: src/phys/vec.h
 CMakeFiles/Vortexy.dir/src/render/render.c.o: src/phys/volume.h
+CMakeFiles/Vortexy.dir/src/render/render.c.o: src/util/texLoader.h
 
 CMakeFiles/Vortexy.dir/src/render/shader.c.o: src/render/shader.c
 CMakeFiles/Vortexy.dir/src/render/shader.c.o: src/render/shader.h

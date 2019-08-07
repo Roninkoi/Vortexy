@@ -7,8 +7,10 @@ void p_sysInit(struct Sys *s)
 	s->objNum = 0;
 
 	s->objs = malloc(sizeof(Obj));
-	p_loadObj(&s->objs[0], "data/test.obj");
+	p_loadObj(&s->objs[0], "data/pipe.obj");
 	++s->objNum;
+
+	p_meshSetCol(&s->objs[0].mesh, 1.0f, 0.5f, 0.0f, 1.0f);
 }
 
 void p_sysTick(struct Sys *s)

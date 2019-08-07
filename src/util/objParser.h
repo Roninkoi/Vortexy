@@ -118,7 +118,9 @@ Mesh objParser(char *path, int optimize, int loadTex)
 				}
 
 				int vi = atoi(vs) - 1; // obj starts at 1
-				int ti = atoi(ts) - 1;
+				int ti;
+				if (ts != NULL)
+					ti = atoi(ts) - 1;
 
 				if (!loadTex) {
 					ti = 0;
@@ -159,9 +161,17 @@ Mesh objParser(char *path, int optimize, int loadTex)
 					mesh.vertData = floatAppend(mesh.vertData, 0.0f, mesh.vertNum);
 					++mesh.vertNum;
 
-					mesh.texData = floatAppend(mesh.texData, texes[texis[l] * 2], mesh.texNum);
+					float tdx = 0.0f;
+					float tdy = 0.0f;
+
+					if (texes != NULL) {
+						tdx = texes[texis[l] * 2];
+						tdy = -texes[texis[l] * 2 + 1];
+					}
+
+					mesh.texData = floatAppend(mesh.texData, tdx, mesh.texNum);
 					++mesh.texNum;
-					mesh.texData = floatAppend(mesh.texData, -texes[texis[l] * 2 + 1], mesh.texNum);
+					mesh.texData = floatAppend(mesh.texData, tdy, mesh.texNum);
 					++mesh.texNum;
 					mesh.texData = floatAppend(mesh.texData, 1.0f, mesh.texNum);
 					++mesh.texNum;

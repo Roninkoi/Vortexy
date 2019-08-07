@@ -29,4 +29,6 @@ void p_meshTransform(Mesh *m, mat4 *mat);
 
 void p_meshDestroy(Mesh *m);
 
+void p_meshSetCol(Mesh *m, float r, float g, float b, float a);
+
 #endif

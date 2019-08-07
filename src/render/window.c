@@ -16,6 +16,8 @@ void r_createWindow(struct Window *w)
 	w->window = glfwCreateWindow(w->width, w->height, "Vortexy", NULL, NULL);
 
 	glfwMakeContextCurrent(w->window);
+
+	scroll = 0.0f;
 }
 
 void r_updateWindow(struct Window *w, int *running)

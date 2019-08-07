@@ -6,6 +6,8 @@
 #define WINDOW_WIDTH 1600
 #define WINDOW_HEIGHT 900
 
+float scroll;
+
 struct Window {
 	GLFWwindow *window;
 

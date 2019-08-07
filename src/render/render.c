@@ -1,4 +1,5 @@
 #include "render.h"
+#include "util/texLoader.h"
 
 void r_init(struct Renderer *r, int *running)
 {
@@ -27,6 +28,11 @@ void r_init(struct Renderer *r, int *running)
 	if (glewErr != GLEW_OK) {
 		printf("Failed to init GLEW %i%s", glewErr, "\n");
 	}
+
+	GLFWimage icons[1];
+	//icons[0].pixels = ppmLoader("vortexyicon.ppm", &icons[0].width, &icons[0].height);
+	//glfwSetWindowIcon(r->window.window, 1, icons);
+	//free(icons[0].pixels);
 
 	r_loadShader(&r->shader, VERT_PATH, FRAG_PATH);
 
@@ -93,6 +99,13 @@ void r_update(struct Renderer *r)
 	glUniformMatrix4fv(r->modelUni, 1, GL_TRUE, &r->model.m[0][0]);
 	glUniformMatrix4fv(r->projUni, 1, GL_TRUE, &r->proj.m[0][0]);
 	glUniformMatrix4fv(r->viewUni, 1, GL_TRUE, &r->view.m[0][0]);
+
+	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
+	glDisable(GL_BLEND);
+
+	glDepthFunc(GL_LESS);
+	glCullFace(GL_BACK);
 }
 
 void r_add(struct Renderer *r,
@@ -143,13 +156,6 @@ void r_flush(struct Renderer *r)
 	++r->batches;
 
 	glUseProgram(r->shader.program);
-
-	glEnable(GL_DEPTH_TEST);
-	glDisable(GL_CULL_FACE);
-	glDisable(GL_BLEND);
-
-	glDepthFunc(GL_LESS);
-	glCullFace(GL_BACK);
 
 	glBindVertexArray(r->vertexArray);
 

@@ -10,8 +10,8 @@
 // loads a ppm image into an array of bytes (RGB)
 unsigned char *ppmLoader(char *path, int *texWidth, int *texHeight)
 {
+	char *data = NULL;
 	FILE *fp;
-	char *data;
 	size_t fsize;
 
 	fp = fopen(path, "r");
@@ -33,15 +33,15 @@ unsigned char *ppmLoader(char *path, int *texWidth, int *texHeight)
 
 	float maxval = 0.0f;
 
-	unsigned char *returns;
+	unsigned char *returns = NULL;
 	int ri = 0;
 
 	for (int i = 0; data[i]; ++i) {
-		int j;
+		int j = 0;
 
 		ds = (dp ? data[i] != ' ' : 1);
 
-		for(j = 0; data[i] != '\n' && ds && data[i]; ++j) {
+		for (j = 0; data[i] != '\n' && ds && data[i]; ++j) {
 			c[j] = data[i];
 			++i;
 		}

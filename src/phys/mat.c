@@ -68,7 +68,7 @@ mat4 p_mat4mat4(mat4 *m0, mat4 *m1) // mat4 x mat4
 {
 	mat4 r;
 
-	// loops unrolled for performance
+	// loops unrolled for performance on old compilers
 
 	// row 0
 	r.m[0][0] = m0->m[0][0] * m1->m[0][0]; // m0 row 0 dot m1 col 0

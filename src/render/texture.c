@@ -83,4 +83,5 @@ void r_destroyTex(Texture *t)
 		glDeleteTextures(1, &t->tex);
 		t->tex = 0;
 	}
+	free(t->data);
 }

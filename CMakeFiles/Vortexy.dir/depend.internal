@@ -98,6 +98,7 @@ CMakeFiles/Vortexy.dir/src/render/render.c.o
  src/phys/sys.h
  src/phys/vec.h
  src/phys/volume.h
+ src/util/texLoader.h
 CMakeFiles/Vortexy.dir/src/render/shader.c.o
  /home/rak/Dropbox/Dev/Vortexy/src/render/shader.c
  /home/rak/Dropbox/Dev/Vortexy/src/render/shader.h
