@@ -1,0 +1,106 @@
+\documentclass[12pt]{article}
+\usepackage[dvips]{graphicx}
+\usepackage{color}
+\usepackage[finnish, english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{wrapfig}
+\usepackage{caption}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage[top=52pt, bottom=2cm, left=2cm, right=2cm]{geometry}
+\usepackage[hidelinks]{hyperref}
+
+\pagestyle{fancy}
+
+\title {
+  Vortexy fluid dynamics simulator
+}
+
+\date{\today}
+
+\author {
+  Roni Koitermaa (Roninkoi) \\
+  \href{mailto:roninkoi@iki.fi}{roninkoi@iki.fi}
+}
+
+\fancyhf{}
+\setlength{\headheight}{15pt}
+\lhead{\thetitle}
+\rhead{Roninkoi}
+\cfoot{\thepage}
+
+\begin{document}
+
+\setlength{\belowcaptionskip}{10pt}
+
+\selectlanguage{english}
+
+\normalsize
+
+\maketitle
+
+\begin{figure}[!h]
+  \centering
+  \centering
+  \includegraphics[width=0.7\linewidth]{gfx/vortexylogo.pdf}
+\end{figure}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Introduction}
+
+{\bf Vortexy} (finnish: Vorteksi) is a computational fluid dynamics (CFD) simulation package. It is written in C and uses OpenCL to utilize graphics processing units (GPU). Included is also a renderer that uses OpenGL to visualize results.
+
+The simulator takes a configuration file as input that contains paths to the simulation mesh, velocity fields and boundary conditions in addition to other settings. The finite volume method is then used to calculate the time evolution of the system and this is visualized on the screen. The state of the system is periodically written to an output file specified in the config.
+
+%The simulator can be used in two modes: graphical and non-graphical. Setting the \verb|RENDER_ENABLED| macro to 0 will disable all rendering.
+
+\section{Background}
+
+\subsection{Navier-Stokes equations}
+
+\begin{equation}
+  \frac{\partial u}{\partial t} + (u \cdot \nabla) u = -\frac{1}{\rho} \nabla p + \nu \nabla^2 u + g
+\end{equation}
+
+\subsection{Finite volume method}
+
+\subsection{Discretization}
+
+\subsection{Jacobi method}
+
+\section{Implementation}
+
+\subsection{Simulation mesh}
+
+\subsection{Solver}
+
+\subsection{Parallelization}
+
+\subsection{Rendering}
+
+\section{Technical documentation}
+
+\subsection{Compilation}
+
+\subsection{Code style}
+
+\subsection{Configuration}
+
+\subsection{Examples}
+
+\addcontentsline{toc}{section}{References}
+\begin{thebibliography}{9}
+
+%\bibitem{}
+
+\end{thebibliography}
+
+\end{document}
