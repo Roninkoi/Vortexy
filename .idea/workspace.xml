@@ -11,7 +11,13 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2355b07f-7336-4c5e-9656-ebfc15cb9981" name="Default Changelist" comment="" />
+    <list default="true" id="2355b07f-7336-4c5e-9656-ebfc15cb9981" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vortexyicon.ppm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vortexylogo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vortexylogo.svg" beforeDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,7 +93,8 @@
       <workItem from="1564591887725" duration="21000" />
       <workItem from="1564636752330" duration="10798000" />
       <workItem from="1564931176874" duration="5968000" />
-      <workItem from="1565156744083" duration="7881000" />
+      <workItem from="1565156744083" duration="8070000" />
+      <workItem from="1565192551031" duration="156000" />
     </task>
     <servers />
   </component>

@@ -1,6 +1,6 @@
 # Vortexy - Fluid dynamics simulator
 
-<img src="https://raw.githubusercontent.com/Roninkoi/Vortexy/master/vortexylogo.png" width="256" height="256">
+<img src="https://raw.githubusercontent.com/Roninkoi/Vortexy/master/gfx/vortexylogo.png" width="256" height="256">
 
 Vortexy "Vorteksi", GPU CFD software written in C using OpenCL.
 
@@ -32,18 +32,19 @@ render
 ### Controls
 
 ```
-W ------ cam forward
-A ------ cam left
-S ------ cam backward
-D ------ cam right
+W ------- cam forward
+A ------- cam left
+S ------- cam backward
+D ------- cam right
 
-R ------ cam up
-F ------ cam down
+R ------- cam up
+F ------- cam down
 
-UP ----- look up
-DOWN --- look down
-LEFT --- look left
-RIGHT -- look right
+UP ------ look up
+DOWN ---- look down
+LEFT ---- look left
+RIGHT --- look right
 
-MOUSE -- rotate
+MOUSE --- rotate
+SCROLL -- zoom
 ```
