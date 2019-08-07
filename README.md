@@ -1,6 +1,6 @@
 # Vortexy - Fluid dynamics simulator
 
-<img src="https://raw.githubusercontent.com/Roninkoi/Vortexy/master/vortexylogo.svg" width="256" height="256">
+<img src="https://raw.githubusercontent.com/Roninkoi/Vortexy/master/vortexylogo.png" width="256" height="256">
 
 Vortexy "Vorteksi", GPU CFD software written in C using OpenCL.
 
