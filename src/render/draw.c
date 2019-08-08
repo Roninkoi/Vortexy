@@ -15,8 +15,7 @@ void r1(struct Renderer *r, struct Sys *s)
 {
 	r_update(r);
 
-	//r->tex = &r->flat;
-	r->tex = &r->tex0;
+	r->tex = &r->flat;
 	for (int i = 0; i < s->objNum; ++i) {
 		r_drawMesh(r, &s->objs[i].mesh);
 	}
@@ -65,7 +64,7 @@ void r2(struct Renderer *r, struct Sys *s)
 
 void r_draw(struct Renderer *r, struct Sys *s)
 {
-	r0(r, s);
+	r1(r, s);
 }
 
 void r_drawMesh(struct Renderer *r, Mesh *m)

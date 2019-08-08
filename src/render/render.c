@@ -64,7 +64,6 @@ void r_init(struct Renderer *r, int *running)
 	r->tex = &r->flat;
 
 	r_loadTex(&r->tex0, "data/test.ppm");
-	r_loadTex(&r->tex1, "gfx/vortexyicon.ppm");
 }
 
 void r_update(struct Renderer *r)

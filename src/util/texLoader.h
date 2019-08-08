@@ -41,7 +41,7 @@ unsigned char *ppmLoader(char *path, int *texWidth, int *texHeight)
 
 		ds = (dp ? data[i] != ' ' : 1);
 
-		for (j = 0; data[i] != '\n' && ds && data[i]; ++j) {
+		for (j = 0; data[i] != '\n' && data[i] != '\r' && ds && data[i]; ++j) {
 			c[j] = data[i];
 			++i;
 		}
@@ -95,7 +95,7 @@ unsigned char *ppmLoader(char *path, int *texWidth, int *texHeight)
 		}
 	}
 
-	free(data);
+	free(data); // corrupted unsorted chunks
 	free(c);
 
 	*texWidth = width;

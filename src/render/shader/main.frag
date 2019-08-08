@@ -1,5 +1,7 @@
 #version 150
 
+#define TRICOL 1
+
 out vec4 fCol;
 
 in vec4 vPos;
@@ -15,7 +17,8 @@ void main()
 
     fCol /= max(exp(vPos.z*0.5f), 1.0f);
 
-    //fCol *= float(gl_PrimitiveID % 4 + 1) * 0.25f * 2.0f;
+    if (TRICOL == 1)
+        fCol *= float(gl_PrimitiveID % 4 + 1) * 0.25f * 2.0f;
 
     if (fCol.a == 0.0f)
         discard;

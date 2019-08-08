@@ -11,7 +11,7 @@ void p_sysInit(struct Sys *s)
 	p_loadObj(&s->objs[0], "data/test.obj");
 	++s->objNum;
 
-	//p_meshSetCol(&s->objs[0].mesh, 1.0f, 0.5f, 0.0f, 1.0f);
+	p_meshSetCol(&s->objs[0].mesh, 1.0f, 0.5f, 0.0f, 1.0f);
 }
 
 void p_sysTick(struct Sys *s)

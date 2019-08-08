@@ -13,12 +13,12 @@ void r_flatTex(Texture *t,
 	t->w = w;
 	t->h = h;
 
-	unsigned char *image = malloc(sizeof(unsigned char) * w * h);
+	unsigned char *image = malloc(sizeof(unsigned char) * w * h * 3);
 
-	for (int i = 0; i < w * h; i += 3) {
-		image[i] = r;
-		image[i+1] = g;
-		image[i+2] = b;
+	for (int i = 0; i < w * h; i += 1) {
+		image[i * 3 + 0] = r;
+		image[i * 3 + 1] = g;
+		image[i * 3 + 2] = b;
 	}
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
