@@ -4,7 +4,19 @@ void r0(struct Renderer *r, struct Sys *s)
 {
 	r_update(r);
 
-	r->tex = &r->flat;
+	r->tex = &r->tex0;
+	for (int i = 0; i < s->objNum; ++i) {
+		r_drawMesh(r, &s->objs[i].mesh);
+	}
+	r_render(r);
+}
+
+void r1(struct Renderer *r, struct Sys *s)
+{
+	r_update(r);
+
+	//r->tex = &r->flat;
+	r->tex = &r->tex0;
 	for (int i = 0; i < s->objNum; ++i) {
 		r_drawMesh(r, &s->objs[i].mesh);
 	}
@@ -18,7 +30,7 @@ void r0(struct Renderer *r, struct Sys *s)
 	r_render(r);
 }
 
-void r1(struct Renderer *r, struct Sys *s)
+void r2(struct Renderer *r, struct Sys *s)
 {
 	r_update(r);
 

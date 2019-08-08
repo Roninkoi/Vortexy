@@ -84,15 +84,11 @@ Mesh objParser(char *path, int optimize, int loadTex)
 		if (strcmp(words[i], "vt") == 0) { // texes
 			float v0 = atof(words[i + 1]);
 			float v1 = atof(words[i + 2]);
-			float v2 = atof(words[i + 3]);
 
 			texes = floatAppend(texes, v0, tn);
 			++tn;
 
 			texes = floatAppend(texes, v1, tn);
-			++tn;
-
-			texes = floatAppend(texes, v2, tn);
 			++tn;
 		}
 
@@ -118,7 +114,7 @@ Mesh objParser(char *path, int optimize, int loadTex)
 				}
 
 				int vi = atoi(vs) - 1; // obj starts at 1
-				int ti;
+				int ti = 0;
 				if (ts != NULL)
 					ti = atoi(ts) - 1;
 
@@ -166,7 +162,7 @@ Mesh objParser(char *path, int optimize, int loadTex)
 
 					if (texes != NULL) {
 						tdx = texes[texis[l] * 2];
-						tdy = -texes[texis[l] * 2 + 1];
+						tdy = texes[texis[l] * 2 + 1]; // -1?
 					}
 
 					mesh.texData = floatAppend(mesh.texData, tdx, mesh.texNum);

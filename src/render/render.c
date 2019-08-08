@@ -29,11 +29,6 @@ void r_init(struct Renderer *r, int *running)
 		printf("Failed to init GLEW %i%s", glewErr, "\n");
 	}
 
-	GLFWimage icons[1];
-	//icons[0].pixels = ppmLoader("vortexyicon.ppm", &icons[0].width, &icons[0].height);
-	//glfwSetWindowIcon(r->window.window, 1, icons);
-	//free(icons[0].pixels);
-
 	r_loadShader(&r->shader, VERT_PATH, FRAG_PATH);
 
 	glGenVertexArrays(1, &r->vertexArray);
@@ -51,6 +46,11 @@ void r_init(struct Renderer *r, int *running)
 	r->viewUni = glGetUniformLocation(r->shader.program, "view");
 	r->projUni = glGetUniformLocation(r->shader.program, "proj");
 
+	GLFWimage icons[1];
+	icons[0].pixels = ppmLoaderAlpha("gfx/vortexyicon.ppm", &icons[0].width, &icons[0].height);
+	glfwSetWindowIcon(r->window.window, 1, icons);
+	free(icons[0].pixels);
+
 	r->model = p_imat4();
 	r->view = p_imat4();
 	r->proj = p_imat4();
@@ -59,11 +59,12 @@ void r_init(struct Renderer *r, int *running)
 	r->camRot = p_nvec4();
 
 	r->camPos.z = -2.0f;
-	
+
 	r_flatTex(&r->flat, 255, 255, 255, 128, 128);
 	r->tex = &r->flat;
 
 	r_loadTex(&r->tex0, "data/test.ppm");
+	r_loadTex(&r->tex1, "gfx/vortexyicon.ppm");
 }
 
 void r_update(struct Renderer *r)

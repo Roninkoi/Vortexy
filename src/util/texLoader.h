@@ -104,4 +104,26 @@ unsigned char *ppmLoader(char *path, int *texWidth, int *texHeight)
 	return returns;
 }
 
+unsigned char *ppmLoaderAlpha(char *path, int *texWidth, int *texHeight)
+{
+	unsigned char *rgb = ppmLoader(path, texWidth, texHeight);
+
+	unsigned char *rgba = (unsigned char *) malloc(sizeof(unsigned char) * (*texWidth) * (*texHeight) * 4);
+
+	for (int i = 0; i < (*texWidth) * (*texHeight); i += 1) {
+		rgba[i * 4 + 0] = rgb[i * 3 + 0];
+		rgba[i * 4 + 1] = rgb[i * 3 + 1];
+		rgba[i * 4 + 2] = rgb[i * 3 + 2];
+		rgba[i * 4 + 3] = 255;
+
+		if (rgb[i * 3 + 0] == 255 && rgb[i * 3 + 1] == 0 && rgb[i * 3 + 2] == 255) { // bitmasking pink
+			rgba[i * 4 + 3] = 0;
+		}
+	}
+
+	free(rgb);
+
+	return rgba;
+}
+
 #endif

@@ -34,6 +34,12 @@ phys/sys.h
 GL/glew.h
 -
 
+/home/rak/Dropbox/Dev/Vortexy/src/render/texture.c
+texture.h
+/home/rak/Dropbox/Dev/Vortexy/src/render/texture.h
+util/texLoader.h
+/home/rak/Dropbox/Dev/Vortexy/src/render/util/texLoader.h
+
 /home/rak/Dropbox/Dev/Vortexy/src/render/texture.h
 GL/gl.h
 -

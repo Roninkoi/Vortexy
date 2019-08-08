@@ -52,6 +52,7 @@ struct Renderer {
 	Texture *tex;
 
 	Texture tex0;
+	Texture tex1;
 
 	Texture flat;
 
