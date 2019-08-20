@@ -10,6 +10,8 @@ struct Phys {
 	vec4 a; // acceleration
 	vec4 f; // force
 
+	float p; // pressure
+
 	float m; // mass
 };
 

@@ -1,5 +1,4 @@
 #include "sim.h"
-#include "render/input.h"
 
 void s_init(struct Sim *s)
 {
@@ -68,7 +67,7 @@ void s_tick(struct Sim *s)
 {
 	++s->ticks;
 
-	s->time += s->dt; // increment time
+	s->time += (double) s->dt; // increment time
 
 	p_sysTick(&s->sys);
 

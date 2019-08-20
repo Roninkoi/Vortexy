@@ -22,4 +22,4 @@ void main()
 
     if (fCol.a == 0.0f)
         discard;
-} 
+}

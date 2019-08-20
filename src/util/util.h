@@ -21,4 +21,8 @@ extern float *floatCopy(float *arr, int n);
 // arr is freed
 extern int *intAppend(int *arr, int c, int n);
 
+extern int **intsAppend(int **arr, int *c, int n);
+
+extern int contains(int *arr, int c, int n);
+
 #endif

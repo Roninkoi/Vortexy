@@ -9,6 +9,7 @@ CMakeFiles/Vortexy.dir/src/main.c.o: src/phys/obj.h
 CMakeFiles/Vortexy.dir/src/main.c.o: src/phys/phys.h
 CMakeFiles/Vortexy.dir/src/main.c.o: src/phys/sys.h
 CMakeFiles/Vortexy.dir/src/main.c.o: src/phys/volume.h
+CMakeFiles/Vortexy.dir/src/main.c.o: src/render/input.h
 CMakeFiles/Vortexy.dir/src/main.c.o: src/render/render.h
 CMakeFiles/Vortexy.dir/src/main.c.o: src/render/shader.h
 CMakeFiles/Vortexy.dir/src/main.c.o: src/render/texture.h
@@ -68,6 +69,13 @@ CMakeFiles/Vortexy.dir/src/phys/sys.c.o: src/util/timeUtil.h
 CMakeFiles/Vortexy.dir/src/phys/vec.c.o: src/phys/vec.c
 CMakeFiles/Vortexy.dir/src/phys/vec.c.o: src/phys/vec.h
 
+CMakeFiles/Vortexy.dir/src/phys/volume.c.o: src/phys/mat.h
+CMakeFiles/Vortexy.dir/src/phys/volume.c.o: src/phys/mesh.h
+CMakeFiles/Vortexy.dir/src/phys/volume.c.o: src/phys/vec.h
+CMakeFiles/Vortexy.dir/src/phys/volume.c.o: src/phys/volume.c
+CMakeFiles/Vortexy.dir/src/phys/volume.c.o: src/phys/volume.h
+CMakeFiles/Vortexy.dir/src/phys/volume.c.o: src/util/util.h
+
 CMakeFiles/Vortexy.dir/src/render/draw.c.o: src/render/draw.c
 CMakeFiles/Vortexy.dir/src/render/draw.c.o: src/render/render.h
 CMakeFiles/Vortexy.dir/src/render/draw.c.o: src/render/shader.h
@@ -110,6 +118,7 @@ CMakeFiles/Vortexy.dir/src/render/shader.c.o: src/phys/phys.h
 CMakeFiles/Vortexy.dir/src/render/shader.c.o: src/phys/sys.h
 CMakeFiles/Vortexy.dir/src/render/shader.c.o: src/phys/vec.h
 CMakeFiles/Vortexy.dir/src/render/shader.c.o: src/phys/volume.h
+CMakeFiles/Vortexy.dir/src/render/shader.c.o: src/render/input.h
 CMakeFiles/Vortexy.dir/src/render/shader.c.o: src/render/render.h
 CMakeFiles/Vortexy.dir/src/render/shader.c.o: src/render/texture.h
 CMakeFiles/Vortexy.dir/src/render/shader.c.o: src/render/window.h

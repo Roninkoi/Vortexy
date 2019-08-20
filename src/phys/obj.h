@@ -10,8 +10,11 @@ typedef struct {
 	Mesh mesh; // physics mesh
 	Mesh renderMesh;
 
-	struct Face faces;
-	struct Volume volumes;
+	struct Face *faces;
+	int faceNum;
+	
+	struct Volume *volumes;
+	int volNum;
 	
 	Field field;
 	struct Phys phys;

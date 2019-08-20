@@ -106,6 +106,9 @@
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/phys.h">
 			<Option target="Vortexy"/>
 		</Unit>
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/solver.h">
+			<Option target="Vortexy"/>
+		</Unit>
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/sys.c">
 			<Option target="Vortexy"/>
 		</Unit>
@@ -116,6 +119,9 @@
 			<Option target="Vortexy"/>
 		</Unit>
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/vec.h">
+			<Option target="Vortexy"/>
+		</Unit>
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/volume.c">
 			<Option target="Vortexy"/>
 		</Unit>
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/volume.h">

@@ -50,4 +50,8 @@ vec4 p_vec4Cross(vec4 *v0, vec4 *v1);
 
 float p_vec4Dot(vec4 *v0, vec4 *v1);
 
+int p_vec3Equ(vec4 *v0, vec4 *v1);
+
+int p_vec4Equ(vec4 *v0, vec4 *v1);
+
 #endif

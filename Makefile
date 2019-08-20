@@ -339,6 +339,33 @@ src/phys/vec.c.s:
 	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/phys/vec.c.s
 .PHONY : src/phys/vec.c.s
 
+src/phys/volume.o: src/phys/volume.c.o
+
+.PHONY : src/phys/volume.o
+
+# target to build an object file
+src/phys/volume.c.o:
+	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/phys/volume.c.o
+.PHONY : src/phys/volume.c.o
+
+src/phys/volume.i: src/phys/volume.c.i
+
+.PHONY : src/phys/volume.i
+
+# target to preprocess a source file
+src/phys/volume.c.i:
+	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/phys/volume.c.i
+.PHONY : src/phys/volume.c.i
+
+src/phys/volume.s: src/phys/volume.c.s
+
+.PHONY : src/phys/volume.s
+
+# target to generate assembly for a file
+src/phys/volume.c.s:
+	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/phys/volume.c.s
+.PHONY : src/phys/volume.c.s
+
 src/render/draw.o: src/render/draw.c.o
 
 .PHONY : src/render/draw.o
@@ -561,6 +588,9 @@ help:
 	@echo "... src/phys/vec.o"
 	@echo "... src/phys/vec.i"
 	@echo "... src/phys/vec.s"
+	@echo "... src/phys/volume.o"
+	@echo "... src/phys/volume.i"
+	@echo "... src/phys/volume.s"
 	@echo "... src/render/draw.o"
 	@echo "... src/render/draw.i"
 	@echo "... src/render/draw.s"

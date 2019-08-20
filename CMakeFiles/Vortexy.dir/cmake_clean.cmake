@@ -7,6 +7,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/Vortexy.dir/src/phys/phys.c.o"
   "CMakeFiles/Vortexy.dir/src/phys/sys.c.o"
   "CMakeFiles/Vortexy.dir/src/phys/vec.c.o"
+  "CMakeFiles/Vortexy.dir/src/phys/volume.c.o"
   "CMakeFiles/Vortexy.dir/src/render/draw.c.o"
   "CMakeFiles/Vortexy.dir/src/render/render.c.o"
   "CMakeFiles/Vortexy.dir/src/render/shader.c.o"

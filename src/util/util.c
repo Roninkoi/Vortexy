@@ -77,3 +77,27 @@ inline int *intAppend(int *arr, int c, int n)
 
 	return newArr;
 }
+
+inline int **intsAppend(int **arr, int *c, int n)
+{
+	int **newArr = malloc((n + 1) * sizeof(int *));
+
+	memcpy(newArr, arr, n * sizeof(int *));
+
+	newArr[n] = c;
+
+	free(arr);
+
+	return newArr;
+}
+
+inline int contains(int *arr, int c, int n)
+{
+	for (int i = 0; i < n; ++i) {
+		if (arr[i] == c) {
+			return 1;
+		}
+	}
+
+	return 0;
+}

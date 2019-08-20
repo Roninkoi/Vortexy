@@ -36,7 +36,7 @@ unsigned char *ppmLoader(char *path, int *texWidth, int *texHeight)
 	unsigned char *returns = NULL;
 	int ri = 0;
 
-	for (int i = 0; data[i]; ++i) {
+	for (int i = 0; data[i] && i < TEX_MAX; ++i) {
 		int j = 0;
 
 		ds = (dp ? data[i] != ' ' : 1);
@@ -50,8 +50,8 @@ unsigned char *ppmLoader(char *path, int *texWidth, int *texHeight)
 
 		if (c[0] != '#' && c[0] != 'P') {
 			if (width == 0 && height == 0) { // parse dimensions
-				char *ws = (char *) malloc(sizeof(char) * 6);
-				char *hs = (char *) malloc(sizeof(char) * 6);
+				char ws[6];
+				char hs[6];
 
 				int k = 0;
 				for (j = 0; c[j] != ' ' && c[j]; ++j) { // texture width
@@ -74,9 +74,6 @@ unsigned char *ppmLoader(char *path, int *texWidth, int *texHeight)
 
 				returns = (unsigned char *) malloc(sizeof(unsigned char) * width * height * 3);
 
-				free(ws);
-				free(hs);
-
 				dp = 1;
 			}
 			else { // parse texture data
@@ -88,7 +85,8 @@ unsigned char *ppmLoader(char *path, int *texWidth, int *texHeight)
 
 				float val = (float) atoi(c) / maxval;
 
-				returns[ri] = (unsigned char) (val * 255.0f);
+				if (ri < width * height * 3)
+					returns[ri] = (unsigned char) (val * 255.0f);
 
 				++ri;
 			}

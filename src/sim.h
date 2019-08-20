@@ -27,6 +27,7 @@
 #if RENDER_ENABLED == 1
 
 #include "render/render.h"
+#include "render/input.h"
 
 #endif
 
@@ -48,7 +49,7 @@ struct Sim {
 	int rendered;
 	int usegpu;
 
-	float time; // simulated time
+	double time; // simulated time
 	float dt; // time step
 };
 

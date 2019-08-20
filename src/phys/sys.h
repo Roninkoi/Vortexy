@@ -8,6 +8,8 @@
 struct Sys {
 	struct Fluid fluid;
 
+	vec4 ext; // external field
+
 	Obj *objs;
 
 	int objNum;

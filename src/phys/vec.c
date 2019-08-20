@@ -96,3 +96,19 @@ void p_vec4Normalize(vec4 *v)
 {
 	p_vec4Div(v, p_vec4Len(v));
 }
+
+int p_vec4Equ(vec4 *v0, vec4 *v1)
+{
+	if (v0->x == v1->x && v0->y == v1->y && v0->z == v1->z && v0->w == v1->w)
+		return 1;
+	
+	return 0;
+}
+
+int p_vec3Equ(vec4 *v0, vec4 *v1)
+{
+	if (v0->x == v1->x && v0->y == v1->y && v0->z == v1->z)
+		return 1;
+	
+	return 0;
+}

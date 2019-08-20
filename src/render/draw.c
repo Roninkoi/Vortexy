@@ -53,8 +53,8 @@ void r2(struct Renderer *r, struct Sys *s)
 		for (float y = -5.0f; y < 5.0f; y += 0.22f) {
 			for (float z = -5.0f; z < 5.0f; z += 0.22f) {
 				r_drawLine(r, p_vec4(x, y, z, 0.0f), p_vec4(x + 0.1f * sinf(y * 3.5f + r->ticks * 0.002f),
-															   y + 0.1f * sinf(x * 3.5f + r->ticks * 0.002f), z,
-															   0.0f), p_vec4(0.0f, 4.0f, 0.0f, 1.0f));
+															y + 0.1f * sinf(x * 3.5f + r->ticks * 0.002f), z,
+															0.0f), p_vec4(0.0f, 4.0f, 0.0f, 1.0f));
 			}
 		}
 	}
@@ -62,9 +62,51 @@ void r2(struct Renderer *r, struct Sys *s)
 	r_render(r);
 }
 
+void r3(struct Renderer *r, struct Sys *s)
+{
+	//r_update(r);
+
+	r->tex = &r->tex0;
+	for (int i = 0; i < s->objNum; ++i) {
+		//	for (int j = 0; j < s->objs[i].volNum; ++j) {
+				int j = (int)(r->ticks / 3000.0f) % s->objs[i].volNum;
+		for (int k = 0; k < 4; ++k) {
+			vec4 v0 = p_vec4(s->objs[i].volumes[j].faces[k]->verts[0],
+							 s->objs[i].volumes[j].faces[k]->verts[1],
+							 s->objs[i].volumes[j].faces[k]->verts[2], 0.0f);
+			
+			vec4 v1 = p_vec4(s->objs[i].volumes[j].faces[k]->verts[4],
+							 s->objs[i].volumes[j].faces[k]->verts[5],
+							 s->objs[i].volumes[j].faces[k]->verts[6], 0.0f);
+			
+			vec4 v2 = p_vec4(s->objs[i].volumes[j].faces[k]->verts[8],
+							 s->objs[i].volumes[j].faces[k]->verts[9],
+							 s->objs[i].volumes[j].faces[k]->verts[10], 0.0f);
+			
+			r_drawLine(r,
+					   v0,
+					   v1,
+					   p_vec4(10.0f, 0.0f, 0.0f, 1.0f));
+			
+			r_drawLine(r,
+					   v1,
+					   v2,
+					   p_vec4(10.0f, 0.0f, 0.0f, 1.0f));
+			
+			r_drawLine(r,
+					   v2,
+					   v0,
+					   p_vec4(10.0f, 0.0f, 0.0f, 1.0f));
+		}
+		//	}
+	}
+	r_render(r);
+}
+
 void r_draw(struct Renderer *r, struct Sys *s)
 {
 	r1(r, s);
+	r3(r, s);
 }
 
 void r_drawMesh(struct Renderer *r, Mesh *m)

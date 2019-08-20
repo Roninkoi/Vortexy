@@ -1,0 +1,471 @@
+#include "volume.h"
+#include "util/util.h"
+
+// triangle cross product area
+void computeArea(struct Face *f)
+{
+	float vx = f->verts[4] - f->verts[0];
+	float vy = f->verts[5] - f->verts[1];
+	float vz = f->verts[6] - f->verts[2];
+
+	float ux = f->verts[8] - f->verts[0];
+	float uy = f->verts[9] - f->verts[1];
+	float uz = f->verts[10] - f->verts[2];
+
+	float x = vy * uz - vz * uy;
+	float y = -vx * uz + vz * ux;
+	float z = vx * uy - vy * ux;
+	
+	float cross = x * x + y * y + z * z;
+	cross = sqrtf(cross);
+
+	f->area = cross * 0.5f;
+}
+
+// centroid
+void computeFaceCent(struct Face *f)
+{
+	float x = f->verts[0] + f->verts[4] + f->verts[8];
+	float y = f->verts[1] + f->verts[5] + f->verts[9];
+	float z = f->verts[3] + f->verts[6] + f->verts[10];
+
+	x /= 3.0f;
+	y /= 3.0f;
+	z /= 3.0f;
+
+	f->centroid = p_vec4(x, y, z, 0.0f);
+}
+
+// face unit normal
+void computeNormal(struct Face *f)
+{
+	vec4 v = p_vec4(f->verts[4] - f->verts[0],
+					f->verts[5] - f->verts[1],
+					f->verts[6] - f->verts[2],
+					0.0f);
+
+	vec4 u = p_vec4(f->verts[8] - f->verts[0],
+					f->verts[9] - f->verts[1],
+					f->verts[10] - f->verts[2],
+					0.0f);
+
+	f->normal = p_vec4Cross(&v, &u);
+
+	p_vec4Normalize(&f->normal);
+}
+
+// normal and area from normal
+void computeNormalArea(struct Face *f)
+{
+	vec4 v = p_vec4(f->verts[4] - f->verts[0],
+					f->verts[5] - f->verts[1],
+					f->verts[6] - f->verts[2],
+					0.0f);
+
+	vec4 u = p_vec4(f->verts[8] - f->verts[0],
+					f->verts[9] - f->verts[1],
+					f->verts[10] - f->verts[2],
+					0.0f);
+
+	f->normal = p_vec4Cross(&v, &u);
+
+	f->area = p_vec3Len(&f->normal) * 0.5f;
+
+	p_vec4Normalize(&f->normal);
+}
+
+void connects(struct Face *f, int **fl, int *fln, int i, int j)
+{	
+	int onei = -1;
+	int twoi = -1;
+	
+	int onej = -1;
+	int twoj = -1;
+	
+	for (int a = 0; a < 3; ++a) {
+		for (int b = 0; b < 3; ++b) {
+			if (f[i].inds[a] == f[j].inds[b]) {
+				if (onei < 0) {
+					onei = i;
+				}
+				else {
+					twoi = i;
+				}
+				if (onej < 0) {
+					onej = j;
+				}
+				else {
+					twoj = j;
+				}
+			}
+		}
+	}
+	
+	if (onej < 0 || twoj < 0)
+		return;
+	
+	if (onei < 0 || twoi < 0)
+		return;
+	
+	if (!contains(fl[i], onej, fln[i])) {
+		fl[i] = intAppend(fl[i], onej, fln[i]);
+		++fln[i];
+	}
+	
+	if (!contains(fl[i], twoj, fln[i])) {
+		fl[i] = intAppend(fl[i], twoj, fln[i]);
+		++fln[i];
+	}
+	
+	if (!contains(fl[j], onei, fln[j])) {
+		fl[j] = intAppend(fl[j], onei, fln[j]);
+		++fln[j];
+	}
+	
+	if (!contains(fl[j], twoi, fln[j])) {
+		fl[j] = intAppend(fl[j], twoi, fln[j]);
+		++fln[j];
+	}
+}
+
+void computeConnections(struct Face *f, const int fn)
+{
+	int *fl[fn];
+	int fln[fn];
+
+	for (int i = 0; i < fn; ++i) {
+		fl[i] = NULL;
+		fln[i] = 0;
+	}
+	
+	for (int i = 0; i < fn; ++i) {
+		for (int j = i + 1; j < fn; ++j) {
+			connects(f, fl, fln, i, j);
+		}
+	}
+
+	for (int i = 0; i < fn; ++i) {
+		printf("%s ", "CON");
+		for (int j = 0; j < fln[i]; ++j) {
+			printf("%i ", fl[i][j]);
+		}
+		printf("\n");
+	}
+	
+	for (int i = 0; i < fn; ++i) {
+		f[i].connecting = malloc(sizeof(struct Face *) * fln[i]);
+		f[i].conNum = fln[i];
+		
+		for (int j = 0; j < fln[i]; ++j) {
+			f[i].connecting[j] = &f[fl[i][j]];
+		}
+		
+		free(fl[i]);
+	}
+}
+
+struct Face *p_loadFaces(Mesh *m, int *faceNum)
+{
+	struct Face *f;
+	
+	const int fn = m->indNum / 3;
+	*faceNum = fn;
+
+	f = (struct Face *) malloc(sizeof(struct Face) * fn);
+
+	for (int i = 0; i < fn; ++i) {
+		f[i].index = i;
+		f[i].vNum = 0;
+		
+		f[i].inds[0] = m->indData[i * 3 + 0];
+		f[i].inds[1] = m->indData[i * 3 + 1];
+		f[i].inds[2] = m->indData[i * 3 + 2];
+
+		for (int j = 0; j < 3; ++j) {
+			f[i].verts[j * 4 + 0] = m->vertData[f[i].inds[j] * 4 + 0];
+			f[i].verts[j * 4 + 1] = m->vertData[f[i].inds[j] * 4 + 1];
+			f[i].verts[j * 4 + 2] = m->vertData[f[i].inds[j] * 4 + 2];
+			f[i].verts[j * 4 + 3] = m->vertData[f[i].inds[j] * 4 + 3];
+		}
+
+		computeNormalArea(&f[i]);
+
+		computeFaceCent(&f[i]);
+	}
+
+	computeConnections(f, fn);
+
+	return f;
+}
+
+void computeVolume(struct Volume *v)
+{
+	// a . (b x c) / 6
+	vec4 v0 = p_vec4(v->faces[0]->verts[0],
+					 v->faces[0]->verts[1],
+					 v->faces[0]->verts[2], 0.0f);
+	vec4 v1 = p_vec4(v->faces[0]->verts[4],
+					 v->faces[0]->verts[5],
+					 v->faces[0]->verts[6], 0.0f);
+	vec4 v2 = p_vec4(v->faces[0]->verts[8],
+					 v->faces[0]->verts[9],
+					 v->faces[0]->verts[10], 0.0f);
+
+	vec4 u0 = p_vec4(v->faces[1]->verts[0],
+					 v->faces[1]->verts[1],
+					 v->faces[1]->verts[2], 0.0f);
+	vec4 u1 = p_vec4(v->faces[1]->verts[4],
+					 v->faces[1]->verts[5],
+					 v->faces[1]->verts[6], 0.0f);
+	vec4 u2 = p_vec4(v->faces[1]->verts[8],
+					 v->faces[1]->verts[9],
+					 v->faces[1]->verts[10], 0.0f);
+
+	vec4 w;
+
+	if (v->faces[1]->inds[0] != v->faces[0]->inds[0] &&
+		v->faces[1]->inds[0] != v->faces[0]->inds[1] &&
+		v->faces[1]->inds[0] != v->faces[0]->inds[2])
+		w = u0;
+	else if (v->faces[1]->inds[1] != v->faces[0]->inds[0] &&
+			 v->faces[1]->inds[1] != v->faces[0]->inds[1] &&
+			 v->faces[1]->inds[1] != v->faces[0]->inds[2])
+		w = u1;
+	else
+		w = u2;
+	
+	p_vec4Sub(&v1, &v0);
+	p_vec4Sub(&v2, &v0);
+	p_vec4Sub(&w, &v0);
+
+	vec4 cross = p_vec4Cross(&v2, &w);
+	cross.w = 0.0f;
+
+	v->vol = fabs((1.0f / 6.0f) * p_vec4Dot(&v1, &cross));
+
+	printf("V %f\n", v->vol);
+}
+
+void computeVolumeCent(struct Volume *v)
+{
+	float x = 0.0f;
+	float y = 0.0f;
+	float z = 0.0f;
+	
+	for (int i = 0; i < 4; ++i) {
+		x += v->faces[i]->centroid.x;
+		y += v->faces[i]->centroid.y;
+		z += v->faces[i]->centroid.z;
+	}
+
+	x /= 4.0f;
+	y /= 4.0f;
+	z /= 4.0f;
+
+	v->centroid = p_vec4(x, y, z, 0.0f);
+}
+
+int containsFace(struct Face **f, struct Face *c, int n)
+{
+	for (int i = 0; i < n; ++i) {
+		if (f[i] == c) {
+			return 1;
+		}
+	}
+	return 0;
+}
+
+void computeTopology(struct Volume *v, const int vn)
+{
+	for (int i = 0; i < vn; ++i)
+		v[i].neiNum = 0;
+	
+	for (int i = 0; i < vn; ++i) {
+		for (int j = i + 1; j < vn; ++j) {
+			int cf = 0;
+			
+			if (containsFace(v[i].faces, v[j].faces[0], 4)) {
+				cf = 1;
+			}
+			if (containsFace(v[i].faces, v[j].faces[1], 4)) {
+				cf = 1;
+			}
+			if (containsFace(v[i].faces, v[j].faces[2], 4)) {
+				cf = 1;
+			}
+			if (containsFace(v[i].faces, v[j].faces[3], 4)) {
+				cf = 1;
+			}
+
+			for (int k = 0; k < v[i].neiNum; ++k) {
+				if (&v[j] == v[i].neighbours[k]) {
+					cf = 0;
+				}
+			}
+			
+			if (cf) {
+				if (v[i].neiNum < 4) {
+					v[i].neighbours[v[i].neiNum] = &v[j];
+					++v[i].neiNum;
+				}
+				
+				if (v[j].neiNum < 4) {
+					v[j].neighbours[v[j].neiNum] = &v[i];
+					++v[j].neiNum;
+				}
+			}
+		}
+	}
+}
+
+int sharesEdge(struct Face *f0, struct Face *f1, struct Face *f2, struct Face *f3)
+{
+	int a[3] = {-1, -1, -1};
+	int b[3] = {-1, -1, -1};
+
+	int fi = 0;
+	for (int i = 0; i < 3; ++i) {
+		for (int j = 0; j < 3; ++j) {
+			if (f0->inds[i] == f1->inds[j]) {
+				if (a[fi] == -1) {
+					a[fi] = f0->inds[i];
+				}
+				else {
+					b[fi] = f0->inds[i];
+				}
+			}
+		}
+	}
+
+	fi = 1;
+	for (int i = 0; i < 3; ++i) {
+		for (int j = 0; j < 3; ++j) {
+			if (f0->inds[i] == f2->inds[j]) {
+				if (a[fi] == -1) {
+					a[fi] = f0->inds[i];
+				}
+				else {
+					b[fi] = f0->inds[i];
+				}
+			}
+		}
+	}
+
+	fi = 2;
+	for (int i = 0; i < 3; ++i) {
+		for (int j = 0; j < 3; ++j) {
+			if (f0->inds[i] == f3->inds[j]) {
+				if (a[fi] == -1) {
+					a[fi] = f0->inds[i];
+				}
+				else {
+					b[fi] = f0->inds[i];
+				}
+			}
+		}
+	}
+
+	int s = 0;
+
+	if ((a[0] == a[1] && b[0] == b[1]) ||
+		(a[0] == b[1] && b[0] == a[1]))
+		++s;
+	if ((a[0] == a[2] && b[0] == b[2]) ||
+		(a[0] == b[2] && b[0] == a[2]))
+		++s;
+	if ((a[2] == a[1] && b[2] == b[1]) ||
+		(a[2] == b[1] && b[2] == a[1]))
+		++s;
+
+	if (s > 2)
+		return 1;
+	
+	return 0;
+}
+
+struct Volume *p_loadVolumes(struct Face *f, int faceNum, int *volNum)
+{
+	struct Volume *v = NULL;
+	
+	int **vi = NULL;
+	int n = 0;
+	
+	for (int i = 0; i < faceNum; ++i) {
+		for (int j = i + 1; j < faceNum; ++j) {
+			for (int k = j + 1; k < faceNum; ++k) {
+				for (int l = k + 1; l < faceNum; ++l) {
+					int ic = containsFace(f[i].connecting, &f[j], f[i].conNum);
+					ic = ic && containsFace(f[i].connecting, &f[k], f[i].conNum);
+					ic = ic && containsFace(f[i].connecting, &f[l], f[i].conNum);
+					
+					int jc = containsFace(f[j].connecting, &f[i], f[j].conNum);
+					jc = jc && containsFace(f[j].connecting, &f[k], f[j].conNum);
+					jc = jc && containsFace(f[j].connecting, &f[l], f[j].conNum);
+					
+					int kc = containsFace(f[k].connecting, &f[j], f[k].conNum);
+					kc = kc && containsFace(f[k].connecting, &f[i], f[k].conNum);
+					kc = kc && containsFace(f[k].connecting, &f[l], f[k].conNum);
+					
+					int lc = containsFace(f[l].connecting, &f[j], f[l].conNum);
+					lc = lc && containsFace(f[l].connecting, &f[k], f[l].conNum);
+					lc = lc && containsFace(f[l].connecting, &f[i], f[l].conNum);
+
+					if (sharesEdge(&f[i], &f[j], &f[k], &f[l]))
+						continue;
+					
+					if (ic && jc && kc && lc) {
+						int *t = malloc(sizeof(int) * 4);
+						t[0] = i;
+						t[1] = j;
+						t[2] = k;
+						t[3] = l;
+
+						vi = intsAppend(vi, t, n);
+						++n;
+					}
+				}
+			}
+		}
+	}
+
+	*volNum = n;
+
+	v = malloc(sizeof(struct Volume) * n);
+
+	for (int i = 0; i < n; ++i) {
+		v[i].index = i;
+		
+		v[i].faces[0] = &f[vi[i][0]];
+		v[i].faces[1] = &f[vi[i][1]];
+		v[i].faces[2] = &f[vi[i][2]];
+		v[i].faces[3] = &f[vi[i][3]];
+
+		v[i].faces[0]->thisVol[v[i].faces[0]->vNum++];
+		v[i].faces[1]->thisVol[v[i].faces[1]->vNum++];
+		v[i].faces[2]->thisVol[v[i].faces[2]->vNum++];
+		v[i].faces[3]->thisVol[v[i].faces[3]->vNum++];
+
+		computeVolumeCent(&v[i]);
+		computeVolume(&v[i]);
+		
+		free(vi[i]);
+	}
+
+	free(vi);
+	
+	for (int i = 0; i < n; ++i) {
+		printf("VOL %i %i %i %i\n", v[i].faces[0]->index,
+			   v[i].faces[1]->index, v[i].faces[2]->index, v[i].faces[3]->index);
+	}
+
+	computeTopology(v, n);
+
+	for (int i = 0; i < n; ++i) {
+		printf("%s ", "NEI");
+		for (int j = 0; j < v[i].neiNum; ++j)
+			printf("%i ", v[i].neighbours[j]->index);
+		printf("\n");
+	}
+	
+	return v;
+}
