@@ -48,6 +48,11 @@ struct Sim {
 
 	int rendered;
 	int usegpu;
+	int device;
+
+	char *fluidPath;
+	char *meshPath;
+	char *outPath;
 
 	double time; // simulated time
 	float dt; // time step

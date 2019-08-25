@@ -9,6 +9,9 @@ void scrollCallback(GLFWwindow *window, double xoffs, double yoffs) {
 	scroll += -(float) yoffs / 10.0f;
 }
 
+int ctrlDown;
+int shiftDown;
+
 void r_getInput(struct Renderer *r, struct Sys* s)
 {
 	glfwSetScrollCallback(r->window.window, scrollCallback);
@@ -70,6 +73,25 @@ void r_getInput(struct Renderer *r, struct Sys* s)
 	}
 	if (glfwGetKey(r->window.window, GLFW_KEY_RIGHT)) {
 		r->camRot.y -= rs;
+	}
+	
+	if (glfwGetKey(r->window.window, GLFW_KEY_LEFT_CONTROL)) {
+		if (!ctrlDown) {
+			ctrlDown = 1;
+			--s->selected;
+		}
+	}
+	else {
+		ctrlDown = 0;
+	}
+	if (glfwGetKey(r->window.window, GLFW_KEY_LEFT_SHIFT)) {
+		if (!shiftDown) {
+			shiftDown = 1;
+			++s->selected;
+		}
+	}
+	else {
+		shiftDown = 0;
 	}
 }
 

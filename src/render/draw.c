@@ -23,6 +23,7 @@ void r1(struct Renderer *r, struct Sys *s)
 
 	glDisable(GL_DEPTH_TEST);
 	for (int i = 0; i < s->objNum; ++i) {
+		p_meshSetCol(&s->objs[i].mesh, 0.0f, 0.0f, 0.0f, 1.0f);
 		r_drawWireMesh(r, &s->objs[i].mesh);
 	}
 
@@ -68,37 +69,74 @@ void r3(struct Renderer *r, struct Sys *s)
 
 	r->tex = &r->tex0;
 	for (int i = 0; i < s->objNum; ++i) {
-		//	for (int j = 0; j < s->objs[i].volNum; ++j) {
-				int j = (int)(r->ticks / 3000.0f) % s->objs[i].volNum;
-		for (int k = 0; k < 4; ++k) {
-			vec4 v0 = p_vec4(s->objs[i].volumes[j].faces[k]->verts[0],
-							 s->objs[i].volumes[j].faces[k]->verts[1],
-							 s->objs[i].volumes[j].faces[k]->verts[2], 0.0f);
+		int l = (int)(r->ticks / 1000.0f) % s->objs[i].volNum;
+		//l = s->selected;
+		for (int j = 0; j < l + 1; ++j) {
+			for (int k = 0; k < 4; ++k) {
+				int cur = l == j;
+				vec4 v0 = p_vec4(s->objs[i].volumes[j].faces[k]->verts[0],
+								 s->objs[i].volumes[j].faces[k]->verts[1],
+								 s->objs[i].volumes[j].faces[k]->verts[2], 0.0f);
 			
-			vec4 v1 = p_vec4(s->objs[i].volumes[j].faces[k]->verts[4],
-							 s->objs[i].volumes[j].faces[k]->verts[5],
-							 s->objs[i].volumes[j].faces[k]->verts[6], 0.0f);
+				vec4 v1 = p_vec4(s->objs[i].volumes[j].faces[k]->verts[4],
+								 s->objs[i].volumes[j].faces[k]->verts[5],
+								 s->objs[i].volumes[j].faces[k]->verts[6], 0.0f);
 			
-			vec4 v2 = p_vec4(s->objs[i].volumes[j].faces[k]->verts[8],
-							 s->objs[i].volumes[j].faces[k]->verts[9],
-							 s->objs[i].volumes[j].faces[k]->verts[10], 0.0f);
+				vec4 v2 = p_vec4(s->objs[i].volumes[j].faces[k]->verts[8],
+								 s->objs[i].volumes[j].faces[k]->verts[9],
+								 s->objs[i].volumes[j].faces[k]->verts[10], 0.0f);
 			
-			r_drawLine(r,
-					   v0,
-					   v1,
-					   p_vec4(10.0f, 0.0f, 0.0f, 1.0f));
+				vec4 n = p_vec4Copy3(&s->objs[i].volumes[j].faces[k]->centroid);
+				vec4 nn = p_vec4Copy3(&s->objs[i].volumes[j].faces[k]->normal);
+				p_vec4Mul(&nn, 0.2f);
+				p_vec4Add(&n, &nn);
 			
-			r_drawLine(r,
-					   v1,
-					   v2,
-					   p_vec4(10.0f, 0.0f, 0.0f, 1.0f));
+				r_drawLine(r,
+						   v0,
+						   v1,
+						   p_vec4(10.0f, 10.0f * cur, 0.0f, 1.0f));
 			
-			r_drawLine(r,
-					   v2,
-					   v0,
-					   p_vec4(10.0f, 0.0f, 0.0f, 1.0f));
+				r_drawLine(r,
+						   v1,
+						   v2,
+						   p_vec4(10.0f, 10.0f * cur, 0.0f, 1.0f));
+			
+				r_drawLine(r,
+						   v2,
+						   v0,
+						   p_vec4(10.0f, 10.0f * cur, 0.0f, 1.0f));
+			
+				/*r_drawLine(r,
+				  s->objs[i].volumes[j].faces[k]->centroid,
+				  n,
+				  p_vec4(0.0f, 10.0f, 0.0f, 1.0f));*/
+			}
 		}
-		//	}
+	}
+	r_render(r);
+}
+
+void r4(struct Renderer *r, struct Sys *s)
+{
+	//r_update(r);
+
+	r->tex = &r->tex0;
+	for (int i = 0; i < s->objNum; ++i) {
+		for (int j = 0; j < s->objs[i].volNum; ++j) {
+			for (int k = 0; k < 4; ++k) {
+				vec4 n = p_vec4Copy3(&s->objs[i].volumes[j].faces[k]->centroid);
+				vec4 nn = p_vec4Copy3(&s->objs[i].volumes[j].faces[k]->mFlux);
+
+				float l = p_vec4Len(&nn);
+				
+				p_vec4Add(&nn, &n);
+			
+				r_drawLine(r,
+						   n,
+						   nn,
+						   p_vec4(10.0f * l, 10.0f * fmax(0.0f, 1.0f - l), 0.0f, 1.0f));
+			}
+		}
 	}
 	r_render(r);
 }
@@ -106,6 +144,7 @@ void r3(struct Renderer *r, struct Sys *s)
 void r_draw(struct Renderer *r, struct Sys *s)
 {
 	r1(r, s);
+	//r4(r, s);
 	r3(r, s);
 }
 

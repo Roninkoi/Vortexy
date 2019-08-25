@@ -13,6 +13,9 @@ struct Phys {
 	float p; // pressure
 
 	float m; // mass
+	float rho; // density
+	
+	float T; // temperature
 };
 
 void p_physInit(struct Phys* p);

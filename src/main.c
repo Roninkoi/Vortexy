@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 
 	// load simulation configuration
 	simParser(&sim, cfg);
-
+	
 	// start
 	s_run(&sim);
 

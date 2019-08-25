@@ -27,51 +27,47 @@ void computeFaceCent(struct Face *f)
 {
 	float x = f->verts[0] + f->verts[4] + f->verts[8];
 	float y = f->verts[1] + f->verts[5] + f->verts[9];
-	float z = f->verts[3] + f->verts[6] + f->verts[10];
+	float z = f->verts[2] + f->verts[6] + f->verts[10];
 
 	x /= 3.0f;
 	y /= 3.0f;
 	z /= 3.0f;
 
-	f->centroid = p_vec4(x, y, z, 0.0f);
+	f->centroid = p_vec3(x, y, z);
 }
 
 // face unit normal
 void computeNormal(struct Face *f)
 {
-	vec4 v = p_vec4(f->verts[4] - f->verts[0],
+	vec3 v = p_vec3(f->verts[4] - f->verts[0],
 					f->verts[5] - f->verts[1],
-					f->verts[6] - f->verts[2],
-					0.0f);
+					f->verts[6] - f->verts[2]);
 
-	vec4 u = p_vec4(f->verts[8] - f->verts[0],
+	vec3 u = p_vec3(f->verts[8] - f->verts[0],
 					f->verts[9] - f->verts[1],
-					f->verts[10] - f->verts[2],
-					0.0f);
+					f->verts[10] - f->verts[2]);
 
-	f->normal = p_vec4Cross(&v, &u);
+	f->normal = p_vec3Cross(&v, &u);
 
-	p_vec4Normalize(&f->normal);
+	p_vec3Normalize(&f->normal);
 }
 
 // normal and area from normal
 void computeNormalArea(struct Face *f)
 {
-	vec4 v = p_vec4(f->verts[4] - f->verts[0],
+	vec3 v = p_vec3(f->verts[4] - f->verts[0],
 					f->verts[5] - f->verts[1],
-					f->verts[6] - f->verts[2],
-					0.0f);
+					f->verts[6] - f->verts[2]);
 
-	vec4 u = p_vec4(f->verts[8] - f->verts[0],
+	vec3 u = p_vec3(f->verts[8] - f->verts[0],
 					f->verts[9] - f->verts[1],
-					f->verts[10] - f->verts[2],
-					0.0f);
+					f->verts[10] - f->verts[2]);
 
-	f->normal = p_vec4Cross(&v, &u);
+	f->normal = p_vec3Cross(&v, &u);
 
 	f->area = p_vec3Len(&f->normal) * 0.5f;
 
-	p_vec4Normalize(&f->normal);
+	p_vec3Normalize(&f->normal);
 }
 
 void connects(struct Face *f, int **fl, int *fln, int i, int j)
@@ -171,6 +167,8 @@ struct Face *p_loadFaces(Mesh *m, int *faceNum)
 	const int fn = m->indNum / 3;
 	*faceNum = fn;
 
+	printf("%s %i\n", "FACES", fn);
+
 	f = (struct Face *) malloc(sizeof(struct Face) * fn);
 
 	for (int i = 0; i < fn; ++i) {
@@ -201,27 +199,27 @@ struct Face *p_loadFaces(Mesh *m, int *faceNum)
 void computeVolume(struct Volume *v)
 {
 	// a . (b x c) / 6
-	vec4 v0 = p_vec4(v->faces[0]->verts[0],
+	vec3 v0 = p_vec3(v->faces[0]->verts[0],
 					 v->faces[0]->verts[1],
-					 v->faces[0]->verts[2], 0.0f);
-	vec4 v1 = p_vec4(v->faces[0]->verts[4],
+					 v->faces[0]->verts[2]);
+	vec3 v1 = p_vec3(v->faces[0]->verts[4],
 					 v->faces[0]->verts[5],
-					 v->faces[0]->verts[6], 0.0f);
-	vec4 v2 = p_vec4(v->faces[0]->verts[8],
+					 v->faces[0]->verts[6]);
+	vec3 v2 = p_vec3(v->faces[0]->verts[8],
 					 v->faces[0]->verts[9],
-					 v->faces[0]->verts[10], 0.0f);
+					 v->faces[0]->verts[10]);
 
-	vec4 u0 = p_vec4(v->faces[1]->verts[0],
+	vec3 u0 = p_vec3(v->faces[1]->verts[0],
 					 v->faces[1]->verts[1],
-					 v->faces[1]->verts[2], 0.0f);
-	vec4 u1 = p_vec4(v->faces[1]->verts[4],
-					 v->faces[1]->verts[5],
-					 v->faces[1]->verts[6], 0.0f);
-	vec4 u2 = p_vec4(v->faces[1]->verts[8],
+					 v->faces[1]->verts[2]);
+	vec3 u1 = p_vec3(v->faces[1]->verts[4],
+	 				 v->faces[1]->verts[5],
+					 v->faces[1]->verts[6]);
+	vec3 u2 = p_vec3(v->faces[1]->verts[8],
 					 v->faces[1]->verts[9],
-					 v->faces[1]->verts[10], 0.0f);
+					 v->faces[1]->verts[10]);
 
-	vec4 w;
+	vec3 w;
 
 	if (v->faces[1]->inds[0] != v->faces[0]->inds[0] &&
 		v->faces[1]->inds[0] != v->faces[0]->inds[1] &&
@@ -234,14 +232,13 @@ void computeVolume(struct Volume *v)
 	else
 		w = u2;
 	
-	p_vec4Sub(&v1, &v0);
-	p_vec4Sub(&v2, &v0);
-	p_vec4Sub(&w, &v0);
+	p_vec3Sub(&v1, &v0);
+	p_vec3Sub(&v2, &v0);
+	p_vec3Sub(&w, &v0);
 
-	vec4 cross = p_vec4Cross(&v2, &w);
-	cross.w = 0.0f;
+	vec3 cross = p_vec3Cross(&v2, &w);
 
-	v->vol = fabs((1.0f / 6.0f) * p_vec4Dot(&v1, &cross));
+	v->vol = fabs((1.0f / 6.0f) * p_vec3Dot(&v1, &cross));
 
 	printf("V %f\n", v->vol);
 }
@@ -262,7 +259,7 @@ void computeVolumeCent(struct Volume *v)
 	y /= 4.0f;
 	z /= 4.0f;
 
-	v->centroid = p_vec4(x, y, z, 0.0f);
+	v->centroid = p_vec3(x, y, z);
 }
 
 int containsFace(struct Face **f, struct Face *c, int n)
@@ -336,7 +333,7 @@ int sharesEdge(struct Face *f0, struct Face *f1, struct Face *f2, struct Face *f
 			}
 		}
 	}
-
+	
 	fi = 1;
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
@@ -389,43 +386,43 @@ struct Volume *p_loadVolumes(struct Face *f, int faceNum, int *volNum)
 	
 	int **vi = NULL;
 	int n = 0;
+
+	printf("Starting volume (%i) computation...\n", faceNum);
 	
 	for (int i = 0; i < faceNum; ++i) {
 		for (int j = i + 1; j < faceNum; ++j) {
+			if (!containsFace(f[i].connecting, &f[j], f[i].conNum))
+				continue;
 			for (int k = j + 1; k < faceNum; ++k) {
+				if (!containsFace(f[i].connecting, &f[k], f[i].conNum))
+					continue;
+				if (!containsFace(f[j].connecting, &f[k], f[j].conNum))
+					continue;
 				for (int l = k + 1; l < faceNum; ++l) {
-					int ic = containsFace(f[i].connecting, &f[j], f[i].conNum);
-					ic = ic && containsFace(f[i].connecting, &f[k], f[i].conNum);
-					ic = ic && containsFace(f[i].connecting, &f[l], f[i].conNum);
+					if (!containsFace(f[i].connecting, &f[l], f[i].conNum))
+						continue;
 					
-					int jc = containsFace(f[j].connecting, &f[i], f[j].conNum);
-					jc = jc && containsFace(f[j].connecting, &f[k], f[j].conNum);
-					jc = jc && containsFace(f[j].connecting, &f[l], f[j].conNum);
+					if (!containsFace(f[j].connecting, &f[l], f[j].conNum))
+						continue;
 					
-					int kc = containsFace(f[k].connecting, &f[j], f[k].conNum);
-					kc = kc && containsFace(f[k].connecting, &f[i], f[k].conNum);
-					kc = kc && containsFace(f[k].connecting, &f[l], f[k].conNum);
+					if (!containsFace(f[k].connecting, &f[l], f[k].conNum))
+						continue;
 					
-					int lc = containsFace(f[l].connecting, &f[j], f[l].conNum);
-					lc = lc && containsFace(f[l].connecting, &f[k], f[l].conNum);
-					lc = lc && containsFace(f[l].connecting, &f[i], f[l].conNum);
-
 					if (sharesEdge(&f[i], &f[j], &f[k], &f[l]))
 						continue;
 					
-					if (ic && jc && kc && lc) {
-						int *t = malloc(sizeof(int) * 4);
-						t[0] = i;
-						t[1] = j;
-						t[2] = k;
-						t[3] = l;
+					int *t = malloc(sizeof(int) * 4);
+					t[0] = i;
+					t[1] = j;
+					t[2] = k;
+					t[3] = l;
 
-						vi = intsAppend(vi, t, n);
-						++n;
-					}
+					vi = intsAppend(vi, t, n);
+					++n;
 				}
 			}
 		}
+		printf("%i / %i\n", i, faceNum);
 	}
 
 	*volNum = n;

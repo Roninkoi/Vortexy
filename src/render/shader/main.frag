@@ -15,7 +15,7 @@ void main()
 {
     fCol = texture(tex, vTex.st) * vCol;
 
-    fCol /= max(exp(vPos.z*0.5f), 1.0f);
+    fCol /= max(exp(vPos.z*0.4f), 1.0f);
 
     if (TRICOL == 1)
         fCol *= float(gl_PrimitiveID % 4 + 1) * 0.25f * 2.0f;

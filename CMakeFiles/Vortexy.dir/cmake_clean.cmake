@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/Vortexy.dir/src/main.c.o"
   "CMakeFiles/Vortexy.dir/src/phys/field.c.o"
+  "CMakeFiles/Vortexy.dir/src/phys/fluid.c.o"
   "CMakeFiles/Vortexy.dir/src/phys/mat.c.o"
   "CMakeFiles/Vortexy.dir/src/phys/mesh.c.o"
   "CMakeFiles/Vortexy.dir/src/phys/obj.c.o"

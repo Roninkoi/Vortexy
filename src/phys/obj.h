@@ -2,9 +2,9 @@
 #define OBJ_H
 
 #include "mesh.h"
-#include "field.h"
 #include "phys.h"
 #include "volume.h"
+#include "fluid.h"
 
 typedef struct {
 	Mesh mesh; // physics mesh
@@ -15,11 +15,11 @@ typedef struct {
 	
 	struct Volume *volumes;
 	int volNum;
-	
-	Field field;
+
+	struct Fluid fluid;
 	struct Phys phys;
 } Obj;
 
-void p_loadObj(Obj *o, char *path);
+void p_loadObj(Obj *o, char *meshPath, char *fluidPath);
 
 #endif

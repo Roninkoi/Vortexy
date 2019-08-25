@@ -79,6 +79,9 @@
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/field.h">
 			<Option target="Vortexy"/>
 		</Unit>
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/fluid.c">
+			<Option target="Vortexy"/>
+		</Unit>
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/fluid.h">
 			<Option target="Vortexy"/>
 		</Unit>

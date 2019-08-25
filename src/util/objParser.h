@@ -17,39 +17,8 @@ Mesh objParser(char *path, int optimize, int loadTex)
 
 	p_meshInit(&mesh);
 
-	FILE *fp;
-	char *data;
-	size_t fsize;
-
-	fp = fopen(path, "r");
-
-	if (!fp) {
-		exit(1);
-	}
-
-	data = (char *) malloc(OBJ_MAX);
-	fsize = fread(data, 1, OBJ_MAX, fp);
-
-	fclose(fp);
-
-	char **words = calloc(OBJ_MAX, sizeof(char *));
-
-	for (int i = 0; i < OBJ_MAX; ++i) {
-		words[i] = calloc(1, sizeof(char));
-	}
-
 	int wordNum = 0;
-
-	for (int i = 0; data[i]; ++i) { // separate into words
-		char read = data[i];
-
-		if (read != ' ' && read != '\n' && read != '\r') {
-			words[wordNum] = strAppend(words[wordNum], read);
-		}
-		else {
-			++wordNum;
-		}
-	}
+	char **words = wordsFromFile(path, OBJ_MAX, &wordNum);
 
 	float *verts = NULL;
 	float *texes = NULL;
@@ -71,25 +40,20 @@ Mesh objParser(char *path, int optimize, int loadTex)
 			float v1 = atof(words[i + 2]);
 			float v2 = atof(words[i + 3]);
 
-			verts = floatAppend(verts, v0, vn);
-			++vn;
+			verts = floatAppend(verts, v0, vn++);
 
-			verts = floatAppend(verts, v1, vn);
-			++vn;
+			verts = floatAppend(verts, v1, vn++);
 
-			verts = floatAppend(verts, v2, vn);
-			++vn;
+			verts = floatAppend(verts, v2, vn++);
 		}
 
 		if (strcmp(words[i], "vt") == 0) { // texes
 			float v0 = atof(words[i + 1]);
 			float v1 = atof(words[i + 2]);
 
-			texes = floatAppend(texes, v0, tn);
-			++tn;
+			texes = floatAppend(texes, v0, tn++);
 
-			texes = floatAppend(texes, v1, tn);
-			++tn;
+			texes = floatAppend(texes, v1, tn++);
 		}
 
 		if (strcmp(words[i], "f") == 0) { // faces
@@ -137,25 +101,18 @@ Mesh objParser(char *path, int optimize, int loadTex)
 				}
 
 				if (exists) {
-					mesh.indData = intAppend(mesh.indData, t, mesh.indNum);
-					++mesh.indNum;
+					mesh.indData = intAppend(mesh.indData, t, mesh.indNum++);
 				}
 				else {
-					vertis = intAppend(vertis, vi, vin);
-					++vin;
-					texis = intAppend(texis, ti, tin);
-					++tin;
+					vertis = intAppend(vertis, vi, vin++);
+					texis = intAppend(texis, ti, tin++);
 
 					int l = vin - 1;
 
-					mesh.vertData = floatAppend(mesh.vertData, verts[vertis[l] * 3], mesh.vertNum);
-					++mesh.vertNum;
-					mesh.vertData = floatAppend(mesh.vertData, verts[vertis[l] * 3 + 1], mesh.vertNum);
-					++mesh.vertNum;
-					mesh.vertData = floatAppend(mesh.vertData, verts[vertis[l] * 3 + 2], mesh.vertNum);
-					++mesh.vertNum;
-					mesh.vertData = floatAppend(mesh.vertData, 0.0f, mesh.vertNum);
-					++mesh.vertNum;
+					mesh.vertData = floatAppend(mesh.vertData, verts[vertis[l] * 3], mesh.vertNum++);
+					mesh.vertData = floatAppend(mesh.vertData, verts[vertis[l] * 3 + 1], mesh.vertNum++);
+					mesh.vertData = floatAppend(mesh.vertData, verts[vertis[l] * 3 + 2], mesh.vertNum++);
+					mesh.vertData = floatAppend(mesh.vertData, 0.0f, mesh.vertNum++);
 
 					float tdx = 0.0f;
 					float tdy = 0.0f;
@@ -165,52 +122,37 @@ Mesh objParser(char *path, int optimize, int loadTex)
 						tdy = texes[texis[l] * 2 + 1]; // -1?
 					}
 
-					mesh.texData = floatAppend(mesh.texData, tdx, mesh.texNum);
-					++mesh.texNum;
-					mesh.texData = floatAppend(mesh.texData, tdy, mesh.texNum);
-					++mesh.texNum;
-					mesh.texData = floatAppend(mesh.texData, 1.0f, mesh.texNum);
-					++mesh.texNum;
-					mesh.texData = floatAppend(mesh.texData, 1.0f, mesh.texNum);
-					++mesh.texNum;
+					mesh.texData = floatAppend(mesh.texData, tdx, mesh.texNum++);
+					mesh.texData = floatAppend(mesh.texData, tdy, mesh.texNum++);
+					mesh.texData = floatAppend(mesh.texData, 1.0f, mesh.texNum++);
+					mesh.texData = floatAppend(mesh.texData, 1.0f, mesh.texNum++);
 
-					mesh.normData = floatAppend(mesh.normData, 0.0f, mesh.normNum);
-					++mesh.normNum;
-					mesh.normData = floatAppend(mesh.normData, 0.0f, mesh.normNum);
-					++mesh.normNum;
-					mesh.normData = floatAppend(mesh.normData, 0.0f, mesh.normNum);
-					++mesh.normNum;
-					mesh.normData = floatAppend(mesh.normData, 0.0f, mesh.normNum);
-					++mesh.normNum;
+					mesh.normData = floatAppend(mesh.normData, 0.0f, mesh.normNum++);
+					mesh.normData = floatAppend(mesh.normData, 0.0f, mesh.normNum++);
+					mesh.normData = floatAppend(mesh.normData, 0.0f, mesh.normNum++);
+					mesh.normData = floatAppend(mesh.normData, 0.0f, mesh.normNum++);
 
-					mesh.colData = floatAppend(mesh.colData, 1.0f, mesh.colNum);
-					++mesh.colNum;
-					mesh.colData = floatAppend(mesh.colData, 1.0f, mesh.colNum);
-					++mesh.colNum;
-					mesh.colData = floatAppend(mesh.colData, 1.0f, mesh.colNum);
-					++mesh.colNum;
-					mesh.colData = floatAppend(mesh.colData, 1.0f, mesh.colNum);
-					++mesh.colNum;
+					mesh.colData = floatAppend(mesh.colData, 1.0f, mesh.colNum++);
+					mesh.colData = floatAppend(mesh.colData, 1.0f, mesh.colNum++);
+					mesh.colData = floatAppend(mesh.colData, 1.0f, mesh.colNum++);
+					mesh.colData = floatAppend(mesh.colData, 1.0f, mesh.colNum++);
 
-					mesh.indData = intAppend(mesh.indData, l, mesh.indNum);
-					++mesh.indNum;
+					mesh.indData = intAppend(mesh.indData, l, mesh.indNum++);
 				}
 			}
 		}
 	}
 
-	for (int i = 0; i < wordNum; ++i) {
+	for (int i = 0; i < wordNum; ++i)
 		free(words[i]);
-	}
 
+	free(words);
+	
 	free(vertis);
 	free(texis);
 
 	free(verts);
 	free(texes);
-
-	free(words);
-	free(data);
 
 	return mesh;
 }

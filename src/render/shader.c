@@ -14,6 +14,7 @@ void r_loadShader(struct Shader *s, char *vertPath, char *fragPath)
 	vert_fp = fopen(vertPath, "r");
 
 	if (!vert_fp) {
+		printf("Not found: %s\n", vertPath);
 		exit(1);
 	}
 
@@ -30,6 +31,7 @@ void r_loadShader(struct Shader *s, char *vertPath, char *fragPath)
 	frag_fp = fopen(fragPath, "r");
 
 	if (!frag_fp) {
+		printf("Not found: %s\n", fragPath);
 		exit(1);
 	}
 

@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 
 #include "util.h"
@@ -100,4 +101,61 @@ inline int contains(int *arr, int c, int n)
 	}
 
 	return 0;
+}
+
+inline char **wordsFromFile(char *path, int size, int *wordNum)
+{
+	FILE *fp;
+	char *data;
+	size_t fsize;
+
+	fp = fopen(path, "r");
+
+	if (!fp) {
+		printf("Not found: %s\n", path);
+		exit(1);
+	}
+
+	data = calloc(size, sizeof(char *));
+	fsize = fread(data, 1, size, fp);
+
+	fclose(fp);
+
+	char **words = calloc(size, sizeof(char *));
+
+	for (int i = 0; i < size; ++i) {
+		words[i] = calloc(1, sizeof(char));
+	}
+
+	int wn = 0;
+	int comment = 0;
+
+	for (int i = 0; data[i]; ++i) { // separate into words
+		char read = data[i];
+
+		if (comment && (read == '\n' || read == '\r')) {
+			comment = 0;
+		}
+		
+		if (read == '#') {
+			comment = 1;
+		}
+		
+		if (comment) {
+			continue;
+		}
+
+		if (read != ' ' && read != '\n' && read != '\r') {
+			words[wn] = strAppend(words[wn], read);
+		}
+		else {
+			++wn;
+		}
+	}
+
+	free(data);
+
+	*wordNum = wn;
+	
+	return words;
 }

@@ -7,6 +7,10 @@ typedef enum {
 	false, true
 } bool;
 
+#define min(a, b) (a < b ? a : b)
+
+#define max(a, b) (a > b ? a : b)
+
 // str is dynamically allocated and is freed
 extern char *strAppend(char *str, char c);
 
@@ -24,5 +28,7 @@ extern int *intAppend(int *arr, int c, int n);
 extern int **intsAppend(int **arr, int *c, int n);
 
 extern int contains(int *arr, int c, int n);
+
+extern char **wordsFromFile(char *path, int size, int *wordNum);
 
 #endif

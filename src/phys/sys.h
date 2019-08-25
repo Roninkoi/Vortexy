@@ -14,10 +14,16 @@ struct Sys {
 
 	int objNum;
 	int ticks;
+
+	int selected;
 };
 
 void p_sysInit(struct Sys *s);
 
 void p_sysTick(struct Sys *s);
+
+void p_sysStart(struct Sys *s);
+
+void p_addObj(struct Sys *s, char *meshPath, char *fluidPath);
 
 #endif

@@ -7,4 +7,6 @@ struct Fluid {
 	float mu; // dynamic viscosity
 };
 
+void p_loadFluid(struct Fluid *f, char *path);
+
 #endif

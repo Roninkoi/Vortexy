@@ -2,6 +2,7 @@
 #define VOLUME_H
 
 #include "mesh.h"
+#include "phys.h"
 
 struct Volume;
 
@@ -12,10 +13,16 @@ struct Face { // triangle
 	//int vertNum;
 	//int indNum;
 
-	vec4 flux; // flux though face
+	vec3 mFlux; // flux though face
+	vec3 vGrad; // gradients
+	vec3 pGrad;
 
-	vec4 normal;
-	vec4 centroid;
+	float initial;
+	float constant;
+	int boundary;
+
+	vec3 normal;
+	vec3 centroid;
 
 	float area;
 
@@ -35,12 +42,13 @@ struct Volume { // tetrahedron
 	int neiNum;
 	
 	//int faceNum;
+	struct Phys phys;
 
 	int index;
 
 	float vol;
 
-	vec4 centroid;
+	vec3 centroid;
 };
 
 // allocates faces which are returned

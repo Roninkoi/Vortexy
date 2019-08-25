@@ -17,10 +17,11 @@ unsigned char *ppmLoader(char *path, int *texWidth, int *texHeight)
 	fp = fopen(path, "r");
 
 	if (!fp) {
+		printf("Not found: %s\n", path);
 		exit(1);
 	}
 
-	data = (char *) malloc(TEX_MAX);
+	data = calloc(TEX_MAX, sizeof(char *));
 	fsize = fread(data, 1, TEX_MAX, fp);
 
 	fclose(fp);
