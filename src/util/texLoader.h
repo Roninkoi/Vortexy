@@ -1,9 +1,9 @@
 #ifndef TEX_LOADER_H
 #define TEX_LOADER_H
 
+#include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
-
-#include "phys/field.h"
 
 #define TEX_MAX 0x100000
 
@@ -94,7 +94,7 @@ unsigned char *ppmLoader(char *path, int *texWidth, int *texHeight)
 		}
 	}
 
-	free(data); // corrupted unsorted chunks
+	free(data);
 	free(c);
 
 	*texWidth = width;
@@ -103,7 +103,7 @@ unsigned char *ppmLoader(char *path, int *texWidth, int *texHeight)
 	return returns;
 }
 
-unsigned char *ppmLoaderAlpha(char *path, int *texWidth, int *texHeight)
+unsigned char *ppmLoaderAlpha(char *path, int *texWidth, int *texHeight, int r, int g, int b)
 {
 	unsigned char *rgb = ppmLoader(path, texWidth, texHeight);
 
@@ -115,7 +115,7 @@ unsigned char *ppmLoaderAlpha(char *path, int *texWidth, int *texHeight)
 		rgba[i * 4 + 2] = rgb[i * 3 + 2];
 		rgba[i * 4 + 3] = 255;
 
-		if (rgb[i * 3 + 0] == 255 && rgb[i * 3 + 1] == 0 && rgb[i * 3 + 2] == 255) { // bitmasking pink
+		if (rgb[i * 3 + 0] == r && rgb[i * 3 + 1] == g && rgb[i * 3 + 2] == b) { // bitmasking
 			rgba[i * 4 + 3] = 0;
 		}
 	}

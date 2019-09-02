@@ -70,22 +70,9 @@ CMakeFiles/Vortexy.dir/src/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Vortexy.dir/src/main.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/rak/Dropbox/Dev/Vortexy/src/main.c -o CMakeFiles/Vortexy.dir/src/main.c.s
 
-CMakeFiles/Vortexy.dir/src/phys/field.c.o: CMakeFiles/Vortexy.dir/flags.make
-CMakeFiles/Vortexy.dir/src/phys/field.c.o: src/phys/field.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/Vortexy.dir/src/phys/field.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Vortexy.dir/src/phys/field.c.o   -c /home/rak/Dropbox/Dev/Vortexy/src/phys/field.c
-
-CMakeFiles/Vortexy.dir/src/phys/field.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Vortexy.dir/src/phys/field.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/rak/Dropbox/Dev/Vortexy/src/phys/field.c > CMakeFiles/Vortexy.dir/src/phys/field.c.i
-
-CMakeFiles/Vortexy.dir/src/phys/field.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Vortexy.dir/src/phys/field.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/rak/Dropbox/Dev/Vortexy/src/phys/field.c -o CMakeFiles/Vortexy.dir/src/phys/field.c.s
-
 CMakeFiles/Vortexy.dir/src/phys/fluid.c.o: CMakeFiles/Vortexy.dir/flags.make
 CMakeFiles/Vortexy.dir/src/phys/fluid.c.o: src/phys/fluid.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/Vortexy.dir/src/phys/fluid.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/Vortexy.dir/src/phys/fluid.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Vortexy.dir/src/phys/fluid.c.o   -c /home/rak/Dropbox/Dev/Vortexy/src/phys/fluid.c
 
 CMakeFiles/Vortexy.dir/src/phys/fluid.c.i: cmake_force
@@ -96,22 +83,9 @@ CMakeFiles/Vortexy.dir/src/phys/fluid.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Vortexy.dir/src/phys/fluid.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/rak/Dropbox/Dev/Vortexy/src/phys/fluid.c -o CMakeFiles/Vortexy.dir/src/phys/fluid.c.s
 
-CMakeFiles/Vortexy.dir/src/phys/mat.c.o: CMakeFiles/Vortexy.dir/flags.make
-CMakeFiles/Vortexy.dir/src/phys/mat.c.o: src/phys/mat.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/Vortexy.dir/src/phys/mat.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Vortexy.dir/src/phys/mat.c.o   -c /home/rak/Dropbox/Dev/Vortexy/src/phys/mat.c
-
-CMakeFiles/Vortexy.dir/src/phys/mat.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Vortexy.dir/src/phys/mat.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/rak/Dropbox/Dev/Vortexy/src/phys/mat.c > CMakeFiles/Vortexy.dir/src/phys/mat.c.i
-
-CMakeFiles/Vortexy.dir/src/phys/mat.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Vortexy.dir/src/phys/mat.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/rak/Dropbox/Dev/Vortexy/src/phys/mat.c -o CMakeFiles/Vortexy.dir/src/phys/mat.c.s
-
 CMakeFiles/Vortexy.dir/src/phys/mesh.c.o: CMakeFiles/Vortexy.dir/flags.make
 CMakeFiles/Vortexy.dir/src/phys/mesh.c.o: src/phys/mesh.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/Vortexy.dir/src/phys/mesh.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/Vortexy.dir/src/phys/mesh.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Vortexy.dir/src/phys/mesh.c.o   -c /home/rak/Dropbox/Dev/Vortexy/src/phys/mesh.c
 
 CMakeFiles/Vortexy.dir/src/phys/mesh.c.i: cmake_force
@@ -124,7 +98,7 @@ CMakeFiles/Vortexy.dir/src/phys/mesh.c.s: cmake_force
 
 CMakeFiles/Vortexy.dir/src/phys/obj.c.o: CMakeFiles/Vortexy.dir/flags.make
 CMakeFiles/Vortexy.dir/src/phys/obj.c.o: src/phys/obj.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/Vortexy.dir/src/phys/obj.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/Vortexy.dir/src/phys/obj.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Vortexy.dir/src/phys/obj.c.o   -c /home/rak/Dropbox/Dev/Vortexy/src/phys/obj.c
 
 CMakeFiles/Vortexy.dir/src/phys/obj.c.i: cmake_force
@@ -137,7 +111,7 @@ CMakeFiles/Vortexy.dir/src/phys/obj.c.s: cmake_force
 
 CMakeFiles/Vortexy.dir/src/phys/phys.c.o: CMakeFiles/Vortexy.dir/flags.make
 CMakeFiles/Vortexy.dir/src/phys/phys.c.o: src/phys/phys.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/Vortexy.dir/src/phys/phys.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/Vortexy.dir/src/phys/phys.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Vortexy.dir/src/phys/phys.c.o   -c /home/rak/Dropbox/Dev/Vortexy/src/phys/phys.c
 
 CMakeFiles/Vortexy.dir/src/phys/phys.c.i: cmake_force
@@ -150,7 +124,7 @@ CMakeFiles/Vortexy.dir/src/phys/phys.c.s: cmake_force
 
 CMakeFiles/Vortexy.dir/src/phys/sys.c.o: CMakeFiles/Vortexy.dir/flags.make
 CMakeFiles/Vortexy.dir/src/phys/sys.c.o: src/phys/sys.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/Vortexy.dir/src/phys/sys.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/Vortexy.dir/src/phys/sys.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Vortexy.dir/src/phys/sys.c.o   -c /home/rak/Dropbox/Dev/Vortexy/src/phys/sys.c
 
 CMakeFiles/Vortexy.dir/src/phys/sys.c.i: cmake_force
@@ -161,22 +135,9 @@ CMakeFiles/Vortexy.dir/src/phys/sys.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Vortexy.dir/src/phys/sys.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/rak/Dropbox/Dev/Vortexy/src/phys/sys.c -o CMakeFiles/Vortexy.dir/src/phys/sys.c.s
 
-CMakeFiles/Vortexy.dir/src/phys/vec.c.o: CMakeFiles/Vortexy.dir/flags.make
-CMakeFiles/Vortexy.dir/src/phys/vec.c.o: src/phys/vec.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object CMakeFiles/Vortexy.dir/src/phys/vec.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Vortexy.dir/src/phys/vec.c.o   -c /home/rak/Dropbox/Dev/Vortexy/src/phys/vec.c
-
-CMakeFiles/Vortexy.dir/src/phys/vec.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Vortexy.dir/src/phys/vec.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/rak/Dropbox/Dev/Vortexy/src/phys/vec.c > CMakeFiles/Vortexy.dir/src/phys/vec.c.i
-
-CMakeFiles/Vortexy.dir/src/phys/vec.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Vortexy.dir/src/phys/vec.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/rak/Dropbox/Dev/Vortexy/src/phys/vec.c -o CMakeFiles/Vortexy.dir/src/phys/vec.c.s
-
 CMakeFiles/Vortexy.dir/src/phys/volume.c.o: CMakeFiles/Vortexy.dir/flags.make
 CMakeFiles/Vortexy.dir/src/phys/volume.c.o: src/phys/volume.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object CMakeFiles/Vortexy.dir/src/phys/volume.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/Vortexy.dir/src/phys/volume.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Vortexy.dir/src/phys/volume.c.o   -c /home/rak/Dropbox/Dev/Vortexy/src/phys/volume.c
 
 CMakeFiles/Vortexy.dir/src/phys/volume.c.i: cmake_force
@@ -189,7 +150,7 @@ CMakeFiles/Vortexy.dir/src/phys/volume.c.s: cmake_force
 
 CMakeFiles/Vortexy.dir/src/render/draw.c.o: CMakeFiles/Vortexy.dir/flags.make
 CMakeFiles/Vortexy.dir/src/render/draw.c.o: src/render/draw.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building C object CMakeFiles/Vortexy.dir/src/render/draw.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/Vortexy.dir/src/render/draw.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Vortexy.dir/src/render/draw.c.o   -c /home/rak/Dropbox/Dev/Vortexy/src/render/draw.c
 
 CMakeFiles/Vortexy.dir/src/render/draw.c.i: cmake_force
@@ -202,7 +163,7 @@ CMakeFiles/Vortexy.dir/src/render/draw.c.s: cmake_force
 
 CMakeFiles/Vortexy.dir/src/render/render.c.o: CMakeFiles/Vortexy.dir/flags.make
 CMakeFiles/Vortexy.dir/src/render/render.c.o: src/render/render.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building C object CMakeFiles/Vortexy.dir/src/render/render.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object CMakeFiles/Vortexy.dir/src/render/render.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Vortexy.dir/src/render/render.c.o   -c /home/rak/Dropbox/Dev/Vortexy/src/render/render.c
 
 CMakeFiles/Vortexy.dir/src/render/render.c.i: cmake_force
@@ -215,7 +176,7 @@ CMakeFiles/Vortexy.dir/src/render/render.c.s: cmake_force
 
 CMakeFiles/Vortexy.dir/src/render/shader.c.o: CMakeFiles/Vortexy.dir/flags.make
 CMakeFiles/Vortexy.dir/src/render/shader.c.o: src/render/shader.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object CMakeFiles/Vortexy.dir/src/render/shader.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object CMakeFiles/Vortexy.dir/src/render/shader.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Vortexy.dir/src/render/shader.c.o   -c /home/rak/Dropbox/Dev/Vortexy/src/render/shader.c
 
 CMakeFiles/Vortexy.dir/src/render/shader.c.i: cmake_force
@@ -228,7 +189,7 @@ CMakeFiles/Vortexy.dir/src/render/shader.c.s: cmake_force
 
 CMakeFiles/Vortexy.dir/src/render/texture.c.o: CMakeFiles/Vortexy.dir/flags.make
 CMakeFiles/Vortexy.dir/src/render/texture.c.o: src/render/texture.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object CMakeFiles/Vortexy.dir/src/render/texture.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building C object CMakeFiles/Vortexy.dir/src/render/texture.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Vortexy.dir/src/render/texture.c.o   -c /home/rak/Dropbox/Dev/Vortexy/src/render/texture.c
 
 CMakeFiles/Vortexy.dir/src/render/texture.c.i: cmake_force
@@ -241,7 +202,7 @@ CMakeFiles/Vortexy.dir/src/render/texture.c.s: cmake_force
 
 CMakeFiles/Vortexy.dir/src/render/window.c.o: CMakeFiles/Vortexy.dir/flags.make
 CMakeFiles/Vortexy.dir/src/render/window.c.o: src/render/window.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building C object CMakeFiles/Vortexy.dir/src/render/window.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building C object CMakeFiles/Vortexy.dir/src/render/window.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Vortexy.dir/src/render/window.c.o   -c /home/rak/Dropbox/Dev/Vortexy/src/render/window.c
 
 CMakeFiles/Vortexy.dir/src/render/window.c.i: cmake_force
@@ -254,7 +215,7 @@ CMakeFiles/Vortexy.dir/src/render/window.c.s: cmake_force
 
 CMakeFiles/Vortexy.dir/src/sim.c.o: CMakeFiles/Vortexy.dir/flags.make
 CMakeFiles/Vortexy.dir/src/sim.c.o: src/sim.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building C object CMakeFiles/Vortexy.dir/src/sim.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object CMakeFiles/Vortexy.dir/src/sim.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Vortexy.dir/src/sim.c.o   -c /home/rak/Dropbox/Dev/Vortexy/src/sim.c
 
 CMakeFiles/Vortexy.dir/src/sim.c.i: cmake_force
@@ -265,9 +226,35 @@ CMakeFiles/Vortexy.dir/src/sim.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Vortexy.dir/src/sim.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/rak/Dropbox/Dev/Vortexy/src/sim.c -o CMakeFiles/Vortexy.dir/src/sim.c.s
 
+CMakeFiles/Vortexy.dir/src/util/field.c.o: CMakeFiles/Vortexy.dir/flags.make
+CMakeFiles/Vortexy.dir/src/util/field.c.o: src/util/field.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object CMakeFiles/Vortexy.dir/src/util/field.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Vortexy.dir/src/util/field.c.o   -c /home/rak/Dropbox/Dev/Vortexy/src/util/field.c
+
+CMakeFiles/Vortexy.dir/src/util/field.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Vortexy.dir/src/util/field.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/rak/Dropbox/Dev/Vortexy/src/util/field.c > CMakeFiles/Vortexy.dir/src/util/field.c.i
+
+CMakeFiles/Vortexy.dir/src/util/field.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Vortexy.dir/src/util/field.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/rak/Dropbox/Dev/Vortexy/src/util/field.c -o CMakeFiles/Vortexy.dir/src/util/field.c.s
+
+CMakeFiles/Vortexy.dir/src/util/mat.c.o: CMakeFiles/Vortexy.dir/flags.make
+CMakeFiles/Vortexy.dir/src/util/mat.c.o: src/util/mat.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building C object CMakeFiles/Vortexy.dir/src/util/mat.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Vortexy.dir/src/util/mat.c.o   -c /home/rak/Dropbox/Dev/Vortexy/src/util/mat.c
+
+CMakeFiles/Vortexy.dir/src/util/mat.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Vortexy.dir/src/util/mat.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/rak/Dropbox/Dev/Vortexy/src/util/mat.c > CMakeFiles/Vortexy.dir/src/util/mat.c.i
+
+CMakeFiles/Vortexy.dir/src/util/mat.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Vortexy.dir/src/util/mat.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/rak/Dropbox/Dev/Vortexy/src/util/mat.c -o CMakeFiles/Vortexy.dir/src/util/mat.c.s
+
 CMakeFiles/Vortexy.dir/src/util/util.c.o: CMakeFiles/Vortexy.dir/flags.make
 CMakeFiles/Vortexy.dir/src/util/util.c.o: src/util/util.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building C object CMakeFiles/Vortexy.dir/src/util/util.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building C object CMakeFiles/Vortexy.dir/src/util/util.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Vortexy.dir/src/util/util.c.o   -c /home/rak/Dropbox/Dev/Vortexy/src/util/util.c
 
 CMakeFiles/Vortexy.dir/src/util/util.c.i: cmake_force
@@ -278,17 +265,27 @@ CMakeFiles/Vortexy.dir/src/util/util.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Vortexy.dir/src/util/util.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/rak/Dropbox/Dev/Vortexy/src/util/util.c -o CMakeFiles/Vortexy.dir/src/util/util.c.s
 
+CMakeFiles/Vortexy.dir/src/util/vec.c.o: CMakeFiles/Vortexy.dir/flags.make
+CMakeFiles/Vortexy.dir/src/util/vec.c.o: src/util/vec.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building C object CMakeFiles/Vortexy.dir/src/util/vec.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Vortexy.dir/src/util/vec.c.o   -c /home/rak/Dropbox/Dev/Vortexy/src/util/vec.c
+
+CMakeFiles/Vortexy.dir/src/util/vec.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Vortexy.dir/src/util/vec.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/rak/Dropbox/Dev/Vortexy/src/util/vec.c > CMakeFiles/Vortexy.dir/src/util/vec.c.i
+
+CMakeFiles/Vortexy.dir/src/util/vec.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Vortexy.dir/src/util/vec.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/rak/Dropbox/Dev/Vortexy/src/util/vec.c -o CMakeFiles/Vortexy.dir/src/util/vec.c.s
+
 # Object files for target Vortexy
 Vortexy_OBJECTS = \
 "CMakeFiles/Vortexy.dir/src/main.c.o" \
-"CMakeFiles/Vortexy.dir/src/phys/field.c.o" \
 "CMakeFiles/Vortexy.dir/src/phys/fluid.c.o" \
-"CMakeFiles/Vortexy.dir/src/phys/mat.c.o" \
 "CMakeFiles/Vortexy.dir/src/phys/mesh.c.o" \
 "CMakeFiles/Vortexy.dir/src/phys/obj.c.o" \
 "CMakeFiles/Vortexy.dir/src/phys/phys.c.o" \
 "CMakeFiles/Vortexy.dir/src/phys/sys.c.o" \
-"CMakeFiles/Vortexy.dir/src/phys/vec.c.o" \
 "CMakeFiles/Vortexy.dir/src/phys/volume.c.o" \
 "CMakeFiles/Vortexy.dir/src/render/draw.c.o" \
 "CMakeFiles/Vortexy.dir/src/render/render.c.o" \
@@ -296,20 +293,20 @@ Vortexy_OBJECTS = \
 "CMakeFiles/Vortexy.dir/src/render/texture.c.o" \
 "CMakeFiles/Vortexy.dir/src/render/window.c.o" \
 "CMakeFiles/Vortexy.dir/src/sim.c.o" \
-"CMakeFiles/Vortexy.dir/src/util/util.c.o"
+"CMakeFiles/Vortexy.dir/src/util/field.c.o" \
+"CMakeFiles/Vortexy.dir/src/util/mat.c.o" \
+"CMakeFiles/Vortexy.dir/src/util/util.c.o" \
+"CMakeFiles/Vortexy.dir/src/util/vec.c.o"
 
 # External object files for target Vortexy
 Vortexy_EXTERNAL_OBJECTS =
 
 Vortexy: CMakeFiles/Vortexy.dir/src/main.c.o
-Vortexy: CMakeFiles/Vortexy.dir/src/phys/field.c.o
 Vortexy: CMakeFiles/Vortexy.dir/src/phys/fluid.c.o
-Vortexy: CMakeFiles/Vortexy.dir/src/phys/mat.c.o
 Vortexy: CMakeFiles/Vortexy.dir/src/phys/mesh.c.o
 Vortexy: CMakeFiles/Vortexy.dir/src/phys/obj.c.o
 Vortexy: CMakeFiles/Vortexy.dir/src/phys/phys.c.o
 Vortexy: CMakeFiles/Vortexy.dir/src/phys/sys.c.o
-Vortexy: CMakeFiles/Vortexy.dir/src/phys/vec.c.o
 Vortexy: CMakeFiles/Vortexy.dir/src/phys/volume.c.o
 Vortexy: CMakeFiles/Vortexy.dir/src/render/draw.c.o
 Vortexy: CMakeFiles/Vortexy.dir/src/render/render.c.o
@@ -317,7 +314,10 @@ Vortexy: CMakeFiles/Vortexy.dir/src/render/shader.c.o
 Vortexy: CMakeFiles/Vortexy.dir/src/render/texture.c.o
 Vortexy: CMakeFiles/Vortexy.dir/src/render/window.c.o
 Vortexy: CMakeFiles/Vortexy.dir/src/sim.c.o
+Vortexy: CMakeFiles/Vortexy.dir/src/util/field.c.o
+Vortexy: CMakeFiles/Vortexy.dir/src/util/mat.c.o
 Vortexy: CMakeFiles/Vortexy.dir/src/util/util.c.o
+Vortexy: CMakeFiles/Vortexy.dir/src/util/vec.c.o
 Vortexy: CMakeFiles/Vortexy.dir/build.make
 Vortexy: CMakeFiles/Vortexy.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Linking C executable Vortexy"

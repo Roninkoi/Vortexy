@@ -40,22 +40,22 @@ void r2(struct Renderer *r, struct Sys *s)
 	for (int i = 0; i < n; ++i) {
 		float f = ((float) i / (float) n);
 
-		vec4 c = p_vec4(fmax(0.0f, sinf(f * 6.28f)),
+		vec4 c = Vec4(fmax(0.0f, sinf(f * 6.28f)),
 						fmax(0.0f, sinf(f * 6.28f + 2.1f)),
 						fmax(0.0f, sinf(f * 6.28f + 4.2f)), 1.0f);
 
-		p_vec4Normalize(&c);
-		p_vec4Mul(&c, 4.0f);
+		vec4Normalize(&c);
+		vec4Mul(&c, 4.0f);
 
-		r_drawLine(r, p_vec4(0.0f, 0.0f, 0.0f, 0.0f), p_vec4(cosf(f * M_PI * 2.0f), sinf(f * M_PI * 2.0f), 0.0f, 0.0f), c);
+		r_drawLine(r, Vec4(0.0f, 0.0f, 0.0f, 0.0f), Vec4(cosf(f * M_PI * 2.0f), sinf(f * M_PI * 2.0f), 0.0f, 0.0f), c);
 	}
 
 	for (float x = -5.0f; x < 5.0f; x += 0.22f) {
 		for (float y = -5.0f; y < 5.0f; y += 0.22f) {
 			for (float z = -5.0f; z < 5.0f; z += 0.22f) {
-				r_drawLine(r, p_vec4(x, y, z, 0.0f), p_vec4(x + 0.1f * sinf(y * 3.5f + r->ticks * 0.002f),
+				r_drawLine(r, Vec4(x, y, z, 0.0f), Vec4(x + 0.1f * sinf(y * 3.5f + r->ticks * 0.002f),
 															y + 0.1f * sinf(x * 3.5f + r->ticks * 0.002f), z,
-															0.0f), p_vec4(0.0f, 4.0f, 0.0f, 1.0f));
+															0.0f), Vec4(0.0f, 4.0f, 0.0f, 1.0f));
 			}
 		}
 	}
@@ -74,37 +74,37 @@ void r3(struct Renderer *r, struct Sys *s)
 		for (int j = 0; j < l + 1; ++j) {
 			for (int k = 0; k < 4; ++k) {
 				int cur = l == j;
-				vec4 v0 = p_vec4(s->objs[i].volumes[j].faces[k]->verts[0],
+				vec4 v0 = Vec4(s->objs[i].volumes[j].faces[k]->verts[0],
 								 s->objs[i].volumes[j].faces[k]->verts[1],
 								 s->objs[i].volumes[j].faces[k]->verts[2], 0.0f);
 			
-				vec4 v1 = p_vec4(s->objs[i].volumes[j].faces[k]->verts[4],
+				vec4 v1 = Vec4(s->objs[i].volumes[j].faces[k]->verts[4],
 								 s->objs[i].volumes[j].faces[k]->verts[5],
 								 s->objs[i].volumes[j].faces[k]->verts[6], 0.0f);
 			
-				vec4 v2 = p_vec4(s->objs[i].volumes[j].faces[k]->verts[8],
+				vec4 v2 = Vec4(s->objs[i].volumes[j].faces[k]->verts[8],
 								 s->objs[i].volumes[j].faces[k]->verts[9],
 								 s->objs[i].volumes[j].faces[k]->verts[10], 0.0f);
 			
-				vec4 n = p_vec4Copy3(&s->objs[i].volumes[j].faces[k]->centroid);
-				vec4 nn = p_vec4Copy3(&s->objs[i].volumes[j].faces[k]->normal);
-				p_vec4Mul(&nn, 0.2f);
-				p_vec4Add(&n, &nn);
+				vec4 n = vec4Copy3(&s->objs[i].volumes[j].faces[k]->centroid);
+				vec4 nn = vec4Copy3(&s->objs[i].volumes[j].faces[k]->normal);
+				vec4Mul(&nn, 0.2f);
+				vec4Add(&n, &nn);
 			
 				r_drawLine(r,
 						   v0,
 						   v1,
-						   p_vec4(10.0f, 10.0f * cur, 0.0f, 1.0f));
+						   Vec4(10.0f, 10.0f * cur, 0.0f, 1.0f));
 			
 				r_drawLine(r,
 						   v1,
 						   v2,
-						   p_vec4(10.0f, 10.0f * cur, 0.0f, 1.0f));
+						   Vec4(10.0f, 10.0f * cur, 0.0f, 1.0f));
 			
 				r_drawLine(r,
 						   v2,
 						   v0,
-						   p_vec4(10.0f, 10.0f * cur, 0.0f, 1.0f));
+						   Vec4(10.0f, 10.0f * cur, 0.0f, 1.0f));
 			
 				/*r_drawLine(r,
 				  s->objs[i].volumes[j].faces[k]->centroid,
@@ -124,17 +124,17 @@ void r4(struct Renderer *r, struct Sys *s)
 	for (int i = 0; i < s->objNum; ++i) {
 		for (int j = 0; j < s->objs[i].volNum; ++j) {
 			for (int k = 0; k < 4; ++k) {
-				vec4 n = p_vec4Copy3(&s->objs[i].volumes[j].faces[k]->centroid);
-				vec4 nn = p_vec4Copy3(&s->objs[i].volumes[j].faces[k]->mFlux);
+				vec4 n = vec4Copy3(&s->objs[i].volumes[j].faces[k]->centroid);
+				vec4 nn = vec4Copy3(&s->objs[i].volumes[j].faces[k]->mFlux);
 
-				float l = p_vec4Len(&nn);
+				float l = vec4Len(&nn);
 				
-				p_vec4Add(&nn, &n);
+				vec4Add(&nn, &n);
 			
 				r_drawLine(r,
 						   n,
 						   nn,
-						   p_vec4(10.0f * l, 10.0f * fmax(0.0f, 1.0f - l), 0.0f, 1.0f));
+						   Vec4(10.0f * l, 10.0f * fmax(0.0f, 1.0f - l), 0.0f, 1.0f));
 			}
 		}
 	}

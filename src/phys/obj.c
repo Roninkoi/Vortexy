@@ -16,3 +16,12 @@ void p_loadObj(Obj *o, char *meshPath, char *fluidPath)
 
 	fluidParser(o, fluidPath);
 }
+
+void p_destroyObj(Obj *o)
+{
+	p_destroyMesh(&o->mesh);
+	p_destroyMesh(&o->renderMesh);
+
+	//p_destroyFaces();
+	//p_destroyVolumes();
+}	

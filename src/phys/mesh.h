@@ -1,7 +1,7 @@
 #ifndef MESH_H
 #define MESH_H
 
-#include "mat.h"
+#include "util/mat.h"
 
 // triangular mesh
 typedef struct {
@@ -27,7 +27,7 @@ void p_loadMesh(Mesh *m, char *path, int optimize, int loadTex);
 
 void p_meshTransform(Mesh *m, mat4 *mat);
 
-void p_meshDestroy(Mesh *m);
+void p_destroyMesh(Mesh *m);
 
 void p_meshSetCol(Mesh *m, float r, float g, float b, float a);
 

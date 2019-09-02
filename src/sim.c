@@ -77,14 +77,6 @@ void s_tick(struct Sim *s)
 
 	return;
 
-	Field test;
-
-	//ppmLoader(&test, "");
-
-	p_fieldInit(&test, 128);
-
-	test.f[0][0] = p_vec4(0.0f, 0.0f, 0.0f, 0.0f);
-
 	const int size = 128;
 
 	int *A = (int *) malloc(sizeof(int) * size);

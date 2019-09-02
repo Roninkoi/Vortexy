@@ -150,33 +150,6 @@ src/main.c.s:
 	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/main.c.s
 .PHONY : src/main.c.s
 
-src/phys/field.o: src/phys/field.c.o
-
-.PHONY : src/phys/field.o
-
-# target to build an object file
-src/phys/field.c.o:
-	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/phys/field.c.o
-.PHONY : src/phys/field.c.o
-
-src/phys/field.i: src/phys/field.c.i
-
-.PHONY : src/phys/field.i
-
-# target to preprocess a source file
-src/phys/field.c.i:
-	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/phys/field.c.i
-.PHONY : src/phys/field.c.i
-
-src/phys/field.s: src/phys/field.c.s
-
-.PHONY : src/phys/field.s
-
-# target to generate assembly for a file
-src/phys/field.c.s:
-	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/phys/field.c.s
-.PHONY : src/phys/field.c.s
-
 src/phys/fluid.o: src/phys/fluid.c.o
 
 .PHONY : src/phys/fluid.o
@@ -203,33 +176,6 @@ src/phys/fluid.s: src/phys/fluid.c.s
 src/phys/fluid.c.s:
 	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/phys/fluid.c.s
 .PHONY : src/phys/fluid.c.s
-
-src/phys/mat.o: src/phys/mat.c.o
-
-.PHONY : src/phys/mat.o
-
-# target to build an object file
-src/phys/mat.c.o:
-	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/phys/mat.c.o
-.PHONY : src/phys/mat.c.o
-
-src/phys/mat.i: src/phys/mat.c.i
-
-.PHONY : src/phys/mat.i
-
-# target to preprocess a source file
-src/phys/mat.c.i:
-	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/phys/mat.c.i
-.PHONY : src/phys/mat.c.i
-
-src/phys/mat.s: src/phys/mat.c.s
-
-.PHONY : src/phys/mat.s
-
-# target to generate assembly for a file
-src/phys/mat.c.s:
-	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/phys/mat.c.s
-.PHONY : src/phys/mat.c.s
 
 src/phys/mesh.o: src/phys/mesh.c.o
 
@@ -338,33 +284,6 @@ src/phys/sys.s: src/phys/sys.c.s
 src/phys/sys.c.s:
 	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/phys/sys.c.s
 .PHONY : src/phys/sys.c.s
-
-src/phys/vec.o: src/phys/vec.c.o
-
-.PHONY : src/phys/vec.o
-
-# target to build an object file
-src/phys/vec.c.o:
-	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/phys/vec.c.o
-.PHONY : src/phys/vec.c.o
-
-src/phys/vec.i: src/phys/vec.c.i
-
-.PHONY : src/phys/vec.i
-
-# target to preprocess a source file
-src/phys/vec.c.i:
-	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/phys/vec.c.i
-.PHONY : src/phys/vec.c.i
-
-src/phys/vec.s: src/phys/vec.c.s
-
-.PHONY : src/phys/vec.s
-
-# target to generate assembly for a file
-src/phys/vec.c.s:
-	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/phys/vec.c.s
-.PHONY : src/phys/vec.c.s
 
 src/phys/volume.o: src/phys/volume.c.o
 
@@ -555,6 +474,60 @@ src/sim.c.s:
 	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/sim.c.s
 .PHONY : src/sim.c.s
 
+src/util/field.o: src/util/field.c.o
+
+.PHONY : src/util/field.o
+
+# target to build an object file
+src/util/field.c.o:
+	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/util/field.c.o
+.PHONY : src/util/field.c.o
+
+src/util/field.i: src/util/field.c.i
+
+.PHONY : src/util/field.i
+
+# target to preprocess a source file
+src/util/field.c.i:
+	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/util/field.c.i
+.PHONY : src/util/field.c.i
+
+src/util/field.s: src/util/field.c.s
+
+.PHONY : src/util/field.s
+
+# target to generate assembly for a file
+src/util/field.c.s:
+	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/util/field.c.s
+.PHONY : src/util/field.c.s
+
+src/util/mat.o: src/util/mat.c.o
+
+.PHONY : src/util/mat.o
+
+# target to build an object file
+src/util/mat.c.o:
+	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/util/mat.c.o
+.PHONY : src/util/mat.c.o
+
+src/util/mat.i: src/util/mat.c.i
+
+.PHONY : src/util/mat.i
+
+# target to preprocess a source file
+src/util/mat.c.i:
+	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/util/mat.c.i
+.PHONY : src/util/mat.c.i
+
+src/util/mat.s: src/util/mat.c.s
+
+.PHONY : src/util/mat.s
+
+# target to generate assembly for a file
+src/util/mat.c.s:
+	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/util/mat.c.s
+.PHONY : src/util/mat.c.s
+
 src/util/util.o: src/util/util.c.o
 
 .PHONY : src/util/util.o
@@ -582,6 +555,33 @@ src/util/util.c.s:
 	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/util/util.c.s
 .PHONY : src/util/util.c.s
 
+src/util/vec.o: src/util/vec.c.o
+
+.PHONY : src/util/vec.o
+
+# target to build an object file
+src/util/vec.c.o:
+	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/util/vec.c.o
+.PHONY : src/util/vec.c.o
+
+src/util/vec.i: src/util/vec.c.i
+
+.PHONY : src/util/vec.i
+
+# target to preprocess a source file
+src/util/vec.c.i:
+	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/util/vec.c.i
+.PHONY : src/util/vec.c.i
+
+src/util/vec.s: src/util/vec.c.s
+
+.PHONY : src/util/vec.s
+
+# target to generate assembly for a file
+src/util/vec.c.s:
+	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/util/vec.c.s
+.PHONY : src/util/vec.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -594,15 +594,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
-	@echo "... src/phys/field.o"
-	@echo "... src/phys/field.i"
-	@echo "... src/phys/field.s"
 	@echo "... src/phys/fluid.o"
 	@echo "... src/phys/fluid.i"
 	@echo "... src/phys/fluid.s"
-	@echo "... src/phys/mat.o"
-	@echo "... src/phys/mat.i"
-	@echo "... src/phys/mat.s"
 	@echo "... src/phys/mesh.o"
 	@echo "... src/phys/mesh.i"
 	@echo "... src/phys/mesh.s"
@@ -615,9 +609,6 @@ help:
 	@echo "... src/phys/sys.o"
 	@echo "... src/phys/sys.i"
 	@echo "... src/phys/sys.s"
-	@echo "... src/phys/vec.o"
-	@echo "... src/phys/vec.i"
-	@echo "... src/phys/vec.s"
 	@echo "... src/phys/volume.o"
 	@echo "... src/phys/volume.i"
 	@echo "... src/phys/volume.s"
@@ -639,9 +630,18 @@ help:
 	@echo "... src/sim.o"
 	@echo "... src/sim.i"
 	@echo "... src/sim.s"
+	@echo "... src/util/field.o"
+	@echo "... src/util/field.i"
+	@echo "... src/util/field.s"
+	@echo "... src/util/mat.o"
+	@echo "... src/util/mat.i"
+	@echo "... src/util/mat.s"
 	@echo "... src/util/util.o"
 	@echo "... src/util/util.i"
 	@echo "... src/util/util.s"
+	@echo "... src/util/vec.o"
+	@echo "... src/util/vec.i"
+	@echo "... src/util/vec.s"
 .PHONY : help
 
 

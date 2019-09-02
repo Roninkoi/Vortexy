@@ -22,4 +22,6 @@ typedef struct {
 
 void p_loadObj(Obj *o, char *meshPath, char *fluidPath);
 
+void p_destroyObj(Obj *o);
+
 #endif

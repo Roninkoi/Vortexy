@@ -47,16 +47,17 @@ void r_init(struct Renderer *r, int *running)
 	r->projUni = glGetUniformLocation(r->shader.program, "proj");
 
 	GLFWimage icons[1];
-	icons[0].pixels = ppmLoaderAlpha("gfx/vortexyicon.ppm", &icons[0].width, &icons[0].height);
+	icons[0].pixels = ppmLoaderAlpha("gfx/vortexyicon.ppm", &icons[0].width, &icons[0].height,
+									 255, 0, 255);
 	glfwSetWindowIcon(r->window.window, 1, icons);
 	free(icons[0].pixels);
 
-	r->model = p_imat4();
-	r->view = p_imat4();
-	r->proj = p_imat4();
+	r->model = imat4();
+	r->view = imat4();
+	r->proj = imat4();
 
-	r->camPos = p_nvec4();
-	r->camRot = p_nvec4();
+	r->camPos = nvec4();
+	r->camRot = nvec4();
 
 	r->camPos.z = -2.0f;
 
@@ -88,13 +89,13 @@ void r_update(struct Renderer *r)
 	glActiveTexture(GL_TEXTURE0);
 	glUniform1i(r->texUni, 0);
 
-	//r->model = p_mat4RotateY(&r->model, 0.01f);
-	r->proj = p_mat4Perspective(1.5f, 1.78f, 0.1f, 100.0f);
+	//r->model = mat4RotateY(&r->model, 0.01f);
+	r->proj = mat4Perspective(1.5f, 1.78f, 0.1f, 100.0f);
 
-	r->view = p_mat4(1.0f);
-	r->view = p_mat4RotateX(&r->view, r->camRot.x);
-	r->view = p_mat4RotateY(&r->view, r->camRot.y);
-	r->view = p_mat4Translate(&r->view, p_vec4(-r->camPos.x, -r->camPos.y, -r->camPos.z, 0.0f));
+	r->view = Mat4(1.0f);
+	r->view = mat4RotateX(&r->view, r->camRot.x);
+	r->view = mat4RotateY(&r->view, r->camRot.y);
+	r->view = mat4Translate(&r->view, Vec4(-r->camPos.x, -r->camPos.y, -r->camPos.z, 0.0f));
 
 	glUniformMatrix4fv(r->modelUni, 1, GL_TRUE, &r->model.m[0][0]);
 	glUniformMatrix4fv(r->projUni, 1, GL_TRUE, &r->proj.m[0][0]);

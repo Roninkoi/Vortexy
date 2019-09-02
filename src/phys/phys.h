@@ -1,7 +1,7 @@
 #ifndef PHYS_H
 #define PHYS_H
 
-#include "vec.h"
+#include "util/vec.h"
 
 // physics object
 struct Phys {

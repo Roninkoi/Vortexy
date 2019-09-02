@@ -1,7 +1,7 @@
 #include "mat.h"
 #include "util/util.h"
 
-mat p_mat(float s, int r, int c)
+mat Mat(float s, int r, int c)
 {
 	mat m;
 
@@ -21,9 +21,9 @@ mat p_mat(float s, int r, int c)
 	return m;
 }
 
-mat p_matAdd(mat *m0, mat *m1)
+mat matAdd(mat *m0, mat *m1)
 {
-	mat r = p_mat(0.0f, m0->r, m0->c);
+	mat r = Mat(0.0f, m0->r, m0->c);
 
 	if (m0->r != m1->r || m0->c != m1->c)
 		return r;
@@ -37,9 +37,9 @@ mat p_matAdd(mat *m0, mat *m1)
 	return r;
 }
 
-mat p_matSub(mat *m0, mat *m1)
+mat matSub(mat *m0, mat *m1)
 {
-	mat r = p_mat(0.0f, m0->r, m0->c);
+	mat r = Mat(0.0f, m0->r, m0->c);
 
 	if (m0->r != m1->r || m0->c != m1->c)
 		return r;
@@ -53,9 +53,9 @@ mat p_matSub(mat *m0, mat *m1)
 	return r;
 }
 
-mat p_matMul(mat *m0, mat *m1)
+mat matMul(mat *m0, mat *m1)
 {
-	mat r = p_mat(0.0f, m0->r, m1->c);
+	mat r = Mat(0.0f, m0->r, m1->c);
 
 	if (m0->c != m1->r)
 		return r;
@@ -71,7 +71,7 @@ mat p_matMul(mat *m0, mat *m1)
 	return r;
 }
 
-void p_matPrint(mat *m)
+void matPrint(mat *m)
 {
 	for (int i = 0; i < m->r; ++i) {
 		for (int j = 0; j < m->c; ++j) {
@@ -81,7 +81,7 @@ void p_matPrint(mat *m)
 	}
 }
 
-void p_matDestroy(mat *m)
+void matDestroy(mat *m)
 {
 	for (int i = 0; i < m->r; ++i) {
 		free(m->m[i]);
@@ -93,7 +93,7 @@ void p_matDestroy(mat *m)
   MAT4
 */
 
-mat4 p_mat4(float s)
+mat4 Mat4(float s)
 {
 	mat4 m;
 
@@ -120,17 +120,17 @@ mat4 p_mat4(float s)
 	return m;
 }
 
-mat4 p_imat4() // identity
+mat4 imat4() // identity
 {
-	return p_mat4(1.0f);
+	return Mat4(1.0f);
 }
 
-mat4 p_nmat4() // zero
+mat4 nmat4() // zero
 {
-	return p_mat4(0.0f);
+	return Mat4(0.0f);
 }
 
-mat4 p_mat4Add(mat4 *m0, mat4 *m1)
+mat4 mat4Add(mat4 *m0, mat4 *m1)
 {
 	mat4 r;
 	
@@ -157,7 +157,7 @@ mat4 p_mat4Add(mat4 *m0, mat4 *m1)
 	return r;
 }
 
-mat4 p_mat4Sub(mat4 *m0, mat4 *m1)
+mat4 mat4Sub(mat4 *m0, mat4 *m1)
 {
 	mat4 r;
 	
@@ -184,9 +184,9 @@ mat4 p_mat4Sub(mat4 *m0, mat4 *m1)
 	return r;
 }
 
-vec4 p_mat4vec4(mat4 *m, vec4 *v) // mat4 x vec4
+vec4 mat4vec4(mat4 *m, vec4 *v) // mat4 x vec4
 {
-	vec4 r = p_nvec4();
+	vec4 r = nvec4();
 
 	r.x += m->m[0][0] * v->x;
 	r.x += m->m[0][1] * v->y;
@@ -211,7 +211,7 @@ vec4 p_mat4vec4(mat4 *m, vec4 *v) // mat4 x vec4
 	return r;
 }
 
-mat4 p_mat4mat4(mat4 *m0, mat4 *m1) // mat4 x mat4
+mat4 mat4mat4(mat4 *m0, mat4 *m1) // mat4 x mat4
 {
 	mat4 r;
 
@@ -304,22 +304,22 @@ mat4 p_mat4mat4(mat4 *m0, mat4 *m1) // mat4 x mat4
 	return r;
 }
 
-mat4 p_mat4Translate(mat4 *m, vec4 v)
+mat4 mat4Translate(mat4 *m, vec4 v)
 {
 	mat4 r;
 
-	mat4 tm = p_imat4();
+	mat4 tm = imat4();
 
 	tm.m[0][3] = v.x;
 	tm.m[1][3] = v.y;
 	tm.m[2][3] = v.z;
 
-	r = p_mat4mat4(m, &tm);
+	r = mat4mat4(m, &tm);
 
 	return r;
 }
 
-vec4 p_mat4GetRow(mat4 *m, int r)
+vec4 mat4GetRow(mat4 *m, int r)
 {
 	vec4 v;
 
@@ -331,7 +331,7 @@ vec4 p_mat4GetRow(mat4 *m, int r)
 	return v;
 }
 
-vec4 p_mat4GetCol(mat4 *m, int c)
+vec4 mat4GetCol(mat4 *m, int c)
 {
 	vec4 v;
 
@@ -343,7 +343,7 @@ vec4 p_mat4GetCol(mat4 *m, int c)
 	return v;
 }
 
-void p_mat4SetRow(mat4 *m, vec4 *v, int r)
+void mat4SetRow(mat4 *m, vec4 *v, int r)
 {
 	m->m[r][0] = v->x;
 	m->m[r][1] = v->y;
@@ -351,7 +351,7 @@ void p_mat4SetRow(mat4 *m, vec4 *v, int r)
 	m->m[r][3] = v->w;
 }
 
-void p_mat4SetCol(mat4 *m, vec4 *v, int c)
+void mat4SetCol(mat4 *m, vec4 *v, int c)
 {
 	m->m[0][c] = v->x;
 	m->m[1][c] = v->y;
@@ -359,7 +359,7 @@ void p_mat4SetCol(mat4 *m, vec4 *v, int c)
 	m->m[3][c] = v->w;
 }
 
-mat4 p_mat4RotX(float a)
+mat4 mat4RotX(float a)
 {
 	mat4 m;
 
@@ -386,7 +386,7 @@ mat4 p_mat4RotX(float a)
 	return m;
 }
 
-mat4 p_mat4RotY(float a)
+mat4 mat4RotY(float a)
 {
 	mat4 m;
 
@@ -413,33 +413,33 @@ mat4 p_mat4RotY(float a)
 	return m;
 }
 
-mat4 p_mat4RotateX(mat4 *m, float a)
+mat4 mat4RotateX(mat4 *m, float a)
 {
 	mat4 r;
 
 	mat4 rm;
 
-	rm = p_mat4RotX(a);
+	rm = mat4RotX(a);
 
-	r = p_mat4mat4(m, &rm);
+	r = mat4mat4(m, &rm);
 
 	return r;
 }
 
-mat4 p_mat4RotateY(mat4 *m, float a)
+mat4 mat4RotateY(mat4 *m, float a)
 {
 	mat4 r;
 
 	mat4 rm;
 
-	rm = p_mat4RotY(a);
+	rm = mat4RotY(a);
 
-	r = p_mat4mat4(m, &rm);
+	r = mat4mat4(m, &rm);
 
 	return r;
 }
 
-mat4 p_mat4Transpose(mat4 *m)
+mat4 mat4Transpose(mat4 *m)
 {
 	mat4 r;
 
@@ -466,7 +466,7 @@ mat4 p_mat4Transpose(mat4 *m)
 	return r;
 }
 
-mat4 p_mat4Perspective(float fov, float aspect, float near, float far)
+mat4 mat4Perspective(float fov, float aspect, float near, float far)
 {
 	mat4 m;
 

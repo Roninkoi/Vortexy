@@ -12,10 +12,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2355b07f-7336-4c5e-9656-ebfc15cb9981" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeCache.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Makefile.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Makefile2" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/C.includecache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/DependInfo.cmake" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/build.make" afterDir="false" />
@@ -23,51 +19,48 @@
       <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/depend.internal" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/depend.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/progress.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/main.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/main.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/field.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/field.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/mat.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/mat.c.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/field.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/fluid.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/fluid.c.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/mat.c.o" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/mesh.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/mesh.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/obj.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/obj.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/phys.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/phys.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/sys.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/sys.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/vec.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/vec.c.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/vec.c.o" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/volume.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/phys/volume.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/render/draw.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/render/draw.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/render/render.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/render/render.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/render/shader.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/render/shader.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/render/texture.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/render/texture.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/sim.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/sim.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/util/util.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/Vortexy.dir/src/util/util.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeFiles/progress.marks" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Vortexy" beforeDir="false" afterPath="$PROJECT_DIR$/Vortexy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Vortexy.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/Vortexy.cbp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/fluid.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/data/fluid.cfg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/buildrun.sh" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/sim.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/sim.cfg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/phys/fluid.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/phys/fluid.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/phys/mat.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/phys/mat.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/phys/mat.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/phys/mat.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/phys/field.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/phys/field.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/phys/mat.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/phys/mat.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/phys/mesh.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/phys/mesh.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/phys/mesh.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/phys/mesh.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/phys/obj.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/phys/obj.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/phys/obj.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/phys/obj.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/phys/phys.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/phys/phys.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/phys/phys.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/phys/phys.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/phys/sys.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/phys/sys.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/phys/sys.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/phys/sys.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/phys/vec.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/phys/vec.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/phys/vec.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/phys/vec.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/phys/vec.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/phys/vec.h" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/phys/volume.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/phys/volume.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/phys/volume.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/phys/volume.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/render/draw.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/render/draw.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/render/shader.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/render/shader.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/render/shader/main.frag" beforeDir="false" afterPath="$PROJECT_DIR$/src/render/shader/main.frag" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/render/input.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/render/input.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/render/render.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/render/render.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/render/render.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/render/render.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/render/texture.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/render/texture.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/render/texture.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/render/texture.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sim.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/sim.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sim.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/sim.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/cfgParser.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/cfgParser.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/objParser.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/objParser.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/util/texLoader.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/texLoader.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/util.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/util.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/util.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/util.h" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -153,6 +146,7 @@
       <workItem from="1565630776571" duration="263000" />
       <workItem from="1565848455471" duration="1624000" />
       <workItem from="1566472860879" duration="637000" />
+      <workItem from="1567430474668" duration="105000" />
     </task>
     <servers />
   </component>

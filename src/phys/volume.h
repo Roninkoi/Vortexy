@@ -14,8 +14,6 @@ struct Face { // triangle
 	//int indNum;
 
 	vec3 mFlux; // flux though face
-	vec3 vGrad; // gradients
-	vec3 pGrad;
 
 	float initial;
 	float constant;
@@ -43,6 +41,10 @@ struct Volume { // tetrahedron
 	
 	//int faceNum;
 	struct Phys phys;
+	
+	vec3 mFlux;
+	vec3 vGrad; // gradients
+	vec3 pGrad;
 
 	int index;
 

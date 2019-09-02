@@ -2,7 +2,6 @@
 #define TEXTURE_H
 
 #include <GL/gl.h>
-#include "phys/field.h"
 
 typedef struct {
 	char *path;
@@ -21,7 +20,7 @@ void r_flatTex(Texture *t,
 			   unsigned char r, unsigned char g, unsigned char b,
 			   int w, int h);
 
-void r_fieldToTex(Field *f, Texture *t);
+//void r_fieldToTex(Field *f, Texture *t);
 
 void r_destroyTex(Texture *t);
 

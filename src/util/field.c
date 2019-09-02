@@ -1,6 +1,6 @@
 #include "field.h"
 
-void p_fieldInit(Field *f, unsigned int r)
+void fieldInit(Field *f, unsigned int r)
 {
 	// set resolution
 	f->res = r;
@@ -13,10 +13,10 @@ void p_fieldInit(Field *f, unsigned int r)
 	}
 
 	// initialize to zero
-	p_fieldSet(f, 0.0f, 0.0f, 0.0f, 0.0f);
+	fieldSet(f, 0.0f, 0.0f, 0.0f, 0.0f);
 }
 
-void p_fieldDestroy(Field *f) // check this later
+void fieldDestroy(Field *f)
 {
 	for (unsigned int i = 0; i < f->res; ++i) {
 		free(f->f[i]);
@@ -25,7 +25,7 @@ void p_fieldDestroy(Field *f) // check this later
 	free(f->f);
 }
 
-void p_fieldSet(Field *f, float x, float y, float z, float w)
+void fieldSet(Field *f, float x, float y, float z, float w)
 {
 	for (unsigned int i = 0; i < f->res; ++i) {
 		for (unsigned int j = 0; j < f->res; ++j) {
@@ -37,25 +37,25 @@ void p_fieldSet(Field *f, float x, float y, float z, float w)
 	}
 }
 
-void p_fieldPrint(Field *f)
+void fieldPrint(Field *f)
 {
 
 	for (unsigned int i = 0; i < f->res; ++i) {
 		for (unsigned int j = 0; j < f->res; ++j) {
-			p_vec4Print(&f->f[i][j]);
+			vec4Print(&f->f[i][j]);
 		}
 	}
 }
 
 // loads an array of bytes into a field
-void p_fieldLoader(Field *f, int width, int height, unsigned char *data)
+void fieldLoader(Field *f, int width, int height, unsigned char *data)
 {
 	unsigned char c;
 
 	int ti = 0;
 	int ch = 0;
 
-	p_fieldInit(f, width > height ? width : height);
+	fieldInit(f, width > height ? width : height);
 
 	for (int i = 0; data[i]; ++i) {
 		c = data[i];
@@ -83,9 +83,9 @@ void p_fieldLoader(Field *f, int width, int height, unsigned char *data)
 	free(data);
 }
 
-unsigned char *p_fieldBytes(Field *f)
+unsigned char *fieldBytes(Field *f)
 {
-	unsigned char *data;
+	unsigned char *data = NULL;
 
 	return data;
 }

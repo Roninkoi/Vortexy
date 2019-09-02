@@ -54,7 +54,7 @@ void r_loadTex(Texture *t, char *path)
 	t->data = image;
 }
 
-void r_fieldToTex(Field *f, Texture *t)
+/*void r_fieldToTex(Field *f, Texture *t)
 {
 	glGenTextures(1, &t->tex);
 
@@ -75,7 +75,7 @@ void r_fieldToTex(Field *f, Texture *t)
 
 	//free(image);
 	t->data = image;
-}
+}*/
 
 void r_destroyTex(Texture *t)
 {

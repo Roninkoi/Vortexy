@@ -5,14 +5,11 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
   "/home/rak/Dropbox/Dev/Vortexy/src/main.c" "/home/rak/Dropbox/Dev/Vortexy/CMakeFiles/Vortexy.dir/src/main.c.o"
-  "/home/rak/Dropbox/Dev/Vortexy/src/phys/field.c" "/home/rak/Dropbox/Dev/Vortexy/CMakeFiles/Vortexy.dir/src/phys/field.c.o"
   "/home/rak/Dropbox/Dev/Vortexy/src/phys/fluid.c" "/home/rak/Dropbox/Dev/Vortexy/CMakeFiles/Vortexy.dir/src/phys/fluid.c.o"
-  "/home/rak/Dropbox/Dev/Vortexy/src/phys/mat.c" "/home/rak/Dropbox/Dev/Vortexy/CMakeFiles/Vortexy.dir/src/phys/mat.c.o"
   "/home/rak/Dropbox/Dev/Vortexy/src/phys/mesh.c" "/home/rak/Dropbox/Dev/Vortexy/CMakeFiles/Vortexy.dir/src/phys/mesh.c.o"
   "/home/rak/Dropbox/Dev/Vortexy/src/phys/obj.c" "/home/rak/Dropbox/Dev/Vortexy/CMakeFiles/Vortexy.dir/src/phys/obj.c.o"
   "/home/rak/Dropbox/Dev/Vortexy/src/phys/phys.c" "/home/rak/Dropbox/Dev/Vortexy/CMakeFiles/Vortexy.dir/src/phys/phys.c.o"
   "/home/rak/Dropbox/Dev/Vortexy/src/phys/sys.c" "/home/rak/Dropbox/Dev/Vortexy/CMakeFiles/Vortexy.dir/src/phys/sys.c.o"
-  "/home/rak/Dropbox/Dev/Vortexy/src/phys/vec.c" "/home/rak/Dropbox/Dev/Vortexy/CMakeFiles/Vortexy.dir/src/phys/vec.c.o"
   "/home/rak/Dropbox/Dev/Vortexy/src/phys/volume.c" "/home/rak/Dropbox/Dev/Vortexy/CMakeFiles/Vortexy.dir/src/phys/volume.c.o"
   "/home/rak/Dropbox/Dev/Vortexy/src/render/draw.c" "/home/rak/Dropbox/Dev/Vortexy/CMakeFiles/Vortexy.dir/src/render/draw.c.o"
   "/home/rak/Dropbox/Dev/Vortexy/src/render/render.c" "/home/rak/Dropbox/Dev/Vortexy/CMakeFiles/Vortexy.dir/src/render/render.c.o"
@@ -20,7 +17,10 @@ set(CMAKE_DEPENDS_CHECK_C
   "/home/rak/Dropbox/Dev/Vortexy/src/render/texture.c" "/home/rak/Dropbox/Dev/Vortexy/CMakeFiles/Vortexy.dir/src/render/texture.c.o"
   "/home/rak/Dropbox/Dev/Vortexy/src/render/window.c" "/home/rak/Dropbox/Dev/Vortexy/CMakeFiles/Vortexy.dir/src/render/window.c.o"
   "/home/rak/Dropbox/Dev/Vortexy/src/sim.c" "/home/rak/Dropbox/Dev/Vortexy/CMakeFiles/Vortexy.dir/src/sim.c.o"
+  "/home/rak/Dropbox/Dev/Vortexy/src/util/field.c" "/home/rak/Dropbox/Dev/Vortexy/CMakeFiles/Vortexy.dir/src/util/field.c.o"
+  "/home/rak/Dropbox/Dev/Vortexy/src/util/mat.c" "/home/rak/Dropbox/Dev/Vortexy/CMakeFiles/Vortexy.dir/src/util/mat.c.o"
   "/home/rak/Dropbox/Dev/Vortexy/src/util/util.c" "/home/rak/Dropbox/Dev/Vortexy/CMakeFiles/Vortexy.dir/src/util/util.c.o"
+  "/home/rak/Dropbox/Dev/Vortexy/src/util/vec.c" "/home/rak/Dropbox/Dev/Vortexy/CMakeFiles/Vortexy.dir/src/util/vec.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

@@ -33,41 +33,41 @@ void computeFaceCent(struct Face *f)
 	y /= 3.0f;
 	z /= 3.0f;
 
-	f->centroid = p_vec3(x, y, z);
+	f->centroid = Vec3(x, y, z);
 }
 
 // face unit normal
 void computeNormal(struct Face *f)
 {
-	vec3 v = p_vec3(f->verts[4] - f->verts[0],
+	vec3 v = Vec3(f->verts[4] - f->verts[0],
 					f->verts[5] - f->verts[1],
 					f->verts[6] - f->verts[2]);
 
-	vec3 u = p_vec3(f->verts[8] - f->verts[0],
+	vec3 u = Vec3(f->verts[8] - f->verts[0],
 					f->verts[9] - f->verts[1],
 					f->verts[10] - f->verts[2]);
 
-	f->normal = p_vec3Cross(&v, &u);
+	f->normal = vec3Cross(&v, &u);
 
-	p_vec3Normalize(&f->normal);
+	vec3Normalize(&f->normal);
 }
 
 // normal and area from normal
 void computeNormalArea(struct Face *f)
 {
-	vec3 v = p_vec3(f->verts[4] - f->verts[0],
+	vec3 v = Vec3(f->verts[4] - f->verts[0],
 					f->verts[5] - f->verts[1],
 					f->verts[6] - f->verts[2]);
 
-	vec3 u = p_vec3(f->verts[8] - f->verts[0],
+	vec3 u = Vec3(f->verts[8] - f->verts[0],
 					f->verts[9] - f->verts[1],
 					f->verts[10] - f->verts[2]);
 
-	f->normal = p_vec3Cross(&v, &u);
+	f->normal = vec3Cross(&v, &u);
 
-	f->area = p_vec3Len(&f->normal) * 0.5f;
+	f->area = vec3Len(&f->normal) * 0.5f;
 
-	p_vec3Normalize(&f->normal);
+	vec3Normalize(&f->normal);
 }
 
 void connects(struct Face *f, int **fl, int *fln, int i, int j)
@@ -199,23 +199,23 @@ struct Face *p_loadFaces(Mesh *m, int *faceNum)
 void computeVolume(struct Volume *v)
 {
 	// a . (b x c) / 6
-	vec3 v0 = p_vec3(v->faces[0]->verts[0],
+	vec3 v0 = Vec3(v->faces[0]->verts[0],
 					 v->faces[0]->verts[1],
 					 v->faces[0]->verts[2]);
-	vec3 v1 = p_vec3(v->faces[0]->verts[4],
+	vec3 v1 = Vec3(v->faces[0]->verts[4],
 					 v->faces[0]->verts[5],
 					 v->faces[0]->verts[6]);
-	vec3 v2 = p_vec3(v->faces[0]->verts[8],
+	vec3 v2 = Vec3(v->faces[0]->verts[8],
 					 v->faces[0]->verts[9],
 					 v->faces[0]->verts[10]);
 
-	vec3 u0 = p_vec3(v->faces[1]->verts[0],
+	vec3 u0 = Vec3(v->faces[1]->verts[0],
 					 v->faces[1]->verts[1],
 					 v->faces[1]->verts[2]);
-	vec3 u1 = p_vec3(v->faces[1]->verts[4],
+	vec3 u1 = Vec3(v->faces[1]->verts[4],
 	 				 v->faces[1]->verts[5],
 					 v->faces[1]->verts[6]);
-	vec3 u2 = p_vec3(v->faces[1]->verts[8],
+	vec3 u2 = Vec3(v->faces[1]->verts[8],
 					 v->faces[1]->verts[9],
 					 v->faces[1]->verts[10]);
 
@@ -232,13 +232,13 @@ void computeVolume(struct Volume *v)
 	else
 		w = u2;
 	
-	p_vec3Sub(&v1, &v0);
-	p_vec3Sub(&v2, &v0);
-	p_vec3Sub(&w, &v0);
+	vec3Sub(&v1, &v0);
+	vec3Sub(&v2, &v0);
+	vec3Sub(&w, &v0);
 
-	vec3 cross = p_vec3Cross(&v2, &w);
+	vec3 cross = vec3Cross(&v2, &w);
 
-	v->vol = fabs((1.0f / 6.0f) * p_vec3Dot(&v1, &cross));
+	v->vol = fabs((1.0f / 6.0f) * vec3Dot(&v1, &cross));
 
 	printf("V %f\n", v->vol);
 }
@@ -259,7 +259,7 @@ void computeVolumeCent(struct Volume *v)
 	y /= 4.0f;
 	z /= 4.0f;
 
-	v->centroid = p_vec3(x, y, z);
+	v->centroid = Vec3(x, y, z);
 }
 
 int containsFace(struct Face **f, struct Face *c, int n)

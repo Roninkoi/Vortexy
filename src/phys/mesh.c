@@ -31,12 +31,12 @@ void p_meshSetCol(Mesh *m, float r, float g, float b, float a)
 void p_meshTransform(Mesh *m, mat4 *mat)
 {
 	for (int i = 0; i < m->vertNum; i += 4) {
-		vec4 v = p_vec4(m->vertData0[i + 0],
+		vec4 v = Vec4(m->vertData0[i + 0],
 						m->vertData0[i + 1],
 						m->vertData0[i + 2],
 						m->vertData0[i + 3]);
 
-		vec4 vt = p_mat4vec4(mat, &v);
+		vec4 vt = mat4vec4(mat, &v);
 
 		m->vertData[i + 0] = vt.x;
 		m->vertData[i + 1] = vt.y;
@@ -52,9 +52,11 @@ void p_loadMesh(Mesh *m, char *path, int optimize, int loadTex)
 	m->vertData0 = floatCopy(m->vertData, m->vertNum);
 }
 
-void p_meshDestroy(Mesh *m)
+void p_destroyMesh(Mesh *m)
 {
+	free(m->vertData0);
 	free(m->vertData);
+	
 	free(m->texData);
 	free(m->normData);
 	free(m->colData);

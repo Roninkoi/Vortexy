@@ -13,8 +13,8 @@
 #include "texture.h"
 #include "shader.h"
 #include "phys/mesh.h"
-#include "phys/mat.h"
 #include "phys/sys.h"
+#include "util/mat.h"
 
 #define VERT_PATH "src/render/shader/main.vert"
 #define FRAG_PATH "src/render/shader/main.frag"
