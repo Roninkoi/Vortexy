@@ -25,10 +25,10 @@ struct Face { // triangle
 	float area;
 
 	int index; // index in face array
-	
+
 	struct Face **connecting; // faces sharing edge
 	int conNum;
-	
+
 	struct Volume *thisVol[2]; // volumes this face is a part of
 	int vNum;
 };
@@ -38,10 +38,10 @@ struct Volume { // tetrahedron
 	struct Volume *neighbours[4]; // neighbouring volume elements
 
 	int neiNum;
-	
+
 	//int faceNum;
 	struct Phys phys;
-	
+
 	vec3 mFlux;
 	vec3 vGrad; // gradients
 	vec3 pGrad;
