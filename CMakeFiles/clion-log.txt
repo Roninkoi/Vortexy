@@ -16,7 +16,7 @@ CMake Warning (dev) at /home/rak/clion-2019.1.4/bin/cmake/linux/share/cmake-3.14
   OpenGL_GL_PREFERENCE has not been set to "GLVND" or "LEGACY", so for
   compatibility with CMake 3.10 and below the legacy GL library will be used.
 Call Stack (most recent call first):
-  CMakeLists.txt:15 (find_package)
+  CMakeLists.txt:21 (find_package)
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 -- Configuring done

@@ -34,10 +34,10 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /usr/bin/cmake
+CMAKE_COMMAND = /home/rak/clion-2019.1.4/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /usr/bin/cmake -E remove -f
+RM = /home/rak/clion-2019.1.4/bin/cmake/linux/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -319,6 +319,7 @@ Vortexy: CMakeFiles/Vortexy.dir/src/util/mat.c.o
 Vortexy: CMakeFiles/Vortexy.dir/src/util/util.c.o
 Vortexy: CMakeFiles/Vortexy.dir/src/util/vec.c.o
 Vortexy: CMakeFiles/Vortexy.dir/build.make
+Vortexy: /usr/lib64/libOpenCL.so
 Vortexy: CMakeFiles/Vortexy.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/rak/Dropbox/Dev/Vortexy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Linking C executable Vortexy"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Vortexy.dir/link.txt --verbose=$(VERBOSE)

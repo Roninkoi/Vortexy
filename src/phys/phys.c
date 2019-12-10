@@ -2,10 +2,10 @@
 
 void p_physInit(struct Phys* p)
 {
-	p->r = nvec4();
-	p->v = nvec4();
-	p->a = nvec4();
-	p->f = nvec4();
+	p->r = nvec3();
+	p->v = nvec3();
+	p->a = nvec3();
+	p->f = nvec3();
 	
 	p->p = 0.0f;
 

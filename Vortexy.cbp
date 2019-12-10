@@ -73,22 +73,10 @@
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/main.c">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/field.c">
-			<Option target="Vortexy"/>
-		</Unit>
-		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/field.h">
-			<Option target="Vortexy"/>
-		</Unit>
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/fluid.c">
 			<Option target="Vortexy"/>
 		</Unit>
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/fluid.h">
-			<Option target="Vortexy"/>
-		</Unit>
-		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/mat.c">
-			<Option target="Vortexy"/>
-		</Unit>
-		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/mat.h">
 			<Option target="Vortexy"/>
 		</Unit>
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/mesh.c">
@@ -116,12 +104,6 @@
 			<Option target="Vortexy"/>
 		</Unit>
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/sys.h">
-			<Option target="Vortexy"/>
-		</Unit>
-		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/vec.c">
-			<Option target="Vortexy"/>
-		</Unit>
-		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/vec.h">
 			<Option target="Vortexy"/>
 		</Unit>
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/volume.c">
@@ -169,6 +151,18 @@
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/util/cfgParser.h">
 			<Option target="Vortexy"/>
 		</Unit>
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/util/field.c">
+			<Option target="Vortexy"/>
+		</Unit>
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/util/field.h">
+			<Option target="Vortexy"/>
+		</Unit>
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/util/mat.c">
+			<Option target="Vortexy"/>
+		</Unit>
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/util/mat.h">
+			<Option target="Vortexy"/>
+		</Unit>
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/util/objParser.h">
 			<Option target="Vortexy"/>
 		</Unit>
@@ -185,6 +179,12 @@
 			<Option target="Vortexy"/>
 		</Unit>
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/util/util.h">
+			<Option target="Vortexy"/>
+		</Unit>
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/util/vec.c">
+			<Option target="Vortexy"/>
+		</Unit>
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/util/vec.h">
 			<Option target="Vortexy"/>
 		</Unit>
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/CMakeLists.txt">

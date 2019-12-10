@@ -172,8 +172,13 @@ struct Face *p_loadFaces(Mesh *m, int *faceNum)
 	f = (struct Face *) malloc(sizeof(struct Face) * fn);
 
 	for (int i = 0; i < fn; ++i) {
+		f[i].centroid = nvec3();
+		f[i].mFlux = nvec3();
+		f[i].pGrad = nvec3();
 		f[i].index = i;
 		f[i].vNum = 0;
+		f[i].thisVol[0] = NULL;
+		f[i].thisVol[1] = NULL;
 		
 		f[i].inds[0] = m->indData[i * 3 + 0];
 		f[i].inds[1] = m->indData[i * 3 + 1];
@@ -250,6 +255,9 @@ void computeVolumeCent(struct Volume *v)
 	float z = 0.0f;
 	
 	for (int i = 0; i < 4; ++i) {
+		if (v->faces[i] == NULL)
+			continue;
+
 		x += v->faces[i]->centroid.x;
 		y += v->faces[i]->centroid.y;
 		z += v->faces[i]->centroid.z;
@@ -430,17 +438,18 @@ struct Volume *p_loadVolumes(struct Face *f, int faceNum, int *volNum)
 	v = malloc(sizeof(struct Volume) * n);
 
 	for (int i = 0; i < n; ++i) {
+		p_physInit(&v[i].phys);
 		v[i].index = i;
-		
+
 		v[i].faces[0] = &f[vi[i][0]];
 		v[i].faces[1] = &f[vi[i][1]];
 		v[i].faces[2] = &f[vi[i][2]];
 		v[i].faces[3] = &f[vi[i][3]];
 
-		v[i].faces[0]->thisVol[v[i].faces[0]->vNum++];
-		v[i].faces[1]->thisVol[v[i].faces[1]->vNum++];
-		v[i].faces[2]->thisVol[v[i].faces[2]->vNum++];
-		v[i].faces[3]->thisVol[v[i].faces[3]->vNum++];
+		v[i].faces[0]->thisVol[v[i].faces[0]->vNum++] = &v[i];
+		v[i].faces[1]->thisVol[v[i].faces[1]->vNum++] = &v[i];
+		v[i].faces[2]->thisVol[v[i].faces[2]->vNum++] = &v[i];
+		v[i].faces[3]->thisVol[v[i].faces[3]->vNum++] = &v[i];
 
 		computeVolumeCent(&v[i]);
 		computeVolume(&v[i]);
@@ -465,4 +474,14 @@ struct Volume *p_loadVolumes(struct Face *f, int faceNum, int *volNum)
 	}
 	
 	return v;
+}
+
+int p_volCmp(struct Volume *v0, struct Volume *v1)
+{
+	if (v0 == NULL)
+		return 0;
+	if (v1 == NULL)
+		return 0;
+
+	return v0->index == v1->index ? 1 : 0;
 }

@@ -22,6 +22,9 @@ struct Face { // triangle
 	vec3 normal;
 	vec3 centroid;
 
+	vec3 vGrad; // gradients
+	vec3 pGrad;
+
 	float area;
 
 	int index; // index in face array
@@ -43,8 +46,6 @@ struct Volume { // tetrahedron
 	struct Phys phys;
 
 	vec3 mFlux;
-	vec3 vGrad; // gradients
-	vec3 pGrad;
 
 	int index;
 
@@ -57,5 +58,7 @@ struct Volume { // tetrahedron
 struct Face *p_loadFaces(Mesh *m, int *faceNum);
 
 struct Volume *p_loadVolumes(struct Face *f, int faceNum, int *volNum);
+
+int p_volCmp(struct Volume *v0, struct Volume *v1);
 
 #endif

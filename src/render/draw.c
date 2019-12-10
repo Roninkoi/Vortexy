@@ -128,6 +128,9 @@ void r4(struct Renderer *r, struct Sys *s)
 				vec4 nn = vec4Copy3(&s->objs[i].volumes[j].faces[k]->mFlux);
 
 				float l = vec4Len(&nn);
+
+				if (l <= 0.0f)
+					continue;
 				
 				vec4Add(&nn, &n);
 			
@@ -144,8 +147,8 @@ void r4(struct Renderer *r, struct Sys *s)
 void r_draw(struct Renderer *r, struct Sys *s)
 {
 	r1(r, s);
-	//r4(r, s);
-	r3(r, s);
+	r4(r, s);
+	//r3(r, s);
 }
 
 void r_drawMesh(struct Renderer *r, Mesh *m)

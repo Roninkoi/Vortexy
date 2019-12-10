@@ -5,10 +5,10 @@
 
 // physics object
 struct Phys {
-	vec4 r; // position
-	vec4 v; // velocity
-	vec4 a; // acceleration
-	vec4 f; // force
+	vec3 r; // position
+	vec3 v; // velocity
+	vec3 a; // acceleration
+	vec3 f; // force
 
 	float p; // pressure
 
