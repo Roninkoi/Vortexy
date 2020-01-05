@@ -21,6 +21,8 @@ int main(int argc, char *argv[])
 
 	free(date);
 
+	return 0;
+
 	struct Sim sim;
 
 	// initialize simulation
@@ -28,7 +30,7 @@ int main(int argc, char *argv[])
 
 	// load simulation configuration
 	simParser(&sim, cfg);
-	
+
 	// start
 	s_run(&sim);
 

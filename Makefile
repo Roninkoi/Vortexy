@@ -39,10 +39,10 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/rak/clion-2019.1.4/bin/cmake/linux/bin/cmake
+CMAKE_COMMAND = /usr/bin/cmake
 
 # The command to remove a file.
-RM = /home/rak/clion-2019.1.4/bin/cmake/linux/bin/cmake -E remove -f
+RM = /usr/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /home/rak/Dropbox/Dev/Vortexy
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/home/rak/clion-2019.1.4/bin/cmake/linux/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -69,8 +69,8 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/home/rak/clion-2019.1.4/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/usr/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -474,33 +474,6 @@ src/sim.c.s:
 	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/sim.c.s
 .PHONY : src/sim.c.s
 
-src/util/field.o: src/util/field.c.o
-
-.PHONY : src/util/field.o
-
-# target to build an object file
-src/util/field.c.o:
-	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/util/field.c.o
-.PHONY : src/util/field.c.o
-
-src/util/field.i: src/util/field.c.i
-
-.PHONY : src/util/field.i
-
-# target to preprocess a source file
-src/util/field.c.i:
-	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/util/field.c.i
-.PHONY : src/util/field.c.i
-
-src/util/field.s: src/util/field.c.s
-
-.PHONY : src/util/field.s
-
-# target to generate assembly for a file
-src/util/field.c.s:
-	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/util/field.c.s
-.PHONY : src/util/field.c.s
-
 src/util/mat.o: src/util/mat.c.o
 
 .PHONY : src/util/mat.o
@@ -630,9 +603,6 @@ help:
 	@echo "... src/sim.o"
 	@echo "... src/sim.i"
 	@echo "... src/sim.s"
-	@echo "... src/util/field.o"
-	@echo "... src/util/field.i"
-	@echo "... src/util/field.s"
 	@echo "... src/util/mat.o"
 	@echo "... src/util/mat.i"
 	@echo "... src/util/mat.s"
