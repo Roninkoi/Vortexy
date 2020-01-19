@@ -474,6 +474,33 @@ src/sim.c.s:
 	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/sim.c.s
 .PHONY : src/sim.c.s
 
+src/util/algebra.o: src/util/algebra.c.o
+
+.PHONY : src/util/algebra.o
+
+# target to build an object file
+src/util/algebra.c.o:
+	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/util/algebra.c.o
+.PHONY : src/util/algebra.c.o
+
+src/util/algebra.i: src/util/algebra.c.i
+
+.PHONY : src/util/algebra.i
+
+# target to preprocess a source file
+src/util/algebra.c.i:
+	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/util/algebra.c.i
+.PHONY : src/util/algebra.c.i
+
+src/util/algebra.s: src/util/algebra.c.s
+
+.PHONY : src/util/algebra.s
+
+# target to generate assembly for a file
+src/util/algebra.c.s:
+	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/util/algebra.c.s
+.PHONY : src/util/algebra.c.s
+
 src/util/mat.o: src/util/mat.c.o
 
 .PHONY : src/util/mat.o
@@ -603,6 +630,9 @@ help:
 	@echo "... src/sim.o"
 	@echo "... src/sim.i"
 	@echo "... src/sim.s"
+	@echo "... src/util/algebra.o"
+	@echo "... src/util/algebra.i"
+	@echo "... src/util/algebra.s"
 	@echo "... src/util/mat.o"
 	@echo "... src/util/mat.i"
 	@echo "... src/util/mat.s"

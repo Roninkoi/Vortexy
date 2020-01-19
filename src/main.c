@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 
 	free(date);
 
-	return 0;
+	//return 0;
 
 	struct Sim sim;
 

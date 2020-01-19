@@ -11,7 +11,13 @@
 \usepackage{fancyhdr}
 \usepackage{titling}
 \usepackage[top=52pt, bottom=2cm, left=2cm, right=2cm]{geometry}
-\usepackage[hidelinks]{hyperref}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{authblk}
+% \usepackage{braket} % quantum
+\usepackage[sorting=nyt, style=apa, backend=biber]{biblatex}
+\addbibresource{tepobib.bib}
+\setlength\bibitemsep{1.5\itemsep}
 
 \pagestyle{fancy}
 
@@ -21,16 +27,24 @@
 
 \date{\today}
 
-\author {
-  Roni Koitermaa (Roninkoi) \\
-  \href{mailto:roninkoi@iki.fi}{roninkoi@iki.fi}
+\def \firstauth{
+   Roni Koitermaa
+}
+
+\def \email{roninkoi@iki.fi}
+
+\author[1] {
+   \firstauth\thanks{\href{mailto: \email}{\email}}
 }
 
 \fancyhf{}
 \setlength{\headheight}{15pt}
 \lhead{\thetitle}
-\rhead{Roninkoi}
+\rhead{\firstauth}
 \cfoot{\thepage}
+
+\renewcommand\maketitlehooka{\vspace{0.2\textheight}}
+% \renewcommand\maketitlehookd{\vfill}
 
 \begin{document}
 
@@ -40,7 +54,15 @@
 
 \normalsize
 
-\maketitle
+\begin{titlingpage}
+  \maketitle
+
+  % \begin{abstract}
+  % \end{abstract}
+  \begin{center}
+  Software documentation
+\end{center}
+\end{titlingpage}
 
 \newpage
 
