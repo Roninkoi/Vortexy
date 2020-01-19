@@ -9,11 +9,6 @@ mat GaussElim(mat *m)
 	int pc = 1;
 
 	while(pr < m->r && pc < m->c) {
-		float piv = 0.0f;
-		if (m->m[piv, pc] == 0.0f) {
-		}
-		else {
-		}
 	}
 
 	return r;

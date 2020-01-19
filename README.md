@@ -26,24 +26,15 @@ render
 - irregular triangular meshes
 - mesh defined in a file (.obj)
 - initial and constant velocity field defined
-- two boundary conditions: open (do nothing) / closed (wall)
+- boundary conditions: inlet / outlet / wall
 
 ### Controls
 
-```
-W ------- cam forward
-A ------- cam left
-S ------- cam backward
-D ------- cam right
+| Key | Action |
+| --- | ------ |
+| WASD | Move camera XZ |
+| R / F | Move camera Y |
+| Arrows | Rotate camera XY |
+| Mouse drag | Rotate scene Y |
+| Scroll | Zoom |
 
-R ------- cam up
-F ------- cam down
-
-UP ------ look up
-DOWN ---- look down
-LEFT ---- look left
-RIGHT --- look right
-
-MOUSE --- rotate
-SCROLL -- zoom
-```
