@@ -18,8 +18,8 @@ void r_loadShader(struct Shader *s, char *vertPath, char *fragPath)
 		exit(1);
 	}
 
-	vert_data = (char *) malloc(SRC_MAX);
-	vert_fsize = fread((char *) vert_data, 1, SRC_MAX, vert_fp);
+	vert_data = (char *) malloc(SHADER_MAX);
+	vert_fsize = fread((char *) vert_data, 1, SHADER_MAX, vert_fp);
 
 	fclose(vert_fp);
 
@@ -35,8 +35,8 @@ void r_loadShader(struct Shader *s, char *vertPath, char *fragPath)
 		exit(1);
 	}
 
-	frag_data = (char *) malloc(SRC_MAX);
-	frag_fsize = fread((char *) frag_data, 1, SRC_MAX, frag_fp);
+	frag_data = (char *) malloc(SHADER_MAX);
+	frag_fsize = fread((char *) frag_data, 1, SHADER_MAX, frag_fp);
 
 	fclose(frag_fp);
 
