@@ -59,7 +59,7 @@ void r_init(struct Renderer *r, int *running)
 	r->camPos = nvec4();
 	r->camRot = nvec4();
 
-	r->camPos.z = -2.0f;
+	r->camPos.z = -3.0f;
 
 	r_flatTex(&r->flat, 255, 255, 255, 128, 128);
 	r->tex = &r->flat;

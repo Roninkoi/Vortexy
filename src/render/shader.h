@@ -3,6 +3,8 @@
 
 #include <GL/glew.h>
 
+#define SHADER_MAX 0x100000
+
 struct Shader {
 	GLuint program;
 
