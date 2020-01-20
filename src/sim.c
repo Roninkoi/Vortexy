@@ -24,6 +24,10 @@ void s_init(struct Sim *s)
 #if RENDER_ENABLED == 1
 	r_init(&s->renderer, &s->running);
 #endif
+
+#if OPENCL_ENABLED == 0
+	s->usegpu = 0;
+#endif
 }
 
 // main loop
@@ -76,7 +80,7 @@ void s_tick(struct Sim *s)
 	p_sysTick(&s->sys);
 
 	return;
-
+	/*
 	const int size = 128;
 
 	int *A = (int *) malloc(sizeof(int) * size);
@@ -97,8 +101,8 @@ void s_tick(struct Sim *s)
 		exit(1);
 	}
 
-	src = (char *) malloc(SRC_MAX);
-	src_size = fread(src, 1, SRC_MAX, fp);
+	src = (char *) malloc(KERNEL_MAX);
+	src_size = fread(src, 1, KERNEL_MAX, fp);
 
 	fclose(fp);
 
@@ -161,5 +165,5 @@ void s_tick(struct Sim *s)
 
 	free(A);
 	free(B);
-	free(C);
+	free(C);*/
 }

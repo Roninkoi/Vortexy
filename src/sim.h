@@ -12,16 +12,22 @@
 #include "phys/sys.h"
 #include "util/randomUtil.h"
 
+#define OPENCL_ENABLED 1
+
+#if OPENCL_ENABLED == 0
+
 #define CL_USE_DEPRECATED_OPENCL_1_2_APIS
+
+// kernel size
+#define KERNEL_MAX 0x100000
 
 // OpenCL
 #include <CL/cl.h>
 
+#endif
+
 // enable rendering
 #define RENDER_ENABLED 1
-
-// kernel size
-#define SRC_MAX 0x100000
 
 // renderer include
 #if RENDER_ENABLED == 1
@@ -32,6 +38,9 @@
 #endif
 
 struct Sim {
+#if OPENCL_ENABLED
+#endif
+	
 #if RENDER_ENABLED == 1
 	struct Renderer renderer;
 #endif
