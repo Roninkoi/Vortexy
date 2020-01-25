@@ -16,12 +16,21 @@ mat matCopy(mat *m);
 float matDiagProd(mat *m);
 
 mat matAdd(mat *m0, mat *m1);
-mat matSub(mat *m0, mat *m1);	
+mat matSub(mat *m0, mat *m1);
 mat matMul(mat *m0, mat *m1);
 
 float matDeterminant(mat *m);
 mat matInverse(mat *m);
 mat matTranspose(mat *m);
+
+// diagonal
+mat matGetD(mat *m);
+
+// strictly upper
+mat matGetSU(mat *m);
+
+// lower
+mat matGetL(mat *m);
 
 mat matRandom(float s, int r, int c);
 
