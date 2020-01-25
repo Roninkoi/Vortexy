@@ -171,7 +171,7 @@ void matPrint(mat *m)
 {
 	for (int i = 0; i < m->r; ++i) {
 		for (int j = 0; j < m->c; ++j) {
-			printf("%+.1f ", m->m[i][j]);
+			printf("%+.2f ", m->m[i][j]);
 		}
 		printf("\n");
 	}
@@ -255,6 +255,52 @@ mat matInverse(mat *m)
 	matDestroy(&sm);
 
 	return r;
+}
+
+// get diagonal matrix
+mat matGetD(mat *m)
+{
+	mat d = Mat(0.0f, m->r, m->c);
+	
+	if (m->r != m->c) return d;
+		
+	for (int rc = 0; rc < m->r; ++rc) {
+		d.m[rc][rc] = m->m[rc][rc];
+	}
+
+	return d;
+}
+
+// get strictly upper triangular
+mat matGetSU(mat *m)
+{
+	mat u = Mat(0.0f, m->r, m->c);
+	
+	if (m->r != m->c) return u;
+		
+	for (int r = 0; r < m->r; ++r) {
+		for (int c = r + 1; c < m->c; ++c) {
+			u.m[r][c] = m->m[r][c];
+		}
+	}
+
+	return u;
+}
+
+// get lower triangular
+mat matGetL(mat *m)
+{
+	mat l = Mat(0.0f, m->r, m->c);
+	
+	if (m->r != m->c) return l;
+		
+	for (int c = 0; c < m->c; ++c) {
+		for (int r = c; r < m->r; ++r) {
+			l.m[r][c] = m->m[r][c];
+		}
+	}
+
+	return l;
 }
 
 /*
