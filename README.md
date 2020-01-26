@@ -12,7 +12,6 @@ Compilation:
 
 ```
 cmake .
-
 make
 ```
 
@@ -29,9 +28,10 @@ render
 ## Technical description
 
 - finite volume method
+- SIMPLE algorithm
 - irregular triangular meshes
 - mesh defined in a file (.obj)
-- initial and constant velocity field defined
+- initial and constant velocity field defined in a file
 - boundary conditions: inlet / outlet / wall
 
 ### Controls

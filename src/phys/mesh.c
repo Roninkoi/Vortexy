@@ -36,7 +36,7 @@ void p_meshTransform(Mesh *m, mat4 *mat)
 						m->vertData0[i + 2],
 						m->vertData0[i + 3]);
 
-		vec4 vt = mat4vec4(mat, &v);
+		vec4 vt = mat4MulV(mat, &v);
 
 		m->vertData[i + 0] = vt.x;
 		m->vertData[i + 1] = vt.y;
