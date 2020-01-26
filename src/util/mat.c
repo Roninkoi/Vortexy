@@ -171,7 +171,7 @@ void matPrint(mat *m)
 {
 	for (int i = 0; i < m->r; ++i) {
 		for (int j = 0; j < m->c; ++j) {
-			printf("%+.2f ", m->m[i][j]);
+			printf("%+.3f ", m->m[i][j]);
 		}
 		printf("\n");
 	}
@@ -406,7 +406,7 @@ mat4 mat4Sub(mat4 *m0, mat4 *m1)
 	return r;
 }
 
-vec4 mat4vec4(mat4 *m, vec4 *v) // mat4 x vec4
+vec4 mat4MulV(mat4 *m, vec4 *v) // mat4 x vec4
 {
 	vec4 r = nvec4();
 
@@ -433,7 +433,7 @@ vec4 mat4vec4(mat4 *m, vec4 *v) // mat4 x vec4
 	return r;
 }
 
-mat4 mat4mat4(mat4 *m0, mat4 *m1) // mat4 x mat4
+mat4 mat4Mul(mat4 *m0, mat4 *m1) // mat4 x mat4
 {
 	mat4 r;
 
@@ -536,7 +536,7 @@ mat4 mat4Translate(mat4 *m, vec4 v)
 	tm.m[1][3] = v.y;
 	tm.m[2][3] = v.z;
 
-	r = mat4mat4(m, &tm);
+	r = mat4Mul(m, &tm);
 
 	return r;
 }
@@ -547,7 +547,7 @@ mat4 mat4Scale(mat4 *m, float s)
 	
 	mat4 sm = Mat4(s);
 
-	r = mat4mat4(m, &sm);
+	r = mat4Mul(m, &sm);
 
 	return r;
 }
@@ -654,7 +654,7 @@ mat4 mat4RotateX(mat4 *m, float a)
 
 	rm = mat4RotX(a);
 
-	r = mat4mat4(m, &rm);
+	r = mat4Mul(m, &rm);
 
 	return r;
 }
@@ -667,7 +667,7 @@ mat4 mat4RotateY(mat4 *m, float a)
 
 	rm = mat4RotY(a);
 
-	r = mat4mat4(m, &rm);
+	r = mat4Mul(m, &rm);
 
 	return r;
 }

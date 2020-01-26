@@ -22,16 +22,35 @@ int main(int argc, char *argv[])
 	printf("Vortexy Roninkoi %s\n", date);
 
 	free(date);
-	/*
-	mat t0 = matRandom(10.0f, 10, 10);
+	
+	mat t0 = matRandom(10.0f, 3, 4);
 
-	mat t1 = matRandom(10.0f, 10, 1);
+	mat t1 = matRandom(10.0f, 3, 1);
 	mat t2;
 
-	t0 = matGetL(&t0);
+	t0.m[0][0] = 1.0f;
+	t0.m[0][1] = 3.0f;
+	t0.m[0][2] = 1.0f;
+	t0.m[0][3] = 9.0f;
+	
+	t0.m[1][0] = 1.0f;
+	t0.m[1][1] = 1.0f;
+	t0.m[1][2] = -1.0f;
+	t0.m[1][3] = 1.0f;
+	
+	t0.m[2][0] = 3.0f;
+	t0.m[2][1] = 11.0f;
+	t0.m[2][2] = 5.0f;
+	t0.m[2][3] = 35.0f;
+
+	matPrint(&t0);
+
+	printf("\n");
+	
+	GaussElim(&t0);
 	
 	t2 = GaussSeidel(&t0, &t1);
-
+	
 	matPrint(&t0);
 
 	printf("\n");
@@ -43,12 +62,12 @@ int main(int argc, char *argv[])
 	matPrint(&t2);
 
 	mat t3 = matMul(&t0, &t2);
-
+	
 	printf("\n");
 
 	matPrint(&t3);
 
-	return 0;*/
+	return 0;
 
 	struct Sim sim;
 

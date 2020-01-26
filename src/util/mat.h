@@ -48,8 +48,8 @@ mat4 Mat4(float s);
 mat4 imat4(); // identity
 mat4 nmat4(); // zero
 
-vec4 mat4vec4(mat4 *m, vec4 *v); // mat4 x vec4
-mat4 mat4mat4(mat4 *m0, mat4 *m1); // mat4 x mat4
+vec4 mat4MulV(mat4 *m, vec4 *v); // mat4 x vec4
+mat4 mat4Mul(mat4 *m0, mat4 *m1); // mat4 x mat4
 
 mat4 mat4Add(mat4 *m0, mat4 *m1);
 mat4 mat4Sub(mat4 *m0, mat4 *m1);
