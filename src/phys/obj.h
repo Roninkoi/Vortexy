@@ -2,7 +2,6 @@
 #define OBJ_H
 
 #include "mesh.h"
-#include "phys.h"
 #include "volume.h"
 #include "fluid.h"
 
@@ -17,7 +16,6 @@ typedef struct {
 	int volNum;
 
 	struct Fluid fluid;
-	struct Phys phys;
 } Obj;
 
 void p_loadObj(Obj *o, char *meshPath, char *fluidPath);

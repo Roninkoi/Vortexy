@@ -91,4 +91,7 @@ float vec3Dot(vec3 *v0, vec3 *v1);
 
 vec3 vec3Copy(vec3 *v);
 
+// return outwards pointing vector
+vec3 vec3Outwards(vec3 *p0, vec3 *p1, vec3 *v);
+
 #endif

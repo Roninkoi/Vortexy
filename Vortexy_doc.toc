@@ -12,7 +12,9 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.3}Discretization}{2}{subsection.2.3}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.4}Jacobi method}{2}{subsection.2.4}% 
+\contentsline {subsection}{\numberline {2.4}Gauss-Seidel method}{2}{subsection.2.4}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.5}SIMPLE algorithm}{2}{subsection.2.5}% 
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {3}Implementation}{2}{section.3}% 
 \defcounter {refsection}{0}\relax 
@@ -20,20 +22,14 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.2}Solver}{2}{subsection.3.2}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.3}SIMPLE algorithm}{2}{subsection.3.3}% 
+\contentsline {subsection}{\numberline {3.3}Rendering}{2}{subsection.3.3}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.4}Parallelization}{2}{subsection.3.4}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.5}Rendering}{2}{subsection.3.5}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4}Technical documentation}{2}{section.4}% 
+\contentsline {section}{\numberline {4}Software}{2}{section.4}% 
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.1}Compilation}{2}{subsection.4.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2}Code style}{2}{subsection.4.2}% 
+\contentsline {subsection}{\numberline {4.2}Configuration}{2}{subsection.4.2}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3}Configuration}{2}{subsection.4.3}% 
+\contentsline {subsection}{\numberline {4.3}Examples}{2}{subsection.4.3}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.4}Examples}{2}{subsection.4.4}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {section}{References}{2}{subsection.4.4}% 
+\contentsline {section}{References}{2}{subsection.4.3}% 

@@ -38,6 +38,9 @@ void matPrint(mat *m);
 
 void matDestroy(mat *m);
 
+mat matVec3(vec3 *v);
+mat matVec4(vec4 *v);
+
 // 4 x 4 square matrix type
 typedef struct {
 	float m[4][4];

@@ -22,6 +22,29 @@ mat Mat(float s, int r, int c)
 	return m;
 }
 
+mat matVec3(vec3 *v)
+{
+	mat m = Mat(0.0f, 3, 1);
+
+	m.m[0][0] = v->x;
+	m.m[1][0] = v->y;
+	m.m[2][0] = v->z;
+
+	return m;
+}
+
+mat matVec4(vec4 *v)
+{
+	mat m = Mat(0.0f, 4, 1);
+
+	m.m[0][0] = v->x;
+	m.m[1][0] = v->y;
+	m.m[2][0] = v->z;
+	m.m[3][0] = v->w;
+
+	return m;
+}
+
 mat matCopy(mat *m)
 {
 	mat r = Mat(0.0f, m->r, m->c);
@@ -71,7 +94,7 @@ mat matMul(mat *m0, mat *m1)
 {
 	mat r = Mat(0.0f, m0->r, m1->c);
 
-	if (m0->c != m1->r)
+	if (m0->r != m1->c)
 		return r;
 
 	for (int i = 0; i < m0->r; ++i) {
@@ -180,11 +203,13 @@ void matPrint(mat *m)
 void matDestroy(mat *m)
 {
 	for (int i = 0; i < m->r; ++i) {
+		//if (m->m == NULL)
+			//break;
+
 		free(m->m[i]);
 	}
 	free(m->m);
 }
-
 
 float matMinor(mat *m, int i, int j)
 {
@@ -437,7 +462,7 @@ mat4 mat4Mul(mat4 *m0, mat4 *m1) // mat4 x mat4
 {
 	mat4 r;
 
-	// loops unrolled for performance on old compilers
+	// loops unrolled
 
 	// row 0
 	r.m[0][0] = m0->m[0][0] * m1->m[0][0]; // m0 row 0 dot m1 col 0

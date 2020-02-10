@@ -3,11 +3,10 @@
 
 #include "fluid.h"
 #include "obj.h"
+#include "solver.h"
 
 // physical system
 struct Sys {
-	struct Fluid fluid;
-
 	vec4 ext; // external field
 
 	Obj *objs;

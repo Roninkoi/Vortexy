@@ -96,7 +96,15 @@ void r_update(struct Renderer *r)
 	r->view = mat4RotateX(&r->view, r->camRot.x);
 	r->view = mat4RotateY(&r->view, r->camRot.y);
 	r->view = mat4Translate(&r->view, Vec4(-r->camPos.x, -r->camPos.y, -r->camPos.z, 0.0f));
-
+/*
+	mat4 faux = imat4();
+	glUniformMatrix4fv(r->modelUni, 1, GL_TRUE, &faux.m[0][0]);
+	glUniformMatrix4fv(r->projUni, 1, GL_TRUE, &faux.m[0][0]);
+	glUniformMatrix4fv(r->viewUni, 1, GL_TRUE, &faux.m[0][0]);*/
+/*
+	r->model = imat4();
+	r->view = imat4();
+	r->proj = imat4();*/
 	glUniformMatrix4fv(r->modelUni, 1, GL_TRUE, &r->model.m[0][0]);
 	glUniformMatrix4fv(r->projUni, 1, GL_TRUE, &r->proj.m[0][0]);
 	glUniformMatrix4fv(r->viewUni, 1, GL_TRUE, &r->view.m[0][0]);
@@ -193,9 +201,83 @@ void r_flush(struct Renderer *r)
 	r->indexNum = 0;
 }
 
+float getCentZ(struct Renderer *r, int i0, int i1, int i2)
+{
+	float z = r->vertices[r->indices[i0]*4 + 2] +
+		r->vertices[r->indices[i1]*4 + 2] +
+		r->vertices[r->indices[i2]*4 + 2];
+
+	z /= 3.0f;
+
+	return z;
+
+	vec4 p0 = Vec4(r->vertices[r->indices[i0]*4],
+				  r->vertices[r->indices[i0]*4 + 1],
+				  r->vertices[r->indices[i0]*4 + 2],
+				   r->vertices[r->indices[i0]*4 + 3]);
+
+	vec4 p1 = Vec4(r->vertices[r->indices[i1]*4],
+				   r->vertices[r->indices[i1]*4 + 1],
+				   r->vertices[r->indices[i1]*4 + 2],
+				   r->vertices[r->indices[i1]*4 + 3]);
+
+	vec4 p2 = Vec4(r->vertices[r->indices[i2]*4],
+				   r->vertices[r->indices[i2]*4 + 1],
+				   r->vertices[r->indices[i2]*4 + 2],
+				   r->vertices[r->indices[i2]*4 + 3]);
+
+	p0 = mat4MulV(&r->model, &p0);
+	p0 = mat4MulV(&r->view, &p0);
+	p0 = mat4MulV(&r->proj, &p0);
+
+	p1 = mat4MulV(&r->model, &p1);
+	p1 = mat4MulV(&r->view, &p1);
+	p1 = mat4MulV(&r->proj, &p1);
+
+	p2 = mat4MulV(&r->model, &p2);
+	p2 = mat4MulV(&r->view, &p2);
+	p2 = mat4MulV(&r->proj, &p2);
+
+	vec4 p = nvec4();
+	vec4Add(&p, &p0);
+	vec4Add(&p, &p1);
+	vec4Add(&p, &p2);
+	vec4Div(&p, 3.0f);
+
+	return p.z;
+}
+
 void r_sort(struct Renderer *r)
 {
-	// TODO: sort by triangle centroid
+	if (r->drawMode != GL_TRIANGLES) return;
+
+	int n = r->indexNum / 3;
+	
+	for (int i = 0; i < n; i += 3) {
+		int imax = i;
+		float vmax = getCentZ(r, i, i + 1, i + 2);
+		
+		for (int j = i + 1; j < n; j += 3) {
+			float tmax = getCentZ(r, j, j + 1, j + 2);
+			
+			if (tmax > vmax) {
+				imax = j;
+				vmax = tmax;
+			}
+		}
+
+		int i0 = r->indices[i];
+		int i1 = r->indices[i + 1];
+		int i2 = r->indices[i + 2];
+
+		r->indices[i] = r->indices[imax];
+		r->indices[i + 1] = r->indices[imax + 1];
+		r->indices[i + 2] = r->indices[imax + 2];
+
+		r->indices[imax] = i0;
+		r->indices[imax + 1] = i1;
+		r->indices[imax + 2] = i2;
+	}
 }
 
 void r_render(struct Renderer *r)

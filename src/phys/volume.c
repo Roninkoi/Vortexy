@@ -68,6 +68,9 @@ void computeNormalArea(struct Face *f)
 	f->area = vec3Len(&f->normal) * 0.5f;
 
 	vec3Normalize(&f->normal);
+
+	f->surface = vec3Copy(&f->normal);
+	vec3Mul(&f->surface, f->area);
 }
 
 void connects(struct Face *f, int **fl, int *fln, int i, int j)
@@ -175,6 +178,9 @@ struct Face *p_loadFaces(Mesh *m, int *faceNum)
 		f[i].centroid = nvec3();
 		f[i].mFlux = nvec3();
 		f[i].pGrad = nvec3();
+		f[i].vGrad = Mat(0.0f, 3, 3);
+		f[i].v = nvec3();
+		f[i].p = 0.0f;
 		f[i].index = i;
 		f[i].vNum = 0;
 		f[i].thisVol[0] = NULL;
@@ -438,7 +444,6 @@ struct Volume *p_loadVolumes(struct Face *f, int faceNum, int *volNum)
 	v = malloc(sizeof(struct Volume) * n);
 
 	for (int i = 0; i < n; ++i) {
-		p_physInit(&v[i].phys);
 		v[i].index = i;
 
 		v[i].faces[0] = &f[vi[i][0]];
