@@ -1,5 +1,5 @@
 /*
-  Vortexy - GPU fluid dynamics simulator
+  Vortexy - Fluid dynamics simulator
   Roni Koitermaa 2019
 */
 
@@ -12,9 +12,9 @@
 #include "phys/sys.h"
 #include "util/randomUtil.h"
 
-#define OPENCL_ENABLED 1
+#define OPENCL_ENABLED 0
 
-#if OPENCL_ENABLED == 0
+#if OPENCL_ENABLED == 1
 
 #define CL_USE_DEPRECATED_OPENCL_1_2_APIS
 
@@ -38,7 +38,7 @@
 #endif
 
 struct Sim {
-#if OPENCL_ENABLED
+#if OPENCL_ENABLED == 1
 #endif
 	
 #if RENDER_ENABLED == 1

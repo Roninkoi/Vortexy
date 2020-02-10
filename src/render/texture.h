@@ -20,8 +20,6 @@ void r_flatTex(Texture *t,
 			   unsigned char r, unsigned char g, unsigned char b,
 			   int w, int h);
 
-//void r_fieldToTex(Field *f, Texture *t);
-
 void r_destroyTex(Texture *t);
 
 #endif

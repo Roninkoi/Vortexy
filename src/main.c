@@ -23,35 +23,52 @@ int main(int argc, char *argv[])
 
 	free(date);
 	
-	mat t0 = matRandom(10.0f, 3, 4);
+	mat t0 = matRandom(10.0f, 5, 5);
 
-	mat t1 = matRandom(10.0f, 3, 1);
+	mat t1 = matRandom(10.0f, 5, 1);
 	mat t2;
 
-	t0.m[0][0] = 1.0f;
-	t0.m[0][1] = 3.0f;
-	t0.m[0][2] = 1.0f;
-	t0.m[0][3] = 9.0f;
+	t0.m[0][0] = 6.0f;
+	t0.m[0][1] = 1.0f;
+	t0.m[0][2] = 0.0f;
+	t0.m[0][3] = 3.0f;
+	t0.m[0][4] = 3.0f;
 	
-	t0.m[1][0] = 1.0f;
-	t0.m[1][1] = 1.0f;
-	t0.m[1][2] = -1.0f;
-	t0.m[1][3] = 1.0f;
+	t0.m[1][0] = 0.0f;
+	t0.m[1][1] = 6.0f;
+	t0.m[1][2] = 0.0f;
+	t0.m[1][3] = 4.0f;
+	t0.m[1][4] = 3.0f;
 	
-	t0.m[2][0] = 3.0f;
-	t0.m[2][1] = 11.0f;
-	t0.m[2][2] = 5.0f;
-	t0.m[2][3] = 35.0f;
+	t0.m[2][0] = 0.0f;
+	t0.m[2][1] = 5.0f;
+	t0.m[2][2] = 6.0f;
+	t0.m[2][3] = 1.0f;
+	t0.m[2][4] = 0.0f;
+
+	t0.m[3][0] = 5.0f;
+	t0.m[3][1] = 5.0f;
+	t0.m[3][2] = 0.0f;
+	t0.m[3][3] = 6.0f;
+	t0.m[3][4] = 0.0f;
+
+	t0.m[4][0] = 2.0f;
+	t0.m[4][1] = 0.0f;
+	t0.m[4][2] = 2.0f;
+	t0.m[4][3] = 4.0f;
+	t0.m[4][4] = 10.0f;
+
+	t1.m[0][0] = 22.0f;
+	t1.m[1][0] = 21.0f;
+	t1.m[2][0] = 20.0f;
+	t1.m[3][0] = 10.0f;
+	t1.m[4][0] = 22.0f;
 
 	matPrint(&t0);
 
 	printf("\n");
-	
-	GaussElim(&t0);
-	
+
 	t2 = GaussSeidel(&t0, &t1);
-	
-	matPrint(&t0);
 
 	printf("\n");
 	
@@ -65,9 +82,7 @@ int main(int argc, char *argv[])
 	
 	printf("\n");
 
-	matPrint(&t3);
-
-	return 0;
+	//return 0;
 
 	struct Sim sim;
 

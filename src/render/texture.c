@@ -28,7 +28,6 @@ void r_flatTex(Texture *t,
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, t->w, t->h, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
 
-	//free(image);
 	t->data = image;
 }
 
@@ -50,7 +49,6 @@ void r_loadTex(Texture *t, char *path)
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, t->w, t->h, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
 
-	//free(image);
 	t->data = image;
 }
 

@@ -1,4 +1,5 @@
 #include "vec.h"
+#include "util.h"
 
 /*
   VEC4
@@ -232,3 +233,14 @@ vec3 vec3Copy(vec3 *v)
 	return Vec3(v->x, v->y, v->z);
 }
 
+vec3 vec3Outwards(vec3 *p0, vec3 *p1, vec3 *v)
+{
+	vec3 r;
+	vec3 d = vec3Copy(p1);
+	vec3Sub(&d, p0);
+
+	r = vec3Copy(v);
+	vec3Mul(&r, sign(vec3Dot(v, &d)));
+
+	return r;
+}

@@ -51,6 +51,7 @@ set_target_properties(Vortexy PROPERTIES LINK_FLAGS -Wl,-rpath=$ORIGIN/lib,-z,or
 
 #target_link_libraries(Vortexy ${OpenCL_LIBRARY} m GLEW GL ${GLFW_STATIC_LIBRARIES})
 
-target_link_libraries(Vortexy ${OpenCL_LIBRARY} m GLEW GL glfw)
+target_link_libraries(Vortexy #${OpenCL_LIBRARY}
+  m GLEW GL glfw)
 #target_link_libraries(Vortexy /usr/lib64/libOpenCL.so.1)
 

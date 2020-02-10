@@ -1,6 +1,6 @@
 #version 150
 
-#define TRICOL 1
+#define TRICOL 0
 
 out vec4 fCol;
 
@@ -13,9 +13,11 @@ uniform sampler2D tex;
 
 void main()
 {
-    fCol = texture(tex, vTex.st) * vCol;
+    vec4 col = texture(tex, vTex.st) * vCol;
 
-    fCol /= max(exp(vPos.z*0.4f), 1.0f);
+    col /= max(exp(vPos.z*0.2f), 1.0f);
+
+	fCol = col;
 
     if (TRICOL == 1)
         fCol *= float(gl_PrimitiveID % 4 + 1) * 0.25f * 2.0f;

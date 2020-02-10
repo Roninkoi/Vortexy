@@ -91,12 +91,6 @@
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/obj.h">
 			<Option target="Vortexy"/>
 		</Unit>
-		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/phys.c">
-			<Option target="Vortexy"/>
-		</Unit>
-		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/phys.h">
-			<Option target="Vortexy"/>
-		</Unit>
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/solver.h">
 			<Option target="Vortexy"/>
 		</Unit>
