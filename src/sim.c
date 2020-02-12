@@ -20,7 +20,7 @@ void s_init(struct Sim *s)
 
 	// initialize system
 	p_sysInit(&s->sys);
-	
+
 #if RENDER_ENABLED == 1
 	r_init(&s->renderer, &s->running);
 #endif
@@ -36,7 +36,7 @@ void s_run(struct Sim *s)
 	p_addObj(&s->sys, s->meshPath, s->fluidPath);
 
 	p_sysStart(&s->sys);
-	
+
 	while (s->running) {
 		int p = timeNow() - s->timeOld >= 1;
 	  

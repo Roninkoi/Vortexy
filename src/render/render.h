@@ -23,7 +23,8 @@
 #define SCREEN_WIDTH 1600
 #define SCREEN_HEIGHT 900
 
-#define BATCH_SIZE 16384
+// 16384
+#define BATCH_SIZE 16384*8
 
 struct Renderer {
 	struct Window window;
@@ -107,9 +108,9 @@ void r_draw(struct Renderer *r, struct Sys *s);
 
 void r_drawMesh(struct Renderer *r, Mesh *m);
 
-void r_drawWireMesh(struct Renderer *r, Mesh *m);
+void r_drawWireMesh(struct Renderer *r, Mesh *m, float thickness);
 
-void r_drawLine(struct Renderer *r, vec4 v0, vec4 v1, vec4 col);
+void r_drawLine(struct Renderer *r, vec4 v0, vec4 v1, vec4 col, float thickness);
 
 void r_drawVec(struct Renderer *r, vec4 v0, vec4 v1, vec4 col);
 

@@ -24,4 +24,4 @@ void p_destroyObj(Obj *o)
 
 	//p_destroyFaces();
 	//p_destroyVolumes();
-}	
+}

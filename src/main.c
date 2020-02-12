@@ -86,11 +86,11 @@ int main(int argc, char *argv[])
 
 	struct Sim sim;
 
-	// initialize simulation
-	s_init(&sim);
-
 	// load simulation configuration
 	simParser(&sim, cfg);
+
+	// initialize simulation
+	s_init(&sim);
 
 	// start
 	s_run(&sim);

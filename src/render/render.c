@@ -124,6 +124,7 @@ void r_add(struct Renderer *r,
 	++r->draws;
 
 	if (r->vertexNum + vn >= BATCH_SIZE || r->indexNum + in >= BATCH_SIZE) {
+		return;
 		r_render(r); // check later
 	}
 

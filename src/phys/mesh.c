@@ -1,5 +1,6 @@
 #include "mesh.h"
 #include "util/objParser.h"
+#include "util/meshParser.h"
 
 void p_meshInit(Mesh *m)
 {
@@ -47,7 +48,11 @@ void p_meshTransform(Mesh *m, mat4 *mat)
 
 void p_loadMesh(Mesh *m, char *path, int optimize, int loadTex)
 {
-	*m = objParser(path, optimize, loadTex);
+	if (strstr(path, ".obj") != NULL)
+		*m = objParser(path, optimize, loadTex);
+
+	if (strstr(path, ".mesh") != NULL)
+		*m = meshParser(path);
 
 	m->vertData0 = floatCopy(m->vertData, m->vertNum);
 }

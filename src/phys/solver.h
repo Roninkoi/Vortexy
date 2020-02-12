@@ -5,6 +5,9 @@
 
 void p_fp(struct Face *f)
 {
+	if (f->vNum == 0)
+		return;
+
 	if (f->vNum < 2) {
 		f->p = f->thisVol[0]->p;
 		return;
