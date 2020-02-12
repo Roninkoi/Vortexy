@@ -129,6 +129,7 @@ inline char **wordsFromFile(char *path, int size, int *wordNum)
 
 	int wn = 0;
 	int comment = 0;
+	int lasts = 0;
 
 	for (int i = 0; data[i]; ++i) { // separate into words
 		char read = data[i];
@@ -147,9 +148,12 @@ inline char **wordsFromFile(char *path, int size, int *wordNum)
 
 		if (read != ' ' && read != '\n' && read != '\r') {
 			words[wn] = strAppend(words[wn], read);
+			lasts = 0;
 		}
 		else {
-			++wn;
+			if (!lasts)
+				++wn;
+			lasts = 1;
 		}
 	}
 

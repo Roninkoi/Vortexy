@@ -30,9 +30,11 @@ void r1(struct Renderer *r, struct Sys *s)
 	//r_sort(r);
 	r_render(r);
 
+	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_BLEND);
 	for (int i = 0; i < s->objNum; ++i) {
 		p_meshSetCol(&s->objs[i].mesh, 0.0f, 0.5f, 0.7f, 1.0f);
-		r_drawWireMesh(r, &s->objs[i].mesh);
+		r_drawWireMesh(r, &s->objs[i].mesh, 2.0f);
 	}
 
 	r_render(r);
@@ -58,7 +60,7 @@ void r2(struct Renderer *r, struct Sys *s)
 		vec4Normalize(&c);
 		vec4Mul(&c, 4.0f);
 
-		r_drawLine(r, Vec4(0.0f, 0.0f, 0.0f, 0.0f), Vec4(cosf(f * M_PI * 2.0f), sinf(f * M_PI * 2.0f), 0.0f, 0.0f), c);
+		r_drawLine(r, Vec4(0.0f, 0.0f, 0.0f, 0.0f), Vec4(cosf(f * M_PI * 2.0f), sinf(f * M_PI * 2.0f), 0.0f, 0.0f), c, 2.0f);
 	}
 
 	for (float x = -5.0f; x < 5.0f; x += 0.22f) {
@@ -66,7 +68,7 @@ void r2(struct Renderer *r, struct Sys *s)
 			for (float z = -5.0f; z < 5.0f; z += 0.22f) {
 				r_drawLine(r, Vec4(x, y, z, 0.0f), Vec4(x + 0.1f * sinf(y * 3.5f + r->ticks * 0.002f),
 														y + 0.1f * sinf(x * 3.5f + r->ticks * 0.002f), z,
-														0.0f), Vec4(0.0f, 4.0f, 0.0f, 1.0f));
+														0.0f), Vec4(0.0f, 4.0f, 0.0f, 1.0f), 2.0f);
 			}
 		}
 	}
@@ -153,7 +155,7 @@ void r4(struct Renderer *r, struct Sys *s)
 				r_drawLine(r,
 						   n,
 						   nn,
-						   Vec4(10.0f * l, 10.0f * fmax(0.0f, 1.0f - l), 0.0f, 1.0f));
+						   Vec4(10.0f * l, 10.0f * fmax(0.0f, 1.0f - l), 0.0f, 1.0f), 2.0f);
 			}
 		}
 	}
@@ -178,12 +180,19 @@ void r5(struct Renderer *r, struct Sys *s)
 			if (l <= 0.0f)
 				continue;
 
-			vec4Add(&nn, &n);
+			vec4 n0 = vec4Copy(&n);
+
+			vec4 noffs = vec4Copy(&nn);
+			vec4Normalize(&noffs);
+			vec4Mul(&noffs, 0.005f);
+			vec4Add(&n, &noffs);
+
+			vec4Add(&nn, &n0);
 
 			r_drawLine(r,
 					   n,
 					   nn,
-					   Vec4(10.0f * l, 10.0f * fmax(0.0f, 1.0f - l), 0.0f, 1.0f));
+					   Vec4(10.0f * l, 10.0f * fmax(0.0f, 1.0f - l), 0.0f, 1.0f), 2.0f);
 		}
 
 	}
@@ -275,11 +284,11 @@ void r_drawVolume(struct Renderer *r, struct Volume *v, vec4 col)
 	r_add(r, vd, td, nd, cd, id, 48, 12);
 }
 
-void r_drawWireMesh(struct Renderer *r, Mesh *m)
+void r_drawWireMesh(struct Renderer *r, Mesh *m, float thickness)
 {
 	r->drawMode = GL_LINES;
 
-	glLineWidth(4.0f);
+	glLineWidth(thickness);
 
 	int newInds[2 * m->indNum];
 
@@ -298,11 +307,11 @@ void r_drawWireMesh(struct Renderer *r, Mesh *m)
 		  m->vertNum, m->indNum * 2);
 }
 
-void r_drawLine(struct Renderer *r, vec4 v0, vec4 v1, vec4 col)
+void r_drawLine(struct Renderer *r, vec4 v0, vec4 v1, vec4 col, float thickness)
 {
 	r->drawMode = GL_LINES;
 
-	glLineWidth(3.0f);
+	glLineWidth(thickness);
 
 	float vd[8] = {
 			v0.x, v0.y, v0.z, v0.w,
@@ -333,11 +342,11 @@ void r_drawVec(struct Renderer *r, vec4 v0, vec4 v1, vec4 col)
 {
 	r->drawMode = GL_TRIANGLES;
 
-	float width = 0.01f;
+	float width = 0.015f;
 
 	float vd[12] = {
-			v0.x + width, v0.y + width, v0.z + width, v0.w,
-			v0.x - width, v0.y - width, v0.z - width, v0.w,
+			v0.x, v0.y + width, v0.z, v0.w,
+			v0.x, v0.y - width, v0.z, v0.w,
 			v1.x, v1.y, v1.z, v1.w
 	};
 

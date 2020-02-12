@@ -456,6 +456,9 @@ struct Volume *p_loadVolumes(struct Face *f, int faceNum, int *volNum)
 		v[i].faces[2]->thisVol[v[i].faces[2]->vNum++] = &v[i];
 		v[i].faces[3]->thisVol[v[i].faces[3]->vNum++] = &v[i];
 
+		v[i].pGrad = nvec3();
+		v[i].vGrad = Mat(0.0f, 3, 3);
+
 		computeVolumeCent(&v[i]);
 		computeVolume(&v[i]);
 		

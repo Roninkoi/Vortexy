@@ -203,8 +203,8 @@ void matPrint(mat *m)
 void matDestroy(mat *m)
 {
 	for (int i = 0; i < m->r; ++i) {
-		//if (m->m == NULL)
-			//break;
+		if (m->m == NULL)
+			break;
 
 		free(m->m[i]);
 	}
