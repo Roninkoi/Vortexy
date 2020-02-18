@@ -7,12 +7,14 @@
 
 // physical system
 struct Sys {
-	vec4 ext; // external field
-
 	Obj *objs;
 
 	int objNum;
 	int ticks;
+	float time;
+
+	float t;
+	float dt;
 
 	int selected;
 };

@@ -35,4 +35,8 @@ extern int contains(int *arr, int c, int n);
 
 extern char **wordsFromFile(char *path, int size, int *wordNum);
 
+extern int getBit(int v, int bit);
+
+extern int setBit(int v, int bit, int b);
+
 #endif

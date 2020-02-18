@@ -1,6 +1,7 @@
 #ifndef INPUT_H
 #define INPUT_H
 
+#include <util/util.h>
 #include "window.h"
 #include "render.h"
 #include "phys/sys.h"
@@ -11,6 +12,13 @@ void scrollCallback(GLFWwindow *window, double xoffs, double yoffs) {
 
 int ctrlDown;
 int shiftDown;
+
+int n1Down;
+int n2Down;
+int n3Down;
+int n4Down;
+int n5Down;
+int n6Down;
 
 void r_getInput(struct Renderer *r, struct Sys* s)
 {
@@ -92,6 +100,66 @@ void r_getInput(struct Renderer *r, struct Sys* s)
 	}
 	else {
 		shiftDown = 0;
+	}
+
+	if (glfwGetKey(r->window.window, GLFW_KEY_1)) {
+		if (!n1Down) {
+			n1Down = 1;
+			r->vis = setBit(r->vis, 1, !getBit(r->vis, 1));
+		}
+	}
+	else {
+		n1Down = 0;
+	}
+
+	if (glfwGetKey(r->window.window, GLFW_KEY_2)) {
+		if (!n2Down) {
+			n2Down = 2;
+			r->vis = setBit(r->vis, 2, !getBit(r->vis, 2));
+		}
+	}
+	else {
+		n2Down = 0;
+	}
+
+	if (glfwGetKey(r->window.window, GLFW_KEY_3)) {
+		if (!n3Down) {
+			n3Down = 1;
+			r->vis = setBit(r->vis, 3, !getBit(r->vis, 3));
+		}
+	}
+	else {
+		n3Down = 0;
+	}
+
+	if (glfwGetKey(r->window.window, GLFW_KEY_4)) {
+		if (!n4Down) {
+			n4Down = 1;
+			r->vis = setBit(r->vis, 4, !getBit(r->vis, 4));
+		}
+	}
+	else {
+		n4Down = 0;
+	}
+
+	if (glfwGetKey(r->window.window, GLFW_KEY_5)) {
+		if (!n5Down) {
+			n5Down = 1;
+			r->vis = setBit(r->vis, 5, !getBit(r->vis, 5));
+		}
+	}
+	else {
+		n5Down = 0;
+	}
+
+	if (glfwGetKey(r->window.window, GLFW_KEY_6)) {
+		if (!n6Down) {
+			n6Down = 1;
+			r->vis = setBit(r->vis, 6, !getBit(r->vis, 6));
+		}
+	}
+	else {
+		n6Down = 0;
 	}
 }
 

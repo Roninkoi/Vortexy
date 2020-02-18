@@ -24,7 +24,7 @@
 #define SCREEN_HEIGHT 900
 
 // 16384
-#define BATCH_SIZE 16384*8
+#define BATCH_SIZE 16384*16
 
 struct Renderer {
 	struct Window window;
@@ -79,6 +79,8 @@ struct Renderer {
 
 	vec4 camPos;
 	vec4 camRot;
+
+	int vis;
 };
 
 // RENDER

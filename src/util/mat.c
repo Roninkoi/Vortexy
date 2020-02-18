@@ -45,6 +45,18 @@ mat matVec4(vec4 *v)
 	return m;
 }
 
+vec3 vec3Mat(mat *m)
+{
+	if (m->r == 3) {
+		return Vec3(m->m[0][0], m->m[1][0], m->m[2][0]);
+	}
+	else if (m->c == 3) {
+		return Vec3(m->m[0][0], m->m[0][1], m->m[0][2]);
+	}
+
+	return Vec3(0.0f, 0.0f, 0.0f);
+}
+
 mat matCopy(mat *m)
 {
 	mat r = Mat(0.0f, m->r, m->c);
@@ -195,6 +207,16 @@ void matPrint(mat *m)
 	for (int i = 0; i < m->r; ++i) {
 		for (int j = 0; j < m->c; ++j) {
 			printf("%+.3f ", m->m[i][j]);
+		}
+		printf("\n");
+	}
+}
+
+void matPrint1(mat *m)
+{
+	for (int i = 0; i < m->r; ++i) {
+		for (int j = 0; j < m->c; ++j) {
+			printf("%+.1f ", m->m[i][j]);
 		}
 		printf("\n");
 	}
