@@ -5,6 +5,16 @@
 #include <stdio.h>
 #include <time.h>
 
+unsigned int timeMillis()
+{
+	long t;
+	struct timespec spec;
+
+	clock_gettime(CLOCK_MONOTONIC, &spec);
+
+	t = round( spec.tv_nsec / 1.0e6) + spec.tv_sec * 1000.0;
+}
+
 unsigned int timeNow()
 {
 	return time(NULL);

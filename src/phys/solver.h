@@ -3,7 +3,146 @@
 
 #include "volume.h"
 
-void p_fp(struct Face *f)
+void p_constructMats(Obj *o)
+{
+	o->a = Mat(1.0f, o->volNum * 3, o->volNum * 3);
+	o->b = Mat(1.0f, o->volNum * 3, 1);
+	o->v = Mat(1.0f, o->volNum * 3, 1);
+}
+
+void p_computeCoeffs(Obj *o)
+{
+	for (int i = 0; i < o->volNum; ++i) {
+		o->volumes[i].a = o->volumes[i].flux;
+
+		for (int j = 0; j < 4; ++j) {
+			o->volumes[i].a += o->volumes[i].faces[j]->flux;
+		}
+
+		o->volumes[i].b = nvec3();
+		vec3Sub(&o->volumes[i].b, &o->volumes->vFlux);
+
+		vec3 b0 = vec3Copy(&o->volumes[i].pGrad);
+		vec3Mul(&b0, o->volumes[i].vol);
+
+		vec3 b1 = nvec3();
+		vec3 b2 = nvec3();
+
+		for (int j = 0; j < 4; ++j) {
+			vec3Add(&b1, &o->volumes[i].faces[j]->vFlux);
+
+			mat g = matCopy(&o->volumes[i].faces[j]->vGrad);
+			matTranspose(&g);
+			mat v0 = matVec3(&o->volumes[i].faces[j]->surface);
+			mat v1 = matMul(&g, &v0);
+			vec3 v2 = vec3Mat(&v1);
+			vec3Mul(&v2, o->fluid.mu);
+
+			vec3Add(&b2, &v2);
+
+			matDestroy(&g);
+			matDestroy(&v0);
+			matDestroy(&v1);
+		}
+
+		vec3Sub(&o->volumes[i].b, &b0);
+		vec3Sub(&o->volumes[i].b, &b1);
+		vec3Add(&o->volumes[i].b, &b2);
+
+		vec3Print(&o->volumes[i].b);
+	}
+}
+
+void p_computeFaceFs(Obj *o)
+{
+	for (int i = 0; i < o->faceNum; ++i) {
+		if (vec3Len(&o->faces[i].volDist) == 0.0f)
+			continue;
+
+		o->faces[i].flux = vec3Len(&o->faces[i].mFlux);
+		o->faces[i].flux += o->fluid.mu * (vec3Len(&o->faces[i].surfaceE) / vec3Len(&o->faces[i].volDist));
+
+		mat t = matVec3(&o->faces[i].surfaceT);
+
+		mat v0 = matMul(&t, &o->faces[i].vGrad);
+		o->faces[i].vFlux = vec3Mat(&v0);
+		vec3Mul(&o->faces[i].vFlux, -o->fluid.mu);
+
+		//vec3 v1 =
+
+		matDestroy(&t);
+		matDestroy(&v0);
+	}
+}
+
+void p_computeVolFs(Obj *o)
+{
+	for (int i = 0; i < o->volNum; ++i) {
+		o->volumes[i].flux = (o->fluid.rho * o->volumes[i].vol) / o->dt;
+
+		o->volumes[i].vFlux = vec3Copy(&o->volumes[i].v);
+		vec3Mul(&o->volumes[i].vFlux, -(o->fluid.rho * o->volumes[i].vol) / o->dt);
+
+		vec3 s = vec3Copy(&o->f);
+		vec3Mul(&s, o->volumes[i].vol);
+
+		vec3Sub(&o->volumes[i].vFlux, &s);
+	}
+}
+
+// minimum correction
+void p_decomposeSurfs(Obj *o)
+{
+	for (int i = 0; i < o->volNum; ++i) {
+		for (int j = i + 1; j < o->volNum; ++j) {
+			struct Face *c = p_connectingFace(&o->volumes[i], &o->volumes[j]);
+			if (c == NULL)
+				continue;
+
+			vec3 e = o->volumes[i].centroid;
+			vec3Sub(&e, &o->volumes[j].centroid);
+			c->volDist = vec3Copy(&e);
+
+			vec3Normalize(&e);
+
+			c->surfaceE = vec3Copy(&e);
+			vec3Mul(&c->surfaceE, vec3Dot(&e, &c->surface));
+
+			c->surfaceT = vec3Copy(&c->surface);
+			vec3Sub(&c->surfaceT, &c->surface);
+		}
+	}
+}
+
+void p_faceV(struct Face *f)
+{
+	if (f->vNum == 0)
+		return;
+
+	if (f->vNum < 2) {
+		f->v = f->thisVol[0]->v;
+		return;
+	}
+
+	vec3 d0 = vec3Copy(&f->thisVol[1]->centroid);
+	//vec3 d1 = vec3Copy(&f->thisVol[1]->centroid);
+
+	vec3Sub(&d0, &f->centroid);
+	//vec3Sub(&d1, &f->thisVol[0]->centroid);
+
+	float g0 = vec3Len(&d0) / vec3Len(&f->volDist);
+
+	vec3 vel0 = vec3Copy(&f->thisVol[0]->v);
+	vec3Mul(&vel0, g0);
+
+	vec3 vel1 = vec3Copy(&f->thisVol[1]->v);
+	vec3Mul(&vel1, (1.0f - g0));
+
+	f->v = vec3Copy(&vel0);
+	vec3Add(&f->v, &vel1);
+}
+
+void p_faceP(struct Face *f)
 {
 	if (f->vNum == 0)
 		return;
@@ -14,12 +153,12 @@ void p_fp(struct Face *f)
 	}
 
 	vec3 d0 = vec3Copy(&f->thisVol[1]->centroid);
-	vec3 d1 = vec3Copy(&f->thisVol[1]->centroid);
+	//vec3 d1 = vec3Copy(&f->thisVol[1]->centroid);
 
 	vec3Sub(&d0, &f->centroid);
-	vec3Sub(&d1, &f->thisVol[0]->centroid);
+	//vec3Sub(&d1, &f->thisVol[0]->centroid);
 
-	float g0 = vec3Len(&d0) / vec3Len(&d1);
+	float g0 = vec3Len(&d0) / vec3Len(&f->volDist);
 
 	float pre0 = f->thisVol[0]->p * g0;
 

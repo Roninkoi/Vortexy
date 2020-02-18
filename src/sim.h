@@ -52,8 +52,9 @@ struct Sim {
 
 	int tps; // ticks per second
 	int ticksOld;
+	unsigned int time;
 	unsigned int timeOld;
-	unsigned int tickTime;
+	unsigned int startTime;
 
 	int rendered;
 	int usegpu;
@@ -63,7 +64,7 @@ struct Sim {
 	char *meshPath;
 	char *outPath;
 
-	double time; // simulated time
+	double t; // simulated time
 	float dt; // time step
 };
 

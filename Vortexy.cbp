@@ -157,6 +157,9 @@
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/util/mat.h">
 			<Option target="Vortexy"/>
 		</Unit>
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/util/meshParser.h">
+			<Option target="Vortexy"/>
+		</Unit>
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/util/objParser.h">
 			<Option target="Vortexy"/>
 		</Unit>

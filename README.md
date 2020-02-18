@@ -18,7 +18,7 @@ make
 ## Dependencies
 
 sim
-- (OpenCL)
+- glibc, (OpenCL)
 
 render
 - OpenGL
@@ -30,9 +30,8 @@ render
 - finite volume method
 - SIMPLE algorithm
 - irregular triangular meshes
-- mesh defined in a file (.obj)
-- initial and constant velocity field defined in a file
-- boundary conditions: inlet / outlet / wall
+- mesh defined in a file (.mesh/.obj)
+- boundary conditions defined in a file
 
 ### Controls
 

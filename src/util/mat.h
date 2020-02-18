@@ -35,10 +35,13 @@ mat matGetL(mat *m);
 mat matRandom(float s, int r, int c);
 
 void matPrint(mat *m);
+void matPrint1(mat *m);
 
 void matDestroy(mat *m);
 
 mat matVec3(vec3 *v);
+vec3 vec3Mat(mat *m);
+
 mat matVec4(vec4 *v);
 
 // 4 x 4 square matrix type

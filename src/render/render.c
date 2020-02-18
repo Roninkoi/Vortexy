@@ -16,6 +16,8 @@ void r_init(struct Renderer *r, int *running)
 
 	r->drawMode = GL_TRIANGLES;
 
+	r->vis = 0b10010111;
+
 	int glfwErr = glfwInit();
 	if (!glfwErr) {
 		printf("Failed to init GLFW %i%s", glfwErr, "\n");

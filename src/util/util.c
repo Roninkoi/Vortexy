@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <glob.h>
 
 #include "util.h"
 
@@ -162,4 +163,16 @@ inline char **wordsFromFile(char *path, int size, int *wordNum)
 	*wordNum = wn;
 	
 	return words;
+}
+
+int getBit(int v, int bit)
+{
+	int r = (v >> bit) & 1;
+	return r;
+}
+
+int setBit(int v, int bit, int b)
+{
+	int r = v ^ ((-b ^ v) & (1 << bit));
+	return r;
 }

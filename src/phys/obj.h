@@ -15,7 +15,18 @@ typedef struct {
 	struct Volume *volumes;
 	int volNum;
 
+	vec3 f;
+
 	struct Fluid fluid;
+
+	float dt;
+
+	mat vCoeffs;
+	mat pCoeffs;
+
+	mat a;
+	mat b;
+	mat v;
 } Obj;
 
 void p_loadObj(Obj *o, char *meshPath, char *fluidPath);

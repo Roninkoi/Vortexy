@@ -4,9 +4,6 @@ void s_init(struct Sim *s)
 {
 	s->running = 1;
 
-	s->usegpu = 1;
-	s->rendered = 1;
-
 	s->time = 0.0f;
 	s->dt = 1.0f;
 
@@ -21,10 +18,6 @@ void s_init(struct Sim *s)
 	// initialize system
 	p_sysInit(&s->sys);
 
-#if RENDER_ENABLED == 1
-	r_init(&s->renderer, &s->running);
-#endif
-
 #if OPENCL_ENABLED == 0
 	s->usegpu = 0;
 #endif
@@ -33,24 +26,35 @@ void s_init(struct Sim *s)
 // main loop
 void s_run(struct Sim *s)
 {
+#if RENDER_ENABLED == 1
+	if (s->rendered)
+		r_init(&s->renderer, &s->running);
+#endif
+	
 	p_addObj(&s->sys, s->meshPath, s->fluidPath);
 
 	p_sysStart(&s->sys);
 
+	s->startTime = timeNow();
+
 	while (s->running) {
-		int p = timeNow() - s->timeOld >= 1;
+		s->time = timeNow() - s->startTime;
+		int p = s->time - s->timeOld >= 1;
 	  
 		if (p) {
-			s->timeOld = timeNow();
+			s->timeOld = s->time;
 			s->tps = s->ticks - s->ticksOld;
 			s->ticksOld = s->ticks;
 
-			printf("time: %.2f, tps: %i\n", s->time, s->tps);
+			printf("time: %.2f, tps: %i\n", s->t, s->tps);
 		}
 
 		s_tick(s);
 
 #if RENDER_ENABLED == 1
+		if (!s->rendered)
+			continue;
+		
 		if (p) {
 			printf("draws: %i, batches: %i\n", s->renderer.draws, s->renderer.batches);
 		}
@@ -59,14 +63,12 @@ void s_run(struct Sim *s)
 			s->renderer.delta = 60.0f / (float) s->tps;
 		}
 		else {
-			s->renderer.delta = 1.0f;
+			s->renderer.delta = 0.001f;
 		}
 
 		r_getInput(&s->renderer, &s->sys);
 
-		if (s->rendered) {
-			r_draw(&s->renderer, &s->sys);
-		}
+		r_draw(&s->renderer, &s->sys);
 #endif
 	}
 }
@@ -75,7 +77,10 @@ void s_tick(struct Sim *s)
 {
 	++s->ticks;
 
-	s->time += (double) s->dt; // increment time
+	s->t += (double) s->dt; // increment time
+	s->sys.dt = s->dt;
+
+	s->sys.time = (float) timeMillis() / 1000.0f;
 
 	p_sysTick(&s->sys);
 

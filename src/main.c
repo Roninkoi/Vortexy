@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
 
 	// load simulation configuration
 	simParser(&sim, cfg);
-
+	
 	// initialize simulation
 	s_init(&sim);
 

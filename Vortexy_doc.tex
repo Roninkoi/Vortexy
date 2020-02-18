@@ -47,6 +47,38 @@
 \renewcommand\maketitlehooka{\vspace{0.2\textheight}}
 % \renewcommand\maketitlehookd{\vfill}
 
+% CUSTOM COMMANDS
+% characters
+% \newcommand{\tmu}{\ensuremath{\mu}}
+% math
+\newcommand{\eint}[2]{\mathrel{ \substack{#2\\ \bigg /\\ #1}}}
+\newcommand{\D}{\text{d}}
+\newcommand{\BD}{\text{D}}
+\newcommand{\I}{\text{i}}
+\newcommand{\mln}{\overline{\ln}}
+\newcommand{\Ln}{\text{Ln}}
+\newcommand{\Arg}{\text{Arg}}
+\newcommand{\Res}{\text{Res}}
+\newcommand{\Ind}{\text{Ind}}
+\newcommand{\lb}{\left(}
+  \newcommand{\rb}{\right)}
+\newcommand{\Imag}{\text{Im} \ }
+\newcommand{\Real}{\text{Re} \ }
+\newcommand{\ft}{\mathcal{F}}
+\newcommand{\lt}{\mathcal{L}}
+% units
+\newcommand{\us}[1]{ \ \text{#1}}
+\newcommand{\un}[1]{ \text{#1}}
+\newcommand{\uf}[2]{ \ \frac{\text{#1}}{\text{#2}}} % fraction of units
+\newcommand{\mic}{$\upmu$}
+\newcommand{\degc}{ \ ^\circ\text{C}}
+\newcommand{\degs}{^\circ}
+\newcommand{\es}{\text{e}}
+\newcommand{\tp}[1]{ \times 10^{#1}}
+\newcommand{\vb}[1]{\text{\textbf{#1}}}
+
+\newcommand{\x}{\text}
+
 \begin{document}
 
 \setlength{\belowcaptionskip}{10pt}
@@ -73,43 +105,194 @@
 
 \section{Introduction}
 
-{\bf Vortexy} is a computational fluid dynamics (CFD) simulation package. It is written in C and uses OpenCL to utilize graphics processing units (GPU). Included is also a renderer that uses OpenGL to visualize results.
+{\bf Vortexy} is a computational fluid dynamics (CFD) simulation package. It is written in C and uses the finite volume method with the SIMPLE algorithm to calculate flow of incompressible fluids, namely liquids.
 
-The simulator takes a configuration file as input that contains paths to the simulation mesh, velocity fields and boundary conditions in addition to other settings. The finite volume method is then used to calculate the time evolution of the system and this is visualized on the screen. The state of the system is periodically written to an output file specified in the config.
-
-% The simulator can be used in two modes: graphical and non-graphical. Setting the \verb|RENDER_ENABLED| macro to 0 will disable all rendering.
+The simulator is based on irregular tetrahedral meshes. These meshes can be computed from surfaces using the program Tetgen. The simulator takes a configuration file as input that contains paths to the simulation mesh and boundary conditions in addition to other settings. The state of the system is periodically written to an output file specified in the config. Included is also a renderer that uses OpenGL to visualize results.
 
 \section{Background}
 
 \subsection{Navier-Stokes equations}
 
+\noindent
+
+The Navier-Stokes equations form the basis for all of fluid dynamics. The momentum equation is typically written as
+
 \begin{equation}
-  \frac{\partial u}{\partial t} + (u \cdot \nabla) u = -\frac{1}{\rho} \nabla p + \nu \nabla^2 u + g
+  \frac{\partial \vb u}{\partial t} + (\vb u \cdot \nabla) \vb u = -\frac{1}{\rho} \nabla p + \nu \nabla^2 \vb u + g,
 \end{equation}
+
+where $\vb u = (u, v, w)$ is velocity in [m/s], t time in [s], $\rho$ density in [kg/m$^3$], $p$ pressure in [Pa], $\nu=\frac{\mu}{\rho}$ kinematic viscosity in [m$^2$/s], $g$ gravity in [m/s].
+
+The continuity equation must be satisfied for incompressible fluids that have no sinks of sources
+
+\begin{equation}
+  \nabla \cdot \vb u = 0,
+\end{equation}
+
+where $\vb u = (u, v, w)$ is velocity in [m/s].
+
+\subsection{Turbulence}
+
+\noindent
+
+A simple way of predicting onset of turbulence is the Reynolds number:
+
+$$
+\text{Re} = \frac{\mu u L}{\rho} = \frac{u L}{\nu}
+$$
+
+Turbulence models in simulations include RANS (Reynolds Averaged), LES (Large Eddy) and DNS (Direct).
 
 \subsection{Finite volume method}
 
+The \textit{finite volume method} (FVM) is based on a simulation mesh with volume elements. This enables evaluation of partial differential equations (PDEs) prevalent in physics. The divergence theorem allows us to convert volume integrals to surface integrals
+
+$$
+\int_V \nabla \cdot \vb F \ \D V = \oint_S \vb F \cdot \D \vb S,
+$$
+
+\noindent
+so volume terms can be computed from fluxes at element faces.
+
+
+
 \subsection{Discretization}
+
+\noindent
+
+Momentum equation:
+$$
+\frac{\partial \vb u}{\partial t} + \nabla \cdot (\vb u \otimes \vb u) = - \nabla p
+$$
+
+Continuity equation:
+$$
+\nabla \cdot \vb u = 0
+$$
+
+A momentum matrix is constructed by decomposition:
+
+$$
+M = A \vb u - H
+$$
+
+Discretization of the momentum equation is achieved:
+
+$$
+A \vb u - H = - \nabla p
+$$
+\begin{equation}
+  \vb u = \frac{H}{A} - \frac{1}{A} \nabla p
+\end{equation}
+
+Pressure equation:
+
+\begin{equation}
+  \nabla \cdot \left [ \lb \frac{1}{A} \rb_f \nabla p \right] = \nabla \cdot \lb \frac{H}{A} \rb_f
+\end{equation}
+
+Continuity equation:
+
+$$
+\sum_{f \in f_n} \dot m_f = 0
+$$
 
 \subsection{Gauss-Seidel method}
 
 \subsection{SIMPLE algorithm}
 
+\begin{enumerate}
+\item Set boundary conditions, set $u$ and $p$
+\item Compute gradients $\nabla u$ and $\nabla p$
+\item Under-relax momentum matrix $M$
+\item Solve \textit{momentum equation} for velocity guess $u^*$
+\item Compute mass fluxes $j_m$, flow rate $\dot m = j_m \cdot A$
+\item Solve \textit{pressure equation}
+\item Under-relax pressure
+\item Correct mass fluxes $j_m$
+\item Correct velocities $u^{n+1}$
+\item (Update density $\rho$)
+\item Goto 1 if not reached convergence
+\item Increment time $t^{n+1} = t^n + \Delta t$
+\end{enumerate}
+
+$$
+A \vb u = \begin{pmatrix}
+  F & B^T \\
+  B & 0
+\end{pmatrix}
+\begin{pmatrix}
+  \vb u \\
+  P
+\end{pmatrix} =
+\begin{pmatrix}
+  f_b \\
+  0
+  \end{pmatrix}
+  $$
+
+  Equations written in form:
+
+  $$
+  A \vb u + B p = \vb f
+  $$
+  $$
+  C \vb u = 0, \ \bigg| \ C = B^T
+  $$
+
+  Gives Uzawa problem matrix (saddle point)
+
+  $$
+  \begin{pmatrix}
+    A & B \\
+    C & 0
+    \end{pmatrix}
+  $$
+
+\subsection{Boundary conditions}
+
+\noindent
+
+Wall\\
+
+Inlet\\
+
+Outlet\\
+
 \section{Implementation}
 
 \subsection{Simulation mesh}
 
+Triangular/tetrahedral, closed, connected, Delaunay
+
 \subsection{Solver}
 
+Gauss-Seidel
+
 \subsection{Rendering}
+
+OpenGL
 
 \section{Software}
 
 \subsection{Compilation}
 
+Deps: glibc, (OpenGL, GLEW, GLFW)
+
+\begin{verbatim}
+cmake .
+make
+\end{verbatim}
+
 \subsection{Configuration}
 
+Files: sim.cfg, data/fluid.cfg
+
 \subsection{Examples}
+
+\subsection{Problems}
+
+Checkerboard problem
 
 \begin{comment}
   Virtausdynamiikkasimulaattorin toteuttaminen ja soveltaminen nesteiden virtausprofiilien laskemiseen putkissa
@@ -118,8 +301,15 @@ The simulator takes a configuration file as input that contains paths to the sim
 \addcontentsline{toc}{section}{References}
 \begin{thebibliography}{9}
 
-% \bibitem{}
+\bibitem{qs} \url{https://quickersim.com/tutorial/tutorial-2-numerics-simple-scheme/}
+\bibitem{ofs} \url{https://www.openfoam.com/documentation/guides/latest/doc/guide-applications-solvers-simple.html}
+  \bibitem{cws} \url{https://www.cfd-online.com/Wiki/SIMPLE_algorithm}
 
 \end{thebibliography}
 
 \end{document}
+
+% Local Variables:
+% coding: utf-8-unix
+% TeX-engine: luatex
+% End:

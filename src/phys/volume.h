@@ -12,20 +12,28 @@ struct Face { // triangle
 	//int vertNum;
 	//int indNum;
 
-	vec3 mFlux; // flux though face
-	vec3 v;
-	float p;
+	vec3 v; // velocity
+	float p; // pressure
 
 	float initial;
 	float constant;
 	int boundary;
 
-	vec3 normal;
-	vec3 surface;
+	vec3 normal; // unit normal
+	vec3 surface; // surface vector with area
+	vec3 surfaceE; // big
+	vec3 surfaceT; // small
+
 	vec3 centroid;
 
-	mat vGrad; // gradients
-	vec3 pGrad;
+	vec3 volDist; // distance between volumes
+
+	vec3 mFlux; // mass flux
+	vec3 vFlux; // velocity flux
+	float flux; // face flux
+
+	mat vGrad; // velocity gradient
+	vec3 pGrad; // pressure gradient
 
 	float area;
 
@@ -46,12 +54,18 @@ struct Volume { // tetrahedron
 
 	//int faceNum;
 
-	vec3 mFlux;
-	vec3 v;
-	float p;
+	vec3 v; // volume
+	float p; // pressure
 
-	mat vGrad; // gradients
-	vec3 pGrad;
+	mat vGrad; // volume gradient
+	vec3 pGrad; // pressure gradient
+
+	vec3 mFlux; // mass flux
+	vec3 vFlux; // velocity flux
+	float flux; // volume flux
+
+	float a;
+	vec3 b;
 
 	int index;
 
@@ -66,5 +80,9 @@ struct Face *p_loadFaces(Mesh *m, int *faceNum);
 struct Volume *p_loadVolumes(struct Face *f, int faceNum, int *volNum);
 
 int p_volCmp(struct Volume *v0, struct Volume *v1);
+
+int p_faceCmp(struct Face *f0, struct Face *f1);
+
+struct Face *p_connectingFace(struct Volume *v0, struct Volume *v1);
 
 #endif
