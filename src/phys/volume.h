@@ -28,6 +28,7 @@ struct Face { // triangle
 
 	vec3 volDist; // distance between volumes
 
+	float mRate; // mass flow rate
 	vec3 mFlux; // mass flux
 	vec3 vFlux; // velocity flux
 	float flux; // face flux
@@ -60,12 +61,16 @@ struct Volume { // tetrahedron
 	mat vGrad; // volume gradient
 	vec3 pGrad; // pressure gradient
 
+	float mRate; // mass flow rate
 	vec3 mFlux; // mass flux
 	vec3 vFlux; // velocity flux
 	float flux; // volume flux
 
-	float a;
-	vec3 b;
+	float va;
+	vec3 vb;
+
+	float pa;
+	float pb;
 
 	int index;
 

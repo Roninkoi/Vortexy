@@ -71,7 +71,7 @@ int diagDom(mat *m)
 {
 	int n = min(m->r, m->c);
 	
-	for (int r = 0; r < n; +r) {
+	for (int r = 0; r < n; ++r) {
 		float sum = 0.0f;
 
 		for (int c = 0; c < m->c; ++c) {
@@ -92,7 +92,11 @@ mat GaussSeidel(mat *a, mat *b)
 
 	mat r = matCopy(b);
 
-	int maxIt = 20;
+	/*if (!diagDom(a)) {
+		printf("Not diag\n");
+	}*/
+
+	int maxIt = 10;
 	float delta = 0.0f;
 	float epsilon = 0.0001f;
 
@@ -118,7 +122,8 @@ mat GaussSeidel(mat *a, mat *b)
 
 			delta += r.m[i][0] - x;
 
-			r.m[i][0] = x;
+			//if (!isnanf(x))
+				r.m[i][0] = x;
 		}
 		
 		if (fabs(delta) < epsilon) // has converged

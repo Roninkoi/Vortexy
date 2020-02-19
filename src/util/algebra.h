@@ -13,6 +13,8 @@ mat GaussSeidel(mat *a, mat *b);
 // decompose matrix into lower and strictly upper: A = L* + U
 void decompose(mat *a, mat *b, mat *c);
 
+void relax(mat *m, mat *m0);
+
 // determine whether a matrix is diagonally dominant
 int diagDom(mat *m);
 

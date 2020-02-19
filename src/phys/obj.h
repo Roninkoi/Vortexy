@@ -20,9 +20,7 @@ typedef struct {
 	struct Fluid fluid;
 
 	float dt;
-
-	mat vCoeffs;
-	mat pCoeffs;
+	float t;
 
 	mat a;
 	mat b;
