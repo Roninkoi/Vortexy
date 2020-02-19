@@ -201,10 +201,7 @@ struct Face *p_loadFaces(Mesh *m, int *faceNum)
 	for (int i = 0; i < fn; ++i) {
 		f[i].centroid = nvec3();
 		f[i].flux = 0.0f;
-<<<<<<< HEAD
 		f[i].mRate = 0.0f;
-=======
->>>>>>> b025922178a273222b9191905a44e8161a0eea1c
 		f[i].vFlux = nvec3();
 		f[i].mFlux = nvec3();
 		f[i].pGrad = nvec3();
@@ -562,10 +559,7 @@ struct Volume *p_loadVolumes(struct Face *f, int faceNum, int *volNum)
 		v[i].faces[3]->thisVol[v[i].faces[3]->vNum++] = &v[i];
 
 		v[i].flux = 0.0f;
-<<<<<<< HEAD
 		f[i].mRate = 0.0f;
-=======
->>>>>>> b025922178a273222b9191905a44e8161a0eea1c
 		v[i].mFlux = nvec3();
 		v[i].vFlux = nvec3();
 		v[i].pGrad = nvec3();

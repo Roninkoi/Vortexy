@@ -57,7 +57,6 @@ void GaussElim(mat *m)
 
 			pr += 1;
 			pc += 1;
-<<<<<<< HEAD
 		}
 	}
 }
@@ -79,8 +78,6 @@ int diagDom(mat *m)
 			if (r != c) {
 				sum += m->m[r][c];
 			}
-=======
->>>>>>> b025922178a273222b9191905a44e8161a0eea1c
 		}
 
 		if (sum > m->m[r][r]) return 0;
@@ -127,71 +124,6 @@ mat GaussSeidel(mat *a, mat *b)
 
 			//if (!isnanf(x))
 				r.m[i][0] = x;
-		}
-		
-		if (fabs(delta) < epsilon) // has converged
-			break;
-	}
-}
-
-void decompose(mat *a, mat *l, mat *u)
-{
-	*l = matGetL(a);
-	*u = matGetSU(a);
-}
-
-int diagDom(mat *m)
-{
-	int n = min(m->r, m->c);
-	
-	for (int r = 0; r < n; +r) {
-		float sum = 0.0f;
-
-		for (int c = 0; c < m->c; ++c) {
-			if (r != c) {
-				sum += m->m[r][c];
-			}
-		}
-
-		if (sum > m->m[r][r]) return 0;
-	}
-
-	return 1;
-}
-
-mat GaussSeidel(mat *a, mat *b)
-{
-	int n = a->r;
-
-	mat r = matCopy(b);
-
-	int maxIt = 20;
-	float delta = 0.0f;
-	float epsilon = 0.0001f;
-
-	for (int k = 0; k < maxIt; ++k) {
-		delta = 0.0f;
-		
-		for (int i = 0; i < n; ++i) {
-			float x = 1.0f / a->m[i][i];
-
-			float s0 = 0.0f;
-
-			for (int j = 0; j <= i - 1; ++j) {
-				s0 += a->m[i][j] * r.m[j][0];
-			}
-
-			float s1 = 0.0f;
-			
-			for (int j = i + 1; j < n; ++j) {
-				s1 += a->m[i][j] * r.m[j][0];
-			}
-
-			x *= (b->m[i][0] - s0 - s1);
-
-			delta += r.m[i][0] - x;
-
-			r.m[i][0] = x;
 		}
 		
 		if (fabs(delta) < epsilon) // has converged
