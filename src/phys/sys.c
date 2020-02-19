@@ -36,6 +36,7 @@ void p_sysStart(struct Sys *s)
 {
 	s->selected = 0;
 	for (int i = 0; i < s->objNum; ++i) {
+<<<<<<< HEAD
 		s->objs[i].f = Vec3(0.0f, 0.0f, 0.0f);
 		s->objs[i].t = 0.0f;
 
@@ -48,6 +49,17 @@ void p_sysStart(struct Sys *s)
 		for (int j = 0; j < s->objs[i].volNum; ++j) { // initial pressure
 			s->objs[i].volumes[j].v = Vec3(0.0f, 0.0f, 0.0f);
 			s->objs[i].volumes[j].p = 1.0f;
+=======
+		p_decomposeSurfs(&s->objs[i]);
+
+		for (int j = 0; j < s->objs[i].faceNum; ++j) {
+			s->objs[i].faces[j].mFlux = vec3Copy(&s->objs[i].faces[j].normal);
+
+			s->objs[i].faces[j].v = vec3Copy(&s->objs[i].faces[j].mFlux);
+		}
+		for (int j = 0; j < s->objs[i].volNum; ++j) {
+			s->objs[i].volumes[j].p = (s->objs[i].volumes[j].centroid.x) + 1.0f;
+>>>>>>> b025922178a273222b9191905a44e8161a0eea1c
 		}
 	}
 }
@@ -91,10 +103,17 @@ void p_updateM(Obj *o)
 void p_sysTick(struct Sys *s)
 {
 	++s->ticks;
+<<<<<<< HEAD
+=======
+	p_meshSetCol(&s->objs[0].mesh, 0.0f, 0.08f, 0.10f, 0.10f);
+
+	s->t += s->dt;
+>>>>>>> b025922178a273222b9191905a44e8161a0eea1c
 
 	for (int i = 0; i < s->objNum; ++i) {
 		s->objs[i].dt = s->dt;
 
+<<<<<<< HEAD
 		for (int j = 0; j < s->objs[i].volNum; ++j) {
 			s->objs[i].volumes[j].p = sinf(vec3Len(&s->objs[i].volumes[j].centroid) + s->objs[i].t*0.1f) * 20.1f;
 		}
@@ -153,11 +172,42 @@ void p_sysTick(struct Sys *s)
 		matPrint(&s->objs[i].b);
 		printf("\n");
 #endif
+=======
+		p_computeFaceFs(&s->objs[i]);
+		p_computeVolFs(&s->objs[i]);
+		p_computeCoeffs(&s->objs[i]);
+
+		for (int j = 0; j < s->objs[i].faceNum; ++j) {
+			p_faceP(&s->objs[i].faces[j]);
+			p_faceV(&s->objs[i].faces[j]);
+		}
+
+		p_pGrad(&s->objs[i]);
+
+		p_vGrad(&s->objs[i]);
+
+		for (int j = 0; j < s->objs[i].faceNum; ++j) {
+			s->objs[i].faces[j].mFlux = vec3Copy(&s->objs->faces[j].pGrad);
+		}
+		for (int j = 0; j < s->objs[i].volNum; ++j) {
+			s->objs[i].volumes[j].mFlux = vec3Copy(&s->objs->volumes[j].pGrad);
+
+			s->objs[i].volumes[j].p = (s->objs[i].volumes[j].centroid.x) * (sinf(s->time)+0.5f) + (s->objs[i].volumes[j].centroid.y) * (cosf(s->time)+0.5f);
+		}
+
+		p_constructMats(&s->objs[i]);
+
+		matPrint1(&s->objs[i].a);
+		printf("\n");
+>>>>>>> b025922178a273222b9191905a44e8161a0eea1c
 
 		matDestroy(&s->objs[i].a);
 		matDestroy(&s->objs[i].v);
 		matDestroy(&s->objs[i].b);
+<<<<<<< HEAD
 
 		s->objs[i].t += s->objs[i].dt;
+=======
+>>>>>>> b025922178a273222b9191905a44e8161a0eea1c
 	}
 }

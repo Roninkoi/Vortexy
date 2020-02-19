@@ -206,7 +206,21 @@ void matPrint(mat *m)
 {
 	for (int i = 0; i < m->r; ++i) {
 		for (int j = 0; j < m->c; ++j) {
+<<<<<<< HEAD
 			printf("%+.10f ", m->m[i][j]);
+=======
+			printf("%+.3f ", m->m[i][j]);
+		}
+		printf("\n");
+	}
+}
+
+void matPrint1(mat *m)
+{
+	for (int i = 0; i < m->r; ++i) {
+		for (int j = 0; j < m->c; ++j) {
+			printf("%+.1f ", m->m[i][j]);
+>>>>>>> b025922178a273222b9191905a44e8161a0eea1c
 		}
 		printf("\n");
 	}

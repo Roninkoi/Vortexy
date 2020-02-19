@@ -35,6 +35,7 @@ mat matGetL(mat *m);
 mat matRandom(float s, int r, int c);
 
 void matPrint(mat *m);
+void matPrint1(mat *m);
 
 void matDestroy(mat *m);
 

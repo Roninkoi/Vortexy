@@ -52,7 +52,11 @@ struct Sim {
 
 	int tps; // ticks per second
 	int ticksOld;
+<<<<<<< HEAD
 	unsigned int time; // real time
+=======
+	unsigned int time;
+>>>>>>> b025922178a273222b9191905a44e8161a0eea1c
 	unsigned int timeOld;
 	unsigned int startTime;
 

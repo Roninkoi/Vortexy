@@ -20,7 +20,13 @@ typedef struct {
 	struct Fluid fluid;
 
 	float dt;
+<<<<<<< HEAD
 	float t;
+=======
+
+	mat vCoeffs;
+	mat pCoeffs;
+>>>>>>> b025922178a273222b9191905a44e8161a0eea1c
 
 	mat a;
 	mat b;

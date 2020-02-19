@@ -14,7 +14,10 @@ void rm(struct Renderer *r, struct Sys *s)
 		p_meshTransform(&s->objs[i].mesh, &r->model);
 		p_meshTransform(&s->objs[i].mesh, &r->view);
 		p_meshTransform(&s->objs[i].mesh, &r->proj);*/
+<<<<<<< HEAD
 		p_meshSetCol(&s->objs[i].mesh, 0.0f, 0.08f, 0.10f, 0.10f);
+=======
+>>>>>>> b025922178a273222b9191905a44e8161a0eea1c
 
 		r_drawMesh(r, &s->objs[i].mesh);
 	}
@@ -28,7 +31,11 @@ void rw(struct Renderer *r, struct Sys *s)
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);
 	for (int i = 0; i < s->objNum; ++i) {
+<<<<<<< HEAD
 		p_meshSetCol(&s->objs[i].mesh, 0.0f, 0.5f * 1.5f, 0.7f * 1.5f, 1.0f * 1.5f);
+=======
+		p_meshSetCol(&s->objs[i].mesh, 0.0f, 0.5f*1.5f, 0.7f*1.5f, 1.0f*1.5f);
+>>>>>>> b025922178a273222b9191905a44e8161a0eea1c
 		r_drawWireMesh(r, &s->objs[i].mesh, 2.0f);
 	}
 
@@ -97,10 +104,17 @@ void rl(struct Renderer *r, struct Sys *s)
 
 			vec4Add(&nn, &n0);
 
+<<<<<<< HEAD
 			vec4 col = Vec4(l, fmax(0.0f, 1.0f - l), 0.0f, 1.0f);
 			vec4Mul(&col, 5.5f);
 
 			r_drawLine(r, n, nn, col, 2.0f);
+=======
+			r_drawLine(r,
+					   n,
+					   nn,
+					   Vec4(10.0f * l, 10.0f * fmax(0.0f, 1.0f - l), 0.0f, 1.0f), 2.0f);
+>>>>>>> b025922178a273222b9191905a44e8161a0eea1c
 		}
 
 	}
@@ -127,10 +141,17 @@ void rtl(struct Renderer *r, struct Sys *s)
 
 			vec4Add(&nn, &n);
 
+<<<<<<< HEAD
 			vec4 col = Vec4(l, fmax(0.0f, 1.0f - l), 0.0f, 1.0f);
 			vec4Mul(&col, 5.5f);
 
 			r_drawVec(r, n, nn, col);
+=======
+			r_drawVec(r,
+					  n,
+					  nn,
+					  Vec4(10.0f * l, 10.0f * fmax(0.0f, 1.0f - l), 0.0f, 1.0f));
+>>>>>>> b025922178a273222b9191905a44e8161a0eea1c
 		}
 	}
 	r_render(r);
@@ -262,8 +283,13 @@ void r_drawVec(struct Renderer *r, vec4 v0, vec4 v1, vec4 col)
 
 	float a = atanf((v1.y - v0.y) / (v1.x - v0.x));
 
+<<<<<<< HEAD
 	float x = 0.0f * width * cosf(a) - width * sinf(a);
 	float y = 0.0f * width * sinf(a) + width * cosf(a);
+=======
+	float x = 0.0f*width * cosf(a) - width * sinf(a);
+	float y = 0.0f*width * sinf(a) + width * cosf(a);
+>>>>>>> b025922178a273222b9191905a44e8161a0eea1c
 
 	float vd[12] = {
 			v0.x + x, v0.y + y, v0.z, v0.w,
