@@ -58,6 +58,8 @@ struct Volume { // tetrahedron
 	vec3 v; // volume
 	float p; // pressure
 
+	vec3 s;
+
 	mat vGrad; // volume gradient
 	vec3 pGrad; // pressure gradient
 

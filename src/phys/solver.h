@@ -8,9 +8,9 @@ void p_getV(Obj *o)
 {
 	for (int i = 0; i < o->volNum; ++i) {
 		o->volumes[i].v = Vec3(
-				o->v.m[i * 3 + 0][0],
-				o->v.m[i * 3 + 1][0],
-				o->v.m[i * 3 + 2][0]
+				o->v.m[i + 0 * o->volNum][0],
+				o->v.m[i + 1 * o->volNum][0],
+				o->v.m[i + 2 * o->volNum][0]
 		);
 	}
 }
@@ -63,7 +63,7 @@ void p_computePCoeffs(Obj *o)
 
 		o->volumes[i].pb = 0.0f;
 		for (int j = 0; j < 4; ++j) {
-			o->volumes[i].pb -= vec3Len(&o->volumes[i].faces[j]->vFlux); // length?
+			o->volumes[i].pb -= o->volumes[i].faces[j]->mRate;
 		}
 	}
 }
@@ -103,6 +103,42 @@ void p_constructVMat(Obj *o)
 		o->b.m[i + o->volNum * 1][0] = right.y;
 		o->b.m[i + o->volNum * 2][0] = right.z;
 	}
+
+#if 0
+	o->a = Mat(1.0f, o->volNum * 3, o->volNum * 3);
+	o->b = Mat(0.0f, o->volNum * 3, 1);
+
+	for (int i = 0; i < o->volNum; i += 1) {
+		float left = o->volumes[i].va;
+
+		o->a.m[i + o->volNum * 0][i + o->volNum * 0] = left;
+		o->a.m[i + o->volNum * 1][i + o->volNum * 1] = left;
+		o->a.m[i + o->volNum * 2][i + o->volNum * 2] = left;
+	}
+
+	for (int i = 0; i < o->volNum; i += 1) {
+		for (int j = 0; j < o->volumes[i].neiNum; ++j) {
+			int n = o->volumes[i].neighbours[j]->index;
+
+			if (n > o->volNum)
+				continue;
+
+			struct Face *connecting = p_connectingFace(&o->volumes[i], &o->volumes[n]);
+
+			o->a.m[i + o->volNum * 0][n + o->volNum * 0] = -connecting->flux;
+			o->a.m[i + o->volNum * 1][n + o->volNum * 1] = -connecting->flux;
+			o->a.m[i + o->volNum * 2][n + o->volNum * 2] = -connecting->flux;
+		}
+	}
+
+	for (int i = 0; i < o->volNum; ++i) {
+		vec3 right = vec3Copy(&o->volumes[i].vb);
+
+		o->b.m[i + o->volNum * 0][0] = right.x;
+		o->b.m[i + o->volNum * 1][0] = right.y;
+		o->b.m[i + o->volNum * 2][0] = right.z;
+	}
+#endif
 }
 
 void p_computeVCoeffs(Obj *o)
@@ -154,7 +190,7 @@ void p_computeFaceFs(Obj *o)
 			continue;
 		}
 		else {
-			o->faces[i].flux = o->faces[i].mRate;
+			o->faces[i].flux = fabs(o->faces[i].mRate);
 			o->faces[i].flux += o->fluid.mu * (vec3Len(&o->faces[i].surfaceE) / vec3Len(&o->faces[i].volDist));
 		}
 
@@ -180,6 +216,8 @@ void p_computeVolFs(Obj *o)
 		vec3Mul(&o->volumes[i].vFlux, -(o->fluid.rho * o->volumes[i].vol) / o->dt);
 
 		vec3 s = vec3Copy(&o->f);
+		vec3Add(&s, &o->volumes[i].s);
+
 		vec3Mul(&s, o->volumes[i].vol);
 
 		vec3Sub(&o->volumes[i].vFlux, &s);

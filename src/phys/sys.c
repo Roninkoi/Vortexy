@@ -41,11 +41,7 @@ void p_sysStart(struct Sys *s)
 
 		p_decomposeSurfs(&s->objs[i]);
 
-		/*for (int j = 0; j < s->objs[i].faceNum; ++j) { // initial velocity
-			s->objs[i].faces[j].v = vec3Copy(&s->objs[i].faces[j].normal);
-			vec3Mul(&s->objs[i].faces[j].v, 0.0f);
-		}*/
-		for (int j = 0; j < s->objs[i].volNum; ++j) { // initial pressure
+		for (int j = 0; j < s->objs[i].volNum; ++j) { // initial conditions
 			s->objs[i].volumes[j].v = Vec3(0.0f, 0.0f, 0.0f);
 			s->objs[i].volumes[j].p = 1.0f;
 		}
@@ -84,7 +80,7 @@ void p_updateM(Obj *o)
 		o->faces[i].mFlux = vec3Copy(&o->faces[i].v);
 		vec3Mul(&o->faces[i].mFlux, o->fluid.rho);
 
-		o->faces[i].mRate = fabs(vec3Dot(&o->faces[i].mFlux, &o->faces[i].surface));
+		o->faces[i].mRate = (vec3Dot(&o->faces[i].mFlux, &o->faces[i].surface));
 	}
 }
 
@@ -96,7 +92,13 @@ void p_sysTick(struct Sys *s)
 		s->objs[i].dt = s->dt;
 
 		for (int j = 0; j < s->objs[i].volNum; ++j) {
-			s->objs[i].volumes[j].p = sinf(vec3Len(&s->objs[i].volumes[j].centroid) + s->objs[i].t*0.1f) * 20.1f;
+			if (j == s->selected) {
+				s->objs[i].volumes[j].s = Vec3(50.0f, 0.0f, 0.0f);
+			}
+			else {
+				s->objs[i].volumes[j].s = Vec3(0.0f, 0.0f, 0.0f);
+			}
+			//s->objs[i].volumes[j].p = sinf(vec3Len(&s->objs[i].volumes[j].centroid) + s->objs[i].t*0.1f) * 20.1f;
 		}
 
 		p_updateVP(&s->objs[i]);

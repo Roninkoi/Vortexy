@@ -96,7 +96,7 @@ mat GaussSeidel(mat *a, mat *b)
 		printf("Not diag\n");
 	}*/
 
-	int maxIt = 10;
+	int maxIt = 100;
 	float delta = 0.0f;
 	float epsilon = 0.0001f;
 

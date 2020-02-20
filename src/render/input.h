@@ -87,6 +87,8 @@ void r_getInput(struct Renderer *r, struct Sys* s)
 		if (!ctrlDown) {
 			ctrlDown = 1;
 			--s->selected;
+			if (s->selected < 0)
+				s->selected = 0;
 		}
 	}
 	else {
@@ -96,6 +98,7 @@ void r_getInput(struct Renderer *r, struct Sys* s)
 		if (!shiftDown) {
 			shiftDown = 1;
 			++s->selected;
+			printf("Selected: %i\n", s->selected);
 		}
 	}
 	else {

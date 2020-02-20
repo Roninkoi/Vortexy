@@ -43,31 +43,8 @@ void rv(struct Renderer *r, struct Sys *s)
 
 	r->tex = &r->tex0;
 	for (int i = 0; i < s->objNum; ++i) {
-		int l = (int) (r->ticks / 10.0f) % s->objs[i].volNum;
-		//l = s->selected;
-		for (int j = 0; j < l + 1; ++j) {
-			for (int k = 0; k < 4; ++k) {
-				int cur = l == j;
-				vec4 v0 = Vec4(s->objs[i].volumes[j].faces[k]->verts[0],
-							   s->objs[i].volumes[j].faces[k]->verts[1],
-							   s->objs[i].volumes[j].faces[k]->verts[2], 0.0f);
-
-				vec4 v1 = Vec4(s->objs[i].volumes[j].faces[k]->verts[4],
-							   s->objs[i].volumes[j].faces[k]->verts[5],
-							   s->objs[i].volumes[j].faces[k]->verts[6], 0.0f);
-
-				vec4 v2 = Vec4(s->objs[i].volumes[j].faces[k]->verts[8],
-							   s->objs[i].volumes[j].faces[k]->verts[9],
-							   s->objs[i].volumes[j].faces[k]->verts[10], 0.0f);
-
-				vec4 n = vec4Copy3(&s->objs[i].volumes[j].faces[k]->centroid);
-				vec4 nn = vec4Copy3(&s->objs[i].volumes[j].faces[k]->normal);
-				vec4Mul(&nn, 0.2f);
-				vec4Add(&n, &nn);
-
-				r_drawVolume(r, &s->objs[i].volumes[j], Vec4(1.0f, 0.0f, 0.0f, 1.0f));
-			}
-		}
+		int l = s->selected;
+		r_drawVolume(r, &s->objs[i].volumes[l], Vec4(1.0f, 0.0f, 0.0f, 1.0f));
 	}
 
 	r_render(r);
