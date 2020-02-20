@@ -1,4 +1,4 @@
-This is LuaTeX, Version 1.10.0 (TeX Live 2019)  (format=lualatex 2020.2.14)  18 FEB 2020 17:09
+This is LuaTeX, Version 1.10.0 (TeX Live 2019)  (format=lualatex 2020.2.14)  20 FEB 2020 12:00
  restricted system commands enabled.
  file:line:error style messages enabled.
 **\input Vortexy_doc.tex
@@ -32,7 +32,7 @@ Inserting `luaotfload.aux.patch_cambria_domh' at position 2 in `luaotfload.patch
 Inserting `luaotfload.aux.fixup_fontdata' at position 1 in `luaotfload.patch_font_unsafe'.
 Inserting `luaotfload.aux.set_capheight' at position 3 in `luaotfload.patch_font'.
 Inserting `luaotfload.rewrite_fontname' at position 4 in `luaotfload.patch_font'.
-luaotfload | main : initialization completed in 0.044 seconds
+luaotfload | main : initialization completed in 0.057 seconds
 
 (./Vortexy_doc.tex (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2018/09/03 v1.4i Standard LaTeX document class
@@ -831,31 +831,38 @@ Underfull \hbox (badness 10000) in paragraph at lines 260--261
  []
 
 [4] Excluding 'comment' comment.
-Underfull \hbox (badness 10000) in paragraph at lines 305--306
+Underfull \hbox (badness 10000) in paragraph at lines 309--310
 [][]$\TU/lmr/m/n/12 https://www.openfoam.com/documentation/guides/latest/doc/
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 310.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 314.
 [5]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 310.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 314.
  (./Vortexy_doc.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 310.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 310.
-Package rerunfilecheck Info: File `Vortexy_doc.out' has not changed.
-(rerunfilecheck)             Checksum: 89DD852616B2F0503244E768D916C788;1121.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 314.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 314.
+
+
+Package rerunfilecheck Warning: File `Vortexy_doc.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `Vortexy_doc.out':
+(rerunfilecheck)             Before: 89DD852616B2F0503244E768D916C788;1121
+(rerunfilecheck)             After:  4F6E9093E01FEB8B985BFD57267D44FD;1267.
 Package logreq Info: Writing requests to 'Vortexy_doc.run.xml'.
 
 \openout1 = Vortexy_doc.run.xml
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 310.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 314.
 )
 
 Here is how much of LuaTeX's memory you used:
- 15847 strings out of 494291
+ 15849 strings out of 494291
  125200,953878 words of node,token memory allocated
  687 words of node memory still in use:
    6 hlist, 2 vlist, 2 rule, 1 dir, 3 glue, 4 kern, 1 glyph, 54 attribute, 61 gl
 ue_spec, 28 attribute_list, 1 write, 1 pdf_action nodes
-   avail lists: 1:2,2:710,3:141,4:34,5:169,6:44,7:2216,8:103,9:261,10:4,11:175,1
+   avail lists: 1:2,2:710,3:155,4:34,5:169,6:44,7:2216,8:105,9:261,10:4,11:175,1
 2:1
  19485 multiletter control sequences out of 65536+600000
  71 fonts using 5167599 bytes
@@ -874,10 +881,10 @@ ts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1
 amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy1
 0.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on Vortexy_doc.pdf (6 pages, 109182 bytes).
+Output written on Vortexy_doc.pdf (6 pages, 109435 bytes).
 
-PDF statistics: 241 PDF objects out of 1000 (max. 8388607)
- 201 compressed objects within 3 object streams
- 45 named destinations out of 1000 (max. 131072)
+PDF statistics: 243 PDF objects out of 1000 (max. 8388607)
+ 203 compressed objects within 3 object streams
+ 47 named destinations out of 1000 (max. 131072)
  153 words of extra memory for PDF output out of 10000 (max. 100000000)
 

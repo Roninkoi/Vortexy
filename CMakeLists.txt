@@ -11,6 +11,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 #pkg_search_module(GLEW REQUIRED glew)
 #include_directories(${GLEW_INCLUDE_DIRS})
+#find_package(glfw3 REQUIRED STATIC)
 
 #find_package(OpenCL REQUIRED)
 #include_directories(${OpenCL_INCLUDE_DIRS})
@@ -47,11 +48,10 @@ add_executable(
   Vortexy ${SOURCE_FILES} ${SOURCES}
   )
 
+#set_target_properties(Vortexy PROPERTIES LINK_FLAGS -Wl,-rpath=$ORIGIN/lib,-z,origin,-allow-multiple-definition)
+
 set_target_properties(Vortexy PROPERTIES LINK_FLAGS -Wl,-rpath=$ORIGIN/lib,-z,origin,-allow-multiple-definition)
 
-#target_link_libraries(Vortexy ${OpenCL_LIBRARY} m GLEW GL ${GLFW_STATIC_LIBRARIES})
-
-target_link_libraries(Vortexy #${OpenCL_LIBRARY}
-  m GLEW GL glfw)
-#target_link_libraries(Vortexy /usr/lib64/libOpenCL.so.1)
-
+target_link_libraries(Vortexy
+  m GLEW GL glfw
+)
