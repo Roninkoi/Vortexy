@@ -8,6 +8,7 @@
 typedef struct {
 	Mesh mesh; // physics mesh
 	Mesh renderMesh;
+	char *meshPath;
 
 	struct Face *faces;
 	int faceNum;
@@ -19,6 +20,9 @@ typedef struct {
 
 	struct Fluid fluid;
 
+	float pRelax;
+	float vRelax;
+
 	float dt;
 	float t;
 
@@ -27,7 +31,9 @@ typedef struct {
 	mat v;
 } Obj;
 
-void p_loadObj(Obj *o, char *meshPath, char *fluidPath);
+void p_loadObj(Obj *o, char *fluidPath);
+
+void p_loadObjMesh(Obj *o);
 
 void p_destroyObj(Obj *o);
 

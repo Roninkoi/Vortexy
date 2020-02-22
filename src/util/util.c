@@ -139,7 +139,7 @@ inline char **wordsFromFile(char *path, int size, int *wordNum)
 			comment = 0;
 		}
 		
-		if (read == '#') {
+		if (read == '#') { // comment
 			comment = 1;
 		}
 		

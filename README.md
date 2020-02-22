@@ -5,20 +5,26 @@ Vortexy, CFD software written in C.
 Usage:
 
 ```
-./Vortexy <sim.cfg>
+./Vortexy -s <sim.cfg>
 ```
+-s = simulate, -r = render
 
 Compilation:
 
 ```
-cmake .
-make
+./build.sh
+```
+
+Or non-graphical (set RENDER_ENABLED to 0 in sim.h)
+
+```
+./buildsim.sh
 ```
 
 ## Dependencies
 
 sim
-- glibc, (OpenCL)
+- glibc, libm
 
 render
 - OpenGL
@@ -42,3 +48,10 @@ render
 | Arrows | Rotate camera XY |
 | Mouse drag | Rotate scene Y |
 | Scroll | Zoom |
+| 1 | Toggle mesh render |
+| 2 | Wireframe |
+| 3 | Lines |
+| 4 | Vectors |
+| 5 | Volume element |
+| I | Start simulation |
+| O | Stop simulation |

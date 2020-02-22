@@ -8,12 +8,10 @@
 void GaussElim(mat *m);
 
 // GS method solve
-mat GaussSeidel(mat *a, mat *b);
+mat GaussSeidel(mat *a, mat *b, int maxIt, float epsilon);
 
 // decompose matrix into lower and strictly upper: A = L* + U
 void decompose(mat *a, mat *b, mat *c);
-
-void relax(mat *m, mat *m0);
 
 // determine whether a matrix is diagonally dominant
 int diagDom(mat *m);

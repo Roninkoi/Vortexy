@@ -6,15 +6,27 @@
 int main(int argc, char *argv[])
 {
 	char *cfg;
+	char *m;
+	int mode = 0;
 
-	if (argc < 2) {
+	if (argc < 3) {
 		printf("No config file!\n");
 		printf("Usage: ./Vortexy <sim.cfg>\n");
 
 		cfg = "sim.cfg"; // default
 	}
 	else {
-		cfg = argv[1];
+		m = argv[1];
+		
+		cfg = argv[2];
+
+		if (strcmp(m, "-s") == 0) { // simulation mode
+			mode = 0;
+		}
+
+		if (strcmp(m, "-r") == 0) { // rendering mode
+			mode = 1;
+		}
 	}
 
 	char *date = currentDateTime();
@@ -24,6 +36,8 @@ int main(int argc, char *argv[])
 	free(date);
 
 	struct Sim sim;
+
+	sim.mode = mode;
 
 	// initialize simulation
 	s_init(&sim);

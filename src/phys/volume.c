@@ -202,6 +202,8 @@ struct Face *p_loadFaces(Mesh *m, int *faceNum)
 		f[i].centroid = nvec3();
 		f[i].flux = 0.0f;
 		f[i].mRate = 0.0f;
+		f[i].initialP = 0.0f;
+		f[i].initialV = 0.0f;
 		f[i].vFlux = nvec3();
 		f[i].mFlux = nvec3();
 		f[i].pGrad = nvec3();
@@ -277,8 +279,6 @@ void computeVolume(struct Volume *v)
 	vec3 cross = vec3Cross(&v2, &w);
 
 	v->vol = fabs((1.0f / 6.0f) * vec3Dot(&v1, &cross));
-
-	printf("V %f\n", v->vol);
 }
 
 void computeVolumeCent(struct Volume *v)
@@ -493,9 +493,9 @@ struct Volume *p_loadVolumes(struct Face *f, int faceNum, int *volNum)
 			printf("%i / %i\n", i, faceNum);
 	}
 
-	for (int i = 0; i < n; ++i) {
+	/*for (int i = 0; i < n; ++i) {
 		printf("%i %i %i %i\n", vi[i][0], vi[i][1], vi[i][2], vi[i][3]);
-	}
+	}*/
 #else
 	for (int i = 0; i < faceNum; ++i) {
 		for (int j = i + 1; j < faceNum; ++j) {
@@ -574,7 +574,7 @@ struct Volume *p_loadVolumes(struct Face *f, int faceNum, int *volNum)
 	free(vi);
 
 	for (int i = 0; i < n; ++i) {
-		printf("VOL %i %i %i %i\n", v[i].faces[0]->index,
+		printf("VOL %f %i %i %i %i\n", v[i].vol, v[i].faces[0]->index,
 			   v[i].faces[1]->index, v[i].faces[2]->index, v[i].faces[3]->index);
 	}
 

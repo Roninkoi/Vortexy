@@ -11,9 +11,9 @@ void rm(struct Renderer *r, struct Sys *s)
 
 	r->tex = &r->flat;
 	for (int i = 0; i < s->objNum; ++i) {/*
-		p_meshTransform(&s->objs[i].mesh, &r->model);
-		p_meshTransform(&s->objs[i].mesh, &r->view);
-		p_meshTransform(&s->objs[i].mesh, &r->proj);*/
+										   p_meshTransform(&s->objs[i].mesh, &r->model);
+										   p_meshTransform(&s->objs[i].mesh, &r->view);
+										   p_meshTransform(&s->objs[i].mesh, &r->proj);*/
 		p_meshSetCol(&s->objs[i].mesh, 0.0f, 0.08f, 0.10f, 0.10f);
 
 		r_drawMesh(r, &s->objs[i].mesh);
@@ -45,6 +45,21 @@ void rv(struct Renderer *r, struct Sys *s)
 	for (int i = 0; i < s->objNum; ++i) {
 		int l = s->selected;
 		r_drawVolume(r, &s->objs[i].volumes[l], Vec4(1.0f, 0.0f, 0.0f, 1.0f));
+	}
+
+	r_render(r);
+}
+
+void rf(struct Renderer *r, struct Sys *s)
+{
+	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_BLEND);
+	glBlendFunc(GL_DST_ALPHA, GL_SRC_ALPHA);
+
+	r->tex = &r->tex0;
+	for (int i = 0; i < s->objNum; ++i) {
+		int l = s->selected;
+		r_drawFace(r, &s->objs[i].faces[l], Vec4(1.0f, 0.0f, 0.0f, 1.0f));
 	}
 
 	r_render(r);
@@ -128,6 +143,8 @@ void r_draw(struct Renderer *r, struct Sys *s)
 
 	if (getBit(r->vis, 5))
 		rv(r, s);
+	if (getBit(r->vis, 6))
+		rf(r, s);
 }
 
 void r_drawMesh(struct Renderer *r, Mesh *m)
@@ -136,6 +153,40 @@ void r_drawMesh(struct Renderer *r, Mesh *m)
 
 	r_add(r, m->vertData, m->texData, m->normData, m->colData, m->indData,
 		  m->vertNum, m->indNum);
+}
+
+void r_drawFace(struct Renderer *r, struct Face *f, vec4 col)
+{
+	r->drawMode = GL_TRIANGLES;
+
+	float vd[12];
+
+	float td[12];
+
+	float nd[12];
+
+	float cd[12];
+
+	int id[3] = {0, 1, 2};
+
+	int k = 0;
+	for (int j = 0; j < 12; ++j) {
+		vd[k++] = f->verts[j];
+	}
+
+	for (int i = 0; i < 12; i += 1) {
+		td[i] = 0.0f;
+		nd[i] = 0.0f;
+	}
+
+	for (int i = 0; i < 3; i += 1) {
+		cd[i * 4] = col.x;
+		cd[i * 4 + 1] = col.y;
+		cd[i * 4 + 2] = col.z;
+		cd[i * 4 + 3] = col.w;
+	}
+
+	r_add(r, vd, td, nd, cd, id, 12, 3);
 }
 
 void r_drawVolume(struct Renderer *r, struct Volume *v, vec4 col)
@@ -207,23 +258,23 @@ void r_drawLine(struct Renderer *r, vec4 v0, vec4 v1, vec4 col, float thickness)
 	glLineWidth(thickness);
 
 	float vd[8] = {
-			v0.x, v0.y, v0.z, v0.w,
-			v1.x, v1.y, v1.z, v1.w
+				   v0.x, v0.y, v0.z, v0.w,
+				   v1.x, v1.y, v1.z, v1.w
 	};
 
 	float td[8] = {
-			0.0f, 0.0f, 0.0f, 0.0f,
-			0.0f, 0.0f, 0.0f, 0.0f
+				   0.0f, 0.0f, 0.0f, 0.0f,
+				   0.0f, 0.0f, 0.0f, 0.0f
 	};
 
 	float nd[8] = {
-			0.0f, 0.0f, 0.0f, 0.0f,
-			0.0f, 0.0f, 0.0f, 0.0f
+				   0.0f, 0.0f, 0.0f, 0.0f,
+				   0.0f, 0.0f, 0.0f, 0.0f
 	};
 
 	float cd[8] = {
-			col.x, col.y, col.z, col.w,
-			col.x, col.y, col.z, col.w
+				   col.x, col.y, col.z, col.w,
+				   col.x, col.y, col.z, col.w
 	};
 
 	int id[2] = {0, 1};
@@ -243,25 +294,25 @@ void r_drawVec(struct Renderer *r, vec4 v0, vec4 v1, vec4 col)
 	float y = 0.0f * width * sinf(a) + width * cosf(a);
 
 	float vd[12] = {
-			v0.x + x, v0.y + y, v0.z, v0.w,
-			v0.x - x, v0.y - y, v0.z, v0.w,
-			v1.x, v1.y, v1.z, v1.w
+					v0.x + x, v0.y + y, v0.z, v0.w,
+					v0.x - x, v0.y - y, v0.z, v0.w,
+					v1.x, v1.y, v1.z, v1.w
 	};
 
 	float td[12] = {
-			0.0f, 0.0f, 0.0f, 0.0f,
-			0.0f, 0.0f, 0.0f, 0.0f
+					0.0f, 0.0f, 0.0f, 0.0f,
+					0.0f, 0.0f, 0.0f, 0.0f
 	};
 
 	float nd[12] = {
-			0.0f, 0.0f, 0.0f, 0.0f,
-			0.0f, 0.0f, 0.0f, 0.0f
+					0.0f, 0.0f, 0.0f, 0.0f,
+					0.0f, 0.0f, 0.0f, 0.0f
 	};
 
 	float cd[12] = {
-			col.x, col.y, col.z, col.w,
-			col.x, col.y, col.z, col.w,
-			col.x, col.y, col.z, col.w
+					col.x, col.y, col.z, col.w,
+					col.x, col.y, col.z, col.w,
+					col.x, col.y, col.z, col.w
 	};
 
 	int id[3] = {0, 1, 2};

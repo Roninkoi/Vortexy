@@ -15,9 +15,12 @@ struct Face { // triangle
 	vec3 v; // velocity
 	float p; // pressure
 
-	float initial;
-	float constant;
-	int boundary;
+	float initialV; // initial conditions
+	float initialP;
+	float constantV;
+	float constantP;
+	
+	int boundary; // boundary condition
 
 	vec3 normal; // unit normal
 	vec3 surface; // surface vector with area
@@ -58,7 +61,7 @@ struct Volume { // tetrahedron
 	vec3 v; // volume
 	float p; // pressure
 
-	vec3 s;
+	vec3 s; // source
 
 	mat vGrad; // volume gradient
 	vec3 pGrad; // pressure gradient
@@ -68,10 +71,10 @@ struct Volume { // tetrahedron
 	vec3 vFlux; // velocity flux
 	float flux; // volume flux
 
-	float va;
+	float va; // velocity coefficients
 	vec3 vb;
 
-	float pa;
+	float pa; // pressure coefficients
 	float pb;
 
 	int index;

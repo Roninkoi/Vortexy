@@ -86,19 +86,13 @@ int diagDom(mat *m)
 	return 1;
 }
 
-mat GaussSeidel(mat *a, mat *b)
+mat GaussSeidel(mat *a, mat *b, int maxIt, float epsilon)
 {
 	int n = a->r;
 
 	mat r = matCopy(b);
 
-	/*if (!diagDom(a)) {
-		printf("Not diag\n");
-	}*/
-
-	int maxIt = 100;
 	float delta = 0.0f;
-	float epsilon = 0.0001f;
 
 	for (int k = 0; k < maxIt; ++k) {
 		delta = 0.0f;
@@ -122,8 +116,7 @@ mat GaussSeidel(mat *a, mat *b)
 
 			delta += r.m[i][0] - x;
 
-			//if (!isnanf(x))
-				r.m[i][0] = x;
+			r.m[i][0] = x;
 		}
 		
 		if (fabs(delta) < epsilon) // has converged

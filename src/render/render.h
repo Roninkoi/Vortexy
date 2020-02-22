@@ -118,4 +118,6 @@ void r_drawVec(struct Renderer *r, vec4 v0, vec4 v1, vec4 col);
 
 void r_drawVolume(struct Renderer *r, struct Volume *v, vec4 col);
 
+void r_drawFace(struct Renderer *r, struct Face *f, vec4 col);
+
 #endif

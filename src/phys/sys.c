@@ -9,9 +9,12 @@ void p_sysInit(struct Sys *s)
 {
 	s->objs = NULL;
 	s->objNum = 0;
+	s->simulating = 1;
+
+	s->t = 0.0f;
 }
 
-void p_addObj(struct Sys *s, char *meshPath, char *fluidPath)
+void p_addObj(struct Sys *s, char *fluidPath)
 {
 	const int oldNum = s->objNum;
 	Obj *old = s->objs;
@@ -29,7 +32,7 @@ void p_addObj(struct Sys *s, char *meshPath, char *fluidPath)
 
 	free(old);
 
-	p_loadObj(&s->objs[oldNum], meshPath, fluidPath);
+	p_loadObj(&s->objs[oldNum], fluidPath);
 }
 
 void p_sysStart(struct Sys *s)
@@ -41,27 +44,22 @@ void p_sysStart(struct Sys *s)
 
 		p_decomposeSurfs(&s->objs[i]);
 
-		for (int j = 0; j < s->objs[i].volNum; ++j) { // initial conditions
-			s->objs[i].volumes[j].v = Vec3(0.0f, 0.0f, 0.0f);
-			s->objs[i].volumes[j].p = 1.0f;
+		for (int j = 0; j < s->objs[i].faceNum; ++j) { // initial conditions
+			vec3 v0 = vec3Copy(&s->objs[i].faces[j].normal);
+			vec3Mul(&v0, s->objs[i].faces[j].initialV);
+			
+			s->objs[i].faces[j].v = vec3Copy(&v0);
+			s->objs[i].faces[j].p = s->objs[i].faces[j].initialP;
+		}
+
+		for (int j = 0; j < s->objs[i].volNum; ++j) {
+			p_volV(&s->objs[i].volumes[j]);
+			p_volP(&s->objs[i].volumes[j]);
 		}
 	}
 }
 
-void randomize(struct Sys *s)
-{
-	float intensity = 0.001f;
-
-	for (int o = 0; o < s->objNum; ++o) {
-		for (int i = 0; i < s->objs[o].mesh.vertNum; i += 4) {
-			float nc = randomFloat() * 2.0f * M_PI;
-			s->objs[o].mesh.vertData[i + 0] = s->objs[o].mesh.vertData[i + 0] * 1.0f + intensity * sinf(nc);
-			s->objs[o].mesh.vertData[i + 1] = s->objs[o].mesh.vertData[i + 1] * 1.0f + intensity * cosf(nc);
-			s->objs[o].mesh.vertData[i + 2] = s->objs[o].mesh.vertData[i + 2] * 1.0f + intensity * sinf(nc) * cosf(nc);
-		}
-	}
-}
-
+// update velocity and pressure at faces
 void p_updateVP(Obj *o)
 {
 	for (int j = 0; j < o->faceNum; ++j) {
@@ -70,6 +68,7 @@ void p_updateVP(Obj *o)
 	}
 }
 
+// update mass flow
 void p_updateM(Obj *o)
 {
 	for (int i = 0; i < o->volNum; ++i) {
@@ -84,22 +83,16 @@ void p_updateM(Obj *o)
 	}
 }
 
+// main simulation loop
 void p_sysTick(struct Sys *s)
 {
 	++s->ticks;
+	s->t += s->dt;
 
 	for (int i = 0; i < s->objNum; ++i) {
 		s->objs[i].dt = s->dt;
-
-		for (int j = 0; j < s->objs[i].volNum; ++j) {
-			if (j == s->selected) {
-				s->objs[i].volumes[j].s = Vec3(50.0f, 0.0f, 0.0f);
-			}
-			else {
-				s->objs[i].volumes[j].s = Vec3(0.0f, 0.0f, 0.0f);
-			}
-			//s->objs[i].volumes[j].p = sinf(vec3Len(&s->objs[i].volumes[j].centroid) + s->objs[i].t*0.1f) * 20.1f;
-		}
+		s->objs[i].pRelax = s->pRelax;
+		s->objs[i].vRelax = s->vRelax;
 
 		p_updateVP(&s->objs[i]);
 
@@ -107,6 +100,7 @@ void p_sysTick(struct Sys *s)
 
 		p_pGrad(&s->objs[i]);
 		p_vGrad(&s->objs[i]);
+		//p_pFaceGrad(&s->objs[i]);
 		p_vFaceGrad(&s->objs[i]);
 
 		p_computeFaceFs(&s->objs[i]);
@@ -115,7 +109,7 @@ void p_sysTick(struct Sys *s)
 
 		p_constructVMat(&s->objs[i]);
 
-		s->objs[i].v = GaussSeidel(&s->objs[i].a, &s->objs[i].b);
+		s->objs[i].v = GaussSeidel(&s->objs[i].a, &s->objs[i].b, s->maxIt, s->epsilon);
 
 		p_getV(&s->objs[i]);
 
@@ -134,16 +128,16 @@ void p_sysTick(struct Sys *s)
 
 		p_updateVP(&s->objs[i]);
 		p_updateM(&s->objs[i]);
-		p_vGrad(&s->objs[i]);
+		/*p_vGrad(&s->objs[i]);
 		p_vFaceGrad(&s->objs[i]);
-		p_computeFaceFs(&s->objs[i]);
+		p_computeFaceFs(&s->objs[i]);*/
 		//p_computeVolFs(&s->objs[i]);
 
 		p_computePCoeffs(&s->objs[i]);
 
 		p_constructPMat(&s->objs[i]);
 
-		s->objs[i].v = GaussSeidel(&s->objs[i].a, &s->objs[i].b);
+		s->objs[i].v = GaussSeidel(&s->objs[i].a, &s->objs[i].b, s->maxIt, s->epsilon);
 
 		p_getP(&s->objs[i]);
 
@@ -162,4 +156,7 @@ void p_sysTick(struct Sys *s)
 
 		s->objs[i].t += s->objs[i].dt;
 	}
+
+	if (s->t > s->endt)
+		s->simulating = 0;
 }

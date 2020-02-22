@@ -14,9 +14,17 @@ struct Sys {
 	float time;
 
 	float t;
+	float endt;
 	float dt;
 
+	int maxIt;
+	float epsilon;
+
+	float vRelax;
+	float pRelax;
+
 	int selected;
+	int simulating;
 };
 
 void p_sysInit(struct Sys *s);
@@ -25,6 +33,6 @@ void p_sysTick(struct Sys *s);
 
 void p_sysStart(struct Sys *s);
 
-void p_addObj(struct Sys *s, char *meshPath, char *fluidPath);
+void p_addObj(struct Sys *s, char *fluidPath);
 
 #endif

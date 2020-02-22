@@ -56,16 +56,18 @@ struct Sim {
 	unsigned int timeOld;
 	unsigned int startTime;
 
+	FILE *out;
+	int outputting;
+
 	int rendered;
 	int usegpu;
 	int device;
 
+	int mode;
+
 	char *fluidPath;
 	char *meshPath;
 	char *outPath;
-
-	double t; // simulated time
-	float dt; // time step
 };
 
 void s_init(struct Sim *s);

@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-cmake .
+cmake -DSIMONLY=OFF .
 make
 

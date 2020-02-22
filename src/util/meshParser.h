@@ -97,9 +97,9 @@ Mesh meshParser(char *path)
 		}
 	}
 
-	for (int i = 0; i < mesh.indNum; i+=4) {
+	/*for (int i = 0; i < mesh.indNum; i+=4) {
 		printf("%i %i %i\n", mesh.indData[i], mesh.indData[i+1], mesh.indData[i+2]);
-	}
+	}*/
 
 	for (int i = 0; i < wordNum; ++i)
 		free(words[i]);

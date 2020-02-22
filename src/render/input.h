@@ -164,6 +164,15 @@ void r_getInput(struct Renderer *r, struct Sys* s)
 	else {
 		n6Down = 0;
 	}
+
+	if (glfwGetKey(r->window.window, GLFW_KEY_I)) {
+		s->simulating = 1;
+		printf("STARTED\n");
+	}
+	if (glfwGetKey(r->window.window, GLFW_KEY_O)) {
+		s->simulating = 0;
+		printf("STOPPED\n");
+	}
 }
 
 #endif //INPUT_H

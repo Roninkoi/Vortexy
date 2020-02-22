@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-./Vortexy sim.cfg
+./Vortexy -s sim.cfg
 

@@ -15,7 +15,7 @@ void fluidParser(Obj *o, char *path)
 	char **words = wordsFromFile(path, CFG_MAX, &wordNum);
 
 	int bci = 0;
-	int cfi = 0;
+	int cvi = 0;
 	int ici = 0;
 
 	for (int i = 0; i < wordNum; ++i) {
@@ -26,21 +26,26 @@ void fluidParser(Obj *o, char *path)
 			if (strcmp(words[i], "nu") == 0) {
 				o->fluid.nu = atof(words[i + 1]);
 			}
+			if (strcmp(words[i], "mesh") == 0) {
+				o->meshPath = calloc(strlen(words[i + 1]), sizeof(char));
+				strncpy(o->meshPath, words[i + 1], strlen(words[i + 1]));
+
+				p_loadObjMesh(o);
+			}
 			if (strcmp(words[i], "rho") == 0) {
 				o->fluid.rho = atof(words[i + 1]);
 			}
-
 			if (strcmp(words[i], "bc") == 0 && bci < o->faceNum) {
-				o->faces[bci].boundary = atoi(words[i + 1]);
-				++bci;
+				bci = atoi(words[i + 1]);
+				o->faces[bci].boundary = atoi(words[i + 2]);
 			}
-			if (strcmp(words[i], "cf") == 0 && cfi < o->faceNum) {
-				o->faces[cfi].constant = atof(words[i + 1]);
-				++cfi;
+			if (strcmp(words[i], "cv") == 0 && cvi < o->faceNum) {
+				cvi = atoi(words[i + 1]);
+				o->faces[cvi].constantV = atof(words[i + 2]);
 			}
-			if (strcmp(words[i], "ic") == 0 && ici < o->faceNum) {
-				o->faces[ici].initial = atof(words[i + 1]);
-				++ici;
+			if (strcmp(words[i], "iv") == 0 && ici < o->faceNum) {
+				ici = atoi(words[i + 1]);
+				o->faces[ici].initialV = atof(words[i + 2]);
 			}
 		}
 	}
@@ -67,16 +72,33 @@ void simParser(struct Sim *s, char *path)
 			if (strcmp(words[i], "cldevice") == 0) {
 				s->device = atoi(words[i + 1]);
 			}
+			if (strcmp(words[i], "simulating") == 0) {
+				s->sys.simulating = atoi(words[i + 1]);
+			}
 			if (strcmp(words[i], "dt") == 0) {
-				s->dt = atof(words[i + 1]);
+				s->sys.dt = atof(words[i + 1]);
+			}
+			if (strcmp(words[i], "endt") == 0) {
+				s->sys.endt = atof(words[i + 1]);
+			}
+			if (strcmp(words[i], "epsilon") == 0) {
+				s->sys.epsilon = atof(words[i + 1]);
+			}
+			if (strcmp(words[i], "pr") == 0) {
+				s->sys.pRelax = atof(words[i + 1]);
+			}
+			if (strcmp(words[i], "vr") == 0) {
+				s->sys.vRelax = atof(words[i + 1]);
+			}
+			if (strcmp(words[i], "maxit") == 0) {
+				s->sys.maxIt = atoi(words[i + 1]);
+			}
+			if (strcmp(words[i], "outputting") == 0) {
+				s->outputting = atoi(words[i + 1]);
 			}
 			if (strcmp(words[i], "fluid") == 0) {
 				s->fluidPath = calloc(strlen(words[i + 1]), sizeof(char));
 				strncpy(s->fluidPath, words[i + 1], strlen(words[i + 1]));
-			}
-			if (strcmp(words[i], "mesh") == 0) {
-				s->meshPath = calloc(strlen(words[i + 1]), sizeof(char));
-				strncpy(s->meshPath, words[i + 1], strlen(words[i + 1]));
 			}
 			if (strcmp(words[i], "output") == 0) {
 				s->outPath = calloc(strlen(words[i + 1]), sizeof(char));

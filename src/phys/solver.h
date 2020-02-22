@@ -4,6 +4,50 @@
 #include "volume.h"
 #include "sys.h"
 
+// volume upwind from face
+struct Volume *getUpwindVol(struct Face *f)
+{
+	vec3 vs = vec3Outwards(&f->centroid, &f->thisVol[0]->centroid, &f->normal);
+
+	float maxd = -vec3Dot(&vs, &f->thisVol[0]->v);
+
+	if (f->vNum < 2)
+		return f->thisVol[0];
+
+	vs = vec3Outwards(&f->centroid, &f->thisVol[1]->centroid, &f->normal);
+
+	float maxf = -vec3Dot(&vs, &f->thisVol[1]->v);
+
+	if (maxf > maxd)
+		return f->thisVol[1];
+
+	return f->thisVol[0];
+}
+
+// face upwind from volume
+struct Face *getUpwindFace(struct Volume *v)
+{
+	struct Face *maxf = v->faces[0];
+
+	vec3 fs = vec3Outwards(&v->centroid, &v->faces[0]->centroid, &v->faces[0]->normal);
+
+	float maxd = -vec3Dot(&fs, &v->v);
+
+	for (int i = 0; i < 4; ++i) {
+		fs = vec3Outwards(&v->centroid, &v->faces[i]->centroid, &v->faces[i]->normal);
+
+		float dot = -vec3Dot(&fs, &v->v);
+
+		if (dot > maxd) {
+			maxd = dot;
+			maxf = v->faces[i];
+		}
+	}
+
+	return maxf;
+}
+
+// get velocity field from matrix
 void p_getV(Obj *o)
 {
 	for (int i = 0; i < o->volNum; ++i) {
@@ -15,6 +59,7 @@ void p_getV(Obj *o)
 	}
 }
 
+// get pressure from matrix
 void p_getP(Obj *o)
 {
 	for (int i = 0; i < o->volNum; ++i) {
@@ -22,6 +67,7 @@ void p_getP(Obj *o)
 	}
 }
 
+// construct pressure equation matrix
 void p_constructPMat(Obj *o)
 {
 	o->a = Mat(1.0f, o->volNum, o->volNum);
@@ -53,6 +99,7 @@ void p_constructPMat(Obj *o)
 	}
 }
 
+// calculate coefficients for pressure equation
 void p_computePCoeffs(Obj *o)
 {
 	for (int i = 0; i < o->volNum; ++i) {
@@ -68,6 +115,7 @@ void p_computePCoeffs(Obj *o)
 	}
 }
 
+// construct matrix for momentum equation
 void p_constructVMat(Obj *o)
 {
 	o->a = Mat(1.0f, o->volNum * 3, o->volNum * 3);
@@ -103,44 +151,9 @@ void p_constructVMat(Obj *o)
 		o->b.m[i + o->volNum * 1][0] = right.y;
 		o->b.m[i + o->volNum * 2][0] = right.z;
 	}
-
-#if 0
-	o->a = Mat(1.0f, o->volNum * 3, o->volNum * 3);
-	o->b = Mat(0.0f, o->volNum * 3, 1);
-
-	for (int i = 0; i < o->volNum; i += 1) {
-		float left = o->volumes[i].va;
-
-		o->a.m[i + o->volNum * 0][i + o->volNum * 0] = left;
-		o->a.m[i + o->volNum * 1][i + o->volNum * 1] = left;
-		o->a.m[i + o->volNum * 2][i + o->volNum * 2] = left;
-	}
-
-	for (int i = 0; i < o->volNum; i += 1) {
-		for (int j = 0; j < o->volumes[i].neiNum; ++j) {
-			int n = o->volumes[i].neighbours[j]->index;
-
-			if (n > o->volNum)
-				continue;
-
-			struct Face *connecting = p_connectingFace(&o->volumes[i], &o->volumes[n]);
-
-			o->a.m[i + o->volNum * 0][n + o->volNum * 0] = -connecting->flux;
-			o->a.m[i + o->volNum * 1][n + o->volNum * 1] = -connecting->flux;
-			o->a.m[i + o->volNum * 2][n + o->volNum * 2] = -connecting->flux;
-		}
-	}
-
-	for (int i = 0; i < o->volNum; ++i) {
-		vec3 right = vec3Copy(&o->volumes[i].vb);
-
-		o->b.m[i + o->volNum * 0][0] = right.x;
-		o->b.m[i + o->volNum * 1][0] = right.y;
-		o->b.m[i + o->volNum * 2][0] = right.z;
-	}
-#endif
 }
 
+// calculate coefficients for momentum equation
 void p_computeVCoeffs(Obj *o)
 {
 	for (int i = 0; i < o->volNum; ++i) {
@@ -151,7 +164,7 @@ void p_computeVCoeffs(Obj *o)
 		}
 
 		o->volumes[i].vb = nvec3();
-		vec3Sub(&o->volumes[i].vb, &o->volumes->vFlux);
+		vec3Sub(&o->volumes[i].vb, &o->volumes[i].vFlux);
 
 		vec3 b0 = vec3Copy(&o->volumes[i].pGrad);
 		vec3Mul(&b0, o->volumes[i].vol);
@@ -183,30 +196,39 @@ void p_computeVCoeffs(Obj *o)
 	}
 }
 
+// compute face fluxes
 void p_computeFaceFs(Obj *o)
 {
 	for (int i = 0; i < o->faceNum; ++i) {
 		if (o->faces[i].vNum < 2) {
 			continue;
-		}
-		else {
+		} else {
 			o->faces[i].flux = fabs(o->faces[i].mRate);
 			o->faces[i].flux += o->fluid.mu * (vec3Len(&o->faces[i].surfaceE) / vec3Len(&o->faces[i].volDist));
 		}
 
 		mat t = matVec3(&o->faces[i].surfaceT);
 
-		mat v0 = matMul(&t, &o->faces[i].vGrad);
+		mat v0 = matMul(&o->faces[i].vGrad, &t);
 		o->faces[i].vFlux = vec3Mat(&v0);
 		vec3Mul(&o->faces[i].vFlux, -o->fluid.mu);
 
-		//vec3 v1 =
+		struct Volume *uv = getUpwindVol(&o->faces[i]);
+		struct Face *uf = getUpwindFace(uv);
+		vec3 v1 = vec3Copy(&o->faces[i].v);
+		
+		vec3Sub(&v1, &uv->v);
+
+		vec3Mul(&v1, o->faces[i].mRate);
+
+		vec3Add(&o->faces[i].vFlux, &v1);
 
 		matDestroy(&t);
 		matDestroy(&v0);
 	}
 }
 
+// compute volume fluxes
 void p_computeVolFs(Obj *o)
 {
 	for (int i = 0; i < o->volNum; ++i) {
@@ -224,7 +246,7 @@ void p_computeVolFs(Obj *o)
 	}
 }
 
-// minimum correction
+// minimum correction decomposition of surfaces
 void p_decomposeSurfs(Obj *o)
 {
 	for (int i = 0; i < o->volNum; ++i) {
@@ -255,6 +277,25 @@ void p_decomposeSurfs(Obj *o)
 	}
 }
 
+// volume velocity from faces
+void p_volV(struct Volume *v)
+{
+	v->v = nvec3();
+	for (int i = 0; i < 4; ++i) {
+		vec3Add(&v->v, &v->faces[i]->v);
+	}
+}
+
+// volume pressure from faces
+void p_volP(struct Volume *v)
+{
+	v->p = 0.0f;
+	for (int i = 0; i < 4; ++i) {
+		v->p += v->faces[i]->p;
+	}
+}
+
+// interpolate face velocity from volumes
 void p_faceV(struct Face *f)
 {
 	if (f->vNum == 0)
@@ -281,6 +322,7 @@ void p_faceV(struct Face *f)
 	vec3Add(&f->v, &vel1);
 }
 
+// interpolate face pressure from volumes
 void p_faceP(struct Face *f)
 {
 	if (f->vNum == 0)
@@ -304,31 +346,66 @@ void p_faceP(struct Face *f)
 	f->p = pre0 + pre1;
 }
 
+// face pressure gradient
+void p_pFaceGrad(Obj *o)
+{
+	for (int i = 0; i < o->faceNum; ++i) {
+		if (o->faces[i].vNum == 1) {
+			matDestroy(&o->faces[i].vGrad);
+			o->faces[i].vGrad = matCopy(&o->faces[i].thisVol[0]->vGrad);
+		} else if (o->faces[i].vNum == 2) {
+			vec3 g0 = vec3Copy(&o->faces[i].thisVol[0]->pGrad);
+			vec3 g1 = vec3Copy(&o->faces[i].thisVol[1]->pGrad);
+
+			vec3 d0 = vec3Copy(&o->faces[i].thisVol[1]->centroid);
+			vec3Sub(&d0, &o->faces[i].centroid);
+			float wf = vec3Len(&d0) / vec3Len(&o->faces[i].volDist);
+
+			vec3Mul(&g0, wf);
+			vec3Mul(&g1, 1.0f - wf);
+			vec3Add(&g0, &g1);
+
+			o->faces[i].pGrad = vec3Copy(&g0);
+		}
+	}
+}
+
+// face velocity gradient
 void p_vFaceGrad(Obj *o)
 {
 	for (int i = 0; i < o->faceNum; ++i) {
 		if (o->faces[i].vNum == 1) {
 			matDestroy(&o->faces[i].vGrad);
 			o->faces[i].vGrad = matCopy(&o->faces[i].thisVol[0]->vGrad);
-		}
-		else if (o->faces[i].vNum == 2) {
+		} else if (o->faces[i].vNum == 2) {
 			matDestroy(&o->faces[i].vGrad);
 			mat g0 = matCopy(&o->faces[i].thisVol[0]->vGrad);
 			mat g1 = matCopy(&o->faces[i].thisVol[1]->vGrad);
 
-			mat s = Mat(0.5f, 3, 3);
+			vec3 d0 = vec3Copy(&o->faces[i].thisVol[1]->centroid);
+			vec3Sub(&d0, &o->faces[i].centroid);
 
-			mat g = matAdd(&g0, &g1);
-			o->faces[i].vGrad = matMul(&g, &s);
+			float wf = vec3Len(&d0) / vec3Len(&o->faces[i].volDist);
+
+			mat s0 = Mat(wf, 3, 3);
+			mat s1 = Mat(1.0f - wf, 3, 3);
+
+			mat gg0 = matMul(&g0, &s0);
+			mat gg1 = matMul(&g1, &s1);
+
+			o->faces[i].vGrad = matAdd(&gg0, &gg1);
 
 			matDestroy(&g0);
 			matDestroy(&g1);
-			matDestroy(&s);
-			matDestroy(&g);
+			matDestroy(&gg0);
+			matDestroy(&gg1);
+			matDestroy(&s0);
+			matDestroy(&s1);
 		}
 	}
 }
 
+// volume pressure gradient
 void p_pGrad(Obj *o)
 {
 	for (int i = 0; i < o->volNum; ++i) {
@@ -347,7 +424,8 @@ void p_pGrad(Obj *o)
 	}
 }
 
-void p_vGrad(Obj *o) // check
+// volume velocity gradient
+void p_vGrad(Obj *o)
 {
 	for (int i = 0; i < o->volNum; ++i) {
 		mat *grad = &o->volumes[i].vGrad;
@@ -383,9 +461,6 @@ void p_vGrad(Obj *o) // check
 
 		*grad = matCopy(&a);
 		matDestroy(&a);
-
-		/*matPrint(grad);
-		printf("\n");*/
 	}
 }
 
