@@ -52,6 +52,5 @@ render
 | 2 | Wireframe |
 | 3 | Lines |
 | 4 | Vectors |
-| 5 | Volume element |
 | I | Start simulation |
 | O | Stop simulation |

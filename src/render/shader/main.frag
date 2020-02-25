@@ -15,7 +15,7 @@ void main()
 {
     vec4 col = texture(tex, vTex.st) * vCol;
 
-    col /= max(exp(vPos.z*0.2f), 1.0f);
+    col /= max(exp(vPos.z*0.1f), 1.0f);
 
 	fCol = col;
 

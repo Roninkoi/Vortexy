@@ -151,7 +151,7 @@ void vec3Init(vec3 *v, float x, float y, float z)
 
 void vec3Print(vec3 *v)
 {
-	printf("(%.1f, %.1f, %.1f)\n", v->x, v->y, v->z);
+	printf("(%.10f, %.10f, %.10f)\n", v->x, v->y, v->z);
 }
 
 vec3 ivec3()

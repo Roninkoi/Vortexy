@@ -200,7 +200,8 @@ struct Face *p_loadFaces(Mesh *m, int *faceNum)
 
 	for (int i = 0; i < fn; ++i) {
 		f[i].centroid = nvec3();
-		f[i].flux = 0.0f;
+		f[i].flux = nvec3();
+		f[i].d = nvec3();
 		f[i].mRate = 0.0f;
 		f[i].initialP = 0.0f;
 		f[i].initialV = 0.0f;
@@ -208,8 +209,13 @@ struct Face *p_loadFaces(Mesh *m, int *faceNum)
 		f[i].mFlux = nvec3();
 		f[i].pGrad = nvec3();
 		f[i].vGrad = Mat(0.0f, 3, 3);
+		f[i].pGradI = nvec3();
+		f[i].vGradI = Mat(0.0f, 3, 3);
 		f[i].v = nvec3();
 		f[i].p = 0.0f;
+		f[i].df = 0.0f;
+		f[i].vi = nvec3();
+		f[i].pi = 0.0f;
 		f[i].index = i;
 		f[i].vNum = 0;
 		f[i].thisVol[0] = NULL;
@@ -563,6 +569,7 @@ struct Volume *p_loadVolumes(struct Face *f, int faceNum, int *volNum)
 		v[i].mFlux = nvec3();
 		v[i].vFlux = nvec3();
 		v[i].pGrad = nvec3();
+		v[i].d = nvec3();
 		v[i].vGrad = Mat(0.0f, 3, 3);
 
 		computeVolumeCent(&v[i]);

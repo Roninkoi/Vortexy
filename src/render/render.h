@@ -80,6 +80,10 @@ struct Renderer {
 	vec4 camPos;
 	vec4 camRot;
 
+	vec4 modelRot;
+
+	float cz;
+
 	int vis;
 };
 

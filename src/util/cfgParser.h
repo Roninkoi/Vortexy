@@ -16,7 +16,9 @@ void fluidParser(Obj *o, char *path)
 
 	int bci = 0;
 	int cvi = 0;
+	int cpi = 0;
 	int ici = 0;
+	int ipi = 0;
 
 	for (int i = 0; i < wordNum; ++i) {
 		if (i + 1 < wordNum) {
@@ -35,17 +37,28 @@ void fluidParser(Obj *o, char *path)
 			if (strcmp(words[i], "rho") == 0) {
 				o->fluid.rho = atof(words[i + 1]);
 			}
-			if (strcmp(words[i], "bc") == 0 && bci < o->faceNum) {
+			if (strcmp(words[i], "p") == 0) {
+				o->fluid.p0 = atof(words[i + 1]);
+			}
+			if (strcmp(words[i], "bc") == 0) {
 				bci = atoi(words[i + 1]);
 				o->faces[bci].boundary = atoi(words[i + 2]);
 			}
-			if (strcmp(words[i], "cv") == 0 && cvi < o->faceNum) {
+			if (strcmp(words[i], "cv") == 0) {
 				cvi = atoi(words[i + 1]);
 				o->faces[cvi].constantV = atof(words[i + 2]);
 			}
-			if (strcmp(words[i], "iv") == 0 && ici < o->faceNum) {
+			if (strcmp(words[i], "cp") == 0) {
+				cpi = atoi(words[i + 1]);
+				o->faces[cvi].constantP = atof(words[i + 2]);
+			}
+			if (strcmp(words[i], "iv") == 0) {
 				ici = atoi(words[i + 1]);
 				o->faces[ici].initialV = atof(words[i + 2]);
+			}
+			if (strcmp(words[i], "ip") == 0) {
+				ipi = atoi(words[i + 1]);
+				o->faces[ipi].initialP = atof(words[i + 2]);
 			}
 		}
 	}
@@ -104,6 +117,9 @@ void simParser(struct Sim *s, char *path)
 				s->outPath = calloc(strlen(words[i + 1]), sizeof(char));
 				strncpy(s->outPath, words[i + 1], strlen(words[i + 1]));
 			}
+			/*if (strcmp(words[i], "cz") == 0) {
+				s->renderer.cz = atof(words[i + 1]);
+			}*/
 		}
 	}
 	

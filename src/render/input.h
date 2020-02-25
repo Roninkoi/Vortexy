@@ -33,8 +33,9 @@ void r_getInput(struct Renderer *r, struct Sys* s)
 	r->window.mouseDiffY = r->window.mouseOldY - r->window.mouseY;
 
 	if (glfwGetMouseButton(r->window.window, GLFW_MOUSE_BUTTON_LEFT)) {
-		r->model = mat4RotateY(&r->model, (float) r->window.mouseDiffX * 0.004f);
+		//r->model = mat4RotateY(&r->model, (float) r->window.mouseDiffX * 0.004f);
 		//r->model = mat4RotateX(&r->model, (float) r->window.mouseDiffY * 0.004f);
+		r->modelRot.y += (float) r->window.mouseDiffX * 0.0024f;
 	}
 
 	float ms = r->delta * 0.01f; // mov spd

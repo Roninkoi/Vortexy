@@ -66,7 +66,6 @@ struct Sim {
 	int mode;
 
 	char *fluidPath;
-	char *meshPath;
 	char *outPath;
 };
 

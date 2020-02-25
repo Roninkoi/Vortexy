@@ -60,13 +60,15 @@ void r_init(struct Renderer *r, int *running)
 
 	r->camPos = nvec4();
 	r->camRot = nvec4();
+	r->modelRot = nvec4();
 
-	r->camPos.z = -3.0f;
+	r->cz = -8.0f;
+	r->camPos.z = r->cz;
 
 	r_flatTex(&r->flat, 255, 255, 255, 128, 128);
 	r->tex = &r->flat;
 
-	r_loadTex(&r->tex0, "data/test.ppm");
+	//r_loadTex(&r->tex0, "data/test.ppm");
 }
 
 void r_update(struct Renderer *r)
@@ -91,22 +93,23 @@ void r_update(struct Renderer *r)
 	glActiveTexture(GL_TEXTURE0);
 	glUniform1i(r->texUni, 0);
 
-	//r->model = mat4RotateY(&r->model, 0.01f);
+	r->model = imat4();
+	r->model = mat4RotateY(&r->model, r->modelRot.y);
 	r->proj = mat4Perspective(1.5f, 1.78f, 0.1f, 100.0f);
 
 	r->view = Mat4(1.0f);
 	r->view = mat4RotateX(&r->view, r->camRot.x);
 	r->view = mat4RotateY(&r->view, r->camRot.y);
 	r->view = mat4Translate(&r->view, Vec4(-r->camPos.x, -r->camPos.y, -r->camPos.z, 0.0f));
-/*
-	mat4 faux = imat4();
-	glUniformMatrix4fv(r->modelUni, 1, GL_TRUE, &faux.m[0][0]);
-	glUniformMatrix4fv(r->projUni, 1, GL_TRUE, &faux.m[0][0]);
-	glUniformMatrix4fv(r->viewUni, 1, GL_TRUE, &faux.m[0][0]);*/
-/*
-	r->model = imat4();
-	r->view = imat4();
-	r->proj = imat4();*/
+	/*
+	  mat4 faux = imat4();
+	  glUniformMatrix4fv(r->modelUni, 1, GL_TRUE, &faux.m[0][0]);
+	  glUniformMatrix4fv(r->projUni, 1, GL_TRUE, &faux.m[0][0]);
+	  glUniformMatrix4fv(r->viewUni, 1, GL_TRUE, &faux.m[0][0]);*/
+	/*
+	  r->model = imat4();
+	  r->view = imat4();
+	  r->proj = imat4();*/
 	glUniformMatrix4fv(r->modelUni, 1, GL_TRUE, &r->model.m[0][0]);
 	glUniformMatrix4fv(r->projUni, 1, GL_TRUE, &r->proj.m[0][0]);
 	glUniformMatrix4fv(r->viewUni, 1, GL_TRUE, &r->view.m[0][0]);
@@ -215,8 +218,8 @@ float getCentZ(struct Renderer *r, int i0, int i1, int i2)
 	return z;
 
 	vec4 p0 = Vec4(r->vertices[r->indices[i0]*4],
-				  r->vertices[r->indices[i0]*4 + 1],
-				  r->vertices[r->indices[i0]*4 + 2],
+				   r->vertices[r->indices[i0]*4 + 1],
+				   r->vertices[r->indices[i0]*4 + 2],
 				   r->vertices[r->indices[i0]*4 + 3]);
 
 	vec4 p1 = Vec4(r->vertices[r->indices[i1]*4],

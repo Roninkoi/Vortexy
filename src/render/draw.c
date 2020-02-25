@@ -27,6 +27,7 @@ void rw(struct Renderer *r, struct Sys *s)
 {
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);
+	r->tex = &r->flat;
 	for (int i = 0; i < s->objNum; ++i) {
 		p_meshSetCol(&s->objs[i].mesh, 0.0f, 0.5f * 1.5f, 0.7f * 1.5f, 1.0f * 1.5f);
 		r_drawWireMesh(r, &s->objs[i].mesh, 2.0f);
@@ -41,7 +42,7 @@ void rv(struct Renderer *r, struct Sys *s)
 	glDisable(GL_BLEND);
 	glBlendFunc(GL_DST_ALPHA, GL_SRC_ALPHA);
 
-	r->tex = &r->tex0;
+	r->tex = &r->flat;
 	for (int i = 0; i < s->objNum; ++i) {
 		int l = s->selected;
 		r_drawVolume(r, &s->objs[i].volumes[l], Vec4(1.0f, 0.0f, 0.0f, 1.0f));
@@ -56,7 +57,7 @@ void rf(struct Renderer *r, struct Sys *s)
 	glDisable(GL_BLEND);
 	glBlendFunc(GL_DST_ALPHA, GL_SRC_ALPHA);
 
-	r->tex = &r->tex0;
+	r->tex = &r->flat;
 	for (int i = 0; i < s->objNum; ++i) {
 		int l = s->selected;
 		r_drawFace(r, &s->objs[i].faces[l], Vec4(1.0f, 0.0f, 0.0f, 1.0f));
@@ -73,7 +74,7 @@ void rl(struct Renderer *r, struct Sys *s)
 	glDisable(GL_BLEND);
 	glBlendFunc(GL_DST_ALPHA, GL_SRC_ALPHA);
 
-	r->tex = &r->tex0;
+	r->tex = &r->flat;
 	for (int i = 0; i < s->objNum; ++i) {
 		for (int j = 0; j < s->objs[i].volNum; ++j) {
 			vec4 n = vec4Copy3(&s->objs[i].volumes[j].centroid);
@@ -105,7 +106,7 @@ void rtl(struct Renderer *r, struct Sys *s)
 	glDisable(GL_BLEND);
 	glBlendFunc(GL_DST_ALPHA, GL_SRC_ALPHA);
 
-	r->tex = &r->tex0;
+	r->tex = &r->flat;
 	for (int i = 0; i < s->objNum; ++i) {
 		for (int j = 0; j < s->objs[i].volNum; ++j) {
 			vec4 n = vec4Copy3(&s->objs[i].volumes[j].centroid);
@@ -286,16 +287,17 @@ void r_drawVec(struct Renderer *r, vec4 v0, vec4 v1, vec4 col)
 {
 	r->drawMode = GL_TRIANGLES;
 
-	float width = 0.015f;
+	float width = 0.02f;
 
 	float a = atanf((v1.y - v0.y) / (v1.x - v0.x));
 
-	float x = 0.0f * width * cosf(a) - width * sinf(a);
-	float y = 0.0f * width * sinf(a) + width * cosf(a);
+	float x = -width * sinf(a) * cosf(-r->modelRot.y);
+	float y = width * sinf(a) * sinf(-r->modelRot.y) + width * cosf(a) * cosf(-r->modelRot.y);
+	float z = width * sinf(a) * sinf(-r->modelRot.y);
 
 	float vd[12] = {
-					v0.x + x, v0.y + y, v0.z, v0.w,
-					v0.x - x, v0.y - y, v0.z, v0.w,
+					v0.x + x, v0.y + y, v0.z + z, v0.w,
+					v0.x - x, v0.y - y, v0.z - z, v0.w,
 					v1.x, v1.y, v1.z, v1.w
 	};
 

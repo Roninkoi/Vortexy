@@ -14,6 +14,8 @@ struct Face { // triangle
 
 	vec3 v; // velocity
 	float p; // pressure
+	vec3 vi; // velocity
+	float pi; // pressure
 
 	float initialV; // initial conditions
 	float initialP;
@@ -34,10 +36,18 @@ struct Face { // triangle
 	float mRate; // mass flow rate
 	vec3 mFlux; // mass flux
 	vec3 vFlux; // velocity flux
-	float flux; // face flux
+	vec3 flux; // face flux
+
+	float df;
+
+	vec3 d;
+
+	vec3 ed;
 
 	mat vGrad; // velocity gradient
 	vec3 pGrad; // pressure gradient
+	mat vGradI; // interpolated
+	vec3 pGradI; // interpolated
 
 	float area;
 
@@ -71,11 +81,15 @@ struct Volume { // tetrahedron
 	vec3 vFlux; // velocity flux
 	float flux; // volume flux
 
-	float va; // velocity coefficients
+	vec3 va; // velocity coefficients
 	vec3 vb;
 
 	float pa; // pressure coefficients
 	float pb;
+
+	vec3 d;
+
+	float pc;
 
 	int index;
 

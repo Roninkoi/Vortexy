@@ -35,6 +35,25 @@ void p_addObj(struct Sys *s, char *fluidPath)
 	p_loadObj(&s->objs[oldNum], fluidPath);
 }
 
+// volume velocity from faces
+void volV(struct Volume *v)
+{
+	v->v = nvec3();
+	for (int i = 0; i < 4; ++i) {
+		vec3Add(&v->v, &v->faces[i]->v);
+	}
+}
+
+// volume pressure from faces
+void volP(struct Volume *v)
+{
+	v->p = 0.0f;
+	for (int i = 0; i < 4; ++i) {
+		v->p += v->faces[i]->p;
+	}
+	v->p /= 4.0f;
+}
+
 void p_sysStart(struct Sys *s)
 {
 	s->selected = 0;
@@ -49,12 +68,12 @@ void p_sysStart(struct Sys *s)
 			vec3Mul(&v0, s->objs[i].faces[j].initialV);
 			
 			s->objs[i].faces[j].v = vec3Copy(&v0);
-			s->objs[i].faces[j].p = s->objs[i].faces[j].initialP;
+			s->objs[i].faces[j].p = s->objs[i].fluid.p0 + s->objs[i].faces[j].initialP;
 		}
 
 		for (int j = 0; j < s->objs[i].volNum; ++j) {
-			p_volV(&s->objs[i].volumes[j]);
-			p_volP(&s->objs[i].volumes[j]);
+			volV(&s->objs[i].volumes[j]);
+			volP(&s->objs[i].volumes[j]);
 		}
 	}
 }
@@ -93,18 +112,19 @@ void p_sysTick(struct Sys *s)
 		s->objs[i].dt = s->dt;
 		s->objs[i].pRelax = s->pRelax;
 		s->objs[i].vRelax = s->vRelax;
-
+		
 		p_updateVP(&s->objs[i]);
 
 		p_updateM(&s->objs[i]);
 
 		p_pGrad(&s->objs[i]);
 		p_vGrad(&s->objs[i]);
-		//p_pFaceGrad(&s->objs[i]);
+		p_pFaceGrad(&s->objs[i]);
 		p_vFaceGrad(&s->objs[i]);
 
 		p_computeFaceFs(&s->objs[i]);
 		p_computeVolFs(&s->objs[i]);
+		
 		p_computeVCoeffs(&s->objs[i]);
 
 		p_constructVMat(&s->objs[i]);
@@ -112,7 +132,9 @@ void p_sysTick(struct Sys *s)
 		s->objs[i].v = GaussSeidel(&s->objs[i].a, &s->objs[i].b, s->maxIt, s->epsilon);
 
 		p_getV(&s->objs[i]);
-
+		
+		p_D(&s->objs[i]);
+	
 #if 0
 		matPrint(&s->objs[i].a);
 		printf("XXXXXXXXXXXXXXXXXXXXXXX\n");
@@ -127,11 +149,16 @@ void p_sysTick(struct Sys *s)
 		matDestroy(&s->objs[i].b);
 
 		p_updateVP(&s->objs[i]);
+
 		p_updateM(&s->objs[i]);
-		/*p_vGrad(&s->objs[i]);
+		
+		/*p_pGrad(&s->objs[i]);
+		p_vGrad(&s->objs[i]);
+		p_pFaceGrad(&s->objs[i]);
 		p_vFaceGrad(&s->objs[i]);
-		p_computeFaceFs(&s->objs[i]);*/
-		//p_computeVolFs(&s->objs[i]);
+
+		p_computeFaceFs(&s->objs[i]);
+		p_computeVolFs(&s->objs[i]);*/
 
 		p_computePCoeffs(&s->objs[i]);
 
@@ -153,6 +180,13 @@ void p_sysTick(struct Sys *s)
 		matDestroy(&s->objs[i].a);
 		matDestroy(&s->objs[i].v);
 		matDestroy(&s->objs[i].b);
+
+		for (int j = 0; j < s->objs[i].volNum; ++j) {
+			s->objs[i].volumes[j].p += s->objs[i].volumes[j].pc * s->objs[i].pRelax;
+
+			if (s->objs[i].volumes[j].p < 0.0f)
+				s->objs[i].volumes[j].p = 0.0f;
+		}
 
 		s->objs[i].t += s->objs[i].dt;
 	}
