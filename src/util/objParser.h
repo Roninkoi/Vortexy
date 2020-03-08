@@ -10,7 +10,7 @@
 
 #define OBJ_MAX 0x100000
 
-// creates a mesh object and loads obj
+// creates a mesh object and loads .obj
 Mesh objParser(char *path, int optimize, int loadTex)
 {
 	Mesh mesh;
@@ -143,10 +143,7 @@ Mesh objParser(char *path, int optimize, int loadTex)
 		}
 	}
 
-	for (int i = 0; i < wordNum; ++i)
-		free(words[i]);
-
-	free(words);
+	freeStrArr(words, OBJ_MAX);
 	
 	free(vertis);
 	free(texis);

@@ -244,3 +244,12 @@ vec3 vec3Outwards(vec3 *p0, vec3 *p1, vec3 *v)
 
 	return r;
 }
+
+float vec3Sign(vec3 *p0, vec3 *p1, vec3 *v)
+{
+	vec3 r;
+	vec3 d = vec3Copy(p1);
+	vec3Sub(&d, p0);
+
+	return sign(vec3Dot(v, &d));
+}

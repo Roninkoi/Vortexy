@@ -12,7 +12,7 @@
 #include "phys/mesh.h"
 #include "util.h"
 
-#define OBJ_MAX 0x1000000
+#define MESH_MAX 0x1000000
 
 // creates a mesh object and loads .mesh
 Mesh meshParser(char *path)
@@ -22,7 +22,7 @@ Mesh meshParser(char *path)
 	p_meshInit(&mesh);
 
 	int wordNum = 0;
-	char **words = wordsFromFile(path, OBJ_MAX, &wordNum);
+	char **words = wordsFromFile(path, MESH_MAX, &wordNum);
 
 	int vi = 0;
 	int ii = 0;
@@ -101,10 +101,7 @@ Mesh meshParser(char *path)
 		printf("%i %i %i\n", mesh.indData[i], mesh.indData[i+1], mesh.indData[i+2]);
 	}*/
 
-	for (int i = 0; i < wordNum; ++i)
-		free(words[i]);
-
-	free(words);
+	freeStrArr(words, MESH_MAX);
 
 	return mesh;
 }

@@ -223,6 +223,20 @@ void matDestroy(mat *m)
 	free(m->m);
 }
 
+void matDestroyS(mat *m)
+{
+	for (int i = 0; i < m->r; ++i) {
+		if (m->m == NULL)
+			break;
+
+		free(m->m[i]);
+	}
+	free(m->m);
+
+	free(m->rmax);
+	free(m->rmin);
+}
+
 float matMinor(mat *m, int i, int j)
 {
 	mat s = matSubmatrix(m, i, j);

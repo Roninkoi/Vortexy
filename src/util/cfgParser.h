@@ -24,21 +24,34 @@ void fluidParser(Obj *o, char *path)
 		if (i + 1 < wordNum) {
 			if (strcmp(words[i], "mu") == 0) {
 				o->fluid.mu = atof(words[i + 1]);
-			}
-			if (strcmp(words[i], "nu") == 0) {
-				o->fluid.nu = atof(words[i + 1]);
-			}
-			if (strcmp(words[i], "mesh") == 0) {
-				o->meshPath = calloc(strlen(words[i + 1]), sizeof(char));
-				strncpy(o->meshPath, words[i + 1], strlen(words[i + 1]));
-
-				p_loadObjMesh(o);
+				printf("mu %f\n", o->fluid.mu);
 			}
 			if (strcmp(words[i], "rho") == 0) {
 				o->fluid.rho = atof(words[i + 1]);
+				printf("rho %f\n", o->fluid.rho);
 			}
-			if (strcmp(words[i], "p") == 0) {
-				o->fluid.p0 = atof(words[i + 1]);
+			if (strcmp(words[i], "dt") == 0) {
+				o->dt = atof(words[i + 1]);
+
+				printf("dt %f\n", o->dt);
+			}
+			if (strcmp(words[i], "pr") == 0) {
+				o->pRelax = atof(words[i + 1]);
+			}
+			if (strcmp(words[i], "vr") == 0) {
+				o->vRelax = atof(words[i + 1]);
+			}
+			if (strcmp(words[i], "f") == 0) {
+				o->fluid.f = Vec3(atof(words[i + 1]), atof(words[i + 2]), atof(words[i + 3]));
+				
+				printf("f ");
+				vec3Print(&o->fluid.f);
+			}
+			if (strcmp(words[i], "bp") == 0) {
+				o->fluid.bp = atof(words[i + 1]);
+			}
+			if (strcmp(words[i], "ebc") == 0) {
+				o->fluid.ebc = atoi(words[i + 1]);
 			}
 			if (strcmp(words[i], "bc") == 0) {
 				bci = atoi(words[i + 1]);
@@ -50,7 +63,7 @@ void fluidParser(Obj *o, char *path)
 			}
 			if (strcmp(words[i], "cp") == 0) {
 				cpi = atoi(words[i + 1]);
-				o->faces[cvi].constantP = atof(words[i + 2]);
+				o->faces[cpi].constantP = atof(words[i + 2]);
 			}
 			if (strcmp(words[i], "iv") == 0) {
 				ici = atoi(words[i + 1]);
@@ -63,10 +76,24 @@ void fluidParser(Obj *o, char *path)
 		}
 	}
 	
-	for (int i = 0; i < wordNum; ++i)
-		free(words[i]);
+	freeStrArr(words, CFG_MAX);
+}
 
-	free(words);
+void fluidMeshParser(Obj *o, char *path)
+{
+	int wordNum = 0;
+	char **words = wordsFromFile(path, CFG_MAX, &wordNum);
+
+	for (int i = 0; i < wordNum; ++i) {
+		if (i + 1 < wordNum) {
+			if (strcmp(words[i], "mesh") == 0) {
+				o->meshPath = calloc(strlen(words[i + 1]), sizeof(char));
+				strncpy(o->meshPath, words[i + 1], strlen(words[i + 1]));
+			}
+		}
+	}
+	
+	freeStrArr(words, CFG_MAX);
 }
 
 void simParser(struct Sim *s, char *path)
@@ -79,29 +106,26 @@ void simParser(struct Sim *s, char *path)
 			if (strcmp(words[i], "render") == 0) {
 				s->rendered = atoi(words[i + 1]);
 			}
-			if (strcmp(words[i], "gpu") == 0) {
-				s->usegpu = atoi(words[i + 1]);
-			}
-			if (strcmp(words[i], "cldevice") == 0) {
-				s->device = atoi(words[i + 1]);
-			}
 			if (strcmp(words[i], "simulating") == 0) {
 				s->sys.simulating = atoi(words[i + 1]);
-			}
-			if (strcmp(words[i], "dt") == 0) {
-				s->sys.dt = atof(words[i + 1]);
 			}
 			if (strcmp(words[i], "endt") == 0) {
 				s->sys.endt = atof(words[i + 1]);
 			}
+			if (strcmp(words[i], "autoquit") == 0) {
+				s->autoquit = atoi(words[i + 1]);
+			}
 			if (strcmp(words[i], "epsilon") == 0) {
 				s->sys.epsilon = atof(words[i + 1]);
 			}
-			if (strcmp(words[i], "pr") == 0) {
-				s->sys.pRelax = atof(words[i + 1]);
+			if (strcmp(words[i], "rz") == 0) {
+				s->rz = atof(words[i + 1]);
 			}
-			if (strcmp(words[i], "vr") == 0) {
-				s->sys.vRelax = atof(words[i + 1]);
+			if (strcmp(words[i], "rs") == 0) {
+				s->rs = atof(words[i + 1]);
+			}
+			if (strcmp(words[i], "rmode") == 0) {
+				s->rmode = atof(words[i + 1]);
 			}
 			if (strcmp(words[i], "maxit") == 0) {
 				s->sys.maxIt = atoi(words[i + 1]);
@@ -109,24 +133,24 @@ void simParser(struct Sim *s, char *path)
 			if (strcmp(words[i], "outputting") == 0) {
 				s->outputting = atoi(words[i + 1]);
 			}
+			if (strcmp(words[i], "outputf") == 0) {
+				s->outputf = atoi(words[i + 1]);
+			}
+			if (strcmp(words[i], "inputf") == 0) {
+				s->inputf = atoi(words[i + 1]);
+			}
 			if (strcmp(words[i], "fluid") == 0) {
 				s->fluidPath = calloc(strlen(words[i + 1]), sizeof(char));
 				strncpy(s->fluidPath, words[i + 1], strlen(words[i + 1]));
 			}
-			if (strcmp(words[i], "output") == 0) {
-				s->outPath = calloc(strlen(words[i + 1]), sizeof(char));
-				strncpy(s->outPath, words[i + 1], strlen(words[i + 1]));
+			if (strcmp(words[i], "file") == 0) {
+				s->filePath = calloc(strlen(words[i + 1]), sizeof(char));
+				strncpy(s->filePath, words[i + 1], strlen(words[i + 1]));
 			}
-			/*if (strcmp(words[i], "cz") == 0) {
-				s->renderer.cz = atof(words[i + 1]);
-			}*/
 		}
 	}
 	
-	for (int i = 0; i < wordNum; ++i)
-		free(words[i]);
-
-	free(words);
+	freeStrArr(words, CFG_MAX);
 }
 
 #endif

@@ -10,10 +10,10 @@ void rm(struct Renderer *r, struct Sys *s)
 	glBlendFuncSeparate(GL_ONE, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
 	r->tex = &r->flat;
-	for (int i = 0; i < s->objNum; ++i) {/*
-										   p_meshTransform(&s->objs[i].mesh, &r->model);
-										   p_meshTransform(&s->objs[i].mesh, &r->view);
-										   p_meshTransform(&s->objs[i].mesh, &r->proj);*/
+	for (int i = 0; i < s->objNum; ++i) {
+		/*p_meshTransform(&s->objs[i].mesh, &r->model);
+		  p_meshTransform(&s->objs[i].mesh, &r->view);
+		  p_meshTransform(&s->objs[i].mesh, &r->proj);*/
 		p_meshSetCol(&s->objs[i].mesh, 0.0f, 0.08f, 0.10f, 0.10f);
 
 		r_drawMesh(r, &s->objs[i].mesh);
@@ -60,7 +60,7 @@ void rf(struct Renderer *r, struct Sys *s)
 	r->tex = &r->flat;
 	for (int i = 0; i < s->objNum; ++i) {
 		int l = s->selected;
-		r_drawFace(r, &s->objs[i].faces[l], Vec4(1.0f, 0.0f, 0.0f, 1.0f));
+		r_drawFace(r, &s->objs[i].faces[l], Vec4(1.0f, (float) s->objs[i].faces[l].boundary, 0.0f, 1.0f));
 	}
 
 	r_render(r);
@@ -100,6 +100,38 @@ void rl(struct Renderer *r, struct Sys *s)
 	r_render(r);
 }
 
+void rfl(struct Renderer *r, struct Sys *s)
+{
+	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_BLEND);
+	glBlendFunc(GL_DST_ALPHA, GL_SRC_ALPHA);
+
+	r->tex = &r->flat;
+	for (int i = 0; i < s->objNum; ++i) {
+		for (int j = 0; j < s->objs[i].faceNum; ++j) {
+			vec4 n = vec4Copy3(&s->objs[i].faces[j].centroid);
+			vec4 nn = vec4Copy3(&s->objs[i].faces[j].v);
+
+			vec4Mul(&nn, vecscale);
+			float l = vec4Len(&nn);
+
+			if (l <= 0.0f)
+				continue;
+
+			vec4 n0 = vec4Copy(&n);
+
+			vec4Add(&nn, &n0);
+
+			vec4 col = Vec4(l, fmax(0.0f, 1.0f - l), 0.0f, 1.0f);
+			vec4Mul(&col, 5.5f);
+
+			r_drawLine(r, n, nn, col, 2.0f);
+		}
+
+	}
+	r_render(r);
+}
+
 void rtl(struct Renderer *r, struct Sys *s)
 {
 	glEnable(GL_DEPTH_TEST);
@@ -113,6 +145,37 @@ void rtl(struct Renderer *r, struct Sys *s)
 			vec4 nn = vec4Copy3(&s->objs[i].volumes[j].mFlux);
 
 			vec4Mul(&nn, vecscale);
+			
+			float l = vec4Len(&nn);
+
+			if (l <= 0.0f)
+				continue;
+
+			vec4Add(&nn, &n);
+
+			vec4 col = Vec4(l, fmax(0.0f, 1.0f - l), 0.0f, 1.0f);
+			vec4Mul(&col, 5.5f);
+
+			r_drawVec(r, n, nn, col);
+		}
+	}
+	r_render(r);
+}
+
+void rftl(struct Renderer *r, struct Sys *s)
+{
+	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_BLEND);
+	glBlendFunc(GL_DST_ALPHA, GL_SRC_ALPHA);
+
+	r->tex = &r->flat;
+	for (int i = 0; i < s->objNum; ++i) {
+		for (int j = 0; j < s->objs[i].faceNum; ++j) {
+			vec4 n = vec4Copy3(&s->objs[i].faces[j].centroid);
+			vec4 nn = vec4Copy3(&s->objs[i].faces[j].v);
+
+			vec4Mul(&nn, vecscale);
+			
 			float l = vec4Len(&nn);
 
 			if (l <= 0.0f)
@@ -146,6 +209,21 @@ void r_draw(struct Renderer *r, struct Sys *s)
 		rv(r, s);
 	if (getBit(r->vis, 6))
 		rf(r, s);
+}
+
+void r_rdraw(struct Renderer *r, struct Sys *s)
+{
+	r_update(r);
+
+	if (getBit(r->vis, 1))
+		rm(r, s);
+	if (getBit(r->vis, 2))
+		rw(r, s);
+	
+	if (getBit(r->vis, 3))
+		rfl(r, s);
+	if (getBit(r->vis, 4))
+		rftl(r, s);
 }
 
 void r_drawMesh(struct Renderer *r, Mesh *m)
@@ -287,13 +365,15 @@ void r_drawVec(struct Renderer *r, vec4 v0, vec4 v1, vec4 col)
 {
 	r->drawMode = GL_TRIANGLES;
 
-	float width = 0.02f;
+	float width = 0.02f * 10.0f;
 
 	float a = atanf((v1.y - v0.y) / (v1.x - v0.x));
+	float mr = r->modelRot.y;
+	mr = 0.0f;
 
-	float x = -width * sinf(a) * cosf(-r->modelRot.y);
-	float y = width * sinf(a) * sinf(-r->modelRot.y) + width * cosf(a) * cosf(-r->modelRot.y);
-	float z = width * sinf(a) * sinf(-r->modelRot.y);
+	float x = -width * sinf(a) * cosf(mr);
+	float y = width * sinf(a) * sinf(mr) + width * cosf(a) * cosf(mr);
+	float z = width * sinf(a) * sinf(mr);
 
 	float vd[12] = {
 					v0.x + x, v0.y + y, v0.z + z, v0.w,

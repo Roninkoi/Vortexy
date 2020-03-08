@@ -20,6 +20,8 @@ int n4Down;
 int n5Down;
 int n6Down;
 
+int uDown;
+
 void r_getInput(struct Renderer *r, struct Sys* s)
 {
 	glfwSetScrollCallback(r->window.window, scrollCallback);
@@ -90,6 +92,8 @@ void r_getInput(struct Renderer *r, struct Sys* s)
 			--s->selected;
 			if (s->selected < 0)
 				s->selected = 0;
+
+			printf("Selected: %i\n", s->selected);
 		}
 	}
 	else {
@@ -99,6 +103,7 @@ void r_getInput(struct Renderer *r, struct Sys* s)
 		if (!shiftDown) {
 			shiftDown = 1;
 			++s->selected;
+
 			printf("Selected: %i\n", s->selected);
 		}
 	}
@@ -167,12 +172,27 @@ void r_getInput(struct Renderer *r, struct Sys* s)
 	}
 
 	if (glfwGetKey(r->window.window, GLFW_KEY_I)) {
+		if (!s->simulating)
+			printf("STARTED\n");
+		
 		s->simulating = 1;
-		printf("STARTED\n");
 	}
 	if (glfwGetKey(r->window.window, GLFW_KEY_O)) {
+		if (s->simulating)
+			printf("STOPPED\n");
+		
 		s->simulating = 0;
-		printf("STOPPED\n");
+	}
+	if (glfwGetKey(r->window.window, GLFW_KEY_U)) {
+		if (!uDown) {
+			uDown = 1;
+			printf("RESET\n");
+		
+			s->reset = 1;
+		}
+	}
+	else {
+		uDown = 0;
 	}
 }
 

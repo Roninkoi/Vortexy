@@ -38,7 +38,11 @@ struct Face { // triangle
 	vec3 vFlux; // velocity flux
 	vec3 flux; // face flux
 
+	vec3 conFlux;
+
 	float df;
+
+	float pc;
 
 	vec3 d;
 
@@ -75,6 +79,7 @@ struct Volume { // tetrahedron
 
 	mat vGrad; // volume gradient
 	vec3 pGrad; // pressure gradient
+	vec3 pcGrad; // pressure correction gradient
 
 	float mRate; // mass flow rate
 	vec3 mFlux; // mass flux
@@ -99,9 +104,13 @@ struct Volume { // tetrahedron
 };
 
 // allocates faces which are returned
-struct Face *p_loadFaces(Mesh *m, int *faceNum);
+struct Face *p_loadFaces(Mesh *m, int *faceNum, int mode);
 
 struct Volume *p_loadVolumes(struct Face *f, int faceNum, int *volNum);
+
+void p_destroyFaces(struct Face *f, int faceNum);
+
+void p_destroyVolumes(struct Volume *v, int volNum);
 
 int p_volCmp(struct Volume *v0, struct Volume *v1);
 

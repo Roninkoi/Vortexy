@@ -1,4 +1,17 @@
 #include "sim.h"
+#include <string.h>
+#include "util/algebra.h"
+#include <signal.h>
+
+int sk; // sim kill
+
+void handler(int sn)
+{
+	if (sn == SIGINT) {
+		printf("SIGINT\n");
+		sk = 1;
+	}
+}
 
 void s_init(struct Sim *s)
 {
@@ -6,20 +19,25 @@ void s_init(struct Sim *s)
 
 	s->time = 0;
 
-	s->timeOld = timeNow();
-	s->tps = 60;
+	s->timeOld = 0;
+	s->tps = 0;
 	s->ticks = 0;
 	s->ticksOld = 0;
+	s->st = 0;
+	
+	s->rz = -5.0f;
+	s->rs = 1.0f;
+
+	convergence = 1;
+	sk = 0;
+
+	signal(SIGINT, handler);
 
 	// intialize random
 	srand(timeNow());
 
 	// initialize system
 	p_sysInit(&s->sys);
-
-#if OPENCL_ENABLED == 0
-	s->usegpu = 0;
-#endif
 }
 
 // main loop
@@ -28,32 +46,75 @@ void s_run(struct Sim *s)
 #if RENDER_ENABLED == 1
 	if (s->rendered)
 		r_init(&s->renderer, &s->running);
+	
+	s->renderer.camPos.z = s->rz;
+	s->renderer.s = s->rs;
+	s->renderer.vis = s->rmode;
 #endif
 
-	p_addObj(&s->sys, s->fluidPath);
+	p_addObj(&s->sys, s->fluidPath, s->mode);
 
-	p_sysStart(&s->sys);
+	if (!s->mode) {
+		p_sysStart(&s->sys);
+	}
+	else {
+		s->outputting = 0;
+		s->sys.simulating = 0;
+
+		s->file = fopen(s->filePath, "r");
+		
+		printf("Input: %s\n", s->filePath);
+	}
 
 	if (s->outputting) {
-		s->out = fopen(s->outPath, "w");
-		printf("Output: %s\n", s->outPath);
+		s->file = fopen(s->filePath, "w");
+		
+		printf("Output: %s\n", s->filePath);
 	}
 	
-	s->startTime = timeNow();
+	s->startTime = timeMillis();
 
 	while (s->running) {
-		s->time = timeNow() - s->startTime;
-		int p = s->time - s->timeOld >= 1;
+		s->time = timeMillis() - s->startTime;
+		int p = s->time - s->timeOld >= 1000;
 	  
 		if (p) {
+			s->st = s->time - s->timeOld;
 			s->timeOld = s->time;
 			s->tps = s->ticks - s->ticksOld;
 			s->ticksOld = s->ticks;
 
-			printf("time [s]: %.2f, ticks/s: %i\n", s->sys.t, s->tps);
+			printf("ticks: %i, st [ms]: %i\n", s->tps, s->st);
+
+			for (int i = 0; i < s->sys.objNum; ++i)
+				printf("o %i, t [s]: %f\n", i, s->sys.objs[i].t);
+
+			if (!convergence) {
+				convergence = 1;
+
+				printf("Solution not converging!\n");
+			}
 		}
 
 		s_tick(s);
+
+		if (sk) {
+			s->running = 0;
+		}
+
+		if (s->sys.reset) {
+			s->sys.reset = 0;
+
+			if (!s->mode) {
+				p_sysRestart(&s->sys, s->fluidPath);
+			}
+			else {
+				rewind(s->file);
+			}
+		}
+
+		if (!s->sys.simulating && s->autoquit && !s->mode)
+			break;
 
 #if RENDER_ENABLED == 1
 		if (!s->rendered)
@@ -72,39 +133,109 @@ void s_run(struct Sim *s)
 
 		r_getInput(&s->renderer, &s->sys);
 
-		r_draw(&s->renderer, &s->sys);
+		if (!s->mode) {
+			r_draw(&s->renderer, &s->sys);
+		}
+		else {
+			r_rdraw(&s->renderer, &s->sys);
+		}
 #endif
 	}
+	
+	if (s->outputting || s->mode)
+		fclose(s->file);
 
-	if (s->outputting)
-		fclose(s->out);
+	p_sysEnd(&s->sys);
 }
 
 void s_output(struct Sim *s)
 {
+	fprintf(s->file, "s %i\n", s->ticks);
+	
 	for (int i = 0; i < s->sys.objNum; ++i) {
 		for (int j = 0; j < s->sys.objs[i].faceNum; ++j) {
 			struct Face *f = &s->sys.objs[i].faces[j];
-			fprintf(s->out, "o %i", i);
+			fprintf(s->file, "o %i", i);
 
-			fprintf(s->out, " t %f f %i", s->sys.objs[i].t, j);
-			fprintf(s->out, " v %f %f %f", f->v.x, f->v.y, f->v.z);
-			fprintf(s->out, " p %f", f->p);
-			fprintf(s->out, "\n");
+			fprintf(s->file, " t %f f %i", s->sys.objs[i].t, j);
+			fprintf(s->file, " x %f %f %f", f->centroid.x, f->centroid.y, f->centroid.z);
+			fprintf(s->file, " v %f %f %f", f->v.x, f->v.y, f->v.z);
+			fprintf(s->file, " p %f", f->p);
+			fprintf(s->file, "\n");
 		}
+	}
+	
+	fprintf(s->file, "e\n");
+}
+
+void s_input(struct Sim *s)
+{	
+	while (true) {
+		char **words;
+		char line[512];
+		int n = 512;
+		int wn;
+
+		char *fr = fgets(line, n, s->file);
+
+		if (!fr)
+			return;
+
+		words = wordsFromStr(line, n, &wn);
+		
+		if (strcmp(words[0], "e") == 0) {
+			freeStrArr(words, n);
+			
+			break;
+		}
+
+		if (strcmp(words[0], "o") == 0) {
+			int oi = atoi(words[1]);
+			int fi = atoi(words[5]);
+
+			float t = atof(words[3]);
+			
+			float x = atof(words[7]);
+			float y = atof(words[8]);
+			float z = atof(words[9]);
+			
+			float vx = atof(words[11]);
+			float vy = atof(words[12]);
+			float vz = atof(words[13]);
+
+			float p = atof(words[15]);
+
+			s->sys.objs[oi].t = t;
+
+			s->sys.objs[oi].faces[fi].v.x = vx;
+			s->sys.objs[oi].faces[fi].v.y = vy;
+			s->sys.objs[oi].faces[fi].v.z = vz;
+			
+			s->sys.objs[oi].faces[fi].p = p;
+
+			freeStrArr(words, n);
+
+			continue;
+		}
+		
+		freeStrArr(words, n);
 	}
 }
 
 void s_tick(struct Sim *s)
 {
-	++s->ticks;
-
 	s->sys.time = (float) timeMillis() / 1000.0f;
 
-	if (s->sys.simulating) {
-		p_sysTick(&s->sys);
-
-		if (s->outputting)
+	if (s->sys.simulating && !s->mode) {
+		if (s->outputting && s->ticks % s->outputf == 0)
 			s_output(s);
+
+		p_sysTick(&s->sys);
 	}
+	
+	if (s->mode && s->ticks % s->inputf == 0) {
+		s_input(s);
+	}
+	
+	++s->ticks;
 }

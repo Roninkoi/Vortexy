@@ -48,5 +48,7 @@ int main(int argc, char *argv[])
 	// start
 	s_run(&sim);
 
+	printf("Closing\n");
+
 	return 0;
 }

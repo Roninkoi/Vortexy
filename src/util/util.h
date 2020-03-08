@@ -33,10 +33,13 @@ extern int **intsAppend(int **arr, int *c, int n);
 
 extern int contains(int *arr, int c, int n);
 
+extern char **wordsFromStr(char *s, int size, int *wordNum);
 extern char **wordsFromFile(char *path, int size, int *wordNum);
 
 extern int getBit(int v, int bit);
 
 extern int setBit(int v, int bit, int b);
+
+extern void freeStrArr(char **arr, int n);
 
 #endif

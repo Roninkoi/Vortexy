@@ -40,6 +40,8 @@ struct Renderer {
 	GLuint modelUni;
 	GLuint viewUni;
 	GLuint projUni;
+	
+	GLuint sUni;
 
 	GLuint texUni;
 
@@ -82,7 +84,7 @@ struct Renderer {
 
 	vec4 modelRot;
 
-	float cz;
+	float s;
 
 	int vis;
 };
@@ -111,6 +113,7 @@ void r_flush(struct Renderer *r);
 
 // DRAW
 void r_draw(struct Renderer *r, struct Sys *s);
+void r_rdraw(struct Renderer *r, struct Sys *s);
 
 void r_drawMesh(struct Renderer *r, Mesh *m);
 

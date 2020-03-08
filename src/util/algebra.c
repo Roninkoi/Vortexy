@@ -1,4 +1,5 @@
 #include "algebra.h"
+#include "randomUtil.h"
 
 void swapRows(mat *m, int r0, int r1)
 {
@@ -84,6 +85,94 @@ int diagDom(mat *m)
 	}
 
 	return 1;
+}
+
+void GaussSeidelSG(mat *a, mat *b, mat *g, int maxIt, float epsilon)
+{
+	int n = a->r;
+
+	float delta = 0.0f;
+
+	int conv = 0;
+
+	for (int k = 0; k < maxIt; ++k) {
+		delta = 0.0f;
+
+		for (int i = 0; i < n; ++i) {
+			float x = 1.0f / a->m[i][i];
+
+			float s0 = 0.0f;
+
+			for (int j = a->rmin[i]; j <= i - 1; ++j) {
+				s0 += a->m[i][j] * g->m[j][0];
+			}
+
+			float s1 = 0.0f;
+
+			for (int j = i + 1; j <= a->rmax[i]; ++j) {
+				s1 += a->m[i][j] * g->m[j][0];
+			}
+
+			x *= (b->m[i][0] - s0 - s1);
+
+			delta += g->m[i][0] - x;
+
+			g->m[i][0] = x;
+		}
+
+		if (fabs(delta) < epsilon) { // has converged
+			conv = 1;
+			break;
+		}
+	}
+
+	convergence &= conv;
+}
+
+mat GaussSeidelS(mat *a, mat *b, int maxIt, float epsilon)
+{
+	int n = a->r;
+
+	mat r = matCopy(b);
+
+	float delta = 0.0f;
+
+	int conv = 0;
+
+	for (int k = 0; k < maxIt; ++k) {
+		delta = 0.0f;
+		
+		for (int i = 0; i < n; ++i) {
+			float x = 1.0f / a->m[i][i];
+
+			float s0 = 0.0f;
+
+			for (int j = a->rmin[i]; j <= i - 1; ++j) {
+				s0 += a->m[i][j] * r.m[j][0];
+			}
+
+			float s1 = 0.0f;
+			
+			for (int j = i + 1; j <= a->rmax[i]; ++j) {
+				s1 += a->m[i][j] * r.m[j][0];
+			}
+
+			x *= (b->m[i][0] - s0 - s1);
+
+			delta += r.m[i][0] - x;
+
+			r.m[i][0] = x;
+		}
+		
+		if (fabs(delta) < epsilon) { // has converged
+			conv = 1;
+			break;
+		}
+	}
+
+	convergence &= conv;
+
+	return r;
 }
 
 mat GaussSeidel(mat *a, mat *b, int maxIt, float epsilon)

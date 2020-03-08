@@ -13,16 +13,12 @@ struct Sys {
 	int ticks;
 	float time;
 
-	float t;
 	float endt;
-	float dt;
 
 	int maxIt;
 	float epsilon;
 
-	float vRelax;
-	float pRelax;
-
+	int reset;
 	int selected;
 	int simulating;
 };
@@ -33,6 +29,10 @@ void p_sysTick(struct Sys *s);
 
 void p_sysStart(struct Sys *s);
 
-void p_addObj(struct Sys *s, char *fluidPath);
+void p_sysRestart(struct Sys *s, char *fluidPath);
+
+void p_sysEnd(struct Sys *s);
+
+void p_addObj(struct Sys *s, char *fluidPath, int mode);
 
 #endif

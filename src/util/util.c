@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <glob.h>
 
 #include "util.h"
 
@@ -104,6 +103,14 @@ inline int contains(int *arr, int c, int n)
 	return 0;
 }
 
+inline void freeStrArr(char **arr, int n)
+{
+	for (int i = 0; i < n; ++i)
+		free(arr[i]);
+
+	free(arr);
+}
+
 inline char **wordsFromFile(char *path, int size, int *wordNum)
 {
 	FILE *fp;
@@ -119,6 +126,7 @@ inline char **wordsFromFile(char *path, int size, int *wordNum)
 
 	data = calloc(size, sizeof(char *));
 	fsize = fread(data, 1, size, fp);
+	data[fsize] = '\0';
 
 	fclose(fp);
 
@@ -159,6 +167,49 @@ inline char **wordsFromFile(char *path, int size, int *wordNum)
 	}
 
 	free(data);
+
+	*wordNum = wn;
+	
+	return words;
+}
+
+inline char **wordsFromStr(char *s, int size, int *wordNum)
+{
+	char **words = calloc(size, sizeof(char *));
+
+	for (int i = 0; i < size; ++i) {
+		words[i] = calloc(1, sizeof(char));
+	}
+
+	int wn = 0;
+	int comment = 0;
+	int lasts = 0;
+
+	for (int i = 0; s[i]; ++i) { // separate into words
+		char read = s[i];
+
+		if (comment && (read == '\n' || read == '\r')) {
+			comment = 0;
+		}
+		
+		if (read == '#') { // comment
+			comment = 1;
+		}
+		
+		if (comment) {
+			continue;
+		}
+
+		if (read != ' ' && read != '\n' && read != '\r') {
+			words[wn] = strAppend(words[wn], read);
+			lasts = 0;
+		}
+		else {
+			if (!lasts)
+				++wn;
+			lasts = 1;
+		}
+	}
 
 	*wordNum = wn;
 	

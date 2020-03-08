@@ -11,7 +11,9 @@ struct Volume *getUpwindVol(struct Face *f);
 struct Face *getUpwindFace(struct Volume *v);
 
 // get velocity field from matrix
-void p_getV(Obj *o);
+void p_getVX(Obj *o);
+void p_getVY(Obj *o);
+void p_getVZ(Obj *o);
 
 // get pressure from matrix
 void p_getP(Obj *o);
@@ -27,7 +29,9 @@ void p_D(Obj *o);
 void p_computePCoeffs(Obj *o);
 
 // construct matrix for momentum equation
-void p_constructVMat(Obj *o);
+void p_constructVMatX(Obj *o);
+void p_constructVMatY(Obj *o);
+void p_constructVMatZ(Obj *o);
 
 // calculate coefficients for momentum equation
 void p_computeVCoeffs(Obj *o);
@@ -50,7 +54,7 @@ void p_facePI(struct Face *f);
 void p_faceP(struct Face *f);
 
 // velocity correction
-void p_faceVC(struct Face *f);
+void p_faceVRC(struct Face *f);
 
 void p_faceV(struct Face *f);
 
@@ -69,5 +73,11 @@ void p_pGrad(Obj *o);
 
 // volume velocity gradient
 void p_vGrad(Obj *o);
+
+// volume pressure correction gradient
+void p_pcGrad(Obj *o);
+
+// calculate face mass flow rate for volume
+float p_getMrate(struct Volume *v, struct Face *f, float rho);
 
 #endif

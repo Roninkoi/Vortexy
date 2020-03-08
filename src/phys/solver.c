@@ -4,17 +4,31 @@
 
 #include "solver.h"
 
+// calculate face mass flow rate for volume
+float p_getMrate(struct Volume *v, struct Face *f, float rho)
+{
+	vec3 s = vec3Outwards(&v->centroid,
+						  &f->centroid,
+						  &f->surface);
+
+	return rho * vec3Dot(&f->v, &s);
+}
+
 // volume upwind from face
 struct Volume *getUpwindVol(struct Face *f)
 {
-	vec3 vs = vec3Outwards(&f->centroid, &f->thisVol[0]->centroid, &f->normal);
+	vec3 vs = vec3Outwards(&f->centroid,
+						   &f->thisVol[0]->centroid,
+						   &f->normal);
 
 	float maxd = -vec3Dot(&vs, &f->thisVol[0]->v);
 
 	if (f->vNum < 2)
 		return f->thisVol[0];
 
-	vs = vec3Outwards(&f->centroid, &f->thisVol[1]->centroid, &f->normal);
+	vs = vec3Outwards(&f->centroid,
+					  &f->thisVol[1]->centroid,
+					  &f->normal);
 
 	float maxf = -vec3Dot(&vs, &f->thisVol[1]->v);
 
@@ -29,12 +43,16 @@ struct Face *getUpwindFace(struct Volume *v)
 {
 	struct Face *maxf = v->faces[0];
 
-	vec3 fs = vec3Outwards(&v->centroid, &v->faces[0]->centroid, &v->faces[0]->normal);
+	vec3 fs = vec3Outwards(&v->centroid,
+						   &v->faces[0]->centroid,
+						   &v->faces[0]->normal);
 
 	float maxd = -vec3Dot(&fs, &v->v);
 
 	for (int i = 0; i < 4; ++i) {
-		fs = vec3Outwards(&v->centroid, &v->faces[i]->centroid, &v->faces[i]->normal);
+		fs = vec3Outwards(&v->centroid,
+						  &v->faces[i]->centroid,
+						  &v->faces[i]->normal);
 
 		float dot = -vec3Dot(&fs, &v->v);
 
@@ -47,15 +65,24 @@ struct Face *getUpwindFace(struct Volume *v)
 	return maxf;
 }
 
-// get velocity field from matrix
-void p_getV(Obj *o)
+void p_getVX(Obj *o)
 {
 	for (int i = 0; i < o->volNum; ++i) {
-		o->volumes[i].v = Vec3(
-				o->v.m[i + 0 * o->volNum][0],
-				o->v.m[i + 1 * o->volNum][0],
-				o->v.m[i + 2 * o->volNum][0]
-		);
+		o->volumes[i].v.x = o->vx.m[i][0];
+	}
+}
+
+void p_getVY(Obj *o)
+{
+	for (int i = 0; i < o->volNum; ++i) {
+		o->volumes[i].v.y = o->vy.m[i][0];
+	}
+}
+
+void p_getVZ(Obj *o)
+{
+	for (int i = 0; i < o->volNum; ++i) {
+		o->volumes[i].v.z = o->vz.m[i][0];
 	}
 }
 
@@ -63,7 +90,7 @@ void p_getV(Obj *o)
 void p_getP(Obj *o)
 {
 	for (int i = 0; i < o->volNum; ++i) {
-		o->volumes[i].pc = o->v.m[i][0];
+		o->volumes[i].pc = o->vp.m[i][0];
 	}
 }
 
@@ -73,13 +100,17 @@ void p_constructPMat(Obj *o)
 	o->a = Mat(1.0f, o->volNum, o->volNum);
 	o->b = Mat(0.0f, o->volNum, 1);
 
-	for (int i = 0; i < o->volNum; ++i) {
-		float left = o->volumes[i].pa;
+	o->a.rmin = (int *) malloc(sizeof(int) * o->volNum);
+	o->a.rmax = (int *) malloc(sizeof(int) * o->volNum);
 
-		o->a.m[i][i] = left;
+	for (int i = 0; i < o->volNum; ++i) {
+		o->a.m[i][i] = o->volumes[i].pa;
+
+		o->a.rmin[i] = i;
+		o->a.rmax[i] = i;
 	}
 
-	for (int i = 0; i < o->volNum; i += 1) {
+	for (int i = 0; i < o->volNum; ++i) {
 		for (int j = 0; j < o->volumes[i].neiNum; ++j) {
 			int n = o->volumes[i].neighbours[j]->index;
 
@@ -88,14 +119,141 @@ void p_constructPMat(Obj *o)
 
 			struct Face *connecting = p_connectingFace(&o->volumes[i], &o->volumes[n]);
 
+			if (n < o->a.rmin[i])
+				o->a.rmin[i] = n;
+
+			if (n > o->a.rmax[i])
+				o->a.rmax[i] = n;
+
 			o->a.m[i][n] = -o->fluid.rho * connecting->df;
 		}
 	}
 
 	for (int i = 0; i < o->volNum; ++i) {
-		float right = o->volumes[i].pb;
+		o->b.m[i][0] = o->volumes[i].pb;
+	}
+}
 
-		o->b.m[i][0] = right;
+void p_constructVMatX(Obj *o)
+{
+	o->a = Mat(1.0f, o->volNum, o->volNum);
+	o->b = Mat(0.0f, o->volNum, 1);
+
+	o->a.rmin = (int *) malloc(sizeof(int) * o->volNum);
+	o->a.rmax = (int *) malloc(sizeof(int) * o->volNum);
+
+	for (int i = 0; i < o->volNum; ++i) {
+		o->a.m[i][i] = o->volumes[i].va.x;
+
+		o->a.rmin[i] = i;
+		o->a.rmax[i] = i;
+	}
+
+	for (int i = 0; i < o->volNum; ++i) {
+		for (int j = 0; j < o->volumes[i].neiNum; ++j) {
+			int n = o->volumes[i].neighbours[j]->index;
+
+			if (n > o->volNum)
+				continue;
+
+			struct Face *connecting = p_connectingFace(&o->volumes[i], &o->volumes[n]);
+
+			if (n < o->a.rmin[i])
+				o->a.rmin[i] = n;
+
+			if (n > o->a.rmax[i])
+				o->a.rmax[i] = n;
+
+			float mr = fmax(p_getMrate(&o->volumes[n], connecting, o->fluid.rho), 0.0f);
+
+			o->a.m[i][n] = -(connecting->flux.x + mr);
+		}
+	}
+
+	for (int i = 0; i < o->volNum; ++i) {
+		o->b.m[i][0] = o->volumes[i].vb.x;
+	}
+}
+
+void p_constructVMatY(Obj *o)
+{
+	o->a = Mat(1.0f, o->volNum, o->volNum);
+	o->b = Mat(0.0f, o->volNum, 1);
+
+	o->a.rmin = (int *) malloc(sizeof(int) * o->volNum);
+	o->a.rmax = (int *) malloc(sizeof(int) * o->volNum);
+
+	for (int i = 0; i < o->volNum; ++i) {
+		o->a.m[i][i] = o->volumes[i].va.y;
+
+		o->a.rmin[i] = i;
+		o->a.rmax[i] = i;
+	}
+
+	for (int i = 0; i < o->volNum; ++i) {
+		for (int j = 0; j < o->volumes[i].neiNum; ++j) {
+			int n = o->volumes[i].neighbours[j]->index;
+
+			if (n > o->volNum)
+				continue;
+
+			struct Face *connecting = p_connectingFace(&o->volumes[i], &o->volumes[n]);
+
+			if (n < o->a.rmin[i])
+				o->a.rmin[i] = n;
+
+			if (n > o->a.rmax[i])
+				o->a.rmax[i] = n;
+
+			float mr = fmax(p_getMrate(&o->volumes[n], connecting, o->fluid.rho), 0.0f);
+
+			o->a.m[i][n] = -(connecting->flux.y + mr);
+		}
+	}
+
+	for (int i = 0; i < o->volNum; ++i) {
+		o->b.m[i][0] = o->volumes[i].vb.y;
+	}
+}
+
+void p_constructVMatZ(Obj *o)
+{
+	o->a = Mat(1.0f, o->volNum, o->volNum);
+	o->b = Mat(0.0f, o->volNum, 1);
+
+	o->a.rmin = (int *) malloc(sizeof(int) * o->volNum);
+	o->a.rmax = (int *) malloc(sizeof(int) * o->volNum);
+
+	for (int i = 0; i < o->volNum; ++i) {
+		o->a.m[i][i] = o->volumes[i].va.z;
+
+		o->a.rmin[i] = i;
+		o->a.rmax[i] = i;
+	}
+
+	for (int i = 0; i < o->volNum; ++i) {
+		for (int j = 0; j < o->volumes[i].neiNum; ++j) {
+			int n = o->volumes[i].neighbours[j]->index;
+
+			if (n > o->volNum)
+				continue;
+
+			struct Face *connecting = p_connectingFace(&o->volumes[i], &o->volumes[n]);
+
+			if (n < o->a.rmin[i])
+				o->a.rmin[i] = n;
+
+			if (n > o->a.rmax[i])
+				o->a.rmax[i] = n;
+
+			float mr = fmax(p_getMrate(&o->volumes[n], connecting, o->fluid.rho), 0.0f);
+
+			o->a.m[i][n] = -(connecting->flux.z + mr);
+		}
+	}
+
+	for (int i = 0; i < o->volNum; ++i) {
+		o->b.m[i][0] = o->volumes[i].vb.z;
 	}
 }
 
@@ -104,7 +262,7 @@ void p_faceD(struct Face *f)
 	if (f->vNum == 0)
 		return;
 
-	if (f->vNum < 2) {
+	if (f->vNum < 2 || !f->boundary) {
 		f->d = f->thisVol[0]->d;
 		return;
 	}
@@ -162,49 +320,8 @@ void p_computePCoeffs(Obj *o)
 
 		o->volumes[i].pb = 0.0f;
 		for (int j = 0; j < 4; ++j) {
-			vec3 s = vec3Outwards(&o->volumes[i].centroid, &o->volumes[i].faces[j]->centroid, &o->volumes[i].faces[j]->surface);
-
-			o->volumes[i].pb -= o->fluid.rho * vec3Dot(&o->volumes[i].faces[j]->v, &s);
+			o->volumes[i].pb -= p_getMrate(&o->volumes[i], o->volumes[i].faces[j], o->fluid.rho);
 		}
-		//o->volumes[i].pb = -fabs(o->volumes[i].pb);
-	}
-}
-
-// construct matrix for momentum equation
-void p_constructVMat(Obj *o)
-{
-	o->a = Mat(1.0f, o->volNum * 3, o->volNum * 3);
-	o->b = Mat(0.0f, o->volNum * 3, 1);
-
-	for (int i = 0; i < o->volNum; i += 1) {
-		vec3 left = vec3Copy(&o->volumes[i].va);
-
-		o->a.m[i + o->volNum * 0][i + o->volNum * 0] = left.x;
-		o->a.m[i + o->volNum * 1][i + o->volNum * 1] = left.y;
-		o->a.m[i + o->volNum * 2][i + o->volNum * 2] = left.z;
-	}
-
-	for (int i = 0; i < o->volNum; i += 1) {
-		for (int j = 0; j < o->volumes[i].neiNum; ++j) {
-			int n = o->volumes[i].neighbours[j]->index;
-
-			if (n > o->volNum)
-				continue;
-
-			struct Face *connecting = p_connectingFace(&o->volumes[i], &o->volumes[n]);
-
-			o->a.m[i + o->volNum * 0][n + o->volNum * 0] = -connecting->flux.x;
-			o->a.m[i + o->volNum * 1][n + o->volNum * 1] = -connecting->flux.y;
-			o->a.m[i + o->volNum * 2][n + o->volNum * 2] = -connecting->flux.z;
-		}
-	}
-
-	for (int i = 0; i < o->volNum; ++i) {
-		vec3 right = vec3Copy(&o->volumes[i].vb);
-
-		o->b.m[i + o->volNum * 0][0] = right.x;
-		o->b.m[i + o->volNum * 1][0] = right.y;
-		o->b.m[i + o->volNum * 2][0] = right.z;
 	}
 }
 
@@ -217,9 +334,11 @@ void p_computeVCoeffs(Obj *o)
 		o->volumes[i].va.z = o->volumes[i].flux;
 
 		for (int j = 0; j < 4; ++j) {
-			o->volumes[i].va.x += o->volumes[i].faces[j]->flux.x;
-			o->volumes[i].va.y += o->volumes[i].faces[j]->flux.y;
-			o->volumes[i].va.z += o->volumes[i].faces[j]->flux.z;
+			float mr = fmax(p_getMrate(&o->volumes[i], o->volumes[i].faces[j], o->fluid.rho), 0.0f);
+
+			o->volumes[i].va.x += o->volumes[i].faces[j]->flux.x + mr;
+			o->volumes[i].va.y += o->volumes[i].faces[j]->flux.y + mr;
+			o->volumes[i].va.z += o->volumes[i].faces[j]->flux.z + mr;
 		}
 		o->volumes[i].va.x /= o->vRelax;
 		o->volumes[i].va.y /= o->vRelax;
@@ -240,7 +359,14 @@ void p_computeVCoeffs(Obj *o)
 		br.z *= (1.0f - o->vRelax) * o->volumes[i].va.z;
 
 		for (int j = 0; j < 4; ++j) {
+			vec3 cf = vec3Copy(&o->volumes[i].faces[j]->conFlux);
+
+			float mr = p_getMrate(&o->volumes[i], o->volumes[i].faces[j], o->fluid.rho);
+
+			vec3Mul(&cf, (mr));
+
 			vec3Add(&b1, &o->volumes[i].faces[j]->vFlux);
+			vec3Add(&b1, &cf);
 
 			mat g = matCopy(&o->volumes[i].faces[j]->vGrad);
 			mat tm = matTranspose(&g);
@@ -269,16 +395,23 @@ void p_computeVCoeffs(Obj *o)
 void p_computeFaceFs(Obj *o)
 {
 	for (int i = 0; i < o->faceNum; ++i) {
+		o->faces[i].conFlux = nvec3();
+	}
+
+	for (int i = 0; i < o->volNum; ++i) {
+		struct Face *uf = getUpwindFace(&o->volumes[i]);
+
+		uf->conFlux = vec3Copy(&o->volumes[i].v);
+		vec3Sub(&uf->conFlux, &uf->v);
+	}
+
+	for (int i = 0; i < o->faceNum; ++i) {
 		if (o->faces[i].vNum < 2) {
 			continue;
 		} else {
-			o->faces[i].flux.x = fabs(o->faces[i].mRate);
-			o->faces[i].flux.y = fabs(o->faces[i].mRate);
-			o->faces[i].flux.z = fabs(o->faces[i].mRate);
-
-			o->faces[i].flux.x += o->fluid.mu * o->faces[i].df;
-			o->faces[i].flux.y += o->fluid.mu * o->faces[i].df;
-			o->faces[i].flux.z += o->fluid.mu * o->faces[i].df;
+			o->faces[i].flux.x = o->fluid.mu * o->faces[i].df;
+			o->faces[i].flux.y = o->fluid.mu * o->faces[i].df;
+			o->faces[i].flux.z = o->fluid.mu * o->faces[i].df;
 		}
 
 		mat t = matVec3(&o->faces[i].surfaceT);
@@ -286,16 +419,6 @@ void p_computeFaceFs(Obj *o)
 		mat v0 = matMul(&o->faces[i].vGrad, &t);
 		o->faces[i].vFlux = vec3Mat(&v0);
 		vec3Mul(&o->faces[i].vFlux, -o->fluid.mu);
-
-		struct Volume *uv = getUpwindVol(&o->faces[i]);
-		struct Face *uf = getUpwindFace(uv);
-		vec3 v1 = vec3Copy(&o->faces[i].v);
-
-		vec3Sub(&v1, &uv->v);
-
-		vec3Mul(&v1, o->faces[i].mRate);
-
-		vec3Add(&o->faces[i].vFlux, &v1);
 
 		matDestroy(&t);
 		matDestroy(&v0);
@@ -311,7 +434,7 @@ void p_computeVolFs(Obj *o)
 		o->volumes[i].vFlux = vec3Copy(&o->volumes[i].v);
 		vec3Mul(&o->volumes[i].vFlux, -(o->fluid.rho * o->volumes[i].vol) / o->dt);
 
-		vec3 s = vec3Copy(&o->f);
+		vec3 s = vec3Copy(&o->fluid.f);
 		vec3Add(&s, &o->volumes[i].s);
 
 		vec3Mul(&s, o->volumes[i].vol);
@@ -368,7 +491,7 @@ void p_faceVI(struct Face *f)
 	if (f->vNum == 0)
 		return;
 
-	if (f->vNum < 2) {
+	if (f->vNum < 2 || f->boundary) {
 		f->vi = f->thisVol[0]->v;
 		return;
 	}
@@ -395,7 +518,7 @@ void p_facePI(struct Face *f)
 	if (f->vNum == 0)
 		return;
 
-	if (f->vNum < 2) {
+	if (f->vNum < 2 || f->boundary) {
 		f->pi = f->thisVol[0]->p;
 		return;
 	}
@@ -420,13 +543,18 @@ void p_faceP(struct Face *f)
 	f->p = f->pi;
 }
 
-// velocity correction
-void p_faceVC(struct Face *f)
+// Rhie-Chow interpolation
+void p_faceVRC(struct Face *f)
 {
 	f->v = vec3Copy(&f->vi);
 
 	vec3 vc = vec3Copy(&f->pGrad);
-	vec3Sub(&vc, &f->pGradI);
+
+	if (f->boundary) {
+		vec3Sub(&vc, &f->thisVol[0]->pGrad);
+	} else {
+		vec3Sub(&vc, &f->pGradI);
+	}
 
 	vc.x *= f->d.x;
 	vc.y *= f->d.y;
@@ -441,7 +569,7 @@ void p_faceV(struct Face *f)
 
 	f->v = vec3Copy(&f->vi);
 
-	p_faceVC(f);
+	p_faceVRC(f);
 }
 
 // interpolated face pressure gradient
@@ -545,7 +673,7 @@ void p_vFaceGrad(Obj *o)
 		vec3 v1 = vec3Copy(&o->faces[i].thisVol[1]->v);
 
 		vec3Sub(&v0, &v1);
-		vec3Mul(&v0, 1.0f/vec3Len(&e));
+		vec3Mul(&v0, 1.0f / vec3Len(&e));
 		mat vm = matVec3(&v0);
 
 		vec3Normalize(&e);
@@ -628,3 +756,51 @@ void p_vGrad(Obj *o)
 		matDestroy(&a);
 	}
 }
+
+// interpolate face pressure correction from volumes
+void p_pcFaceI(struct Face *f)
+{
+	if (f->vNum == 0)
+		return;
+
+	if (f->vNum < 2 || f->boundary) {
+		f->pc = f->thisVol[0]->pc;
+		return;
+	}
+
+	vec3 d0 = vec3Copy(&f->thisVol[1]->centroid);
+
+	vec3Sub(&d0, &f->centroid);
+
+	float g0 = vec3Len(&d0) / vec3Len(&f->volDist);
+
+	float pre0 = f->thisVol[0]->pc * g0;
+
+	float pre1 = f->thisVol[1]->pc * (1.0f - g0);
+
+	f->pc = pre0 + pre1;
+}
+
+// volume pressure correction gradient
+void p_pcGrad(Obj *o)
+{
+	for (int i = 0; i < o->faceNum; ++i) {
+		p_pcFaceI(&o->faces[i]);
+	}
+
+	for (int i = 0; i < o->volNum; ++i) {
+		vec3 grad = nvec3();
+
+		for (int j = 0; j < 4; ++j) {
+			vec3 s = vec3Outwards(&o->volumes[i].centroid,
+								  &o->volumes[i].faces[j]->centroid,
+								  &o->volumes[i].faces[j]->surface);
+			vec3Mul(&s, o->volumes[i].faces[j]->pc);
+			vec3Add(&grad, &s);
+		}
+
+		o->volumes[i].pcGrad = vec3Copy(&grad);
+		vec3Div(&o->volumes[i].pcGrad, o->volumes[i].vol);
+	}
+}
+

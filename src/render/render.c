@@ -47,6 +47,8 @@ void r_init(struct Renderer *r, int *running)
 	r->modelUni = glGetUniformLocation(r->shader.program, "model");
 	r->viewUni = glGetUniformLocation(r->shader.program, "view");
 	r->projUni = glGetUniformLocation(r->shader.program, "proj");
+	
+	r->sUni = glGetUniformLocation(r->shader.program, "rs");
 
 	GLFWimage icons[1];
 	icons[0].pixels = ppmLoaderAlpha("gfx/vortexyicon.ppm", &icons[0].width, &icons[0].height,
@@ -61,10 +63,7 @@ void r_init(struct Renderer *r, int *running)
 	r->camPos = nvec4();
 	r->camRot = nvec4();
 	r->modelRot = nvec4();
-
-	r->cz = -8.0f;
-	r->camPos.z = r->cz;
-
+	
 	r_flatTex(&r->flat, 255, 255, 255, 128, 128);
 	r->tex = &r->flat;
 
@@ -113,6 +112,8 @@ void r_update(struct Renderer *r)
 	glUniformMatrix4fv(r->modelUni, 1, GL_TRUE, &r->model.m[0][0]);
 	glUniformMatrix4fv(r->projUni, 1, GL_TRUE, &r->proj.m[0][0]);
 	glUniformMatrix4fv(r->viewUni, 1, GL_TRUE, &r->view.m[0][0]);
+	
+	glUniform1f(r->sUni, r->s);
 
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);

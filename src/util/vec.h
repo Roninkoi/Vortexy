@@ -94,4 +94,6 @@ vec3 vec3Copy(vec3 *v);
 // return outwards pointing vector
 vec3 vec3Outwards(vec3 *p0, vec3 *p1, vec3 *v);
 
+float vec3Sign(vec3 *p0, vec3 *p1, vec3 *v);
+
 #endif

@@ -187,7 +187,7 @@ void computeConnections(struct Face *f, const int fn)
 	}
 }
 
-struct Face *p_loadFaces(Mesh *m, int *faceNum)
+struct Face *p_loadFaces(Mesh *m, int *faceNum, int mode)
 {
 	struct Face *f;
 
@@ -203,16 +203,21 @@ struct Face *p_loadFaces(Mesh *m, int *faceNum)
 		f[i].flux = nvec3();
 		f[i].d = nvec3();
 		f[i].mRate = 0.0f;
+		f[i].boundary = 0;
 		f[i].initialP = 0.0f;
 		f[i].initialV = 0.0f;
+		f[i].constantP = 0.0f;
+		f[i].constantV = 0.0f;
 		f[i].vFlux = nvec3();
 		f[i].mFlux = nvec3();
+		f[i].conFlux = nvec3();
 		f[i].pGrad = nvec3();
 		f[i].vGrad = Mat(0.0f, 3, 3);
 		f[i].pGradI = nvec3();
 		f[i].vGradI = Mat(0.0f, 3, 3);
 		f[i].v = nvec3();
 		f[i].p = 0.0f;
+		f[i].pc = 0.0f;
 		f[i].df = 0.0f;
 		f[i].vi = nvec3();
 		f[i].pi = 0.0f;
@@ -237,7 +242,8 @@ struct Face *p_loadFaces(Mesh *m, int *faceNum)
 		computeFaceCent(&f[i]);
 	}
 
-	computeConnections(f, fn);
+	if (!mode)
+		computeConnections(f, fn);
 
 	return f;
 }
@@ -569,6 +575,7 @@ struct Volume *p_loadVolumes(struct Face *f, int faceNum, int *volNum)
 		v[i].mFlux = nvec3();
 		v[i].vFlux = nvec3();
 		v[i].pGrad = nvec3();
+		v[i].pcGrad = nvec3();
 		v[i].d = nvec3();
 		v[i].vGrad = Mat(0.0f, 3, 3);
 
@@ -629,3 +636,33 @@ struct Face *p_connectingFace(struct Volume *v0, struct Volume *v1)
 
 	return NULL;
 }
+
+void destroyFace(struct Face *f)
+{
+	matDestroy(&f->vGrad);
+	matDestroy(&f->vGradI);
+}
+
+void destroyVolume(struct Volume *v)
+{
+	matDestroy(&v->vGrad);
+}
+
+void p_destroyFaces(struct Face *f, int faceNum)
+{
+	for (int i = 0; i < faceNum; ++i) {
+		destroyFace(&f[i]);
+	}
+
+	free(f);
+}
+
+void p_destroyVolumes(struct Volume *v, int volNum)
+{
+	for (int i = 0; i < volNum; ++i) {
+		destroyVolume(&v[i]);
+	}
+
+	free(v);
+}
+

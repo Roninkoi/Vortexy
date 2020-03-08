@@ -8,6 +8,9 @@ typedef struct {
 	float **m;
 	int r; // rows
 	int c; // columns
+
+	int *rmin;
+	int *rmax;
 } mat;
 
 mat Mat(float s, int r, int c);
@@ -37,6 +40,7 @@ mat matRandom(float s, int r, int c);
 void matPrint(mat *m);
 
 void matDestroy(mat *m);
+void matDestroyS(mat *m);
 
 mat matVec3(vec3 *v);
 vec3 vec3Mat(mat *m);

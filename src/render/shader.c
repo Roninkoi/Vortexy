@@ -8,7 +8,7 @@ void r_loadShader(struct Shader *s, char *vertPath, char *fragPath)
 
 	// load vertex shader
 	FILE *vert_fp;
-	const char *vert_data;
+	char *vert_data;
 	size_t vert_fsize;
 
 	vert_fp = fopen(vertPath, "r");
@@ -20,12 +20,13 @@ void r_loadShader(struct Shader *s, char *vertPath, char *fragPath)
 
 	vert_data = (char *) malloc(SHADER_MAX);
 	vert_fsize = fread((char *) vert_data, 1, SHADER_MAX, vert_fp);
+	vert_data[vert_fsize] = '\0';
 
 	fclose(vert_fp);
 
 	// load fragment shader
 	FILE *frag_fp;
-	const char *frag_data;
+	char *frag_data;
 	size_t frag_fsize;
 
 	frag_fp = fopen(fragPath, "r");
@@ -37,6 +38,7 @@ void r_loadShader(struct Shader *s, char *vertPath, char *fragPath)
 
 	frag_data = (char *) malloc(SHADER_MAX);
 	frag_fsize = fread((char *) frag_data, 1, SHADER_MAX, frag_fp);
+	frag_data[frag_fsize] = '\0';
 
 	fclose(frag_fp);
 
@@ -46,7 +48,8 @@ void r_loadShader(struct Shader *s, char *vertPath, char *fragPath)
 	// compile vert
 	printf("Compiling %s\n", vertPath);
 
-	glShaderSource(s->vertShader, 1, &vert_data, NULL);
+	const char *vd = (const char *) vert_data;
+	glShaderSource(s->vertShader, 1, &vd, NULL);
 	glCompileShader(s->vertShader);
 
 	glGetShaderiv(s->vertShader, GL_COMPILE_STATUS, &r);
@@ -64,7 +67,8 @@ void r_loadShader(struct Shader *s, char *vertPath, char *fragPath)
 	// compile frag
 	printf("Compiling %s\n", fragPath);
 
-	glShaderSource(s->fragShader, 1, &frag_data, NULL);
+	const char *fd = (const char *) frag_data;
+	glShaderSource(s->fragShader, 1, &fd, NULL);
 	glCompileShader(s->fragShader);
 
 	glGetShaderiv(s->fragShader, GL_COMPILE_STATUS, &r);
@@ -106,6 +110,9 @@ void r_loadShader(struct Shader *s, char *vertPath, char *fragPath)
 
 	glDeleteShader(s->vertShader);
 	glDeleteShader(s->fragShader);
+
+	free((char *) vert_data);
+	free((char *) frag_data);
 }
 
 void r_destroyShader(struct Shader *s)

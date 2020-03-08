@@ -12,20 +12,6 @@
 #include "phys/sys.h"
 #include "util/randomUtil.h"
 
-#define OPENCL_ENABLED 0
-
-#if OPENCL_ENABLED == 1
-
-#define CL_USE_DEPRECATED_OPENCL_1_2_APIS
-
-// kernel size
-#define KERNEL_MAX 0x100000
-
-// OpenCL
-#include <CL/cl.h>
-
-#endif
-
 // enable rendering
 #define RENDER_ENABLED 1
 
@@ -38,9 +24,6 @@
 #endif
 
 struct Sim {
-#if OPENCL_ENABLED == 1
-#endif
-	
 #if RENDER_ENABLED == 1
 	struct Renderer renderer;
 #endif
@@ -56,17 +39,25 @@ struct Sim {
 	unsigned int timeOld;
 	unsigned int startTime;
 
-	FILE *out;
+	unsigned int st;
+	
+	float rz;
+	float rs;
+	int rmode;
+
+	int autoquit;
+
+	FILE *file;
 	int outputting;
+	int outputf;
+	int inputf;
 
 	int rendered;
-	int usegpu;
-	int device;
 
 	int mode;
 
 	char *fluidPath;
-	char *outPath;
+	char *filePath;
 };
 
 void s_init(struct Sim *s);
