@@ -35,7 +35,7 @@ render
 
 - finite volume method
 - SIMPLE algorithm
-- irregular triangular meshes
+- irregular tetrahedral meshes
 - mesh defined in a file (.mesh/.obj)
 - boundary conditions defined in a file
 

@@ -6,10 +6,10 @@ mat Mat(float s, int r, int c)
 {
 	mat m;
 
-	m.m = (float **) malloc(sizeof(float *) * r);
+	m.m = malloc(sizeof(float *) * r);
 
 	for (int i = 0; i < r; ++i) {
-		m.m[i] = (float *) calloc(c, sizeof(float));
+		m.m[i] = calloc(c, sizeof(float));
 	}
 
 	for (int i = 0; i < min(r, c); ++i) {

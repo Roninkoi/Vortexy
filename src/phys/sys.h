@@ -11,7 +11,6 @@ struct Sys {
 
 	int objNum;
 	int ticks;
-	float time;
 
 	float endt;
 

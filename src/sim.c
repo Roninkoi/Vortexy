@@ -145,7 +145,9 @@ void s_run(struct Sim *s)
 	if (s->outputting || s->mode)
 		fclose(s->file);
 
-	p_sysEnd(&s->sys);
+	if (!s->mode) {
+		p_sysEnd(&s->sys);
+	}
 }
 
 void s_output(struct Sim *s)
@@ -224,8 +226,6 @@ void s_input(struct Sim *s)
 
 void s_tick(struct Sim *s)
 {
-	s->sys.time = (float) timeMillis() / 1000.0f;
-
 	if (s->sys.simulating && !s->mode) {
 		if (s->outputting && s->ticks % s->outputf == 0)
 			s_output(s);

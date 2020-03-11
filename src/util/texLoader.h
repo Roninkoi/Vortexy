@@ -26,7 +26,7 @@ unsigned char *ppmLoader(char *path, int *texWidth, int *texHeight)
 
 	fclose(fp);
 
-	char *c = (char *) malloc(TEX_MAX);
+	char *c = malloc(TEX_MAX);
 
 	int width = 0, height = 0;
 	int dp = 0;
@@ -73,7 +73,7 @@ unsigned char *ppmLoader(char *path, int *texWidth, int *texHeight)
 				width = atoi(ws);
 				height = atoi(hs);
 
-				returns = (unsigned char *) malloc(sizeof(unsigned char) * width * height * 3);
+				returns = malloc(sizeof(unsigned char) * width * height * 3);
 
 				dp = 1;
 			}
@@ -107,7 +107,7 @@ unsigned char *ppmLoaderAlpha(char *path, int *texWidth, int *texHeight, int r, 
 {
 	unsigned char *rgb = ppmLoader(path, texWidth, texHeight);
 
-	unsigned char *rgba = (unsigned char *) malloc(sizeof(unsigned char) * (*texWidth) * (*texHeight) * 4);
+	unsigned char *rgba = malloc(sizeof(unsigned char) * (*texWidth) * (*texHeight) * 4);
 
 	for (int i = 0; i < (*texWidth) * (*texHeight); i += 1) {
 		rgba[i * 4 + 0] = rgb[i * 3 + 0];

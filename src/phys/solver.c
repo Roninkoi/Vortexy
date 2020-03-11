@@ -3,6 +3,7 @@
 //
 
 #include "solver.h"
+#include "util/util.h"
 
 // calculate face mass flow rate for volume
 float p_getMrate(struct Volume *v, struct Face *f, float rho)
@@ -100,8 +101,8 @@ void p_constructPMat(Obj *o)
 	o->a = Mat(1.0f, o->volNum, o->volNum);
 	o->b = Mat(0.0f, o->volNum, 1);
 
-	o->a.rmin = (int *) malloc(sizeof(int) * o->volNum);
-	o->a.rmax = (int *) malloc(sizeof(int) * o->volNum);
+	o->a.rmin = malloc(sizeof(int) * o->volNum);
+	o->a.rmax = malloc(sizeof(int) * o->volNum);
 
 	for (int i = 0; i < o->volNum; ++i) {
 		o->a.m[i][i] = o->volumes[i].pa;
@@ -139,8 +140,8 @@ void p_constructVMatX(Obj *o)
 	o->a = Mat(1.0f, o->volNum, o->volNum);
 	o->b = Mat(0.0f, o->volNum, 1);
 
-	o->a.rmin = (int *) malloc(sizeof(int) * o->volNum);
-	o->a.rmax = (int *) malloc(sizeof(int) * o->volNum);
+	o->a.rmin = malloc(sizeof(int) * o->volNum);
+	o->a.rmax = malloc(sizeof(int) * o->volNum);
 
 	for (int i = 0; i < o->volNum; ++i) {
 		o->a.m[i][i] = o->volumes[i].va.x;
@@ -164,7 +165,7 @@ void p_constructVMatX(Obj *o)
 			if (n > o->a.rmax[i])
 				o->a.rmax[i] = n;
 
-			float mr = fmax(p_getMrate(&o->volumes[n], connecting, o->fluid.rho), 0.0f);
+			float mr = max(p_getMrate(&o->volumes[n], connecting, o->fluid.rho), 0.0f);
 
 			o->a.m[i][n] = -(connecting->flux.x + mr);
 		}
@@ -180,8 +181,8 @@ void p_constructVMatY(Obj *o)
 	o->a = Mat(1.0f, o->volNum, o->volNum);
 	o->b = Mat(0.0f, o->volNum, 1);
 
-	o->a.rmin = (int *) malloc(sizeof(int) * o->volNum);
-	o->a.rmax = (int *) malloc(sizeof(int) * o->volNum);
+	o->a.rmin = malloc(sizeof(int) * o->volNum);
+	o->a.rmax = malloc(sizeof(int) * o->volNum);
 
 	for (int i = 0; i < o->volNum; ++i) {
 		o->a.m[i][i] = o->volumes[i].va.y;
@@ -205,7 +206,7 @@ void p_constructVMatY(Obj *o)
 			if (n > o->a.rmax[i])
 				o->a.rmax[i] = n;
 
-			float mr = fmax(p_getMrate(&o->volumes[n], connecting, o->fluid.rho), 0.0f);
+			float mr = max(p_getMrate(&o->volumes[n], connecting, o->fluid.rho), 0.0f);
 
 			o->a.m[i][n] = -(connecting->flux.y + mr);
 		}
@@ -221,8 +222,8 @@ void p_constructVMatZ(Obj *o)
 	o->a = Mat(1.0f, o->volNum, o->volNum);
 	o->b = Mat(0.0f, o->volNum, 1);
 
-	o->a.rmin = (int *) malloc(sizeof(int) * o->volNum);
-	o->a.rmax = (int *) malloc(sizeof(int) * o->volNum);
+	o->a.rmin = malloc(sizeof(int) * o->volNum);
+	o->a.rmax = malloc(sizeof(int) * o->volNum);
 
 	for (int i = 0; i < o->volNum; ++i) {
 		o->a.m[i][i] = o->volumes[i].va.z;
@@ -246,7 +247,7 @@ void p_constructVMatZ(Obj *o)
 			if (n > o->a.rmax[i])
 				o->a.rmax[i] = n;
 
-			float mr = fmax(p_getMrate(&o->volumes[n], connecting, o->fluid.rho), 0.0f);
+			float mr = max(p_getMrate(&o->volumes[n], connecting, o->fluid.rho), 0.0f);
 
 			o->a.m[i][n] = -(connecting->flux.z + mr);
 		}
@@ -334,7 +335,7 @@ void p_computeVCoeffs(Obj *o)
 		o->volumes[i].va.z = o->volumes[i].flux;
 
 		for (int j = 0; j < 4; ++j) {
-			float mr = fmax(p_getMrate(&o->volumes[i], o->volumes[i].faces[j], o->fluid.rho), 0.0f);
+			float mr = max(p_getMrate(&o->volumes[i], o->volumes[i].faces[j], o->fluid.rho), 0.0f);
 
 			o->volumes[i].va.x += o->volumes[i].faces[j]->flux.x + mr;
 			o->volumes[i].va.y += o->volumes[i].faces[j]->flux.y + mr;
@@ -803,4 +804,3 @@ void p_pcGrad(Obj *o)
 		vec3Div(&o->volumes[i].pcGrad, o->volumes[i].vol);
 	}
 }
-

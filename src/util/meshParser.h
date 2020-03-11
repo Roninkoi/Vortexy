@@ -37,16 +37,16 @@ Mesh meshParser(char *path)
 			mesh.colNum = mesh.vertNum;
 			mesh.normNum = mesh.vertNum;
 
-			mesh.vertData = (float *) malloc(sizeof(float) * mesh.vertNum * 4);
-			mesh.texData = (float *) malloc(sizeof(float) * mesh.vertNum * 4);
-			mesh.colData = (float *) malloc(sizeof(float) * mesh.vertNum * 4);
-			mesh.normData = (float *) malloc(sizeof(float) * mesh.vertNum * 4);
+			mesh.vertData = malloc(sizeof(float) * mesh.vertNum * 4);
+			mesh.texData = malloc(sizeof(float) * mesh.vertNum * 4);
+			mesh.colData = malloc(sizeof(float) * mesh.vertNum * 4);
+			mesh.normData = malloc(sizeof(float) * mesh.vertNum * 4);
 
 		}
 		if (strcmp(words[i], "Triangles") == 0) {
 			mode = 2;
 			mesh.indNum = atoi(words[++i]) * 3;
-			mesh.indData = (int *) malloc(sizeof(int) * mesh.indNum * 3);
+			mesh.indData = malloc(sizeof(int) * mesh.indNum * 3);
 		}
 		if (strcmp(words[i], "Edges") == 0) {
 			mode = 3;

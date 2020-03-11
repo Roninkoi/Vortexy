@@ -196,7 +196,7 @@ struct Face *p_loadFaces(Mesh *m, int *faceNum, int mode)
 
 	printf("%s %i\n", "FACES", fn);
 
-	f = (struct Face *) malloc(sizeof(struct Face) * fn);
+	f = malloc(sizeof(struct Face) * fn);
 
 	for (int i = 0; i < fn; ++i) {
 		f[i].centroid = nvec3();
@@ -577,6 +577,7 @@ struct Volume *p_loadVolumes(struct Face *f, int faceNum, int *volNum)
 		v[i].pGrad = nvec3();
 		v[i].pcGrad = nvec3();
 		v[i].d = nvec3();
+		v[i].s = nvec3();
 		v[i].vGrad = Mat(0.0f, 3, 3);
 
 		computeVolumeCent(&v[i]);
