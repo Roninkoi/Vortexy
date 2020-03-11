@@ -44,27 +44,27 @@ void r_getInput(struct Renderer *r, struct Sys* s)
 	float rs = r->delta * 0.02f; // rot spd
 
 	if (fabs(scroll) > 0.0f) { // mouse scroll = "zoom"
-		r->camPos.z -= 1.0f * scroll * cosf(r->camRot.y);
-		r->camPos.y -= 1.0f * scroll * sinf(r->camRot.x);
-		r->camPos.x += 1.0f * scroll * sinf(r->camRot.y);
+		r->camPos.z -= 1.0f * scroll * cos(r->camRot.y);
+		r->camPos.y -= 1.0f * scroll * sin(r->camRot.x);
+		r->camPos.x += 1.0f * scroll * sin(r->camRot.y);
 		scroll = 0.0f;
 	}
 
 	if (glfwGetKey(r->window.window, GLFW_KEY_W)) {
-		r->camPos.z += ms * cosf(r->camRot.y);
-		r->camPos.x -= ms * sinf(r->camRot.y);
+		r->camPos.z += ms * cos(r->camRot.y);
+		r->camPos.x -= ms * sin(r->camRot.y);
 	}
 	if (glfwGetKey(r->window.window, GLFW_KEY_S)) {
-		r->camPos.z -= ms * cosf(r->camRot.y);
-		r->camPos.x += ms * sinf(r->camRot.y);
+		r->camPos.z -= ms * cos(r->camRot.y);
+		r->camPos.x += ms * sin(r->camRot.y);
 	}
 	if (glfwGetKey(r->window.window, GLFW_KEY_D)) {
-		r->camPos.x += ms * cosf(r->camRot.y);
-		r->camPos.z += ms * sinf(r->camRot.y);
+		r->camPos.x += ms * cos(r->camRot.y);
+		r->camPos.z += ms * sin(r->camRot.y);
 	}
 	if (glfwGetKey(r->window.window, GLFW_KEY_A)) {
-		r->camPos.x -= ms * cosf(r->camRot.y);
-		r->camPos.z -= ms * sinf(r->camRot.y);
+		r->camPos.x -= ms * cos(r->camRot.y);
+		r->camPos.z -= ms * sin(r->camRot.y);
 	}
 	if (glfwGetKey(r->window.window, GLFW_KEY_R)) {
 		r->camPos.y += ms;

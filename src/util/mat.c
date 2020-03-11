@@ -653,13 +653,13 @@ mat4 mat4RotX(float a)
 	m.m[0][3] = 0.0f;
 
 	m.m[1][0] = 0.0f;
-	m.m[1][1] = cosf(a);
-	m.m[1][2] = -sinf(a);
+	m.m[1][1] = cos(a);
+	m.m[1][2] = -sin(a);
 	m.m[1][3] = 0.0f;
 
 	m.m[2][0] = 0.0f;
-	m.m[2][1] = sinf(a);
-	m.m[2][2] = cosf(a);
+	m.m[2][1] = sin(a);
+	m.m[2][2] = cos(a);
 	m.m[2][3] = 0.0f;
 
 	m.m[3][0] = 0.0f;
@@ -674,9 +674,9 @@ mat4 mat4RotY(float a)
 {
 	mat4 m;
 
-	m.m[0][0] = cosf(a);
+	m.m[0][0] = cos(a);
 	m.m[0][1] = 0.0f;
-	m.m[0][2] = sinf(a);
+	m.m[0][2] = sin(a);
 	m.m[0][3] = 0.0f;
 
 	m.m[1][0] = 0.0f;
@@ -684,9 +684,9 @@ mat4 mat4RotY(float a)
 	m.m[1][2] = 0.0f;
 	m.m[1][3] = 0.0f;
 
-	m.m[2][0] = -sinf(a);
+	m.m[2][0] = -sin(a);
 	m.m[2][1] = 0.0f;
-	m.m[2][2] = cosf(a);
+	m.m[2][2] = cos(a);
 	m.m[2][3] = 0.0f;
 
 	m.m[3][0] = 0.0f;

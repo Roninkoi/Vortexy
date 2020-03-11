@@ -371,9 +371,9 @@ void r_drawVec(struct Renderer *r, vec4 v0, vec4 v1, vec4 col)
 	float mr = r->modelRot.y;
 	mr = 0.0f;
 
-	float x = -width * sinf(a) * cosf(mr);
-	float y = width * sinf(a) * sinf(mr) + width * cosf(a) * cosf(mr);
-	float z = width * sinf(a) * sinf(mr);
+	float x = -width * sin(a) * cos(mr);
+	float y = width * sin(a) * sin(mr) + width * cos(a) * cos(mr);
+	float z = width * sin(a) * sin(mr);
 
 	float vd[12] = {
 					v0.x + x, v0.y + y, v0.z + z, v0.w,
