@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.2)
 project(Vortexy)
 
 option(SIMONLY "Exclude renderer" OFF)
-#option(BUILD_SHARED_LIBS OFF)
+option(BUILD_SHARED_LIBS OFF)
 
 if (SIMONLY)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu11 -static") # -O3
@@ -65,11 +65,17 @@ add_executable(
         Vortexy ${SOURCE_FILES} ${SOURCES}
 )
 
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/lib/glfw)
+
 set_target_properties(Vortexy PROPERTIES LINK_FLAGS -Wl,-rpath=$ORIGIN/lib,-z,origin,-allow-multiple-definition,-whole-archive)
 
 if (SIMONLY)
     target_link_libraries(Vortexy m)
 else ()
-    target_link_libraries(Vortexy m GLEW OpenGL::GL glfw)
+    #target_link_libraries(Vortexy m GLEW OpenGL::GL glfw)
     #target_link_libraries(Vortexy ${LM} GLEW OpenGL::GL glfw)
+    target_link_libraries(Vortexy m GLEW OpenGL::GL glfw)
 endif ()
