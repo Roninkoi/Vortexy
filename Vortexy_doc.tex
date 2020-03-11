@@ -15,10 +15,6 @@
 \usepackage{hyperref}
 \usepackage{authblk}
 \usepackage{comment}
-% \usepackage{braket} % quantum
-\usepackage[sorting=nyt, style=apa, backend=biber]{biblatex}
-\addbibresource{tepobib.bib}
-\setlength\bibitemsep{1.5\itemsep}
 
 \pagestyle{fancy}
 
@@ -154,15 +150,16 @@ $$
 \noindent
 so volume terms can be computed from fluxes at element faces.
 
-
-
 \subsection{Discretization}
 
 \noindent
 
-Momentum equation:
+The momentum equation is written in a form conducive for discretization:
 $$
-\frac{\partial \vb u}{\partial t} + \nabla \cdot (\vb u \otimes \vb u) = - \nabla p
+\frac{\partial \vb u}{\partial t} + \nabla \cdot (\vb u \otimes \vb u) = - \frac{\nabla p}{\rho} + \frac{\mu}{\rho} \nabla \cdot (\nabla u) + \nabla \cdot (\nabla u)^T + f_b
+$$
+$$
+\vb{transient} + \vb{convective} =  \vb{diffusion} + \vb{source}
 $$
 
 Continuity equation:
@@ -170,45 +167,7 @@ $$
 \nabla \cdot \vb u = 0
 $$
 
-A momentum matrix is constructed by decomposition:
-
-$$
-M = A \vb u - H
-$$
-
-Discretization of the momentum equation is achieved:
-
-$$
-A \vb u - H = - \nabla p
-$$
-\begin{equation}
-  \vb u = \frac{H}{A} - \frac{1}{A} \nabla p
-\end{equation}
-
-Pressure equation:
-
-\begin{equation}
-  \nabla \cdot \left [ \lb \frac{1}{A} \rb_f \nabla p \right] = \nabla \cdot \lb \frac{H}{A} \rb_f
-\end{equation}
-
-\subsection{Gauss-Seidel method}
-
-\subsection{SIMPLE algorithm}
-
-\begin{enumerate}
-\item Set boundary conditions, set $u$ and $p$
-\item Compute gradients $\nabla u$ and $\nabla p$
-\item Under-relax momentum matrix $M$
-\item Solve \textit{momentum equation} for velocity guess $u^*$
-\item Compute mass fluxes $j_m$, flow rate $\dot m = j_m \cdot A$
-\item Solve \textit{pressure equation}
-\item Under-relax pressure
-\item Correct mass fluxes $j_m$
-\item Correct velocities $u^{n+1}$
-\item (Update density $\rho$)
-\item Goto 1 if not reached convergence
-\item Increment time $t^{n+1} = t^n + \Delta t$
-\end{enumerate}
+This saddle-point problem can be represented in matrix form as:
 
 $$
 A \vb u = \begin{pmatrix}
@@ -217,37 +176,114 @@ A \vb u = \begin{pmatrix}
 \end{pmatrix}
 \begin{pmatrix}
   \vb u \\
-  P
+  p
 \end{pmatrix} =
 \begin{pmatrix}
-  f_b \\
+  \vb f_b \\
   0
-  \end{pmatrix}
+\end{pmatrix}
+$$
+  In practice, the velocity and pressure fields are calculated using 4 matrices (vx, vy, vz, p).
+
+Discretization for the one-dimensional momentum equation \cite{mou}:
+
+\begin{equation}
+  a_v u_v + \sum_{f \in f_{nb}} a_f u_f = b_v,
+\end{equation}
+
+which can be represented in matrix form as:
+
+$$
+\begin{pmatrix}
+  a_{00} & a_{01} & \dots & a_{0n} \\
+  \vdots & \ddots &  & \vdots \\
+  \vdots &  & \ddots & \vdots \\
+  a_{n0} & \dots & a_{n (n - 1)} & a_{0n}
+\end{pmatrix}
+\begin{pmatrix}
+  u_0 \\
+  \vdots \\
+  u_n
+\end{pmatrix} =
+\begin{pmatrix}
+  b_{0} \\
+  \vdots \\
+  b_n
+  \end{pmatrix},
   $$
 
-  Equations written in form:
+  where $u_0 \dots u_n$ represents volume element velocities. In the pressure calculation these are referred to as $u^*$, i.e. momentum conserving. The coefficients $a$ and $b$ are calculated for each volume element and assembled into a matrix. Components X, Y and Z are calculated one after another.\\
 
-  $$
-  A \vb u + B p = \vb f
-  $$
-  $$
-  C \vb u = 0, \ \bigg| \ C = B^T
-  $$
+  Face fluxes:
+  \begin{align}
+    \phi_f = \max(\dot m_f, 0) + \mu \frac{E_f}{d_{vf}} \\
+    \Phi_f = -\max(-\dot m_f, 0) - \mu \frac{E_f}{d_{vf}} \\
+    \vec \psi_f = - \mu (\nabla \vb u_f) \cdot \vb T_f + \dot m_f (\vb u_f^{\text{hr}} - \vb u_f^{\text{uw}}),
+  \end{align}
+  where $\vb S_f = A_f \hat n_f = \vb E_f + \vb T_f$ and $\dot m_f = \rho \vb u_f \cdot \vb S_f$. High-resolution model velocity $\vb u_f^{\text{hr}} = \vb u_f$ and upwind velocity $\vb u_f^{\text{uw}}$.\\
 
-  Gives Uzawa problem matrix (saddle point)
+  Volume fluxes:
+    \begin{align}
+      \phi_v = \frac{\rho V}{\Delta t} \\
+      \vec \psi_v = \frac{\rho V}{\Delta t} \vb u_v - \vb f_b V
+    \end{align}
 
+    Coefficients:
+  \begin{align}
+    a_v = \phi_v + \sum_{f \in f_{nb}} \phi_f = \frac{\rho V}{\Delta t} + \sum_{f \in f_{nb}} \lb \max(\dot m_f, 0) + \mu \frac{E_f}{d_{vf}} \rb \\
+    a_f = \Phi_f = -\max(-\dot m_f, 0) - \mu \frac{E_f}{d_{vf}}
+  \end{align}
+  \begin{equation}
+    \vb b_v = -\vec \psi_v - \sum_{f \in f_{nb}} \vec \psi_f + \sum_{f \in f_{nb}} \lb \mu (\nabla \vb u_f)^T \cdot \vb S_f \rb - V \nabla p_v
+    \end{equation}
   $$
-  \begin{pmatrix}
-    A & B \\
-    C & 0
-    \end{pmatrix}
-  $$
+    = - \frac{\rho V}{\Delta t} \vb u_v - \vb f_b V - \sum_{f \in f_{nb}} \lb - \mu (\nabla \vb u_f) \cdot \vb T_f + \dot m_f (\vb u_f - \vb u_f^{\text{uw}}) \rb + \sum_{f \in f_{nb}} \lb \mu (\nabla \vb u_f)^T \cdot \vb S_f \rb - V \nabla p_v
+$$
+
+Pressure equation:
+
+\begin{equation}
+  u_v^* + \sum_{f \in f_{nb}} \frac{a_f}{f_v} \vb u_f^* = -\frac{V}{a_v} \nabla p_v + \frac{b_v + V \nabla p_v}{a_v}
+  \end{equation}
+
+  Similarly, the pressure correction equation can be discretized \cite{mou}:
+
+  \begin{equation}
+    a_v p_v' + \sum_{f \in f_{nb}} a_f p_f' = b_v
+  \end{equation}
+
+  With coefficients:
+
+  \begin{align}
+    a_f = -\rho \frac{E_f}{d_{vf}} \\
+    a_v = \sum_{f \in f_{nb}} \rho \frac{E_f}{d_{vf}}\\
+    b_v = - \sum_{f \in f_{nb}} \dot m_f^* = - \sum_{f \in f_{nb}} \rho \vb u_f^* \cdot \vb S_f
+    \end{align}
+
+    All of these are $n \times n$ diagonally dominant matrices which can be solved using a numerical matrix solver, such as Gauss-Seidel. The off-diagonal coefficients represent neighbouring elements, so they will be mostly zero.
+
+\subsection{Gauss-Seidel method}
+
+\subsection{SIMPLE algorithm}
+
+\begin{enumerate}
+\item Set boundary conditions, set $u$ and $p$
+\item Compute gradients $\nabla u$ and $\nabla p$
+\item Compute mass fluxes $j_m$, flow rate $\dot m = j_m \cdot A$
+\item Solve \textit{momentum equation} using velocity guess $u^0$
+\item Solve \textit{pressure correction equation} to get $p'$
+\item Correct pressure $p = p + p'$ and velocity
+\item Increment time $t^{n+1} = t^n + \Delta t$
+\item Repeat
+\end{enumerate}
 
 \subsection{Boundary conditions}
 
 \noindent
 
-Wall\\
+No-slip wall\\
+
+Slip wall\\
 
 Inlet\\
 
@@ -294,10 +330,11 @@ Checkerboard problem
 
 \addcontentsline{toc}{section}{References}
 \begin{thebibliography}{9}
-
+\bibitem{mou} Moukalled, F., Mangani, L. \& Darwish M. (2016). The Finite Volume Method in Computational Fluid Dynamics: An Advanced Introduction with OpenFOAM and Matlab. Fluid Mechanics and Its Applications Volume 113. Springer International Publishing, Cham. \url{https://doi.org/10.1007/978-3-319-16874-6}
+  
 \bibitem{qs} \url{https://quickersim.com/tutorial/tutorial-2-numerics-simple-scheme/}
 \bibitem{ofs} \url{https://www.openfoam.com/documentation/guides/latest/doc/guide-applications-solvers-simple.html}
-  \bibitem{cws} \url{https://www.cfd-online.com/Wiki/SIMPLE_algorithm}
+\bibitem{cws} \url{https://www.cfd-online.com/Wiki/SIMPLE_algorithm}
 
 \end{thebibliography}
 

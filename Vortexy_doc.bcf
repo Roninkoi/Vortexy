@@ -16,7 +16,7 @@
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>mincrossrefs</bcf:key>
-      <bcf:value>999</bcf:value>
+      <bcf:value>2</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>minxrefs</bcf:key>
@@ -66,14 +66,16 @@
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>labeldateparts</bcf:key>
-      <bcf:value>1</bcf:value>
+      <bcf:value>0</bcf:value>
     </bcf:option>
     <bcf:option type="multivalued">
       <bcf:key>labeldatespec</bcf:key>
-      <bcf:value order="1" type="field">pubstate</bcf:value>
-      <bcf:value order="2" type="field">date</bcf:value>
-      <bcf:value order="3" type="field">year</bcf:value>
-      <bcf:value order="4" type="string">nodate</bcf:value>
+      <bcf:value order="1" type="field">date</bcf:value>
+      <bcf:value order="2" type="field">year</bcf:value>
+      <bcf:value order="3" type="field">eventdate</bcf:value>
+      <bcf:value order="4" type="field">origdate</bcf:value>
+      <bcf:value order="5" type="field">urldate</bcf:value>
+      <bcf:value order="6" type="string">nodate</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>julian</bcf:key>
@@ -89,15 +91,15 @@
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>maxbibnames</bcf:key>
-      <bcf:value>7</bcf:value>
+      <bcf:value>3</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>maxcitenames</bcf:key>
-      <bcf:value>2</bcf:value>
+      <bcf:value>3</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>maxsortnames</bcf:key>
-      <bcf:value>7</bcf:value>
+      <bcf:value>3</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>maxitems</bcf:key>
@@ -109,7 +111,7 @@
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>minbibnames</bcf:key>
-      <bcf:value>6</bcf:value>
+      <bcf:value>1</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>mincitenames</bcf:key>
@@ -117,7 +119,7 @@
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>minsortnames</bcf:key>
-      <bcf:value>6</bcf:value>
+      <bcf:value>1</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>minitems</bcf:key>
@@ -145,15 +147,15 @@
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>uniquelist</bcf:key>
-      <bcf:value>2</bcf:value>
+      <bcf:value>0</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>uniquename</bcf:key>
-      <bcf:value>2</bcf:value>
+      <bcf:value>0</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>uniqueprimaryauthor</bcf:key>
-      <bcf:value>1</bcf:value>
+      <bcf:value>0</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>uniquetitle</bcf:key>
@@ -169,7 +171,7 @@
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>useprefix</bcf:key>
-      <bcf:value>1</bcf:value>
+      <bcf:value>0</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>useafterword</bcf:key>
@@ -233,7 +235,7 @@
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>usetranslator</bcf:key>
-      <bcf:value>1</bcf:value>
+      <bcf:value>0</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>useshortauthor</bcf:key>
@@ -241,26 +243,6 @@
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>useshorteditor</bcf:key>
-      <bcf:value>1</bcf:value>
-    </bcf:option>
-    <bcf:option type="singlevalued">
-      <bcf:key>usewith</bcf:key>
-      <bcf:value>1</bcf:value>
-    </bcf:option>
-    <bcf:option type="singlevalued">
-      <bcf:key>usewriter</bcf:key>
-      <bcf:value>1</bcf:value>
-    </bcf:option>
-    <bcf:option type="singlevalued">
-      <bcf:key>useproducer</bcf:key>
-      <bcf:value>1</bcf:value>
-    </bcf:option>
-    <bcf:option type="singlevalued">
-      <bcf:key>useexecproducer</bcf:key>
-      <bcf:value>1</bcf:value>
-    </bcf:option>
-    <bcf:option type="singlevalued">
-      <bcf:key>usedirector</bcf:key>
       <bcf:value>1</bcf:value>
     </bcf:option>
   </bcf:options>
@@ -337,11 +319,6 @@
     <bcf:option datatype="boolean">usetranslator</bcf:option>
     <bcf:option datatype="boolean">useshortauthor</bcf:option>
     <bcf:option datatype="boolean">useshorteditor</bcf:option>
-    <bcf:option datatype="boolean">usewith</bcf:option>
-    <bcf:option datatype="boolean">usewriter</bcf:option>
-    <bcf:option datatype="boolean">useproducer</bcf:option>
-    <bcf:option datatype="boolean">useexecproducer</bcf:option>
-    <bcf:option datatype="boolean">usedirector</bcf:option>
     <bcf:option datatype="boolean">debug</bcf:option>
     <bcf:option datatype="boolean">loadfiles</bcf:option>
     <bcf:option datatype="boolean">safeinputenc</bcf:option>
@@ -400,14 +377,6 @@
     <bcf:option datatype="boolean">sortfirstinits</bcf:option>
     <bcf:option datatype="boolean">sortgiveninits</bcf:option>
     <bcf:option datatype="boolean">labelyear</bcf:option>
-    <bcf:option datatype="boolean">isbn</bcf:option>
-    <bcf:option datatype="boolean">url</bcf:option>
-    <bcf:option datatype="boolean">doi</bcf:option>
-    <bcf:option datatype="boolean">eprint</bcf:option>
-    <bcf:option datatype="boolean">related</bcf:option>
-    <bcf:option datatype="boolean">apamaxprtauth</bcf:option>
-    <bcf:option datatype="boolean">apabackref</bcf:option>
-    <bcf:option datatype="boolean">dashed</bcf:option>
     <bcf:option datatype="integer">mincrossrefs</bcf:option>
     <bcf:option datatype="integer">minxrefs</bcf:option>
     <bcf:option datatype="integer">maxnames</bcf:option>
@@ -447,11 +416,6 @@
     <bcf:option datatype="boolean">usetranslator</bcf:option>
     <bcf:option datatype="boolean">useshortauthor</bcf:option>
     <bcf:option datatype="boolean">useshorteditor</bcf:option>
-    <bcf:option datatype="boolean">usewith</bcf:option>
-    <bcf:option datatype="boolean">usewriter</bcf:option>
-    <bcf:option datatype="boolean">useproducer</bcf:option>
-    <bcf:option datatype="boolean">useexecproducer</bcf:option>
-    <bcf:option datatype="boolean">usedirector</bcf:option>
     <bcf:option datatype="boolean">indexing</bcf:option>
     <bcf:option datatype="boolean">labelnumber</bcf:option>
     <bcf:option datatype="boolean">labelalpha</bcf:option>
@@ -517,11 +481,6 @@
     <bcf:option datatype="boolean">usetranslator</bcf:option>
     <bcf:option datatype="boolean">useshortauthor</bcf:option>
     <bcf:option datatype="boolean">useshorteditor</bcf:option>
-    <bcf:option datatype="boolean">usewith</bcf:option>
-    <bcf:option datatype="boolean">usewriter</bcf:option>
-    <bcf:option datatype="boolean">useproducer</bcf:option>
-    <bcf:option datatype="boolean">useexecproducer</bcf:option>
-    <bcf:option datatype="boolean">usedirector</bcf:option>
     <bcf:option datatype="boolean">indexing</bcf:option>
     <bcf:option datatype="boolean">uniquelist</bcf:option>
     <bcf:option datatype="boolean">uniquename</bcf:option>
@@ -574,16 +533,6 @@
   </bcf:datafieldset>
   <!-- SOURCEMAP -->
   <bcf:sourcemap>
-    <bcf:maps datatype="bibtex" level="style">
-      <bcf:map>
-        <bcf:map_step map_field_source="year" map_final="1"/>
-        <bcf:map_step map_field_set="pubstate" map_null="1"/>
-      </bcf:map>
-      <bcf:map>
-        <bcf:map_step map_field_source="date" map_final="1"/>
-        <bcf:map_step map_field_set="pubstate" map_null="1"/>
-      </bcf:map>
-    </bcf:maps>
     <bcf:maps datatype="bibtex" level="driver">
       <bcf:map>
         <bcf:map_step map_field_set="day" map_null="1"/>
@@ -849,9 +798,6 @@
       <bcf:entrytype>unpublished</bcf:entrytype>
       <bcf:entrytype>video</bcf:entrytype>
       <bcf:entrytype skip_output="true">xdata</bcf:entrytype>
-      <bcf:entrytype>letters</bcf:entrytype>
-      <bcf:entrytype>data</bcf:entrytype>
-      <bcf:entrytype>newsarticle</bcf:entrytype>
     </bcf:entrytypes>
     <bcf:fields>
       <bcf:field fieldtype="field" datatype="integer">sortyear</bcf:field>
@@ -1054,16 +1000,6 @@
       <bcf:field fieldtype="field" format="xsv" datatype="option" skip_output="true">relatedoptions</bcf:field>
       <bcf:field fieldtype="field" datatype="range">pages</bcf:field>
       <bcf:field fieldtype="field" datatype="code">execute</bcf:field>
-      <bcf:field fieldtype="list" datatype="name">with</bcf:field>
-      <bcf:field fieldtype="list" datatype="name">writer</bcf:field>
-      <bcf:field fieldtype="list" datatype="name">producer</bcf:field>
-      <bcf:field fieldtype="list" datatype="name">execproducer</bcf:field>
-      <bcf:field fieldtype="list" datatype="name">director</bcf:field>
-      <bcf:field fieldtype="field" datatype="literal">abstractloc</bcf:field>
-      <bcf:field fieldtype="field" datatype="literal">titleisdescription</bcf:field>
-      <bcf:field fieldtype="field" datatype="literal">newspaper</bcf:field>
-      <bcf:field fieldtype="field" datatype="literal">urldescription</bcf:field>
-      <bcf:field fieldtype="field" datatype="verbatim">abstracturl</bcf:field>
     </bcf:fields>
     <bcf:entryfields>
       <bcf:field>abstract</bcf:field>
@@ -1853,98 +1789,6 @@
       <bcf:field>titleaddon</bcf:field>
       <bcf:field>type</bcf:field>
       <bcf:field>venue</bcf:field>
-    </bcf:entryfields>
-    <bcf:entryfields>
-      <bcf:field>titleisdescription</bcf:field>
-      <bcf:field>with</bcf:field>
-      <bcf:field>abstractloc</bcf:field>
-      <bcf:field>abstracturl</bcf:field>
-      <bcf:field>urldescription</bcf:field>
-    </bcf:entryfields>
-    <bcf:entryfields>
-      <bcf:entrytype>video</bcf:entrytype>
-      <bcf:field>writer</bcf:field>
-      <bcf:field>producer</bcf:field>
-      <bcf:field>execproducer</bcf:field>
-      <bcf:field>director</bcf:field>
-    </bcf:entryfields>
-    <bcf:entryfields>
-      <bcf:entrytype>newsarticle</bcf:entrytype>
-      <bcf:field>author</bcf:field>
-      <bcf:field>newspaper</bcf:field>
-      <bcf:field>title</bcf:field>
-      <bcf:field>day</bcf:field>
-      <bcf:field>endday</bcf:field>
-      <bcf:field>endmonth</bcf:field>
-      <bcf:field>endyear</bcf:field>
-      <bcf:field>month</bcf:field>
-      <bcf:field>year</bcf:field>
-      <bcf:field>addendum</bcf:field>
-      <bcf:field>doi</bcf:field>
-      <bcf:field>editor</bcf:field>
-      <bcf:field>editora</bcf:field>
-      <bcf:field>editorb</bcf:field>
-      <bcf:field>editorc</bcf:field>
-      <bcf:field>editoratype</bcf:field>
-      <bcf:field>editorbtype</bcf:field>
-      <bcf:field>editorctype</bcf:field>
-      <bcf:field>eid</bcf:field>
-      <bcf:field>eprint</bcf:field>
-      <bcf:field>eprintclass</bcf:field>
-      <bcf:field>eprinttype</bcf:field>
-      <bcf:field>issn</bcf:field>
-      <bcf:field>issue</bcf:field>
-      <bcf:field>issuetitle</bcf:field>
-      <bcf:field>issuesubtitle</bcf:field>
-      <bcf:field>language</bcf:field>
-      <bcf:field>note</bcf:field>
-      <bcf:field>number</bcf:field>
-      <bcf:field>origlanguage</bcf:field>
-      <bcf:field>pages</bcf:field>
-      <bcf:field>series</bcf:field>
-      <bcf:field>subtitle</bcf:field>
-      <bcf:field>titleaddon</bcf:field>
-      <bcf:field>translator</bcf:field>
-      <bcf:field>url</bcf:field>
-      <bcf:field>urlday</bcf:field>
-      <bcf:field>urlendday</bcf:field>
-      <bcf:field>urlendmonth</bcf:field>
-      <bcf:field>urlendyear</bcf:field>
-      <bcf:field>urlmonth</bcf:field>
-      <bcf:field>urlyear</bcf:field>
-      <bcf:field>volume</bcf:field>
-    </bcf:entryfields>
-    <bcf:entryfields>
-      <bcf:entrytype>data</bcf:entrytype>
-      <bcf:field>title</bcf:field>
-      <bcf:field>day</bcf:field>
-      <bcf:field>endday</bcf:field>
-      <bcf:field>endmonth</bcf:field>
-      <bcf:field>endyear</bcf:field>
-      <bcf:field>day</bcf:field>
-      <bcf:field>endday</bcf:field>
-      <bcf:field>endmonth</bcf:field>
-      <bcf:field>endyear</bcf:field>
-      <bcf:field>month</bcf:field>
-      <bcf:field>year</bcf:field>
-      <bcf:field>addendum</bcf:field>
-      <bcf:field>author</bcf:field>
-      <bcf:field>language</bcf:field>
-      <bcf:field>location</bcf:field>
-      <bcf:field>note</bcf:field>
-      <bcf:field>organization</bcf:field>
-      <bcf:field>pubstate</bcf:field>
-      <bcf:field>subtitle</bcf:field>
-      <bcf:field>titleaddon</bcf:field>
-      <bcf:field>type</bcf:field>
-      <bcf:field>url</bcf:field>
-      <bcf:field>urlday</bcf:field>
-      <bcf:field>urlendday</bcf:field>
-      <bcf:field>urlendmonth</bcf:field>
-      <bcf:field>urlendyear</bcf:field>
-      <bcf:field>urlmonth</bcf:field>
-      <bcf:field>urlyear</bcf:field>
-      <bcf:field>version</bcf:field>
     </bcf:entryfields>
     <bcf:constraints>
       <bcf:entrytype>article</bcf:entrytype>

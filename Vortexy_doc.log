@@ -1,4 +1,4 @@
-This is LuaTeX, Version 1.10.0 (TeX Live 2019)  (format=lualatex 2020.2.14)  25 FEB 2020 11:16
+This is LuaTeX, Version 1.10.0 (TeX Live 2019)  (format=lualatex 2020.2.14)  11 MAR 2020 22:18
  restricted system commands enabled.
  file:line:error style messages enabled.
 **\input Vortexy_doc.tex
@@ -396,320 +396,38 @@ Package: authblk 2001/02/27 1.3 (PWD)
 (/usr/share/texlive/texmf-dist/tex/latex/comment/comment.sty
 \CommentStream=\write3
 
-Excluding comment 'comment')
-(/usr/share/texlive/texmf-dist/tex/latex/biblatex/biblatex.sty
-Package: biblatex 2018/11/02 v3.12 programmable bibliographies (PK/MW)
-
-(/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty
-Package: etoolbox 2018/08/19 v2.5f e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count121
-)
-(/usr/share/texlive/texmf-dist/tex/latex/logreq/logreq.sty
-Package: logreq 2010/08/04 v1.0 xml request logger
-\lrq@indent=\count122
-
-(/usr/share/texlive/texmf-dist/tex/latex/logreq/logreq.def
-File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
-))
-(/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
-Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
-)
-\c@tabx@nest=\count123
-\c@listtotal=\count124
-\c@listcount=\count125
-\c@liststart=\count126
-\c@liststop=\count127
-\c@citecount=\count128
-\c@citetotal=\count129
-\c@multicitecount=\count130
-\c@multicitetotal=\count131
-\c@instcount=\count132
-\c@maxnames=\count133
-\c@minnames=\count134
-\c@maxitems=\count135
-\c@minitems=\count136
-\c@citecounter=\count137
-\c@maxcitecounter=\count138
-\c@savedcitecounter=\count139
-\c@uniquelist=\count140
-\c@uniquename=\count141
-\c@refsection=\count142
-\c@refsegment=\count143
-\c@maxextratitle=\count144
-\c@maxextratitleyear=\count145
-\c@maxextraname=\count146
-\c@maxextradate=\count147
-\c@maxextraalpha=\count148
-\c@abbrvpenalty=\count149
-\c@highnamepenalty=\count150
-\c@lownamepenalty=\count151
-\c@maxparens=\count152
-\c@parenlevel=\count153
-\blx@tempcnta=\count154
-\blx@tempcntb=\count155
-\blx@tempcntc=\count156
-\blx@maxsection=\count157
-\blx@maxsegment@0=\count158
-\blx@notetype=\count159
-\blx@parenlevel@text=\count160
-\blx@parenlevel@foot=\count161
-\blx@sectionciteorder@0=\count162
-\blx@entrysetcounter=\count163
-\labelnumberwidth=\skip61
-\labelalphawidth=\skip62
-\biblabelsep=\skip63
-\bibitemsep=\skip64
-\bibnamesep=\skip65
-\bibinitsep=\skip66
-\bibparsep=\skip67
-\bibhang=\skip68
-\blx@bcfin=\read1
-\blx@bcfout=\write4
-\c@mincomprange=\count164
-\c@maxcomprange=\count165
-\c@mincompwidth=\count166
-Package biblatex Info: Trying to load biblatex default data model...
-Package biblatex Info: ... file 'blx-dm.def' found.
-
-(/usr/share/texlive/texmf-dist/tex/latex/biblatex/blx-dm.def
-File: blx-dm.def 2018/11/02 v3.12 biblatex localization (PK/MW)
-)
-Package biblatex Info: Trying to load biblatex style data model...
-Package biblatex Info: ... file 'apa.dbx' found.
-
-(/usr/share/texlive/texmf-dist/tex/latex/biblatex-apa/apa.dbx
-File: apa.dbx 2018/04/02 v7.7 APA biblatex style data model
-)
-Package biblatex Info: Trying to load biblatex custom data model...
-Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
-\c@afterword=\count167
-\c@savedafterword=\count168
-\c@annotator=\count169
-\c@savedannotator=\count170
-\c@author=\count171
-\c@savedauthor=\count172
-\c@bookauthor=\count173
-\c@savedbookauthor=\count174
-\c@commentator=\count175
-\c@savedcommentator=\count176
-\c@editor=\count177
-\c@savededitor=\count178
-\c@editora=\count179
-\c@savededitora=\count180
-\c@editorb=\count181
-\c@savededitorb=\count182
-\c@editorc=\count183
-\c@savededitorc=\count184
-\c@foreword=\count185
-\c@savedforeword=\count186
-\c@holder=\count187
-\c@savedholder=\count188
-\c@introduction=\count189
-\c@savedintroduction=\count190
-\c@namea=\count191
-\c@savednamea=\count192
-\c@nameb=\count193
-\c@savednameb=\count194
-\c@namec=\count195
-\c@savednamec=\count196
-\c@translator=\count197
-\c@savedtranslator=\count198
-\c@shortauthor=\count199
-\c@savedshortauthor=\count266
-\c@shorteditor=\count267
-\c@savedshorteditor=\count268
-\c@with=\count269
-\c@savedwith=\count270
-\c@writer=\count271
-\c@savedwriter=\count272
-\c@producer=\count273
-\c@savedproducer=\count274
-\c@execproducer=\count275
-\c@savedexecproducer=\count276
-\c@director=\count277
-\c@saveddirector=\count278
-\c@labelname=\count279
-\c@savedlabelname=\count280
-\c@institution=\count281
-\c@savedinstitution=\count282
-\c@lista=\count283
-\c@savedlista=\count284
-\c@listb=\count285
-\c@savedlistb=\count286
-\c@listc=\count287
-\c@savedlistc=\count288
-\c@listd=\count289
-\c@savedlistd=\count290
-\c@liste=\count291
-\c@savedliste=\count292
-\c@listf=\count293
-\c@savedlistf=\count294
-\c@location=\count295
-\c@savedlocation=\count296
-\c@organization=\count297
-\c@savedorganization=\count298
-\c@origlocation=\count299
-\c@savedoriglocation=\count300
-\c@origpublisher=\count301
-\c@savedorigpublisher=\count302
-\c@publisher=\count303
-\c@savedpublisher=\count304
-\c@language=\count305
-\c@savedlanguage=\count306
-\c@origlanguage=\count307
-\c@savedoriglanguage=\count308
-\c@pageref=\count309
-\c@savedpageref=\count310
-\shorthandwidth=\skip69
-\shortjournalwidth=\skip70
-\shortserieswidth=\skip71
-\shorttitlewidth=\skip72
-\shortauthorwidth=\skip73
-\shorteditorwidth=\skip74
-\locallabelnumberwidth=\skip75
-\locallabelalphawidth=\skip76
-\localshorthandwidth=\skip77
-\localshortjournalwidth=\skip78
-\localshortserieswidth=\skip79
-\localshorttitlewidth=\skip80
-\localshortauthorwidth=\skip81
-\localshorteditorwidth=\skip82
-Package biblatex Info: Trying to load enhanced support for Unicode engines...
-Package biblatex Info: ... file 'blx-unicode.def' found.
-
-(/usr/share/texlive/texmf-dist/tex/latex/biblatex/blx-unicode.def)
-Package biblatex Info: Trying to load compatibility code...
-Package biblatex Info: ... file 'blx-compat.def' found.
-
-(/usr/share/texlive/texmf-dist/tex/latex/biblatex/blx-compat.def
-File: blx-compat.def 2018/11/02 v3.12 biblatex compatibility (PK/MW)
-)
-Package biblatex Info: Trying to load generic definitions...
-Package biblatex Info: ... file 'biblatex.def' found.
-
-(/usr/share/texlive/texmf-dist/tex/latex/biblatex/biblatex.def
-File: biblatex.def 2018/11/02 v3.12 biblatex compatibility (PK/MW)
-\c@textcitecount=\count311
-\c@textcitetotal=\count312
-\c@textcitemaxnames=\count313
-\c@biburlnumpenalty=\count314
-\c@biburlucpenalty=\count315
-\c@biburllcpenalty=\count316
-\c@smartand=\count317
-)
-Package biblatex Info: Trying to load bibliography style 'apa'...
-Package biblatex Info: ... file 'apa.bbx' found.
-
-(/usr/share/texlive/texmf-dist/tex/latex/biblatex-apa/apa.bbx
-File: apa.bbx 2018/04/02 v7.7 APA biblatex references style
-Package biblatex Info: Trying to load bibliography style 'standard'...
-Package biblatex Info: ... file 'standard.bbx' found.
-
-(/usr/share/texlive/texmf-dist/tex/latex/biblatex/bbx/standard.bbx
-File: standard.bbx 2018/11/02 v3.12 biblatex bibliography style (PK/MW)
-\c@bbx:relatedcount=\count318
-\c@bbx:relatedtotal=\count319
-))
-Package biblatex Info: Trying to load citation style 'apa'...
-Package biblatex Info: ... file 'apa.cbx' found.
-
-(/usr/share/texlive/texmf-dist/tex/latex/biblatex-apa/apa.cbx
-File: apa.cbx 2018/04/02 v7.7 APA biblatex citation style
-Package biblatex Info: Delimiter 'nameyeardelim' in context '' already defined, 
-overwriting.
-Package biblatex Info: Delimiter 'nameyeardelim' in context 'textcite' already d
-efined, overwriting.
-Package biblatex Info: Delimiter 'andothersdelim' in context '' already defined,
- overwriting.
-Package biblatex Info: Redefining '\parencite'.
-Package biblatex Info: Redefining '\fullcite'.
-Package biblatex Info: Redefining '\citeyear'.
-Package biblatex Info: Redefining '\cite'.
-Package biblatex Info: Redefining '\footcite'.
-Package biblatex Info: Redefining '\textcites'.
-Package biblatex Info: Redefining '\textcite'.
-Package biblatex Info: Redefining '\citeauthor'.
-)
-Package biblatex Info: Trying to load configuration file...
-Package biblatex Info: ... file 'biblatex.cfg' found.
-
-(/usr/share/texlive/texmf-dist/tex/latex/biblatex/biblatex.cfg
-File: biblatex.cfg 
-))
-Package biblatex Info: Trying to load language 'english' -> 'english-apa'...
-Package biblatex Info: ... file 'english-apa.lbx' found.
-
-(/usr/share/texlive/texmf-dist/tex/latex/biblatex-apa/english-apa.lbx
-File: english-apa.lbx 2018/04/02 v7.7 APA biblatex localisation
-Package biblatex Info: Trying to load language 'english'...
-Package biblatex Info: ... file 'english.lbx' found.
-
-(/usr/share/texlive/texmf-dist/tex/latex/biblatex/lbx/english.lbx
-File: english.lbx 2018/11/02 v3.12 biblatex localization (PK/MW)
-)
-Package biblatex Info: Trying to load language 'american' -> 'american-apa'...
-Package biblatex Info: ... file 'american-apa.lbx' found.
-
-(/usr/share/texlive/texmf-dist/tex/latex/biblatex-apa/american-apa.lbx
-File: american-apa.lbx 2018/04/02 v7.7 APA biblatex localisation
-Package biblatex Info: Trying to load language 'american'...
-Package biblatex Info: ... file 'american.lbx' found.
-
-(/usr/share/texlive/texmf-dist/tex/latex/biblatex/lbx/american.lbx
-File: american.lbx 2018/11/02 v3.12 biblatex localization (PK/MW)
-Package biblatex Info: Trying to load language 'english'...
-Package biblatex Info: ... file 'english.lbx' found.
-
-(/usr/share/texlive/texmf-dist/tex/latex/biblatex/lbx/english.lbx
-File: english.lbx 2018/11/02 v3.12 biblatex localization (PK/MW)
-))))
-
-Package biblatex Warning: File 'finnish-apa.lbx' not found!
-(biblatex)                Ignoring mapping 'finnish' -> 'finnish-apa'.
-
-Package biblatex Info: Trying to load language 'finnish'...
-Package biblatex Info: ... file 'finnish.lbx' found.
-(/usr/share/texlive/texmf-dist/tex/latex/biblatex/lbx/finnish.lbx
-File: finnish.lbx 2018/11/02 v3.12 biblatex localization (PK/MW)
-)
-
-Package biblatex Warning: 'babel/polyglossia' detected but 'csquotes' missing.
-(biblatex)                Loading 'csquotes' recommended.
-
-\@quotelevel=\count320
-\@quotereset=\count321
-(./Vortexy_doc.aux)
+Excluding comment 'comment') (./Vortexy_doc.aux)
 \openout1 = Vortexy_doc.aux
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 82.
-LaTeX Font Info:    ... okay on input line 82.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 82.
-LaTeX Font Info:    ... okay on input line 82.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 82.
-LaTeX Font Info:    ... okay on input line 82.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 82.
-LaTeX Font Info:    ... okay on input line 82.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 82.
-LaTeX Font Info:    ... okay on input line 82.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 82.
-LaTeX Font Info:    ... okay on input line 82.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 82.
-LaTeX Font Info:    ... okay on input line 82.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 82.
-LaTeX Font Info:    ... okay on input line 82.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count322
+\scratchcounter=\count121
 \scratchdimen=\dimen136
 \scratchbox=\box32
-\nofMPsegments=\count323
-\nofMParguments=\count324
+\nofMPsegments=\count122
+\nofMParguments=\count123
 \everyMPshowfont=\toks27
-\MPscratchCnt=\count325
+\MPscratchCnt=\count124
 \MPscratchDim=\dimen137
-\MPnumerator=\count326
-\makeMPintoPDFobject=\count327
+\MPnumerator=\count125
+\makeMPintoPDFobject=\count126
 \everyMPtoPDFconversion=\toks28
 ) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
@@ -768,40 +486,29 @@ Package caption Info: End \AtBeginDocument code.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 \AtBeginShipoutBox=\box33
-Package hyperref Info: Link coloring OFF on input line 82.
+Package hyperref Info: Link coloring OFF on input line 78.
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count328
+\c@section@level=\count127
 )
-LaTeX Info: Redefining \ref on input line 82.
-LaTeX Info: Redefining \pageref on input line 82.
-LaTeX Info: Redefining \nameref on input line 82.
+LaTeX Info: Redefining \ref on input line 78.
+LaTeX Info: Redefining \pageref on input line 78.
+LaTeX Info: Redefining \nameref on input line 78.
 
 (./Vortexy_doc.out) (./Vortexy_doc.out)
-\@outlinefile=\write5
+\@outlinefile=\write4
 
-\openout5 = Vortexy_doc.out
-Package biblatex Info: LuaTeX detected.
-(biblatex)             Assuming input encoding 'utf8'.
-Package biblatex Info: Automatic encoding selection.
-(biblatex)             Assuming data encoding 'utf8'.
+\openout4 = Vortexy_doc.out
+LaTeX Font Info:    Try loading font information for U+msa on input line 87.
 
-\openout4 = Vortexy_doc.bcf
-Package biblatex Info: Trying to load bibliographic data...
-Package biblatex Info: ... file 'Vortexy_doc.bbl' not found.
-
-No file Vortexy_doc.bbl.
-Package biblatex Info: Reference section=0 on input line 82.
-Package biblatex Info: Reference segment=0 on input line 82.
-LaTeX Font Info:    Try loading font information for U+msa on input line 91.
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 91.
+LaTeX Font Info:    Try loading font information for U+msb on input line 87.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -810,56 +517,67 @@ Non-PDF special ignored!
 
 {/usr/share/texlive/texmf-dist/fonts/map/pdftex/updmap/pdftex.map}] (./Vortexy_
 doc.toc)
-\tf@toc=\write6
+\tf@toc=\write5
 
-\openout6 = Vortexy_doc.toc
+\openout5 = Vortexy_doc.toc
 
 warning  (pdf backend): ignoring duplicate destination with the name 'page.1'
-[1] [2] [3]
-Underfull \hbox (badness 10000) in paragraph at lines 250--251
+[1] [2]
+Underfull \hbox (badness 10000) in paragraph at lines 215--216
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 252--253
+Underfull \hbox (badness 10000) in paragraph at lines 222--224
+
+ []
+
+[3] [4]
+Underfull \hbox (badness 10000) in paragraph at lines 284--285
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 254--255
+Underfull \hbox (badness 10000) in paragraph at lines 286--287
 
  []
 
-[4]
-Underfull \hbox (badness 10000) in paragraph at lines 299--300
-[][]$\TU/lmr/m/n/12 https://www.openfoam.com/documentation/guides/latest/doc/
+
+Underfull \hbox (badness 10000) in paragraph at lines 288--289
+
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 304.
+
+Underfull \hbox (badness 10000) in paragraph at lines 290--291
+
+ []
+
 [5]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 304.
+Underfull \hbox (badness 10000) in paragraph at lines 336--337
+[][]$\TU/lmtt/m/n/12 https://www.openfoam.com/documentation/guides/latest/doc/
+ []
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 341.
+[6]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 341.
  (./Vortexy_doc.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 304.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 304.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 341.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 341.
 Package rerunfilecheck Info: File `Vortexy_doc.out' has not changed.
 (rerunfilecheck)             Checksum: 4F6E9093E01FEB8B985BFD57267D44FD;1267.
-Package logreq Info: Writing requests to 'Vortexy_doc.run.xml'.
-
-\openout1 = Vortexy_doc.run.xml
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 304.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 341.
 )
 
 Here is how much of LuaTeX's memory you used:
- 15850 strings out of 494291
- 125200,953878 words of node,token memory allocated
- 681 words of node memory still in use:
-   6 hlist, 2 vlist, 2 rule, 1 dir, 3 glue, 4 kern, 1 glyph, 52 attribute, 61 gl
-ue_spec, 27 attribute_list, 1 write, 1 pdf_action nodes
-   avail lists: 1:2,2:719,3:155,4:38,5:169,6:48,7:2216,8:105,9:256,10:4,11:175,1
-2:1
- 19486 multiletter control sequences out of 65536+600000
+ 8891 strings out of 494291
+ 100000,266212 words of node,token memory allocated
+ 670 words of node memory still in use:
+   6 hlist, 2 vlist, 2 rule, 3 glue, 4 kern, 1 glyph, 58 attribute, 55 glue_spec
+, 30 attribute_list, 1 write, 2 pdf_action nodes
+   avail lists: 2:1229,3:160,4:38,5:237,6:47,7:2309,8:106,9:642,10:6,11:179
+ 12695 multiletter control sequences out of 65536+600000
  71 fonts using 5167599 bytes
- 53i,12n,55p,950b,3862s stack positions out of 5000i,500n,10000p,200000b,100000s
+ 36i,12n,43p,454b,444s stack positions out of 5000i,500n,10000p,200000b,100000s
 </usr/share/texlive/texmf-dist/fonts/opentype/public/lm/lmmono12-regular.otf></u
 sr/share/texlive/texmf-dist/fonts/opentype/public/lm/lmroman12-italic.otf></usr/
 share/texlive/texmf-dist/fonts/opentype/public/lm/lmroman12-bold.otf></usr/share
@@ -869,15 +587,15 @@ ive/texmf-dist/fonts/opentype/public/lm/lmroman12-regular.otf></usr/share/texliv
 e/texmf-dist/fonts/opentype/public/lm/lmroman17-regular.otf></usr/share/texlive/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-d
 ist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
-8.pfb>
-Output written on Vortexy_doc.pdf (6 pages, 101993 bytes).
+ts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy1
+0.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on Vortexy_doc.pdf (7 pages, 124718 bytes).
 
-PDF statistics: 247 PDF objects out of 1000 (max. 8388607)
- 208 compressed objects within 3 object streams
- 47 named destinations out of 1000 (max. 131072)
+PDF statistics: 270 PDF objects out of 1000 (max. 8388607)
+ 229 compressed objects within 3 object streams
+ 57 named destinations out of 1000 (max. 131072)
  169 words of extra memory for PDF output out of 10000 (max. 100000000)
 

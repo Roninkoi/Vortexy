@@ -50,12 +50,6 @@ void r_init(struct Renderer *r, int *running)
 	
 	r->sUni = glGetUniformLocation(r->shader.program, "rs");
 
-	GLFWimage icons[1];
-	icons[0].pixels = ppmLoaderAlpha("gfx/vortexyicon.ppm", &icons[0].width, &icons[0].height,
-									 255, 0, 255);
-	glfwSetWindowIcon(r->window.window, 1, icons);
-	free(icons[0].pixels);
-
 	r->model = imat4();
 	r->view = imat4();
 	r->proj = imat4();
@@ -66,8 +60,6 @@ void r_init(struct Renderer *r, int *running)
 	
 	r_flatTex(&r->flat, 255, 255, 255, 128, 128);
 	r->tex = &r->flat;
-
-	//r_loadTex(&r->tex0, "data/test.ppm");
 }
 
 void r_update(struct Renderer *r)
