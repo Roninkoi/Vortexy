@@ -5,14 +5,17 @@
 #include <stdio.h>
 #include <time.h>
 
-unsigned int timeMillis()
+static long timeMillis()
 {
 	long t;
 	struct timespec spec;
 
 	clock_gettime(CLOCK_MONOTONIC, &spec);
+	//timespec_get(&spec, TIME_UTC);
 
-	t = round( spec.tv_nsec / 1.0e6) + spec.tv_sec * 1000.0;
+	t = round(spec.tv_nsec / 1.0e6) + spec.tv_sec * 1000.0;
+
+	return t;
 }
 
 unsigned int timeNow()
