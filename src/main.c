@@ -14,10 +14,9 @@ int main(int argc, char *argv[])
 		printf("Usage: ./Vortexy <sim.cfg>\n");
 
 		cfg = "sim.cfg"; // default
-	}
-	else {
+	} else {
 		m = argv[1];
-		
+
 		cfg = argv[2];
 
 		if (strcmp(m, "-s") == 0) { // simulation mode
@@ -51,9 +50,4 @@ int main(int argc, char *argv[])
 	printf("Closing\n");
 
 	return 0;
-}
-
-int _start(int argc, char *argv[])
-{
-	return main(argc, argv);
 }

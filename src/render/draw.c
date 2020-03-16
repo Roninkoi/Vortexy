@@ -61,9 +61,20 @@ void rf(struct Renderer *r, struct Sys *s)
 	for (int i = 0; i < s->objNum; ++i) {
 		int l = s->selected;
 		r_drawFace(r, &s->objs[i].faces[l], Vec4(1.0f, (float) s->objs[i].faces[l].boundary, 0.0f, 1.0f));
-	}
+		r_render(r);
 
-	r_render(r);
+		vec4 n = vec4Copy3(&s->objs[i].faces[l].centroid);
+		vec4 nn = vec4Copy3(&s->objs[i].faces[l].surface);
+
+		vec4 n0 = vec4Copy(&n);
+
+		vec4Add(&nn, &n0);
+
+		vec4 col = Vec4(1.0f, 0.0f, 1.0f, 1.0f);
+
+		r_drawLine(r, n, nn, col, 2.0f);
+		r_render(r);
+	}
 }
 
 float vecscale = 0.2f;
@@ -78,7 +89,7 @@ void rl(struct Renderer *r, struct Sys *s)
 	for (int i = 0; i < s->objNum; ++i) {
 		for (int j = 0; j < s->objs[i].volNum; ++j) {
 			vec4 n = vec4Copy3(&s->objs[i].volumes[j].centroid);
-			vec4 nn = vec4Copy3(&s->objs[i].volumes[j].mFlux);
+			vec4 nn = vec4Copy3(&s->objs[i].volumes[j].v);
 
 			vec4Mul(&nn, vecscale);
 			float l = vec4Len(&nn);
@@ -142,7 +153,7 @@ void rtl(struct Renderer *r, struct Sys *s)
 	for (int i = 0; i < s->objNum; ++i) {
 		for (int j = 0; j < s->objs[i].volNum; ++j) {
 			vec4 n = vec4Copy3(&s->objs[i].volumes[j].centroid);
-			vec4 nn = vec4Copy3(&s->objs[i].volumes[j].mFlux);
+			vec4 nn = vec4Copy3(&s->objs[i].volumes[j].v);
 
 			vec4Mul(&nn, vecscale);
 			

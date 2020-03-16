@@ -52,6 +52,10 @@ struct Sim {
 	int outputf;
 	int inputf;
 
+	int inputram;
+	int inputi;
+	char **inputdat;
+
 	int rendered;
 
 	int mode;

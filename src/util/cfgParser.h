@@ -139,6 +139,9 @@ void simParser(struct Sim *s, char *path)
 			if (strcmp(words[i], "inputf") == 0) {
 				s->inputf = atoi(words[i + 1]);
 			}
+			if (strcmp(words[i], "inputram") == 0) {
+				s->inputram = atoi(words[i + 1]);
+			}
 			if (strcmp(words[i], "fluid") == 0) {
 				s->fluidPath = calloc(strlen(words[i + 1]), sizeof(char));
 				strncpy(s->fluidPath, words[i + 1], strlen(words[i + 1]));

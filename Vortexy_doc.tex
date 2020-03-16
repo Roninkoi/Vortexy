@@ -156,7 +156,7 @@ so volume terms can be computed from fluxes at element faces.
 
 The momentum equation is written in a form conducive for discretization:
 $$
-\frac{\partial \vb u}{\partial t} + \nabla \cdot (\vb u \otimes \vb u) = - \frac{\nabla p}{\rho} + \frac{\mu}{\rho} \nabla \cdot (\nabla u) + \nabla \cdot (\nabla u)^T + f_b
+\frac{\partial \vb u}{\partial t} + \nabla \cdot (\vb u \otimes \vb u) = - \frac{\nabla p}{\rho} + \frac{\mu}{\rho} \nabla \cdot (\nabla u) + \nabla \cdot (\nabla u)^T + \vb f_b
 $$
 $$
 \vb{transient} + \vb{convective} =  \vb{diffusion} + \vb{source}
@@ -195,10 +195,11 @@ which can be represented in matrix form as:
 
 $$
 \begin{pmatrix}
-  a_{00} & a_{01} & \dots & a_{0n} \\
-  \vdots & \ddots &  & \vdots \\
-  \vdots &  & \ddots & \vdots \\
-  a_{n0} & \dots & a_{n (n - 1)} & a_{0n}
+  a_{00} & a_{01} & 0 & \dots & 0 \\
+  \vdots & \ddots & &  & \vdots \\
+  0 & a_f & a_v & a_f & 0 \\
+  \vdots & &  & \ddots & \vdots \\
+  0 & \dots & 0 & a_{n (n - 1)} & a_{0n}
 \end{pmatrix}
 \begin{pmatrix}
   u_0 \\
