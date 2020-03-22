@@ -5,7 +5,7 @@ option(SIMONLY "Exclude renderer" OFF)
 option(BUILD_SHARED_LIBS OFF)
 
 if (SIMONLY)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu11 -static -O3") # -O3
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu11 -static") # -O3
 else ()
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu11") # -O3
 endif ()
@@ -14,11 +14,11 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 message("RENDERER: " NOT ${SIMONLY})
 
-find_library(LM NAMES libm.a)
-message("math: " ${LM})
+#find_library(LM NAMES libm.a)
+#message("math: " ${LM})
 
-find_library(LC NAMES libc.a)
-message("libc: " ${LC})
+#find_library(LC NAMES libc.a)
+#message("libc: " ${LC})
 
 set(CMAKE_SKIP_BUILD_PATH FALSE)
 set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
@@ -47,7 +47,8 @@ add_executable(
         Vortexy ${SOURCE_FILES} ${SOURCES}
 )
 
-set_target_properties(Vortexy PROPERTIES LINK_FLAGS -Wl,-rpath=$ORIGIN/lib,-z,origin,-allow-multiple-definition,-whole-archive,-as-needed)
+set_target_properties(Vortexy PROPERTIES LINK_FLAGS -Wl,-rpath=$ORIGIN/lib,-z,origin,-allow-multiple-definition#,-whole-archive,-as-needed
+        )
 
 if (SIMONLY)
     target_link_libraries(Vortexy m)

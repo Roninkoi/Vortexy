@@ -73,52 +73,6 @@ CMAKE_BINARY_DIR = /home/rak/Dropbox/Dev/Vortexy
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip/fast
-
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
-
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install
-
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
-
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
-
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -185,32 +139,6 @@ Vortexy: cmake_check_build_system
 Vortexy/fast:
 	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/build
 .PHONY : Vortexy/fast
-
-#=============================================================================
-# Target rules for targets named uninstall
-
-# Build rule for target.
-uninstall: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 uninstall
-.PHONY : uninstall
-
-# fast build rule for target.
-uninstall/fast:
-	$(MAKE) -f lib/glfw/CMakeFiles/uninstall.dir/build.make lib/glfw/CMakeFiles/uninstall.dir/build
-.PHONY : uninstall/fast
-
-#=============================================================================
-# Target rules for targets named glfw
-
-# Build rule for target.
-glfw: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 glfw
-.PHONY : glfw
-
-# fast build rule for target.
-glfw/fast:
-	$(MAKE) -f lib/glfw/src/CMakeFiles/glfw.dir/build.make lib/glfw/src/CMakeFiles/glfw.dir/build
-.PHONY : glfw/fast
 
 src/main.o: src/main.c.o
 
@@ -401,141 +329,6 @@ src/phys/volume.c.s:
 	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/phys/volume.c.s
 .PHONY : src/phys/volume.c.s
 
-src/render/draw.o: src/render/draw.c.o
-
-.PHONY : src/render/draw.o
-
-# target to build an object file
-src/render/draw.c.o:
-	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/render/draw.c.o
-.PHONY : src/render/draw.c.o
-
-src/render/draw.i: src/render/draw.c.i
-
-.PHONY : src/render/draw.i
-
-# target to preprocess a source file
-src/render/draw.c.i:
-	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/render/draw.c.i
-.PHONY : src/render/draw.c.i
-
-src/render/draw.s: src/render/draw.c.s
-
-.PHONY : src/render/draw.s
-
-# target to generate assembly for a file
-src/render/draw.c.s:
-	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/render/draw.c.s
-.PHONY : src/render/draw.c.s
-
-src/render/render.o: src/render/render.c.o
-
-.PHONY : src/render/render.o
-
-# target to build an object file
-src/render/render.c.o:
-	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/render/render.c.o
-.PHONY : src/render/render.c.o
-
-src/render/render.i: src/render/render.c.i
-
-.PHONY : src/render/render.i
-
-# target to preprocess a source file
-src/render/render.c.i:
-	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/render/render.c.i
-.PHONY : src/render/render.c.i
-
-src/render/render.s: src/render/render.c.s
-
-.PHONY : src/render/render.s
-
-# target to generate assembly for a file
-src/render/render.c.s:
-	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/render/render.c.s
-.PHONY : src/render/render.c.s
-
-src/render/shader.o: src/render/shader.c.o
-
-.PHONY : src/render/shader.o
-
-# target to build an object file
-src/render/shader.c.o:
-	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/render/shader.c.o
-.PHONY : src/render/shader.c.o
-
-src/render/shader.i: src/render/shader.c.i
-
-.PHONY : src/render/shader.i
-
-# target to preprocess a source file
-src/render/shader.c.i:
-	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/render/shader.c.i
-.PHONY : src/render/shader.c.i
-
-src/render/shader.s: src/render/shader.c.s
-
-.PHONY : src/render/shader.s
-
-# target to generate assembly for a file
-src/render/shader.c.s:
-	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/render/shader.c.s
-.PHONY : src/render/shader.c.s
-
-src/render/texture.o: src/render/texture.c.o
-
-.PHONY : src/render/texture.o
-
-# target to build an object file
-src/render/texture.c.o:
-	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/render/texture.c.o
-.PHONY : src/render/texture.c.o
-
-src/render/texture.i: src/render/texture.c.i
-
-.PHONY : src/render/texture.i
-
-# target to preprocess a source file
-src/render/texture.c.i:
-	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/render/texture.c.i
-.PHONY : src/render/texture.c.i
-
-src/render/texture.s: src/render/texture.c.s
-
-.PHONY : src/render/texture.s
-
-# target to generate assembly for a file
-src/render/texture.c.s:
-	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/render/texture.c.s
-.PHONY : src/render/texture.c.s
-
-src/render/window.o: src/render/window.c.o
-
-.PHONY : src/render/window.o
-
-# target to build an object file
-src/render/window.c.o:
-	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/render/window.c.o
-.PHONY : src/render/window.c.o
-
-src/render/window.i: src/render/window.c.i
-
-.PHONY : src/render/window.i
-
-# target to preprocess a source file
-src/render/window.c.i:
-	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/render/window.c.i
-.PHONY : src/render/window.c.i
-
-src/render/window.s: src/render/window.c.s
-
-.PHONY : src/render/window.s
-
-# target to generate assembly for a file
-src/render/window.c.s:
-	$(MAKE) -f CMakeFiles/Vortexy.dir/build.make CMakeFiles/Vortexy.dir/src/render/window.c.s
-.PHONY : src/render/window.c.s
-
 src/sim.o: src/sim.c.o
 
 .PHONY : src/sim.o
@@ -678,14 +471,8 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
-	@echo "... install"
-	@echo "... install/local"
-	@echo "... install/strip"
-	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... uninstall"
 	@echo "... Vortexy"
-	@echo "... glfw"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
@@ -707,21 +494,6 @@ help:
 	@echo "... src/phys/volume.o"
 	@echo "... src/phys/volume.i"
 	@echo "... src/phys/volume.s"
-	@echo "... src/render/draw.o"
-	@echo "... src/render/draw.i"
-	@echo "... src/render/draw.s"
-	@echo "... src/render/render.o"
-	@echo "... src/render/render.i"
-	@echo "... src/render/render.s"
-	@echo "... src/render/shader.o"
-	@echo "... src/render/shader.i"
-	@echo "... src/render/shader.s"
-	@echo "... src/render/texture.o"
-	@echo "... src/render/texture.i"
-	@echo "... src/render/texture.s"
-	@echo "... src/render/window.o"
-	@echo "... src/render/window.i"
-	@echo "... src/render/window.s"
 	@echo "... src/sim.o"
 	@echo "... src/sim.i"
 	@echo "... src/sim.s"
