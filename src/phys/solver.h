@@ -23,7 +23,9 @@ void p_constructPMat(Obj *o);
 
 void p_faceD(struct Face *f);
 
-void p_D(Obj *o);
+void p_computeD(Obj *o);
+
+void p_computePBoundCoeffs(Obj *o);
 
 // calculate coefficients for pressure equation
 void p_computePCoeffs(Obj *o);
@@ -33,8 +35,12 @@ void p_constructVMatX(Obj *o);
 void p_constructVMatY(Obj *o);
 void p_constructVMatZ(Obj *o);
 
+void p_computeVBoundCoeffs(Obj *o);
+
 // calculate coefficients for momentum equation
 void p_computeVCoeffs(Obj *o);
+
+void p_computeVFaceCoeffs(Obj *o);
 
 // compute face fluxes
 void p_computeFaceFs(Obj *o);
@@ -56,7 +62,7 @@ void p_faceP(struct Face *f);
 // velocity correction
 void p_faceVRC(struct Face *f);
 
-void p_faceV(struct Face *f);
+void p_faceV(struct Face *f, int rc);
 
 // interpolated face pressure gradient
 void p_pFaceGradI(Obj *o);

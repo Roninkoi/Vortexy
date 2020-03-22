@@ -34,6 +34,10 @@ void p_loadObj(Obj *o, char *fluidPath, int mode)
 		if (o->faces[i].vNum == 1) {
 			o->faces[i].boundary = o->fluid.ebc;
 		}
+
+		if (o->faces[i].boundary)
+			for (int j = 0; j < o->faces[i].vNum; ++j)
+				o->faces[i].thisVol[j]->hasBoundary += 1;
 	}
 }
 

@@ -217,6 +217,8 @@ struct Face *p_loadFaces(Mesh *m, int *faceNum, int mode)
 		f[i].vGradI = Mat(0.0f, 3, 3);
 		f[i].v = nvec3();
 		f[i].p = 0.0f;
+		f[i].va = nvec3();
+		f[i].pa = 0.0f;
 		f[i].pc = 0.0f;
 		f[i].df = 0.0f;
 		f[i].vi = nvec3();
@@ -576,9 +578,12 @@ struct Volume *p_loadVolumes(struct Face *f, int faceNum, int *volNum)
 		v[i].vFlux = nvec3();
 		v[i].pGrad = nvec3();
 		v[i].pcGrad = nvec3();
+		v[i].shearStress = nvec3();
 		v[i].d = nvec3();
 		v[i].s = nvec3();
 		v[i].vGrad = Mat(0.0f, 3, 3);
+
+		v[i].hasBoundary = 0;
 
 		computeVolumeCent(&v[i]);
 		computeVolume(&v[i]);

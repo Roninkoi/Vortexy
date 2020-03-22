@@ -121,7 +121,7 @@ void r_drawWireMesh(struct Renderer *r, Mesh *m, float thickness);
 
 void r_drawLine(struct Renderer *r, vec4 v0, vec4 v1, vec4 col, float thickness);
 
-void r_drawVec(struct Renderer *r, vec4 v0, vec4 v1, vec4 col);
+void r_drawVec(struct Renderer *r, vec4 v0, vec4 v1, vec4 col, float width);
 
 void r_drawVolume(struct Renderer *r, struct Volume *v, vec4 col);
 

@@ -53,6 +53,11 @@ struct Face { // triangle
 	mat vGradI; // interpolated
 	vec3 pGradI; // interpolated
 
+	
+	vec3 va; // velocity coefficients
+
+	float pa; // pressure coefficients
+
 	float area;
 
 	int index; // index in face array
@@ -85,6 +90,9 @@ struct Volume { // tetrahedron
 	vec3 mFlux; // mass flux
 	vec3 vFlux; // velocity flux
 	float flux; // volume flux
+
+	vec3 shearStress;
+	int hasBoundary;
 
 	vec3 va; // velocity coefficients
 	vec3 vb;

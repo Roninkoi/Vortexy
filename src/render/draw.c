@@ -167,7 +167,7 @@ void rtl(struct Renderer *r, struct Sys *s)
 			vec4 col = Vec4(l, fmax(0.0f, 1.0f - l), 0.0f, 1.0f);
 			vec4Mul(&col, 5.5f);
 
-			r_drawVec(r, n, nn, col);
+			r_drawVec(r, n, nn, col, r->camPos.z * 0.01f * log10(l + 1.0));
 		}
 	}
 	r_render(r);
@@ -197,7 +197,7 @@ void rftl(struct Renderer *r, struct Sys *s)
 			vec4 col = Vec4(l, fmax(0.0f, 1.0f - l), 0.0f, 1.0f);
 			vec4Mul(&col, 5.5f);
 
-			r_drawVec(r, n, nn, col);
+			r_drawVec(r, n, nn, col, r->camPos.z * 0.01f * log10(l + 1.0));
 		}
 	}
 	r_render(r);
@@ -372,11 +372,11 @@ void r_drawLine(struct Renderer *r, vec4 v0, vec4 v1, vec4 col, float thickness)
 	r_add(r, vd, td, nd, cd, id, 8, 2);
 }
 
-void r_drawVec(struct Renderer *r, vec4 v0, vec4 v1, vec4 col)
+void r_drawVec(struct Renderer *r, vec4 v0, vec4 v1, vec4 col, float width)
 {
 	r->drawMode = GL_TRIANGLES;
 
-	float width = 0.02f * 10.0f;
+	//float width = 0.02f * 10.0f;
 
 	float a = atanf((v1.y - v0.y) / (v1.x - v0.x));
 	float mr = r->modelRot.y;

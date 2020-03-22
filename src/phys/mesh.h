@@ -18,6 +18,8 @@ typedef struct {
 	int normNum;
 	int colNum;
 
+	float triSize;
+
 	int indNum;
 } Mesh;
 

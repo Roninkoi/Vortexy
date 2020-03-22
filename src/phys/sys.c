@@ -116,11 +116,11 @@ void p_sysStart(struct Sys *s)
 }
 
 // update velocity and pressure at faces
-void p_updateVP(Obj *o)
+void p_updateVP(Obj *o, int rc)
 {
 	for (int j = 0; j < o->faceNum; ++j) {
 		p_faceP(&o->faces[j]);
-		p_faceV(&o->faces[j]);
+		p_faceV(&o->faces[j], rc);
 	}
 }
 
@@ -143,73 +143,87 @@ void p_updateM(Obj *o)
 void p_sysTick(struct Sys *s)
 {
 	for (int i = 0; i < s->objNum; ++i) {
-		p_updateVP(&s->objs[i]);
-		p_updateM(&s->objs[i]);
+		float criterion = 10000.0f;
+		float residual = 2.0f * criterion;
 
-		p_pGrad(&s->objs[i]);
-		p_vGrad(&s->objs[i]);
-		p_pFaceGrad(&s->objs[i]);
-		p_vFaceGrad(&s->objs[i]);
+		do {
+			p_updateVP(&s->objs[i], 0);
+			p_updateM(&s->objs[i]);
 
-		p_computeFaceFs(&s->objs[i]);
-		p_computeVolFs(&s->objs[i]);
+			p_pGrad(&s->objs[i]);
+			p_vGrad(&s->objs[i]);
+			p_pFaceGrad(&s->objs[i]);
+			p_vFaceGrad(&s->objs[i]);
 
-		p_computeVCoeffs(&s->objs[i]);
+			p_computeVolFs(&s->objs[i]);
+			p_computeFaceFs(&s->objs[i]);
 
-		p_constructVMatX(&s->objs[i]);
-		GaussSeidelSG(&s->objs[i].a, &s->objs[i].b, &s->objs[i].vx, s->maxIt, s->epsilon);
-		p_getVX(&s->objs[i]);
+			p_computeVCoeffs(&s->objs[i]);
+			p_computeVFaceCoeffs(&s->objs[i]);
 
-		matDestroyS(&s->objs[i].a);
-		matDestroy(&s->objs[i].b);
+			p_computeD(&s->objs[i]);
 
-		p_constructVMatY(&s->objs[i]);
-		GaussSeidelSG(&s->objs[i].a, &s->objs[i].b, &s->objs[i].vy, s->maxIt, s->epsilon);
-		p_getVY(&s->objs[i]);
+			p_computeVBoundCoeffs(&s->objs[i]);
 
-		matDestroyS(&s->objs[i].a);
-		matDestroy(&s->objs[i].b);
+			p_constructVMatX(&s->objs[i]);
+			GaussSeidelSG(&s->objs[i].a, &s->objs[i].b, &s->objs[i].vx, s->maxIt, s->epsilon);
+			p_getVX(&s->objs[i]);
 
-		p_constructVMatZ(&s->objs[i]);
-		GaussSeidelSG(&s->objs[i].a, &s->objs[i].b, &s->objs[i].vz, s->maxIt, s->epsilon);
-		p_getVZ(&s->objs[i]);
+			matDestroyS(&s->objs[i].a);
+			matDestroy(&s->objs[i].b);
 
-		matDestroyS(&s->objs[i].a);
-		matDestroy(&s->objs[i].b);
+			p_constructVMatY(&s->objs[i]);
+			GaussSeidelSG(&s->objs[i].a, &s->objs[i].b, &s->objs[i].vy, s->maxIt, s->epsilon);
+			p_getVY(&s->objs[i]);
 
-		p_D(&s->objs[i]);
+			matDestroyS(&s->objs[i].a);
+			matDestroy(&s->objs[i].b);
 
-		p_updateVP(&s->objs[i]);
-		p_updateM(&s->objs[i]);
+			p_constructVMatZ(&s->objs[i]);
+			GaussSeidelSG(&s->objs[i].a, &s->objs[i].b, &s->objs[i].vz, s->maxIt, s->epsilon);
+			p_getVZ(&s->objs[i]);
 
-		p_computePCoeffs(&s->objs[i]);
+			matDestroyS(&s->objs[i].a);
+			matDestroy(&s->objs[i].b);
 
-		p_constructPMat(&s->objs[i]);
-		GaussSeidelSG(&s->objs[i].a, &s->objs[i].b, &s->objs[i].vp, s->maxIt, s->epsilon);
-		p_getP(&s->objs[i]);
+			p_updateVP(&s->objs[i], 1);
+			p_updateM(&s->objs[i]);
 
-		matDestroyS(&s->objs[i].a);
-		matDestroy(&s->objs[i].b);
+			p_computePCoeffs(&s->objs[i]);
 
-		p_pcGrad(&s->objs[i]);
+			p_computePBoundCoeffs(&s->objs[i]);
 
-		// apply field corrections
-		for (int j = 0; j < s->objs[i].volNum; ++j) {
-			s->objs[i].volumes[j].p += s->objs[i].volumes[j].pc * s->objs[i].pRelax;
+			p_constructPMat(&s->objs[i]);
+			GaussSeidelSG(&s->objs[i].a, &s->objs[i].b, &s->objs[i].vp, s->maxIt, s->epsilon);
+			p_getP(&s->objs[i]);
+
+			matDestroyS(&s->objs[i].a);
+			matDestroy(&s->objs[i].b);
+
+			p_pcGrad(&s->objs[i]);
+
+			residual = 0.0f;
+
+			// apply field corrections
+			for (int j = 0; j < s->objs[i].volNum; ++j) {
+				s->objs[i].volumes[j].p += s->objs[i].volumes[j].pc * s->objs[i].pRelax;
+
+				residual += fabs(s->objs[i].volumes[j].pc * s->objs[i].pRelax);
 
 #if 1
-			s->objs[i].volumes[j].v.x -= s->objs[i].volumes[j].d.x * s->objs[i].volumes[j].pcGrad.x * s->objs[i].pRelax;
-			s->objs[i].volumes[j].v.y -= s->objs[i].volumes[j].d.y * s->objs[i].volumes[j].pcGrad.y * s->objs[i].pRelax;
-			s->objs[i].volumes[j].v.z -= s->objs[i].volumes[j].d.z * s->objs[i].volumes[j].pcGrad.z * s->objs[i].pRelax;
+				s->objs[i].volumes[j].v.x -= s->objs[i].volumes[j].d.x * s->objs[i].volumes[j].pcGrad.x * s->objs[i].pRelax;
+				s->objs[i].volumes[j].v.y -= s->objs[i].volumes[j].d.y * s->objs[i].volumes[j].pcGrad.y * s->objs[i].pRelax;
+				s->objs[i].volumes[j].v.z -= s->objs[i].volumes[j].d.z * s->objs[i].volumes[j].pcGrad.z * s->objs[i].pRelax;
 #else
-			s->objs[i].volumes[j].v.x -= s->objs[i].volumes[j].d.x * s->objs[i].volumes[j].pcGrad.x;
-			s->objs[i].volumes[j].v.y -= s->objs[i].volumes[j].d.y * s->objs[i].volumes[j].pcGrad.y;
-			s->objs[i].volumes[j].v.z -= s->objs[i].volumes[j].d.z * s->objs[i].volumes[j].pcGrad.z;
+				s->objs[i].volumes[j].v.x -= s->objs[i].volumes[j].d.x * s->objs[i].volumes[j].pcGrad.x;
+				s->objs[i].volumes[j].v.y -= s->objs[i].volumes[j].d.y * s->objs[i].volumes[j].pcGrad.y;
+				s->objs[i].volumes[j].v.z -= s->objs[i].volumes[j].d.z * s->objs[i].volumes[j].pcGrad.z;
 #endif
 
-			if (s->objs[i].volumes[j].p < 0.0f)
-				s->objs[i].volumes[j].p = 0.0f;
-		}
+				if (s->objs[i].volumes[j].p < 0.0f)
+					s->objs[i].volumes[j].p = 0.0f;
+			}
+		} while (residual > criterion && false);
 
 		s->objs[i].t += s->objs[i].dt;
 

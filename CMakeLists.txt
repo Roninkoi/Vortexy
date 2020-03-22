@@ -7,7 +7,7 @@ option(BUILD_SHARED_LIBS OFF)
 if (SIMONLY)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu11 -static -O3") # -O3
 else ()
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu11 -O3") # -O3
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu11") # -O3
 endif ()
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})

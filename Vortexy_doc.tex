@@ -57,7 +57,7 @@
 \newcommand{\Res}{\text{Res}}
 \newcommand{\Ind}{\text{Ind}}
 \newcommand{\lb}{\left(}
-  \newcommand{\rb}{\right)}
+\newcommand{\rb}{\right)}
 \newcommand{\Imag}{\text{Im} \ }
 \newcommand{\Real}{\text{Re} \ }
 \newcommand{\ft}{\mathcal{F}}
@@ -65,6 +65,7 @@
 % units
 \newcommand{\us}[1]{ \ \text{#1}}
 \newcommand{\un}[1]{ \text{#1}}
+\newcommand{\up}[2]{\text{#1}^{#2}} % unit power
 \newcommand{\uf}[2]{ \ \frac{\text{#1}}{\text{#2}}} % fraction of units
 \newcommand{\mic}{$\upmu$}
 \newcommand{\degc}{ \ ^\circ\text{C}}
@@ -117,7 +118,7 @@ The Navier-Stokes equations form the basis for all of fluid dynamics. The moment
   \frac{\partial \vb u}{\partial t} + (\vb u \cdot \nabla) \vb u = -\frac{1}{\rho} \nabla p + \nu \nabla^2 \vb u + g,
 \end{equation}
 
-where $\vb u = (u, v, w)$ is velocity in [m/s], t time in [s], $\rho$ density in [kg/m$^3$], $p$ pressure in [Pa], $\nu=\frac{\mu}{\rho}$ kinematic viscosity in [m$^2$/s], $g$ gravity in [m/s].
+where $\vb u = (u, v, w)$ is velocity in $\un{m} \ \up{s}{-1}$, t time in $\un{s}$, $\rho$ density in $\un{kg} \ \up{m}{-3}$, $p$ pressure in $\un{Pa}$, $\nu=\frac{\mu}{\rho}$ kinematic viscosity in $\up{m}{2} \ \up{s}{-1}$, $g$ gravity in $\un{m} \ \up{s}{-2}$.
 
 The continuity equation must be satisfied for incompressible fluids that have no sinks of sources
 
@@ -125,7 +126,7 @@ The continuity equation must be satisfied for incompressible fluids that have no
   \nabla \cdot \vb u = 0,
 \end{equation}
 
-where $\vb u = (u, v, w)$ is velocity in [m/s].
+where $\vb u = (u, v, w)$ is velocity in $\un{m} \ \up{s}{-1}$.
 
 \subsection{Turbulence}
 
@@ -159,7 +160,7 @@ $$
 \frac{\partial \vb u}{\partial t} + \nabla \cdot (\vb u \otimes \vb u) = - \frac{\nabla p}{\rho} + \frac{\mu}{\rho} \nabla \cdot (\nabla u) + \nabla \cdot (\nabla u)^T + \vb f_b
 $$
 $$
-\vb{transient} + \vb{convective} =  \vb{diffusion} + \vb{source}
+\vb{transient} + \vb{convective} =  \vb{diffusive} + \vb{sources}
 $$
 
 Continuity equation:
@@ -183,7 +184,7 @@ A \vb u = \begin{pmatrix}
   0
 \end{pmatrix}
 $$
-  In practice, the velocity and pressure fields are calculated using 4 matrices (vx, vy, vz, p).
+In practice, the velocity and pressure fields are calculated using 4 matrices (vx, vy, vz, p).
 
 Discretization for the one-dimensional momentum equation \cite{mou}:
 
@@ -191,13 +192,13 @@ Discretization for the one-dimensional momentum equation \cite{mou}:
   a_v u_v + \sum_{f \in f_{nb}} a_f u_f = b_v,
 \end{equation}
 
-which can be represented in matrix form as:
+where $a_v$ refers to a volume element and $a_f$ to a face element coefficient. This can be represented in matrix form as:
 
 $$
 \begin{pmatrix}
   a_{00} & a_{01} & 0 & \dots & 0 \\
   \vdots & \ddots & &  & \vdots \\
-  0 & a_f & a_v & a_f & 0 \\
+  a_f & a_f & a_v & a_f & a_f \\
   \vdots & &  & \ddots & \vdots \\
   0 & \dots & 0 & a_{n (n - 1)} & a_{0n}
 \end{pmatrix}
@@ -210,58 +211,58 @@ $$
   b_{0} \\
   \vdots \\
   b_n
-  \end{pmatrix},
-  $$
+\end{pmatrix},
+$$
 
-  where $u_0 \dots u_n$ represents volume element velocities. In the pressure calculation these are referred to as $u^*$, i.e. momentum conserving. The coefficients $a$ and $b$ are calculated for each volume element and assembled into a matrix. Components X, Y and Z are calculated one after another.\\
+where $u_0 \dots u_n$ represents volume element velocities. In the pressure calculation these are referred to as $u^*$, i.e. momentum conserving. The coefficients $a$ and $b$ are calculated for each volume element and assembled into a matrix. Components X, Y and Z are calculated one after another.\\
 
-  Face fluxes:
-  \begin{align}
-    \phi_f = \max(\dot m_f, 0) + \mu \frac{E_f}{d_{vf}} \\
-    \Phi_f = -\max(-\dot m_f, 0) - \mu \frac{E_f}{d_{vf}} \\
-    \vec \psi_f = - \mu (\nabla \vb u_f) \cdot \vb T_f + \dot m_f (\vb u_f^{\text{hr}} - \vb u_f^{\text{uw}}),
-  \end{align}
-  where $\vb S_f = A_f \hat n_f = \vb E_f + \vb T_f$ and $\dot m_f = \rho \vb u_f \cdot \vb S_f$. High-resolution model velocity $\vb u_f^{\text{hr}} = \vb u_f$ and upwind velocity $\vb u_f^{\text{uw}}$.\\
+Face fluxes:
+\begin{align}
+  \phi_f = \max(\dot m_f, 0) + \mu \frac{E_f}{d_{vf}} \\
+  \Phi_f = -\max(-\dot m_f, 0) - \mu \frac{E_f}{d_{vf}} \\
+  \vec \psi_f = - \mu (\nabla \vb u_f) \cdot \vb T_f + \dot m_f (\vb u_f^{\text{hr}} - \vb u_f^{\text{uw}}),
+\end{align}
+where $\vb S_f = A_f \hat n_f = \vb E_f + \vb T_f$ and $\dot m_f = \rho \vb u_f \cdot \vb S_f$. High-resolution model velocity $\vb u_f^{\text{hr}} = \vb u_f$ and upwind velocity $\vb u_f^{\text{uw}}$.\\
 
-  Volume fluxes:
-    \begin{align}
-      \phi_v = \frac{\rho V}{\Delta t} \\
-      \vec \psi_v = \frac{\rho V}{\Delta t} \vb u_v - \vb f_b V
-    \end{align}
+Volume fluxes:
+\begin{align}
+  \phi_v = \frac{\rho V}{\Delta t} \\
+  \vec \psi_v = \frac{\rho V}{\Delta t} \vb u_v - \vb f_b V
+\end{align}
 
-    Coefficients:
-  \begin{align}
-    a_v = \phi_v + \sum_{f \in f_{nb}} \phi_f = \frac{\rho V}{\Delta t} + \sum_{f \in f_{nb}} \lb \max(\dot m_f, 0) + \mu \frac{E_f}{d_{vf}} \rb \\
-    a_f = \Phi_f = -\max(-\dot m_f, 0) - \mu \frac{E_f}{d_{vf}}
-  \end{align}
-  \begin{equation}
-    \vb b_v = -\vec \psi_v - \sum_{f \in f_{nb}} \vec \psi_f + \sum_{f \in f_{nb}} \lb \mu (\nabla \vb u_f)^T \cdot \vb S_f \rb - V \nabla p_v
-    \end{equation}
-  $$
-    = - \frac{\rho V}{\Delta t} \vb u_v - \vb f_b V - \sum_{f \in f_{nb}} \lb - \mu (\nabla \vb u_f) \cdot \vb T_f + \dot m_f (\vb u_f - \vb u_f^{\text{uw}}) \rb + \sum_{f \in f_{nb}} \lb \mu (\nabla \vb u_f)^T \cdot \vb S_f \rb - V \nabla p_v
+Coefficients:
+\begin{align}
+  a_v = \phi_v + \sum_{f \in f_{nb}} \phi_f = \frac{\rho V}{\Delta t} + \sum_{f \in f_{nb}} \lb \max(\dot m_f, 0) + \mu \frac{E_f}{d_{vf}} \rb \\
+  a_f = \Phi_f = -\max(-\dot m_f, 0) - \mu \frac{E_f}{d_{vf}}
+\end{align}
+\begin{equation}
+  \vb b_v = -\vec \psi_v - \sum_{f \in f_{nb}} \vec \psi_f + \sum_{f \in f_{nb}} \lb \mu (\nabla \vb u_f)^T \cdot \vb S_f \rb - V \nabla p_v
+\end{equation}
+$$
+= - \frac{\rho V}{\Delta t} \vb u_v - \vb f_b V - \sum_{f \in f_{nb}} \lb - \mu (\nabla \vb u_f) \cdot \vb T_f + \dot m_f (\vb u_f - \vb u_f^{\text{uw}}) \rb + \sum_{f \in f_{nb}} \lb \mu (\nabla \vb u_f)^T \cdot \vb S_f \rb - V \nabla p_v
 $$
 
 Pressure equation:
 
 \begin{equation}
   u_v^* + \sum_{f \in f_{nb}} \frac{a_f}{f_v} \vb u_f^* = -\frac{V}{a_v} \nabla p_v + \frac{b_v + V \nabla p_v}{a_v}
-  \end{equation}
+\end{equation}
 
-  Similarly, the pressure correction equation can be discretized \cite{mou}:
+Similarly, the pressure correction equation can be discretized \cite{mou}:
 
-  \begin{equation}
-    a_v p_v' + \sum_{f \in f_{nb}} a_f p_f' = b_v
-  \end{equation}
+\begin{equation}
+  a_v p_v' + \sum_{f \in f_{nb}} a_f p_f' = b_v
+\end{equation}
 
-  With coefficients:
+With coefficients:
 
-  \begin{align}
-    a_f = -\rho \frac{E_f}{d_{vf}} \\
-    a_v = \sum_{f \in f_{nb}} \rho \frac{E_f}{d_{vf}}\\
-    b_v = - \sum_{f \in f_{nb}} \dot m_f^* = - \sum_{f \in f_{nb}} \rho \vb u_f^* \cdot \vb S_f
-    \end{align}
+\begin{align}
+  a_f = -\rho \frac{E_f}{d_{vf}} \\
+  a_v = \sum_{f \in f_{nb}} \rho \frac{E_f}{d_{vf}}\\
+  b_v = - \sum_{f \in f_{nb}} \dot m_f^* = - \sum_{f \in f_{nb}} \rho \vb u_f^* \cdot \vb S_f
+\end{align}
 
-    All of these are $n \times n$ diagonally dominant matrices which can be solved using a numerical matrix solver, such as Gauss-Seidel. The off-diagonal coefficients represent neighbouring elements, so they will be mostly zero.
+All of these are $n \times n$ diagonally dominant matrices which can be solved using a numerical matrix solver, such as Gauss-Seidel. The off-diagonal coefficients represent neighbouring elements, so they will be mostly zero.
 
 \subsection{Gauss-Seidel method}
 
@@ -286,38 +287,57 @@ No-slip wall\\
 
 Slip wall\\
 
-Inlet\\
+Inlet (velocity / pressure)\\
 
-Outlet\\
+Outlet (mass flow rate / pressure)\\
 
 \section{Implementation}
 
 \subsection{Simulation mesh}
 
-Triangular/tetrahedral, closed, connected, Delaunay
+Triangular/tetrahedral, closed, connected, Delaunay tetrahedralization with spatial Hilbert curve sorting
 
 \subsection{Solver}
 
-Gauss-Seidel
+Gauss-Seidel with some sparse matrix optimizations
 
 \subsection{Rendering}
 
-OpenGL
+OpenGL 3.1, GLSL 150
 
 \section{Software}
 
 \subsection{Compilation}
 
-Deps: glibc, (OpenGL, GLEW, GLFW)
+The software is compiled using CMake. The \verb|CMakeLists.txt| file is found in the root directory. There are two main ways to configure the simulator: with rendering and without. This is achieved by passing the \verb|-DSIMONLY=ON| flag to CMake. The non-graphical version is linked entirely statically. The graphical version has its \verb|RPATH| set to \verb|./lib/|, so required dynamically linked libraries can be placed there.
+
+The root directory contains shell scripts that can be used for compilation. To build the simulator, renderer and libraries use the script \verb|buildall.sh|. To build the simulator without the renderer use the script \verb|buildsim.h| and set \verb|RENDER_ENABLED| to 0 in \verb|sim.h|.\\
+
+Dependencies: libc, libm, (OpenGL, GLEW, GLFW)\\
+
+Building using default options:
 
 \begin{verbatim}
-cmake .
-make
+  cmake .
+  make
 \end{verbatim}
 
 \subsection{Configuration}
 
-Files: sim.cfg, data/fluid.cfg
+\subsubsection{Simulation config}
+
+\subsubsection{Fluid config}
+
+\subsection{Output data}
+
+Format:
+
+\begin{verbatim}
+s <sim tick>
+o <object id> t <time in s> f <face id> x <face centroid x in m> <y> <z> 
+v <face velocity x in m/s> <y> <z> p <face pressure in Pa>
+e
+\end{verbatim}
 
 \subsection{Examples}
 
@@ -326,8 +346,6 @@ Files: sim.cfg, data/fluid.cfg
 \subsubsection{Pipe flow}
 
 \subsection{Problems}
-
-Checkerboard problem
 
 \addcontentsline{toc}{section}{References}
 \begin{thebibliography}{9}
