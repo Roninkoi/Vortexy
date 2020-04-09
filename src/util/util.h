@@ -11,9 +11,11 @@ typedef enum {
 
 #define max(a, b) (a > b ? a : b)
 
+#define clamp(v, a, b) (min(max(v, a), b))
+
 #define signpowf(n) ((n) % 2 == 0 ? 1.0f : -1.0f)
 
-#define sign(n) (n / fabs(n))
+#define sign(n) ((n) / fabs(n))
 
 // str is dynamically allocated and is freed
 extern char *strAppend(char *str, char c);

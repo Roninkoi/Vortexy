@@ -13,7 +13,7 @@ inline char *strAppend(char *str, char c)
 		len = strlen(str);
 	}
 
-	char *newStr = calloc(len + 1, sizeof(char));
+	char *newStr = calloc(len + 2, sizeof(char));
 
 	if (len > 0) {
 		strcpy(newStr, str);
@@ -32,7 +32,7 @@ inline char *strConcat(char *dest, char *src)
 	int destLen = strlen(dest);
 	int srcLen = strlen(src);
 
-	char *newStr = calloc(destLen + srcLen, sizeof(char));
+	char *newStr = calloc(destLen + srcLen + 1, sizeof(char));
 
 	strcpy(newStr, dest);
 	strcat(newStr, src);

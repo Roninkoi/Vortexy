@@ -20,25 +20,7 @@ void p_loadObj(Obj *o, char *fluidPath, int mode)
 		
 	p_loadObjVolumes(o);
 
-	for (int i = 0; i < o->faceNum; ++i) {
-		o->faces[i].initialV = 0.0f;
-		o->faces[i].constantV = 0.0f;
-
-		o->faces[i].initialP = 0.0f;
-		o->faces[i].constantP = 0.0f;
-	}
-
-	fluidParser(o, fluidPath);
-
-	for (int i = 0; i < o->faceNum; ++i) {
-		if (o->faces[i].vNum == 1) {
-			o->faces[i].boundary = o->fluid.ebc;
-		}
-
-		if (o->faces[i].boundary)
-			for (int j = 0; j < o->faces[i].vNum; ++j)
-				o->faces[i].thisVol[j]->hasBoundary += 1;
-	}
+	p_reloadObj(o, fluidPath);
 }
 
 void p_reloadObj(Obj *o, char *fluidPath)
@@ -49,14 +31,27 @@ void p_reloadObj(Obj *o, char *fluidPath)
 
 		o->faces[i].initialP = 0.0f;
 		o->faces[i].constantP = 0.0f;
+
+		o->faces[i].boundary = -1;
+
+		for (int j = 0; j < o->faces[i].vNum; ++j)
+			o->faces[i].thisVol[j]->hasBoundary = 0;
 	}
 
 	fluidParser(o, fluidPath);
 
 	for (int i = 0; i < o->faceNum; ++i) {
-		if (o->faces[i].vNum == 1) {
+		if (o->faces[i].vNum == 1 && o->faces[i].boundary < 0) {
 			o->faces[i].boundary = o->fluid.ebc;
 		}
+
+		if (o->faces[i].boundary < 0) {
+			o->faces[i].boundary = 0;
+		}
+
+		if (o->faces[i].boundary)
+			for (int j = 0; j < o->faces[i].vNum; ++j)
+				o->faces[i].thisVol[j]->hasBoundary += 1;
 	}
 }
 

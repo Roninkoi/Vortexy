@@ -240,7 +240,10 @@ vec3 vec3Outwards(vec3 *p0, vec3 *p1, vec3 *v)
 	vec3Sub(&d, p0);
 
 	r = vec3Copy(v);
-	vec3Mul(&r, sign(vec3Dot(v, &d)));
+
+	float s = sign(vec3Dot(v, &d));
+
+	vec3Mul(&r, s);
 
 	return r;
 }

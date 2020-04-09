@@ -448,6 +448,22 @@ void p_computePCoeffs(Obj *o)
 	}
 }
 
+vec3 p_pGradInt(struct Volume *vol)
+{
+	vec3 r = nvec3();
+
+	for (int i = 0; i < 4; ++i) {
+		vec3 s = vec3Outwards(&vol->centroid,
+							  &vol->faces[i]->centroid,
+							  &vol->faces[i]->surface);
+
+		vec3Mul(&s, vol->faces[i]->p);
+		vec3Add(&r, &s);
+	}
+
+	return r;
+}
+
 // calculate coefficients for momentum equation
 void p_computeVCoeffs(Obj *o)
 {
@@ -473,8 +489,13 @@ void p_computeVCoeffs(Obj *o)
 		o->volumes[i].vb = nvec3();
 		vec3Sub(&o->volumes[i].vb, &o->volumes[i].vFlux);
 
-		vec3 b0 = vec3Copy(&o->volumes[i].pGrad);
+		vec3 b0;
+#if 0
+		b0 = p_pGradInt(&o->volumes[i]);
+#else
+		b0 = vec3Copy(&o->volumes[i].pGrad);
 		vec3Mul(&b0, o->volumes[i].vol);
+#endif
 
 		vec3 b1 = nvec3();
 		vec3 b2 = nvec3();
@@ -868,12 +889,29 @@ void p_pGrad(Obj *o)
 			vec3 s = vec3Outwards(&o->volumes[i].centroid,
 								  &o->volumes[i].faces[j]->centroid,
 								  &o->volumes[i].faces[j]->surface);
+
 			vec3Mul(&s, o->volumes[i].faces[j]->p);
 			vec3Add(&grad, &s);
 		}
 
 		o->volumes[i].pGrad = vec3Copy(&grad);
 		vec3Div(&o->volumes[i].pGrad, o->volumes[i].vol);
+	}
+
+	for (int i = 0; i < o->volNum; ++i) {
+		vec3 grad = nvec3();
+
+		for (int j = 0; j < 4; ++j) {
+			vec3 s = vec3Outwards(&o->volumes[i].centroid,
+								  &o->volumes[i].faces[j]->centroid,
+								  &o->volumes[i].faces[j]->surface);
+
+			vec3Add(&grad, &s);
+		}
+
+		if (vec3Len(&grad) == 0.0f) {
+
+		}
 	}
 }
 

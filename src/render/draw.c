@@ -4,17 +4,46 @@
 void rm(struct Renderer *r, struct Sys *s)
 {
 	glDisable(GL_DEPTH_TEST);
+
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	/*glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
-	glBlendFuncSeparate(GL_ONE, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFuncSeparate(GL_ONE, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);*/
+	glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
 
 	r->tex = &r->flat;
 	for (int i = 0; i < s->objNum; ++i) {
 		/*p_meshTransform(&s->objs[i].mesh, &r->model);
 		  p_meshTransform(&s->objs[i].mesh, &r->view);
 		  p_meshTransform(&s->objs[i].mesh, &r->proj);*/
-		p_meshSetCol(&s->objs[i].mesh, 0.0f, 0.08f, 0.10f, 0.10f);
+		p_meshSetCol(&s->objs[i].mesh, 0.0f, 0.2f, 0.25f, 0.7f);
+
+		for (int j = 0; j < s->objs[i].faceNum; ++j) {
+			int ind = s->objs[i].mesh.indData[j * 3];
+
+			float red = (s->objs[i].faces[j].p) / s->objs[i].fluid.bp;
+			red = clamp(1.0f - 1.0f / red, 0.0f, 1.0f) * 0.1f;
+
+			s->objs[i].mesh.colData[ind * 4] = red * 0.6f;
+			s->objs[i].mesh.colData[ind * 4 + 1] *= 1.0f - 0.5f * red;
+			ind = s->objs[i].mesh.indData[j * 3 + 1];
+			s->objs[i].mesh.colData[ind * 4] = red * 0.6f;
+			s->objs[i].mesh.colData[ind * 4 + 1] *= 1.0f - 0.5f * red;
+			ind = s->objs[i].mesh.indData[j * 3 + 2];
+			s->objs[i].mesh.colData[ind * 4] = red * 0.6f;
+			s->objs[i].mesh.colData[ind * 4 + 1] *= 1.0f - 0.5f * red;
+
+			/*if (s->objs[i].faces[j].boundary > 0) {
+				s->objs[i].mesh.colData[ind * 4] += 0.1f;
+				s->objs[i].mesh.colData[ind * 4+1] += 0.1f;
+				ind = s->objs[i].mesh.indData[j * 3 + 1];
+				s->objs[i].mesh.colData[ind * 4] += 0.1f;
+				s->objs[i].mesh.colData[ind * 4+1] += 0.1f;
+				ind = s->objs[i].mesh.indData[j * 3 + 2];
+				s->objs[i].mesh.colData[ind * 4] += 0.1f;
+				s->objs[i].mesh.colData[ind * 4+1] += 0.1f;
+			}*/
+		}
 
 		r_drawMesh(r, &s->objs[i].mesh);
 	}
@@ -45,7 +74,36 @@ void rv(struct Renderer *r, struct Sys *s)
 	r->tex = &r->flat;
 	for (int i = 0; i < s->objNum; ++i) {
 		int l = s->selected;
+
+		if (l >= s->objs[i].volNum)
+			continue;
+
 		r_drawVolume(r, &s->objs[i].volumes[l], Vec4(1.0f, 0.0f, 0.0f, 1.0f));
+	}
+
+	r_render(r);
+
+	for (int i = 0; i < s->objNum; ++i) {
+		int l = s->selected;
+
+		if (l >= s->objs[i].volNum)
+			continue;
+
+		r_drawVolume(r, &s->objs[i].volumes[l], Vec4(1.0f, 0.0f, 0.0f, 1.0f));
+
+		for (int j = 0; j < 4; ++j) {
+			vec4 c = vec4Copy3(&s->objs[i].volumes[l].faces[j]->centroid);
+
+			vec3 s3 = vec3Outwards(&s->objs[i].volumes[l].centroid,
+								  &s->objs[i].volumes[l].faces[j]->centroid,
+								  &s->objs[i].volumes[l].faces[j]->surface);
+
+			vec4 s4 = vec4Copy3(&s3);
+
+			vec4Add(&s4, &c);
+
+			r_drawLine(r, c, s4, Vec4(1.0f, 0.0f, 1.0f, 1.0f), 2.0f);
+		}
 	}
 
 	r_render(r);
@@ -60,6 +118,10 @@ void rf(struct Renderer *r, struct Sys *s)
 	r->tex = &r->flat;
 	for (int i = 0; i < s->objNum; ++i) {
 		int l = s->selected;
+
+		if (l >= s->objs[i].faceNum)
+			continue;
+
 		r_drawFace(r, &s->objs[i].faces[l], Vec4(1.0f, (float) s->objs[i].faces[l].boundary, 0.0f, 1.0f));
 		r_render(r);
 
@@ -157,7 +219,7 @@ void rtl(struct Renderer *r, struct Sys *s)
 
 			vec4Mul(&nn, vecscale);
 			
-			float l = vec4Len(&nn);
+			float l = sqrtf(vec4Len(&nn));
 
 			if (l <= 0.0f)
 				continue;
@@ -167,7 +229,7 @@ void rtl(struct Renderer *r, struct Sys *s)
 			vec4 col = Vec4(l, fmax(0.0f, 1.0f - l), 0.0f, 1.0f);
 			vec4Mul(&col, 5.5f);
 
-			r_drawVec(r, n, nn, col, r->camPos.z * 0.01f * log10(l + 1.0));
+			r_drawVec(r, n, nn, col, fabs(r->camPos.z * 0.01f * log10(l + 2.)));
 		}
 	}
 	r_render(r);
@@ -187,7 +249,7 @@ void rftl(struct Renderer *r, struct Sys *s)
 
 			vec4Mul(&nn, vecscale);
 			
-			float l = vec4Len(&nn);
+			float l = sqrtf(vec4Len(&nn));
 
 			if (l <= 0.0f)
 				continue;
@@ -197,7 +259,7 @@ void rftl(struct Renderer *r, struct Sys *s)
 			vec4 col = Vec4(l, fmax(0.0f, 1.0f - l), 0.0f, 1.0f);
 			vec4Mul(&col, 5.5f);
 
-			r_drawVec(r, n, nn, col, r->camPos.z * 0.01f * log10(l + 1.0));
+			r_drawVec(r, n, nn, col, fabs(r->camPos.z * 0.01f * log10(l + 2.)));
 		}
 	}
 	r_render(r);
@@ -382,9 +444,9 @@ void r_drawVec(struct Renderer *r, vec4 v0, vec4 v1, vec4 col, float width)
 	float mr = r->modelRot.y;
 	mr = 0.0f;
 
-	float x = -width * sin(a) * cos(mr);
-	float y = width * sin(a) * sin(mr) + width * cos(a) * cos(mr);
-	float z = width * sin(a) * sin(mr);
+	float x = -width * sinf(a) * cosf(mr);
+	float y = width * sinf(a) * sinf(mr) + width * cosf(a) * cosf(mr);
+	float z = width * sinf(a) * sinf(mr);
 
 	float vd[12] = {
 					v0.x + x, v0.y + y, v0.z + z, v0.w,

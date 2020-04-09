@@ -22,6 +22,8 @@ int n6Down;
 
 int uDown;
 
+int lmbDown;
+
 void r_getInput(struct Renderer *r, struct Sys* s)
 {
 	glfwSetScrollCallback(r->window.window, scrollCallback);
@@ -38,15 +40,73 @@ void r_getInput(struct Renderer *r, struct Sys* s)
 		//r->model = mat4RotateY(&r->model, (float) r->window.mouseDiffX * 0.004f);
 		//r->model = mat4RotateX(&r->model, (float) r->window.mouseDiffY * 0.004f);
 		r->modelRot.y += (float) r->window.mouseDiffX * 0.0024f;
+
+		if (getBit(r->vis, 6) && !lmbDown) {
+			lmbDown = 1;
+
+			int ind = -1;
+
+			float minz = 1000.0f;
+
+			mat4 mi = mat4Mul(&r->proj, &r->view);
+			mi = mat4Mul(&mi, &r->model);
+
+			vec4 mp = Vec4((float) r->window.mouseX, -(float) r->window.mouseY, 0.0f, 0.0f);
+			mp.x /= (float) r->width * 0.5f;
+			mp.y /= (float) r->height * 0.5f;
+			mp.x -= 1.0f;
+			mp.y += 1.0f;
+
+			for (int i = 0; i < s->objs[0].mesh.indNum / 3; i += 1) {
+				float x = s->objs[0].mesh.vertData[s->objs[0].mesh.indData[i * 3] * 4];
+				x += s->objs[0].mesh.vertData[s->objs[0].mesh.indData[i * 3 + 1] * 4];
+				x += s->objs[0].mesh.vertData[s->objs[0].mesh.indData[i * 3 + 2] * 4];
+				x /= 3.0f;
+
+				float y = s->objs[0].mesh.vertData[s->objs[0].mesh.indData[i * 3] * 4 + 1];
+				y += s->objs[0].mesh.vertData[s->objs[0].mesh.indData[i * 3 + 1] * 4 + 1];
+				y += s->objs[0].mesh.vertData[s->objs[0].mesh.indData[i * 3 + 2] * 4 + 1];
+				y /= 3.0f;
+
+				float z = s->objs[0].mesh.vertData[s->objs[0].mesh.indData[i * 3] * 4 + 2];
+				z += s->objs[0].mesh.vertData[s->objs[0].mesh.indData[i * 3 + 1] * 4 + 2];
+				z += s->objs[0].mesh.vertData[s->objs[0].mesh.indData[i * 3 + 2] * 4 + 2];
+				z /= 3.0f;
+
+				vec4 p = Vec4(x, y, z, 1.0f);
+				p = mat4MulV(&mi, &p);
+				p.x /= fabs(p.z);
+				p.y /= fabs(p.z);
+				p.z *= 0.001f;
+
+				vec4Sub(&p, &mp);
+
+				float cz = vec4Len3(&p);
+
+				if (cz < minz) {
+					minz = cz;
+					ind = i;
+				}
+			}
+
+			printf("face index: %i\n", ind);
+
+			if (ind >= 0) {
+				s->selected = ind;
+			}
+		}
+	}
+	else {
+		lmbDown = 0;
 	}
 
-	float ms = r->delta * 0.01f; // mov spd
+	float ms = r->delta * r->s * 10.0f; // mov spd
 	float rs = r->delta * 0.02f; // rot spd
 
 	if (fabs(scroll) > 0.0f) { // mouse scroll = "zoom"
-		r->camPos.z -= 1.0f * scroll * cos(r->camRot.y);
-		r->camPos.y -= 1.0f * scroll * sin(r->camRot.x);
-		r->camPos.x += 1.0f * scroll * sin(r->camRot.y);
+		r->camPos.z -= 1000.0f * scroll * cos(r->camRot.y) * r->s;
+		r->camPos.y -= 1000.0f * scroll * sin(r->camRot.x) * r->s;
+		r->camPos.x += 1000.0f * scroll * sin(r->camRot.y) * r->s;
 		scroll = 0.0f;
 	}
 

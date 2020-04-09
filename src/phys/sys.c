@@ -210,7 +210,7 @@ void p_sysTick(struct Sys *s)
 
 				residual += fabs(s->objs[i].volumes[j].pc * s->objs[i].pRelax);
 
-#if 1
+#if 0
 				s->objs[i].volumes[j].v.x -= s->objs[i].volumes[j].d.x * s->objs[i].volumes[j].pcGrad.x * s->objs[i].pRelax;
 				s->objs[i].volumes[j].v.y -= s->objs[i].volumes[j].d.y * s->objs[i].volumes[j].pcGrad.y * s->objs[i].pRelax;
 				s->objs[i].volumes[j].v.z -= s->objs[i].volumes[j].d.z * s->objs[i].volumes[j].pcGrad.z * s->objs[i].pRelax;

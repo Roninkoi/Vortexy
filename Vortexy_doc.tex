@@ -15,6 +15,7 @@
 \usepackage{hyperref}
 \usepackage{authblk}
 \usepackage{comment}
+\usepackage[linesnumbered,ruled]{algorithm2e}
 
 \pagestyle{fancy}
 
@@ -57,11 +58,13 @@
 \newcommand{\Res}{\text{Res}}
 \newcommand{\Ind}{\text{Ind}}
 \newcommand{\lb}{\left(}
-\newcommand{\rb}{\right)}
+  \newcommand{\rb}{\right)}
 \newcommand{\Imag}{\text{Im} \ }
 \newcommand{\Real}{\text{Re} \ }
 \newcommand{\ft}{\mathcal{F}}
 \newcommand{\lt}{\mathcal{L}}
+\newcommand{\pe}{\mathrel{+}=}
+\newcommand{\te}{\mathrel{+}=}
 % units
 \newcommand{\us}[1]{ \ \text{#1}}
 \newcommand{\un}[1]{ \text{#1}}
@@ -112,7 +115,7 @@ The simulator is based on irregular tetrahedral meshes. These meshes can be comp
 
 \noindent
 
-The Navier-Stokes equations form the basis for all of fluid dynamics. The momentum equation is typically written as
+The Navier-Stokes equations form the basis for all of fluid dynamics. The momentum equation is typically written as \cite[p.~59]{tri}
 
 \begin{equation}
   \frac{\partial \vb u}{\partial t} + (\vb u \cdot \nabla) \vb u = -\frac{1}{\rho} \nabla p + \nu \nabla^2 \vb u + g,
@@ -132,7 +135,7 @@ where $\vb u = (u, v, w)$ is velocity in $\un{m} \ \up{s}{-1}$.
 
 \noindent
 
-A simple way of predicting onset of turbulence is the Reynolds number:
+A simple way of predicting onset of turbulence is the Reynolds number \cite{tri}:
 
 $$
 \text{Re} = \frac{\mu u L}{\rho} = \frac{u L}{\nu}
@@ -151,11 +154,28 @@ $$
 \noindent
 so volume terms can be computed from fluxes at element faces.
 
+\subsection{SIMPLE algorithm}
+
+The SIMPLE algorithm solves the Navier-Stokes equations using an iterative procedure. First the momentum equation is solved, producing a momentum-conserving field $u^*$. However, this resultant field is not necessarily divergence free, meaning it does not satisfy the continuity equation. The SIMPLE algorithm solves this by calculating a correction $u'$ to the intermediate field by solving the \textit{pressure equation}. The pressure equation is derived from the continuity equation.
+
+The SIMPLE algorithm can be summarized as follows \cite{mou, cws}:
+
+\begin{enumerate}
+\item Set boundary conditions, set $u$ and $p$
+\item Compute gradients $\nabla u$ and $\nabla p$
+\item Compute mass fluxes $j_m$, flow rate $\dot m = j_m \cdot A$
+\item Solve \textit{momentum equation} using velocity guess $u^0$
+\item Solve \textit{pressure correction equation} to get $p'$
+\item Correct pressure $p = p^* + p'$ and velocity $v = v^* + v'$
+\item Increment time $t^{n+1} = t^n + \Delta t$
+\item Repeat
+\end{enumerate}
+
 \subsection{Discretization}
 
 \noindent
 
-The momentum equation is written in a form conducive for discretization:
+The momentum equation is written in a form conducive for discretization \cite{mou}:
 $$
 \frac{\partial \vb u}{\partial t} + \nabla \cdot (\vb u \otimes \vb u) = - \frac{\nabla p}{\rho} + \frac{\mu}{\rho} \nabla \cdot (\nabla u) + \nabla \cdot (\nabla u)^T + \vb f_b
 $$
@@ -168,7 +188,7 @@ $$
 \nabla \cdot \vb u = 0
 $$
 
-This saddle-point problem can be represented in matrix form as:
+This saddle-point problem can be represented in matrix form as \cite{mou, qs}:
 
 $$
 A \vb u = \begin{pmatrix}
@@ -200,7 +220,7 @@ $$
   \vdots & \ddots & &  & \vdots \\
   a_f & a_f & a_v & a_f & a_f \\
   \vdots & &  & \ddots & \vdots \\
-  0 & \dots & 0 & a_{n (n - 1)} & a_{0n}
+  0 & \dots & 0 & a_{n (n - 1)} & a_{nn}
 \end{pmatrix}
 \begin{pmatrix}
   u_0 \\
@@ -266,30 +286,95 @@ All of these are $n \times n$ diagonally dominant matrices which can be solved u
 
 \subsection{Gauss-Seidel method}
 
-\subsection{SIMPLE algorithm}
+The Gauss-Seidel method is an iterative procedure to solve a linear system of equations. It belongs to a class of successive over-relaxation methods (SOR). The linear system is represented as a diagonally dominant square matrix $A$ and given a vector $\vb b$ the solution vector $\vb x$ to the equation
+$$
+A \vb x = \vb b
+$$
+is found by an iterative algorithm. GS has better efficiency for large systems than other methods such as matrix inversion.
 
-\begin{enumerate}
-\item Set boundary conditions, set $u$ and $p$
-\item Compute gradients $\nabla u$ and $\nabla p$
-\item Compute mass fluxes $j_m$, flow rate $\dot m = j_m \cdot A$
-\item Solve \textit{momentum equation} using velocity guess $u^0$
-\item Solve \textit{pressure correction equation} to get $p'$
-\item Correct pressure $p = p + p'$ and velocity
-\item Increment time $t^{n+1} = t^n + \Delta t$
-\item Repeat
-\end{enumerate}
+The iteration for the GS method can be defined as \cite[p.~510]{golub}:
+
+\begin{equation}
+  x_i^{(k + 1)} = \frac{b_i - \sum_{j=1}^{i-1} a_{ij} x_j^{(k + 1)} - \sum_{j=i+1}^{n} a_{ij} x_j^{(k)}}{a_{ii}}
+\end{equation}
+
+In the simulator the GS solver is implemented thusly:
+
+\begin{algorithm}[ht]
+  \SetKwInOut{Input}{Input}
+  \SetKwInOut{Output}{Output}
+  \underline{function GaussSeidel} $(A, b, m, \varepsilon)$
+
+  \Input{$N \times N$ matrix $A$, $N$-vector $\vb b$, maximum iteration count $m$ and convergence criterion $\varepsilon$}
+  \Output{Solution $N$-vector $x$}
+
+  \For{$k \in [0, m[$} {
+    $\delta = 0$
+    
+    \For{$i \in [0, N[$} {
+      $s_0 = \frac{1}{A_{ii}}$
+
+      $s_1 = 0$
+      
+      \For{$j \in [0, i - 1]$} {
+        $s_1 \pe A_{ij} x_{j}$
+      }
+      
+      $s_2 = 0$
+      
+      \For{$j \in [i + 1, N[$} {
+        $s_2 \pe A_{ij} x_{j}$
+      }
+
+      $s_0 \te b_{i} - s_1 - s_2$
+
+      $\delta \pe x_{i} - s_0$
+
+      $x_i = s_0$
+    }
+
+    \If{$|\delta| < \varepsilon$} {
+      break
+    }
+  }
+
+  return x
+  
+  \caption{Gauss-Seidel method}
+\end{algorithm}
 
 \subsection{Boundary conditions}
 
-\noindent
+\indent
 
-No-slip wall\\
+\begin{table}[H]
+  \centering
+  \begin{tabular}{| l | l |}
+    \hline
+    
+    Type & Specified quantity \\
+    
+    \hline
+    
+    No-slip wall & $u$ \\
 
-Slip wall\\
+    \hline
 
-Inlet (velocity / pressure)\\
+    Slip wall & $u$ \\
+    
+    \hline
 
-Outlet (mass flow rate / pressure)\\
+    Inlet & $u$ or $p$ \\
+    
+    \hline
+
+    Outlet & $\dot m$ or $p$\\
+    
+    \hline
+  \end{tabular}
+  
+  \caption{Four main types of boundary conditions}
+\end{table}
 
 \section{Implementation}
 
@@ -349,7 +434,11 @@ e
 
 \addcontentsline{toc}{section}{References}
 \begin{thebibliography}{9}
+  \bibitem{tri} D. J. Tritton. (1977). Physical Fluid Dynamics. Springer.
+  
 \bibitem{mou} Moukalled, F., Mangani, L. \& Darwish M. (2016). The Finite Volume Method in Computational Fluid Dynamics: An Advanced Introduction with OpenFOAM and Matlab. Fluid Mechanics and Its Applications Volume 113. Springer International Publishing, Cham. \url{https://doi.org/10.1007/978-3-319-16874-6}
+
+  \bibitem{golub} G. H. Golub, C. F. Van Loan. (1996). Matrix Computations. The John Hopkins University Press.
   
 \bibitem{qs} \url{https://quickersim.com/tutorial/tutorial-2-numerics-simple-scheme/}
 \bibitem{ofs} \url{https://www.openfoam.com/documentation/guides/latest/doc/guide-applications-solvers-simple.html}
