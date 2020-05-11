@@ -19,6 +19,7 @@ int n3Down;
 int n4Down;
 int n5Down;
 int n6Down;
+int n7Down;
 
 int uDown;
 
@@ -100,13 +101,13 @@ void r_getInput(struct Renderer *r, struct Sys* s)
 		lmbDown = 0;
 	}
 
-	float ms = r->delta * r->s * 10.0f; // mov spd
-	float rs = r->delta * 0.02f; // rot spd
+	float ms = r->delta * r->rs * 0.1f; // mov spd
+	float rs = r->delta * 0.03f; // rot spd
 
 	if (fabs(scroll) > 0.0f) { // mouse scroll = "zoom"
-		r->camPos.z -= 1000.0f * scroll * cos(r->camRot.y) * r->s;
-		r->camPos.y -= 1000.0f * scroll * sin(r->camRot.x) * r->s;
-		r->camPos.x += 1000.0f * scroll * sin(r->camRot.y) * r->s;
+		r->camPos.z -= 1000.0f * scroll * cos(r->camRot.y) * r->rs * 0.01f;
+		r->camPos.y -= 1000.0f * scroll * sin(r->camRot.x) * r->rs * 0.01f;
+		r->camPos.x += 1000.0f * scroll * sin(r->camRot.y) * r->rs * 0.01f;
 		scroll = 0.0f;
 	}
 
@@ -231,6 +232,16 @@ void r_getInput(struct Renderer *r, struct Sys* s)
 		n6Down = 0;
 	}
 
+	if (glfwGetKey(r->window.window, GLFW_KEY_7)) {
+		if (!n7Down) {
+			n7Down = 1;
+			r->vis = setBit(r->vis, 7, !getBit(r->vis, 7));
+		}
+	}
+	else {
+		n7Down = 0;
+	}
+
 	if (glfwGetKey(r->window.window, GLFW_KEY_I)) {
 		if (!s->simulating)
 			printf("STARTED\n");
@@ -253,6 +264,10 @@ void r_getInput(struct Renderer *r, struct Sys* s)
 	}
 	else {
 		uDown = 0;
+	}
+
+	if (glfwGetKey(r->window.window, GLFW_KEY_B)) {
+		s->debugFlag = 1;
 	}
 }
 

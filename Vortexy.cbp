@@ -27,6 +27,46 @@
 					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
+			<Target title="install/local">
+				<Option working_dir="/home/rak/Dropbox/Dev/Vortexy"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 install/local"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install">
+				<Option working_dir="/home/rak/Dropbox/Dev/Vortexy"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 install"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="list_install_components">
+				<Option working_dir="/home/rak/Dropbox/Dev/Vortexy"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 list_install_components"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/rak/Dropbox/Dev/Vortexy"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
 			<Target title="edit_cache">
 				<Option working_dir="/home/rak/Dropbox/Dev/Vortexy"/>
 				<Option type="4"/>
@@ -78,46 +118,6 @@
 				</Compiler>
 				<MakeCommands>
 					<Build command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 Vortexy/fast"/>
-					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="install">
-				<Option working_dir="/home/rak/Dropbox/Dev/Vortexy"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 install"/>
-					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="rebuild_cache">
-				<Option working_dir="/home/rak/Dropbox/Dev/Vortexy"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="list_install_components">
-				<Option working_dir="/home/rak/Dropbox/Dev/Vortexy"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 list_install_components"/>
-					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="install/local">
-				<Option working_dir="/home/rak/Dropbox/Dev/Vortexy"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 install/local"/>
 					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
@@ -278,6 +278,12 @@
 			<Option target="Vortexy"/>
 		</Unit>
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/fluid.h">
+			<Option target="Vortexy"/>
+		</Unit>
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/gradient.c">
+			<Option target="Vortexy"/>
+		</Unit>
+		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/gradient.h">
 			<Option target="Vortexy"/>
 		</Unit>
 		<Unit filename="/home/rak/Dropbox/Dev/Vortexy/src/phys/mesh.c">

@@ -10,14 +10,13 @@ in vec4 vCol;
 uniform sampler2D tex;
 uniform float rs;
 
+#define ZFAR 10.0f
+
 void main()
 {
     vec4 col = texture(tex, vTex.st) * vCol;
 
-    col.a /= max(/*exp*/(vPos.z*rs), 1.0f);
+    col.a *= exp(-abs(vPos.z / rs / ZFAR));
 
     fCol = col;
-
-    if (fCol.a == 0.0f)
-        discard;
 }

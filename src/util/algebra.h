@@ -10,10 +10,10 @@ int convergence;
 void GaussElim(mat *m);
 
 // GS method solve
-mat GaussSeidel(mat *a, mat *b, int maxIt, float epsilon);
-mat GaussSeidelS(mat *a, mat *b, int maxIt, float epsilon);
+mat GaussSeidel(mat *a, mat *b, int maxIt, real epsilon);
+mat GaussSeidelS(mat *a, mat *b, int maxIt, real epsilon);
 
-void GaussSeidelSG(mat *a, mat *b, mat *g, int maxIt, float epsilon);
+void GaussSeidelSG(mat *a, mat *b, mat *g, int maxIt, real epsilon);
 
 // decompose matrix into lower and strictly upper: A = L* + U
 void decompose(mat *a, mat *b, mat *c);

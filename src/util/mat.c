@@ -2,14 +2,14 @@
 #include "util.h"
 #include "randomUtil.h"
 
-mat Mat(float s, int r, int c)
+mat Mat(real s, int r, int c)
 {
 	mat m;
 
-	m.m = malloc(sizeof(float *) * r);
+	m.m = malloc(sizeof(real *) * r);
 
 	for (int i = 0; i < r; ++i) {
-		m.m[i] = calloc(c, sizeof(float));
+		m.m[i] = calloc(c, sizeof(real));
 	}
 
 	for (int i = 0; i < min(r, c); ++i) {
@@ -106,7 +106,7 @@ mat matMul(mat *m0, mat *m1)
 {
 	mat r = Mat(0.0f, m0->r, m1->c);
 
-	if (m0->r != m1->c)
+	if (m0->c != m1->r)
 		return r;
 
 	for (int i = 0; i < m0->r; ++i) {
@@ -120,10 +120,26 @@ mat matMul(mat *m0, mat *m1)
 	return r;
 }
 
-// product of diagonal elements
-float matDiagProd(mat *m)
+mat matDot(mat *m0, mat *m1)
 {
-	float prod = 1.0f;
+	mat r = Mat(0.0f, m0->c, 1);
+
+	if (m0->c != m1->r)
+		return r;
+
+	for (int i = 0; i < m0->r; ++i) {
+		for (int j = 0; j < m1->r; ++j) {
+			r.m[i][0] += m0->m[i][j] * m1->m[j][0];
+		}
+	}
+
+	return r;
+}
+
+// product of diagonal elements
+real matDiagProd(mat *m)
+{
+	real prod = 1.0f;
 
 	if (m->r != m->c) return prod;
 
@@ -168,15 +184,15 @@ mat matSubmatrix(mat *m, int i, int j)
 }
 
 // determinant for 2x2 and 3x3
-float matSarrDet(mat *m)
+real matSarrDet(mat *m)
 {
 	if (m->r != m->c) return 0.0f;
 
-	float sum = 0.0f;
+	real sum = 0.0f;
 	
 	for (int c = 0; c < m->c; ++c) {
-		float mulp = m->m[0][c];
-		float muln = m->m[0][c];
+		real mulp = m->m[0][c];
+		real muln = m->m[0][c];
 		
 		for (int d = 1; d < m->r; ++d) {
 			mulp *= m->m[d][(c + d) % m->c];
@@ -189,7 +205,7 @@ float matSarrDet(mat *m)
 	return sum;
 }
 
-mat matRandom(float s, int r, int c)
+mat matRandom(real s, int r, int c)
 {
 	mat m = Mat(0.0f, r, c);
 
@@ -237,35 +253,35 @@ void matDestroyS(mat *m)
 	free(m->rmin);
 }
 
-float matMinor(mat *m, int i, int j)
+real matMinor(mat *m, int i, int j)
 {
 	mat s = matSubmatrix(m, i, j);
 
-	float det = matDeterminant(&s);
+	real det = matDeterminant(&s);
 
 	matDestroy(&s);
 	
 	return det;
 }
 
-float matCofactor(mat *m, int i, int j)
+real matCofactor(mat *m, int i, int j)
 {
-	float cf = signpowf(i + j) * matMinor(m, i, j);
+	real cf = signpowf(i + j) * matMinor(m, i, j);
 	
 	return cf;
 }
 
 // recursive determinant of nxn matrix
-float matDeterminant(mat *m)
+real matDeterminant(mat *m)
 {
 	if (m->r != m->c) return 0.0f;
 
 	if (m->r <= 3) return matSarrDet(m);
 	
-	float sum = 0.0f;
+	real sum = 0.0f;
 
 	for (int c = 0; c < m->c; ++c) {
-		float cf = matCofactor(m, 0, c);
+		real cf = matCofactor(m, 0, c);
 		sum += m->m[0][c] * cf;
 	}
 
@@ -289,7 +305,7 @@ mat matInverse(mat *m)
 {
 	mat r;
 
-	float det = matDeterminant(m);
+	real det = matDeterminant(m);
 
 	if (det == 0.0f) return Mat(0.0f, m->r, m->c);
 
@@ -358,7 +374,7 @@ mat matGetL(mat *m)
   MAT4
 */
 
-mat4 Mat4(float s)
+mat4 Mat4(real s)
 {
 	mat4 m;
 
@@ -592,7 +608,7 @@ mat4 mat4Translate(mat4 *m, vec4 v)
 	return r;
 }
 
-mat4 mat4Scale(mat4 *m, float s)
+mat4 mat4Scale(mat4 *m, real s)
 {
 	mat4 r;
 	
@@ -643,7 +659,7 @@ void mat4SetCol(mat4 *m, vec4 *v, int c)
 	m->m[3][c] = v->w;
 }
 
-mat4 mat4RotX(float a)
+mat4 mat4RotX(real a)
 {
 	mat4 m;
 
@@ -670,7 +686,7 @@ mat4 mat4RotX(float a)
 	return m;
 }
 
-mat4 mat4RotY(float a)
+mat4 mat4RotY(real a)
 {
 	mat4 m;
 
@@ -697,7 +713,7 @@ mat4 mat4RotY(float a)
 	return m;
 }
 
-mat4 mat4RotateX(mat4 *m, float a)
+mat4 mat4RotateX(mat4 *m, real a)
 {
 	mat4 r;
 
@@ -710,7 +726,7 @@ mat4 mat4RotateX(mat4 *m, float a)
 	return r;
 }
 
-mat4 mat4RotateY(mat4 *m, float a)
+mat4 mat4RotateY(mat4 *m, real a)
 {
 	mat4 r;
 
@@ -750,7 +766,7 @@ mat4 mat4Transpose(mat4 *m)
 	return r;
 }
 
-mat4 mat4Perspective(float fov, float aspect, float near, float far)
+mat4 mat4Perspective(real fov, real aspect, real near, real far)
 {
 	mat4 m;
 
@@ -794,17 +810,17 @@ mat mat4Submatrix(mat4 *m, int i, int j)
 	return s;
 }
 
-float mat4Determinant(mat4 *m)
+real mat4Determinant(mat4 *m)
 {
 	mat a = mat4Submatrix(m, 0, 0);
 	mat b = mat4Submatrix(m, 0, 1);
 	mat c = mat4Submatrix(m, 0, 2);
 	mat d = mat4Submatrix(m, 0, 3);
 
-	float da = matSarrDet(&a);
-	float db = matSarrDet(&b);
-	float dc = matSarrDet(&c);
-	float dd = matSarrDet(&d);
+	real da = matSarrDet(&a);
+	real db = matSarrDet(&b);
+	real dc = matSarrDet(&c);
+	real dd = matSarrDet(&d);
 
 	matDestroy(&a);
 	matDestroy(&b);
@@ -814,18 +830,18 @@ float mat4Determinant(mat4 *m)
 	return m->m[0][0] * da - m->m[0][1] * db + m->m[0][2] * dc - m->m[0][3] * dd;
 }
 
-float mat4Minor(mat4 *m, int i, int j)
+real mat4Minor(mat4 *m, int i, int j)
 {
 	mat s = mat4Submatrix(m, i, j);
 
-	float det = matSarrDet(&s);
+	real det = matSarrDet(&s);
 
 	matDestroy(&s);
 	
 	return det;
 }
 
-float mat4Cofactor(mat4 *m, int i, int j)
+real mat4Cofactor(mat4 *m, int i, int j)
 {
 	return signpowf(i + j) * mat4Minor(m, i, j);
 }
@@ -849,7 +865,7 @@ mat4 mat4Inverse(mat4 *m)
 {
 	mat4 r;
 	
-	float det = mat4Determinant(m);
+	real det = mat4Determinant(m);
 
 	if (det == 0.0f) return nmat4();
 	

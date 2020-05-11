@@ -5,7 +5,7 @@
   VEC4
  */
 
-vec4 Vec4(float x, float y, float z, float w)
+vec4 Vec4(real x, real y, real z, real w)
 {
 	vec4 v;
 
@@ -14,7 +14,7 @@ vec4 Vec4(float x, float y, float z, float w)
 	return v;
 }
 
-void vec4Init(vec4 *v, float x, float y, float z, float w)
+void vec4Init(vec4 *v, real x, real y, real z, real w)
 {
 	v->x = x;
 	v->y = y;
@@ -53,7 +53,7 @@ void vec4Sub(vec4 *v0, vec4 *v1) // v0 -= v1
 	v0->w -= v1->w;
 }
 
-void vec4Mul(vec4 *v, float s)
+void vec4Mul(vec4 *v, real s)
 {
 	v->x *= s;
 	v->y *= s;
@@ -61,7 +61,7 @@ void vec4Mul(vec4 *v, float s)
 	v->w *= s;
 }
 
-void vec4Div(vec4 *v, float s)
+void vec4Div(vec4 *v, real s)
 {
 	v->x /= s;
 	v->y /= s;
@@ -69,18 +69,18 @@ void vec4Div(vec4 *v, float s)
 	v->w /= s;
 }
 
-float vec4Len3(vec4 *v)
+real vec4Len3(vec4 *v)
 {
 	return sqrtf(v->x * v->x + v->y * v->y + v->z * v->z);
 }
 
-float vec4Len(vec4 *v)
+real vec4Len(vec4 *v)
 {
 	return sqrtf(v->x * v->x + v->y * v->y + v->z * v->z + v->w * v->w);
 }
 
 // dot product
-float vec4Dot(vec4 *v0, vec4 *v1)
+real vec4Dot(vec4 *v0, vec4 *v1)
 {
 	return v0->x * v1->x + v0->y * v1->y + v0->z * v1->z + v0->w * v1->w;
 }
@@ -133,7 +133,7 @@ vec4 vec4Copy3(vec3 *v)
   VEC3
  */
 
-vec3 Vec3(float x, float y, float z)
+vec3 Vec3(real x, real y, real z)
 {
 	vec3 v;
 
@@ -142,7 +142,7 @@ vec3 Vec3(float x, float y, float z)
 	return v;
 }
 
-void vec3Init(vec3 *v, float x, float y, float z)
+void vec3Init(vec3 *v, real x, real y, real z)
 {
 	v->x = x;
 	v->y = y;
@@ -178,27 +178,27 @@ void vec3Sub(vec3 *v0, vec3 *v1) // v0 -= v1
 	v0->z -= v1->z;
 }
 
-void vec3Mul(vec3 *v, float s)
+void vec3Mul(vec3 *v, real s)
 {
 	v->x *= s;
 	v->y *= s;
 	v->z *= s;
 }
 
-void vec3Div(vec3 *v, float s)
+void vec3Div(vec3 *v, real s)
 {
 	v->x /= s;
 	v->y /= s;
 	v->z /= s;
 }
 
-float vec3Len(vec3 *v)
+real vec3Len(vec3 *v)
 {
 	return sqrtf(v->x * v->x + v->y * v->y + v->z * v->z);
 }
 
 // dot product
-float vec3Dot(vec3 *v0, vec3 *v1)
+real vec3Dot(vec3 *v0, vec3 *v1)
 {
 	return v0->x * v1->x + v0->y * v1->y + v0->z * v1->z;
 }
@@ -241,14 +241,14 @@ vec3 vec3Outwards(vec3 *p0, vec3 *p1, vec3 *v)
 
 	r = vec3Copy(v);
 
-	float s = sign(vec3Dot(v, &d));
+	real s = sign(vec3Dot(v, &d));
 
 	vec3Mul(&r, s);
 
 	return r;
 }
 
-float vec3Sign(vec3 *p0, vec3 *p1, vec3 *v)
+real vec3Sign(vec3 *p0, vec3 *p1, vec3 *v)
 {
 	vec3 r;
 	vec3 d = vec3Copy(p1);

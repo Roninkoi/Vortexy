@@ -3,12 +3,7 @@
 
 #include "volume.h"
 #include "sys.h"
-
-// volume upwind from face
-struct Volume *getUpwindVol(struct Face *f);
-
-// face upwind from volume
-struct Face *getUpwindFace(struct Volume *v);
+#include "gradient.h"
 
 // get velocity field from matrix
 void p_getVX(Obj *o);
@@ -51,39 +46,7 @@ void p_computeVolFs(Obj *o);
 // minimum correction decomposition of surfaces
 void p_decomposeSurfs(Obj *o);
 
-// interpolate face velocity from volumes
-void p_faceVI(struct Face *f);
-
-// interpolate face pressure from volumes
-void p_facePI(struct Face *f);
-
-void p_faceP(struct Face *f);
-
-// velocity correction
-void p_faceVRC(struct Face *f);
-
-void p_faceV(struct Face *f, int rc);
-
-// interpolated face pressure gradient
-void p_pFaceGradI(Obj *o);
-
-// interpolated face velocity gradient
-void p_vFaceGradI(Obj *o);
-
-void p_pFaceGrad(Obj *o);
-
-void p_vFaceGrad(Obj *o);
-
-// volume pressure gradient
-void p_pGrad(Obj *o);
-
-// volume velocity gradient
-void p_vGrad(Obj *o);
-
-// volume pressure correction gradient
-void p_pcGrad(Obj *o);
-
 // calculate face mass flow rate for volume
-float p_getMrate(struct Volume *v, struct Face *f, float rho);
+real p_getMrate(struct Volume *v, struct Face *f, real rho);
 
 #endif

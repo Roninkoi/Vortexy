@@ -47,7 +47,7 @@ void r_init(struct Renderer *r, int *running)
 	r->modelUni = glGetUniformLocation(r->shader.program, "model");
 	r->viewUni = glGetUniformLocation(r->shader.program, "view");
 	r->projUni = glGetUniformLocation(r->shader.program, "proj");
-	
+
 	r->sUni = glGetUniformLocation(r->shader.program, "rs");
 
 	r->model = imat4();
@@ -57,9 +57,36 @@ void r_init(struct Renderer *r, int *running)
 	r->camPos = nvec4();
 	r->camRot = nvec4();
 	r->modelRot = nvec4();
-	
+
 	r_flatTex(&r->flat, 255, 255, 255, 128, 128);
 	r->tex = &r->flat;
+}
+
+float *floatMat4(mat4 *m)
+{
+	float *a = calloc(16, sizeof(float));
+
+	a[0] = (float) m->m[0][0];
+	a[1] = (float) m->m[0][1];
+	a[2] = (float) m->m[0][2];
+	a[3] = (float) m->m[0][3];
+
+	a[4] = (float) m->m[1][0];
+	a[5] = (float) m->m[1][1];
+	a[6] = (float) m->m[1][2];
+	a[7] = (float) m->m[1][3];
+
+	a[8] = (float) m->m[2][0];
+	a[9] = (float) m->m[2][1];
+	a[10] = (float) m->m[2][2];
+	a[11] = (float) m->m[2][3];
+
+	a[12] = (float) m->m[3][0];
+	a[13] = (float) m->m[3][1];
+	a[14] = (float) m->m[3][2];
+	a[15] = (float) m->m[3][3];
+
+	return a;
 }
 
 void r_update(struct Renderer *r)
@@ -73,8 +100,8 @@ void r_update(struct Renderer *r)
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	
+	glClearColor(r->clrCol.x, r->clrCol.y, r->clrCol.z, r->clrCol.w);
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	r->width = r->window.width;
@@ -101,11 +128,20 @@ void r_update(struct Renderer *r)
 	  r->model = imat4();
 	  r->view = imat4();
 	  r->proj = imat4();*/
-	glUniformMatrix4fv(r->modelUni, 1, GL_TRUE, &r->model.m[0][0]);
-	glUniformMatrix4fv(r->projUni, 1, GL_TRUE, &r->proj.m[0][0]);
-	glUniformMatrix4fv(r->viewUni, 1, GL_TRUE, &r->view.m[0][0]);
-	
-	glUniform1f(r->sUni, r->s);
+
+	float *ma = floatMat4(&r->model);
+	float *pa = floatMat4(&r->proj);
+	float *va = floatMat4(&r->view);
+
+	glUniformMatrix4fv(r->modelUni, 1, GL_TRUE, ma);
+	glUniformMatrix4fv(r->projUni, 1, GL_TRUE, pa);
+	glUniformMatrix4fv(r->viewUni, 1, GL_TRUE, va);
+
+	free(ma);
+	free(pa);
+	free(va);
+
+	glUniform1f(r->sUni, r->rs);
 
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
@@ -202,48 +238,13 @@ void r_flush(struct Renderer *r)
 
 float getCentZ(struct Renderer *r, int i0, int i1, int i2)
 {
-	float z = r->vertices[r->indices[i0]*4 + 2] +
-		r->vertices[r->indices[i1]*4 + 2] +
-		r->vertices[r->indices[i2]*4 + 2];
+	float z = r->vertices[r->indices[i0] * 4 + 2] +
+			  r->vertices[r->indices[i1] * 4 + 2] +
+			  r->vertices[r->indices[i2] * 4 + 2];
 
 	z /= 3.0f;
 
 	return z;
-
-	vec4 p0 = Vec4(r->vertices[r->indices[i0]*4],
-				   r->vertices[r->indices[i0]*4 + 1],
-				   r->vertices[r->indices[i0]*4 + 2],
-				   r->vertices[r->indices[i0]*4 + 3]);
-
-	vec4 p1 = Vec4(r->vertices[r->indices[i1]*4],
-				   r->vertices[r->indices[i1]*4 + 1],
-				   r->vertices[r->indices[i1]*4 + 2],
-				   r->vertices[r->indices[i1]*4 + 3]);
-
-	vec4 p2 = Vec4(r->vertices[r->indices[i2]*4],
-				   r->vertices[r->indices[i2]*4 + 1],
-				   r->vertices[r->indices[i2]*4 + 2],
-				   r->vertices[r->indices[i2]*4 + 3]);
-
-	p0 = mat4MulV(&r->model, &p0);
-	p0 = mat4MulV(&r->view, &p0);
-	p0 = mat4MulV(&r->proj, &p0);
-
-	p1 = mat4MulV(&r->model, &p1);
-	p1 = mat4MulV(&r->view, &p1);
-	p1 = mat4MulV(&r->proj, &p1);
-
-	p2 = mat4MulV(&r->model, &p2);
-	p2 = mat4MulV(&r->view, &p2);
-	p2 = mat4MulV(&r->proj, &p2);
-
-	vec4 p = nvec4();
-	vec4Add(&p, &p0);
-	vec4Add(&p, &p1);
-	vec4Add(&p, &p2);
-	vec4Div(&p, 3.0f);
-
-	return p.z;
 }
 
 void r_sort(struct Renderer *r)
@@ -251,14 +252,14 @@ void r_sort(struct Renderer *r)
 	if (r->drawMode != GL_TRIANGLES) return;
 
 	int n = r->indexNum / 3;
-	
+
 	for (int i = 0; i < n; i += 3) {
 		int imax = i;
 		float vmax = getCentZ(r, i, i + 1, i + 2);
-		
+
 		for (int j = i + 1; j < n; j += 3) {
 			float tmax = getCentZ(r, j, j + 1, j + 2);
-			
+
 			if (tmax > vmax) {
 				imax = j;
 				vmax = tmax;
@@ -282,7 +283,7 @@ void r_sort(struct Renderer *r)
 void r_render(struct Renderer *r)
 {
 	glBindTexture(GL_TEXTURE_2D, r->tex->tex);
-	
+
 	r_copy(r);
 
 	r_flush(r);

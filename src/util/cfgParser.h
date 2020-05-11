@@ -115,6 +115,9 @@ void simParser(struct Sim *s, char *path)
 			if (strcmp(words[i], "autoquit") == 0) {
 				s->autoquit = atoi(words[i + 1]);
 			}
+			if (strcmp(words[i], "divhalt") == 0) {
+				s->divhalt = atoi(words[i + 1]);
+			}
 			if (strcmp(words[i], "epsilon") == 0) {
 				s->sys.epsilon = atof(words[i + 1]);
 			}
@@ -123,6 +126,12 @@ void simParser(struct Sim *s, char *path)
 			}
 			if (strcmp(words[i], "rs") == 0) {
 				s->rs = atof(words[i + 1]);
+			}
+			if (strcmp(words[i], "vs") == 0) {
+				s->vs = atof(words[i + 1]);
+			}
+			if (strcmp(words[i], "ps") == 0) {
+				s->ps = atof(words[i + 1]);
 			}
 			if (strcmp(words[i], "rmode") == 0) {
 				s->rmode = atof(words[i + 1]);

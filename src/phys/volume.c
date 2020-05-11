@@ -4,34 +4,34 @@
 // triangle cross product area
 void computeArea(struct Face *f)
 {
-	float vx = f->verts[4] - f->verts[0];
-	float vy = f->verts[5] - f->verts[1];
-	float vz = f->verts[6] - f->verts[2];
+	real vx = f->verts[4] - f->verts[0];
+	real vy = f->verts[5] - f->verts[1];
+	real vz = f->verts[6] - f->verts[2];
 
-	float ux = f->verts[8] - f->verts[0];
-	float uy = f->verts[9] - f->verts[1];
-	float uz = f->verts[10] - f->verts[2];
+	real ux = f->verts[8] - f->verts[0];
+	real uy = f->verts[9] - f->verts[1];
+	real uz = f->verts[10] - f->verts[2];
 
-	float x = vy * uz - vz * uy;
-	float y = -vx * uz + vz * ux;
-	float z = vx * uy - vy * ux;
+	real x = vy * uz - vz * uy;
+	real y = -vx * uz + vz * ux;
+	real z = vx * uy - vy * ux;
 
-	float cross = x * x + y * y + z * z;
-	cross = sqrtf(cross);
+	real cross = x * x + y * y + z * z;
+	cross = sqrt(cross);
 
-	f->area = cross * 0.5f;
+	f->area = cross * 0.5;
 }
 
 // centroid
 void computeFaceCent(struct Face *f)
 {
-	float x = f->verts[0] + f->verts[4] + f->verts[8];
-	float y = f->verts[1] + f->verts[5] + f->verts[9];
-	float z = f->verts[2] + f->verts[6] + f->verts[10];
+	real x = f->verts[0] + f->verts[4] + f->verts[8];
+	real y = f->verts[1] + f->verts[5] + f->verts[9];
+	real z = f->verts[2] + f->verts[6] + f->verts[10];
 
-	x /= 3.0f;
-	y /= 3.0f;
-	z /= 3.0f;
+	x /= 3.0;
+	y /= 3.0;
+	z /= 3.0;
 
 	f->centroid = Vec3(x, y, z);
 }
@@ -65,7 +65,7 @@ void computeNormalArea(struct Face *f)
 
 	f->normal = vec3Cross(&v, &u);
 
-	f->area = vec3Len(&f->normal) * 0.5f;
+	f->area = vec3Len(&f->normal) * 0.5;
 
 	vec3Normalize(&f->normal);
 
@@ -199,34 +199,9 @@ struct Face *p_loadFaces(Mesh *m, int *faceNum, int mode)
 	f = malloc(sizeof(struct Face) * fn);
 
 	for (int i = 0; i < fn; ++i) {
-		f[i].centroid = nvec3();
-		f[i].flux = nvec3();
-		f[i].d = nvec3();
-		f[i].mRate = 0.0f;
-		f[i].boundary = 0;
-		f[i].initialP = 0.0f;
-		f[i].initialV = 0.0f;
-		f[i].constantP = 0.0f;
-		f[i].constantV = 0.0f;
-		f[i].vFlux = nvec3();
-		f[i].mFlux = nvec3();
-		f[i].conFlux = nvec3();
-		f[i].pGrad = nvec3();
-		f[i].vGrad = Mat(0.0f, 3, 3);
-		f[i].pGradI = nvec3();
-		f[i].vGradI = Mat(0.0f, 3, 3);
-		f[i].v = nvec3();
-		f[i].p = 0.0f;
-		f[i].va = nvec3();
-		f[i].pa = 0.0f;
-		f[i].pc = 0.0f;
-		f[i].df = 0.0f;
-		f[i].vi = nvec3();
-		f[i].pi = 0.0f;
+		faceInit(&f[i]);
+
 		f[i].index = i;
-		f[i].vNum = 0;
-		f[i].thisVol[0] = NULL;
-		f[i].thisVol[1] = NULL;
 
 		f[i].inds[0] = m->indData[i * 3 + 0];
 		f[i].inds[1] = m->indData[i * 3 + 1];
@@ -292,14 +267,14 @@ void computeVolume(struct Volume *v)
 
 	vec3 cross = vec3Cross(&v2, &w);
 
-	v->vol = fabs((1.0f / 6.0f) * vec3Dot(&v1, &cross));
+	v->vol = fabs((1.0 / 6.0) * vec3Dot(&v1, &cross));
 }
 
 void computeVolumeCent(struct Volume *v)
 {
-	float x = 0.0f;
-	float y = 0.0f;
-	float z = 0.0f;
+	real x = 0.0;
+	real y = 0.0;
+	real z = 0.0;
 
 	for (int i = 0; i < 4; ++i) {
 		if (v->faces[i] == NULL)
@@ -310,9 +285,9 @@ void computeVolumeCent(struct Volume *v)
 		z += v->faces[i]->centroid.z;
 	}
 
-	x /= 4.0f;
-	y /= 4.0f;
-	z /= 4.0f;
+	x /= 4.0;
+	y /= 4.0;
+	z /= 4.0;
 
 	v->centroid = Vec3(x, y, z);
 }
@@ -572,18 +547,7 @@ struct Volume *p_loadVolumes(struct Face *f, int faceNum, int *volNum)
 		v[i].faces[2]->thisVol[v[i].faces[2]->vNum++] = &v[i];
 		v[i].faces[3]->thisVol[v[i].faces[3]->vNum++] = &v[i];
 
-		v[i].flux = 0.0f;
-		f[i].mRate = 0.0f;
-		v[i].mFlux = nvec3();
-		v[i].vFlux = nvec3();
-		v[i].pGrad = nvec3();
-		v[i].pcGrad = nvec3();
-		v[i].shearStress = nvec3();
-		v[i].d = nvec3();
-		v[i].s = nvec3();
-		v[i].vGrad = Mat(0.0f, 3, 3);
-
-		v[i].hasBoundary = 0;
+		volInit(&v[i]);
 
 		computeVolumeCent(&v[i]);
 		computeVolume(&v[i]);

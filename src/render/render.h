@@ -84,7 +84,11 @@ struct Renderer {
 
 	vec4 modelRot;
 
-	float s;
+	vec4 clrCol;
+
+	float rs;
+	float vs;
+	float ps;
 
 	int vis;
 };

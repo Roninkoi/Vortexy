@@ -27,6 +27,8 @@ void s_init(struct Sim *s)
 
 	s->rz = -5.0f;
 	s->rs = 1.0f;
+	s->vs = 1.0f;
+	s->ps = 1.0f;
 
 	convergence = 1;
 	sk = 0;
@@ -51,8 +53,12 @@ void s_run(struct Sim *s)
 		r_init(&s->renderer, &s->running);
 
 	s->renderer.camPos.z = s->rz;
-	s->renderer.s = s->rs;
+	s->renderer.rs = s->rs;
+	s->renderer.ps = s->ps;
+	s->renderer.vs = s->vs;
 	s->renderer.vis = s->rmode;
+
+	s->renderer.clrCol = Vec4(1.0, 1.0, 1.0, 1.0);
 #endif
 
 	p_addObj(&s->sys, s->fluidPath, s->mode);
@@ -61,7 +67,6 @@ void s_run(struct Sim *s)
 		p_sysStart(&s->sys);
 	} else {
 		s->outputting = 0;
-		s->sys.simulating = 0;
 
 		if (s->inputram) {
 			s->inputdat = wordsFromFile(s->filePath, s->inputram, &s->inputram);
@@ -90,13 +95,16 @@ void s_run(struct Sim *s)
 			s->tps = s->ticks - s->ticksOld;
 			s->ticksOld = s->ticks;
 
-			printf("ticks: %i, st [ms]: %i\n", s->tps, s->st);
+			printf("ticks: %i, st (ms): %i\n", s->tps, s->st);
 
 			for (int i = 0; i < s->sys.objNum; ++i)
-				printf("o %i, t [s]: %f\n", i, s->sys.objs[i].t);
+				printf("o %i, t (s): %f\n", i, s->sys.objs[i].t);
 
 			if (!convergence) {
 				convergence = 1;
+
+				if (s->divhalt)
+					s->sys.simulating = 0; // stop
 
 				printf("Solution not converging!\n");
 			}
@@ -282,7 +290,7 @@ void s_tick(struct Sim *s)
 		p_sysTick(&s->sys);
 	}
 
-	if (s->mode && s->ticks % s->inputf == 0) {
+	if (s->mode && s->ticks % s->inputf == 0 && s->sys.simulating) {
 		if (s->inputram) {
 			s_inputr(s);
 		}

@@ -6,7 +6,7 @@ void swapRows(mat *m, int r0, int r1)
 	//if (r0 >= m->r || r1 >= m->r) return;
 	
 	for (int c = 0; c < m->c; ++c) {
-		float old = m->m[r0][c];
+		real old = m->m[r0][c];
 
 		m->m[r0][c] = m->m[r1][c];
 		m->m[r1][c] = old;
@@ -17,11 +17,11 @@ int maxRow(mat *m, int r0, int c)
 {
 	//if (c >= m->c) return 0;
 	
-	float maxv = fabs(m->m[r0][c]);
+	real maxv = fabs(m->m[r0][c]);
 	int maxr = r0;
 	
 	for (int r = r0 + 1; r < m->r; ++r) {
-		float thisv = fabs(m->m[r][c]);
+		real thisv = fabs(m->m[r][c]);
 		
 		if (thisv > maxv) {
 			maxv = thisv;
@@ -47,7 +47,7 @@ void GaussElim(mat *m)
 			swapRows(m, pr, maxr);
 
 			for (int i = pr + 1; i < m->r; ++i) {
-				float f = m->m[i][pc] / m->m[pr][pc];
+				real f = m->m[i][pc] / m->m[pr][pc];
 
 				m->m[i][pc] = 0.0f;
 
@@ -73,7 +73,7 @@ int diagDom(mat *m)
 	int n = min(m->r, m->c);
 	
 	for (int r = 0; r < n; ++r) {
-		float sum = 0.0f;
+		real sum = 0.0f;
 
 		for (int c = 0; c < m->c; ++c) {
 			if (r != c) {
@@ -87,11 +87,11 @@ int diagDom(mat *m)
 	return 1;
 }
 
-void GaussSeidelSG(mat *a, mat *b, mat *g, int maxIt, float epsilon)
+void GaussSeidelSG(mat *a, mat *b, mat *g, int maxIt, real epsilon)
 {
 	int n = a->r;
 
-	float delta = 0.0f;
+	real delta = 0.0f;
 
 	int conv = 0;
 
@@ -99,15 +99,15 @@ void GaussSeidelSG(mat *a, mat *b, mat *g, int maxIt, float epsilon)
 		delta = 0.0f;
 
 		for (int i = 0; i < n; ++i) {
-			float x = 1.0f / a->m[i][i];
+			real x = 1.0f / a->m[i][i];
 
-			float s0 = 0.0f;
+			real s0 = 0.0f;
 
 			for (int j = a->rmin[i]; j <= i - 1; ++j) {
 				s0 += a->m[i][j] * g->m[j][0];
 			}
 
-			float s1 = 0.0f;
+			real s1 = 0.0f;
 
 			for (int j = i + 1; j <= a->rmax[i]; ++j) {
 				s1 += a->m[i][j] * g->m[j][0];
@@ -129,13 +129,13 @@ void GaussSeidelSG(mat *a, mat *b, mat *g, int maxIt, float epsilon)
 	convergence &= conv;
 }
 
-mat GaussSeidelS(mat *a, mat *b, int maxIt, float epsilon)
+mat GaussSeidelS(mat *a, mat *b, int maxIt, real epsilon)
 {
 	int n = a->r;
 
 	mat r = matCopy(b);
 
-	float delta = 0.0f;
+	real delta = 0.0f;
 
 	int conv = 0;
 
@@ -143,15 +143,15 @@ mat GaussSeidelS(mat *a, mat *b, int maxIt, float epsilon)
 		delta = 0.0f;
 		
 		for (int i = 0; i < n; ++i) {
-			float x = 1.0f / a->m[i][i];
+			real x = 1.0f / a->m[i][i];
 
-			float s0 = 0.0f;
+			real s0 = 0.0f;
 
 			for (int j = a->rmin[i]; j <= i - 1; ++j) {
 				s0 += a->m[i][j] * r.m[j][0];
 			}
 
-			float s1 = 0.0f;
+			real s1 = 0.0f;
 			
 			for (int j = i + 1; j <= a->rmax[i]; ++j) {
 				s1 += a->m[i][j] * r.m[j][0];
@@ -175,27 +175,27 @@ mat GaussSeidelS(mat *a, mat *b, int maxIt, float epsilon)
 	return r;
 }
 
-mat GaussSeidel(mat *a, mat *b, int maxIt, float epsilon)
+mat GaussSeidel(mat *a, mat *b, int maxIt, real epsilon)
 {
 	int n = a->r;
 
 	mat r = matCopy(b);
 
-	float delta = 0.0f;
+	real delta = 0.0f;
 
 	for (int k = 0; k < maxIt; ++k) {
 		delta = 0.0f;
 		
 		for (int i = 0; i < n; ++i) {
-			float x = 1.0f / a->m[i][i];
+			real x = 1.0f / a->m[i][i];
 
-			float s0 = 0.0f;
+			real s0 = 0.0f;
 
 			for (int j = 0; j <= i - 1; ++j) {
 				s0 += a->m[i][j] * r.m[j][0];
 			}
 
-			float s1 = 0.0f;
+			real s1 = 0.0f;
 			
 			for (int j = i + 1; j < n; ++j) {
 				s1 += a->m[i][j] * r.m[j][0];

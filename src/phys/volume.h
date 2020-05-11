@@ -6,23 +6,27 @@
 struct Volume;
 
 struct Face { // triangle
-	float verts[12];
+	real verts[12];
 	int inds[3];
 
 	//int vertNum;
 	//int indNum;
 
 	vec3 v; // velocity
-	float p; // pressure
+	vec3 vn; // velocity
+	real p; // pressure
 	vec3 vi; // velocity
-	float pi; // pressure
+	vec3 vin; // velocity
+	real pi; // pressure
 
-	float initialV; // initial conditions
-	float initialP;
-	float constantV;
-	float constantP;
+	real initialV; // initial conditions
+	real initialP;
+	real constantV;
+	real constantP;
 	
 	int boundary; // boundary condition
+
+	int isWall;
 
 	vec3 normal; // unit normal
 	vec3 surface; // surface vector with area
@@ -33,16 +37,17 @@ struct Face { // triangle
 
 	vec3 volDist; // distance between volumes
 
-	float mRate; // mass flow rate
+	real mRate; // mass flow rate
 	vec3 mFlux; // mass flux
 	vec3 vFlux; // velocity flux
 	vec3 flux; // face flux
 
 	vec3 conFlux;
 
-	float df;
+	real df;
 
-	float pc;
+	real pc;
+	real pci;
 
 	vec3 d;
 
@@ -53,12 +58,11 @@ struct Face { // triangle
 	mat vGradI; // interpolated
 	vec3 pGradI; // interpolated
 
-	
 	vec3 va; // velocity coefficients
 
-	float pa; // pressure coefficients
+	real pa; // pressure coefficients
 
-	float area;
+	real area;
 
 	int index; // index in face array
 
@@ -69,6 +73,41 @@ struct Face { // triangle
 	int vNum;
 };
 
+void faceInit(struct Face *f)
+{
+	f->centroid = nvec3();
+	f->flux = nvec3();
+	f->d = nvec3();
+	f->mRate = 0.0;
+	f->boundary = 0;
+	f->isWall = 0;
+	f->initialP = 0.0;
+	f->initialV = 0.0;
+	f->constantP = 0.0;
+	f->constantV = 0.0;
+	f->vFlux = nvec3();
+	f->mFlux = nvec3();
+	f->conFlux = nvec3();
+	f->pGrad = nvec3();
+	f->vGrad = Mat(0.0, 3, 3);
+	f->pGradI = nvec3();
+	f->vGradI = Mat(0.0, 3, 3);
+	f->v = nvec3();
+	f->vn = nvec3();
+	f->p = 0.0;
+	f->va = nvec3();
+	f->pa = 0.0;
+	f->pc = 0.0;
+	f->pci = 0.0;
+	f->df = 0.0;
+	f->vi = nvec3();
+	f->vin = nvec3();
+	f->pi = 0.0;
+	f->vNum = 0;
+	f->thisVol[0] = NULL;
+	f->thisVol[1] = NULL;
+}
+
 struct Volume { // tetrahedron
 	struct Face *faces[4];
 	struct Volume *neighbours[4]; // neighbouring volume elements
@@ -78,7 +117,7 @@ struct Volume { // tetrahedron
 	//int faceNum;
 
 	vec3 v; // volume
-	float p; // pressure
+	real p; // pressure
 
 	vec3 s; // source
 
@@ -86,10 +125,10 @@ struct Volume { // tetrahedron
 	vec3 pGrad; // pressure gradient
 	vec3 pcGrad; // pressure correction gradient
 
-	float mRate; // mass flow rate
+	real mRate; // mass flow rate
 	vec3 mFlux; // mass flux
 	vec3 vFlux; // velocity flux
-	float flux; // volume flux
+	real flux; // volume flux
 
 	vec3 shearStress;
 	int hasBoundary;
@@ -97,19 +136,34 @@ struct Volume { // tetrahedron
 	vec3 va; // velocity coefficients
 	vec3 vb;
 
-	float pa; // pressure coefficients
-	float pb;
+	real pa; // pressure coefficients
+	real pb;
 
 	vec3 d;
 
-	float pc;
+	real pc;
 
 	int index;
 
-	float vol;
+	real vol;
 
 	vec3 centroid;
 };
+
+void volInit(struct Volume *v)
+{
+	v->flux = 0.0;
+	v->mRate = 0.0;
+	v->mFlux = nvec3();
+	v->vFlux = nvec3();
+	v->pGrad = nvec3();
+	v->pcGrad = nvec3();
+	v->shearStress = nvec3();
+	v->d = nvec3();
+	v->s = nvec3();
+	v->vGrad = Mat(0.0, 3, 3);
+	v->hasBoundary = 0;
+}
 
 // allocates faces which are returned
 struct Face *p_loadFaces(Mesh *m, int *faceNum, int mode);

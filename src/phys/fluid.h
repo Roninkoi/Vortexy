@@ -4,13 +4,13 @@
 #include "util/vec.h"
 
 struct Fluid {	
-	float rho; // density
-	float nu; // kinematic viscosity
-	float mu; // dynamic viscosity
+	real rho; // density
+	real nu; // kinematic viscosity
+	real mu; // dynamic viscosity
 
-	float re; // reynolds number
+	real re; // reynolds number
 
-	float bp; // base pressure
+	real bp; // base pressure
 	
 	vec3 f; // source
 

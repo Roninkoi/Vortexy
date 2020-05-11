@@ -15,8 +15,11 @@ void p_loadObj(Obj *o, char *fluidPath, int mode)
 	p_loadObjMesh(o);
 	o->faces = p_loadFaces(&o->mesh, &o->faceNum, mode);
 
-	if (mode)
+	if (mode) {
+		fluidParser(o, fluidPath);
+
 		return;
+	}
 		
 	p_loadObjVolumes(o);
 
@@ -48,6 +51,9 @@ void p_reloadObj(Obj *o, char *fluidPath)
 		if (o->faces[i].boundary < 0) {
 			o->faces[i].boundary = 0;
 		}
+
+		if (o->faces[i].boundary == 1 || o->faces[i].boundary == 2)
+			o->faces[i].isWall = 1;
 
 		if (o->faces[i].boundary)
 			for (int j = 0; j < o->faces[i].vNum; ++j)

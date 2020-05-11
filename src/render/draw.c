@@ -4,45 +4,46 @@
 void rm(struct Renderer *r, struct Sys *s)
 {
 	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
 
 	glEnable(GL_BLEND);
 	/*glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);*/
 	glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
-	glBlendFuncSeparate(GL_ONE, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);*/
-	glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
+	glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
 	r->tex = &r->flat;
 	for (int i = 0; i < s->objNum; ++i) {
 		/*p_meshTransform(&s->objs[i].mesh, &r->model);
 		  p_meshTransform(&s->objs[i].mesh, &r->view);
 		  p_meshTransform(&s->objs[i].mesh, &r->proj);*/
-		p_meshSetCol(&s->objs[i].mesh, 0.0f, 0.2f, 0.25f, 0.7f);
+		p_meshSetCol(&s->objs[i].mesh, 0.0f, 1.0f, 1.0f, 0.3f);
 
 		for (int j = 0; j < s->objs[i].faceNum; ++j) {
+
+			float f = (s->objs[i].faces[j].p - s->objs[i].fluid.bp) / r->ps;
+			f = clamp(1.0f - f, 0.0f, 1.0f);
+
 			int ind = s->objs[i].mesh.indData[j * 3];
-
-			float red = (s->objs[i].faces[j].p) / s->objs[i].fluid.bp;
-			red = clamp(1.0f - 1.0f / red, 0.0f, 1.0f) * 0.1f;
-
-			s->objs[i].mesh.colData[ind * 4] = red * 0.6f;
-			s->objs[i].mesh.colData[ind * 4 + 1] *= 1.0f - 0.5f * red;
+			s->objs[i].mesh.colData[ind * 4 + 1] *= f;
 			ind = s->objs[i].mesh.indData[j * 3 + 1];
-			s->objs[i].mesh.colData[ind * 4] = red * 0.6f;
-			s->objs[i].mesh.colData[ind * 4 + 1] *= 1.0f - 0.5f * red;
+			s->objs[i].mesh.colData[ind * 4 + 1] *= f;
 			ind = s->objs[i].mesh.indData[j * 3 + 2];
-			s->objs[i].mesh.colData[ind * 4] = red * 0.6f;
-			s->objs[i].mesh.colData[ind * 4 + 1] *= 1.0f - 0.5f * red;
+			s->objs[i].mesh.colData[ind * 4 + 1] *= f;
 
-			/*if (s->objs[i].faces[j].boundary > 0) {
-				s->objs[i].mesh.colData[ind * 4] += 0.1f;
-				s->objs[i].mesh.colData[ind * 4+1] += 0.1f;
+			if (s->objs[i].faces[j].boundary > 0 && false) {
+				//s->objs[i].mesh.colData[ind * 4+0] = 0.0f;
+				s->objs[i].mesh.colData[ind * 4+1] += 1.0f;
+				s->objs[i].mesh.colData[ind * 4+2] *= 0.5f;
 				ind = s->objs[i].mesh.indData[j * 3 + 1];
-				s->objs[i].mesh.colData[ind * 4] += 0.1f;
-				s->objs[i].mesh.colData[ind * 4+1] += 0.1f;
+				//s->objs[i].mesh.colData[ind * 4+0] = 0.0f;
+				s->objs[i].mesh.colData[ind * 4+1] += 1.0f;
+				s->objs[i].mesh.colData[ind * 4+2] *= 0.5f;
 				ind = s->objs[i].mesh.indData[j * 3 + 2];
-				s->objs[i].mesh.colData[ind * 4] += 0.1f;
-				s->objs[i].mesh.colData[ind * 4+1] += 0.1f;
-			}*/
+				//s->objs[i].mesh.colData[ind * 4+0] = 0.0f;
+				s->objs[i].mesh.colData[ind * 4+1] += 1.0f;
+				s->objs[i].mesh.colData[ind * 4+2] *= 0.5f;
+			}
 		}
 
 		r_drawMesh(r, &s->objs[i].mesh);
@@ -59,7 +60,7 @@ void rw(struct Renderer *r, struct Sys *s)
 	r->tex = &r->flat;
 	for (int i = 0; i < s->objNum; ++i) {
 		p_meshSetCol(&s->objs[i].mesh, 0.0f, 0.5f * 1.5f, 0.7f * 1.5f, 1.0f * 1.5f);
-		r_drawWireMesh(r, &s->objs[i].mesh, 2.0f);
+		r_drawWireMesh(r, &s->objs[i].mesh, 1.0f);
 	}
 
 	r_render(r);
@@ -139,8 +140,6 @@ void rf(struct Renderer *r, struct Sys *s)
 	}
 }
 
-float vecscale = 0.2f;
-
 void rl(struct Renderer *r, struct Sys *s)
 {
 	glEnable(GL_DEPTH_TEST);
@@ -153,7 +152,7 @@ void rl(struct Renderer *r, struct Sys *s)
 			vec4 n = vec4Copy3(&s->objs[i].volumes[j].centroid);
 			vec4 nn = vec4Copy3(&s->objs[i].volumes[j].v);
 
-			vec4Mul(&nn, vecscale);
+			vec4Mul(&nn, 1.0f / r->vs);
 			float l = vec4Len(&nn);
 
 			if (l <= 0.0f)
@@ -163,8 +162,7 @@ void rl(struct Renderer *r, struct Sys *s)
 
 			vec4Add(&nn, &n0);
 
-			vec4 col = Vec4(l, fmax(0.0f, 1.0f - l), 0.0f, 1.0f);
-			vec4Mul(&col, 5.5f);
+			vec4 col = Vec4(l, fmax(0.0f, 1.0f - l * 0.1f), 0.0f, 1.0f);
 
 			r_drawLine(r, n, nn, col, 2.0f);
 		}
@@ -185,7 +183,7 @@ void rfl(struct Renderer *r, struct Sys *s)
 			vec4 n = vec4Copy3(&s->objs[i].faces[j].centroid);
 			vec4 nn = vec4Copy3(&s->objs[i].faces[j].v);
 
-			vec4Mul(&nn, vecscale);
+			vec4Mul(&nn, 1.0f / r->vs);
 			float l = vec4Len(&nn);
 
 			if (l <= 0.0f)
@@ -195,8 +193,7 @@ void rfl(struct Renderer *r, struct Sys *s)
 
 			vec4Add(&nn, &n0);
 
-			vec4 col = Vec4(l, fmax(0.0f, 1.0f - l), 0.0f, 1.0f);
-			vec4Mul(&col, 5.5f);
+			vec4 col = Vec4(l, fmax(0.0f, 1.0f - l * 0.1f), 0.0f, 1.0f);
 
 			r_drawLine(r, n, nn, col, 2.0f);
 		}
@@ -217,19 +214,18 @@ void rtl(struct Renderer *r, struct Sys *s)
 			vec4 n = vec4Copy3(&s->objs[i].volumes[j].centroid);
 			vec4 nn = vec4Copy3(&s->objs[i].volumes[j].v);
 
-			vec4Mul(&nn, vecscale);
+			vec4Mul(&nn, 1.0f / r->vs);
 			
-			float l = sqrtf(vec4Len(&nn));
+			float l = vec4Len(&nn);
 
 			if (l <= 0.0f)
 				continue;
 
 			vec4Add(&nn, &n);
 
-			vec4 col = Vec4(l, fmax(0.0f, 1.0f - l), 0.0f, 1.0f);
-			vec4Mul(&col, 5.5f);
+			vec4 col = Vec4(l, fmax(0.0f, 1.0f - l * 0.1f), 0.0f, 1.0f);
 
-			r_drawVec(r, n, nn, col, fabs(r->camPos.z * 0.01f * log10(l + 2.)));
+			r_drawVec(r, n, nn, col, log10(l * 0.1f + 1.0f) + 0.1f);
 		}
 	}
 	r_render(r);
@@ -247,19 +243,47 @@ void rftl(struct Renderer *r, struct Sys *s)
 			vec4 n = vec4Copy3(&s->objs[i].faces[j].centroid);
 			vec4 nn = vec4Copy3(&s->objs[i].faces[j].v);
 
-			vec4Mul(&nn, vecscale);
+			vec4Mul(&nn, 1.0f / r->vs);
 			
-			float l = sqrtf(vec4Len(&nn));
+			float l = vec4Len(&nn);
 
 			if (l <= 0.0f)
 				continue;
 
 			vec4Add(&nn, &n);
 
-			vec4 col = Vec4(l, fmax(0.0f, 1.0f - l), 0.0f, 1.0f);
-			vec4Mul(&col, 5.5f);
+			vec4 col = Vec4(l, fmax(0.0f, 1.0f - l * 0.1f), 0.0f, 1.0f);
 
-			r_drawVec(r, n, nn, col, fabs(r->camPos.z * 0.01f * log10(l + 2.)));
+			r_drawVec(r, n, nn, col, log10(l * 0.1f + 1.0f) + 0.1f);
+		}
+	}
+	r_render(r);
+}
+
+void rtl_debug(struct Renderer *r, struct Sys *s)
+{
+	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_BLEND);
+	glBlendFunc(GL_DST_ALPHA, GL_SRC_ALPHA);
+
+	r->tex = &r->flat;
+	for (int i = 0; i < s->objNum; ++i) {
+		for (int j = 0; j < s->objs[i].volNum; ++j) {
+			vec4 n = vec4Copy3(&s->objs[i].volumes[j].centroid);
+			vec4 nn = vec4Copy3(&s->objs[i].volumes[j].pGrad);
+
+			vec4Mul(&nn, 1.0f / r->vs / 100000.0f);
+
+			float l = vec4Len(&nn);
+
+			if (l <= 0.0f)
+				continue;
+
+			vec4Add(&nn, &n);
+
+			vec4 col = Vec4(l, fmax(0.0f, 1.0f - l * 0.1f), 0.0f, 1.0f);
+
+			r_drawVec(r, n, nn, col, log10(l * 0.1f + 1.0f) + 0.1f);
 		}
 	}
 	r_render(r);
@@ -282,6 +306,9 @@ void r_draw(struct Renderer *r, struct Sys *s)
 		rv(r, s);
 	if (getBit(r->vis, 6))
 		rf(r, s);
+
+	if (getBit(r->vis, 7))
+		rtl_debug(r, s);
 }
 
 void r_rdraw(struct Renderer *r, struct Sys *s)

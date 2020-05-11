@@ -12,14 +12,16 @@ struct Sys {
 	int objNum;
 	int ticks;
 
-	float endt;
+	real endt;
 
 	int maxIt;
-	float epsilon;
+	real epsilon;
 
 	int reset;
 	int selected;
 	int simulating;
+
+	int debugFlag;
 };
 
 void p_sysInit(struct Sys *s);

@@ -6,7 +6,7 @@
 #include "fluid.h"
 
 typedef struct {
-	Mesh mesh; // physics mesh
+	Mesh mesh;
 	char *meshPath;
 
 	struct Face *faces;
@@ -17,11 +17,11 @@ typedef struct {
 
 	struct Fluid fluid;
 
-	float pRelax;
-	float vRelax;
+	real pRelax;
+	real vRelax;
 
-	float dt;
-	float t;
+	real dt;
+	real t;
 
 	mat a;
 	mat b;
