@@ -16,8 +16,6 @@ void p_getP(Obj *o);
 // construct pressure equation matrix
 void p_constructPMat(Obj *o);
 
-void p_faceD(struct Face *f);
-
 void p_computeD(Obj *o);
 
 void p_computePBoundCoeffs(Obj *o);

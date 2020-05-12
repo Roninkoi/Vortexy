@@ -121,6 +121,9 @@ void simParser(struct Sim *s, char *path)
 			if (strcmp(words[i], "epsilon") == 0) {
 				s->sys.epsilon = atof(words[i + 1]);
 			}
+			if (strcmp(words[i], "bgcol") == 0) {
+				s->bgcol = Vec3(atof(words[i + 1]), atof(words[i + 2]), atof(words[i + 3]));
+			}
 			if (strcmp(words[i], "rz") == 0) {
 				s->rz = atof(words[i + 1]);
 			}

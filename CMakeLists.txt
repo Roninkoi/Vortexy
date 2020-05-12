@@ -60,6 +60,7 @@ else ()
 	
     #target_link_libraries(Vortexy m GLEW GL glfw)
 	
+	include_directories(${CMAKE_CURRENT_SOURCE_DIR}/lib/glew/include)
 	target_link_libraries(Vortexy m "${CMAKE_CURRENT_SOURCE_DIR}/lib/glew/lib/libGLEW.a" GL glfw)
 
 	#target_link_libraries(Vortexy m GLEW GL glfw)

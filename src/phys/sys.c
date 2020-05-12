@@ -85,10 +85,20 @@ void p_setInitial(Obj *o)
 void p_setBoundary(Obj *o)
 {
 	for (int j = 0; j < o->faceNum; ++j) { // boundary conditions
-		vec3 cv = vec3Copy(&o->faces[j].normal);
-		vec3Mul(&cv, o->faces[j].constantV);
-		o->faces[j].v = vec3Copy(&cv);
-		o->faces[j].p = o->faces[j].constantP;
+		if (o->faces[j].boundary == 0)
+			continue;
+
+		vec3 cv;
+		switch (o->faces[j].boundary) {
+			case 3:
+				cv = vec3Copy(&o->faces[j].normal);
+				vec3Mul(&cv, o->faces[j].constantV);
+				o->faces[j].v = vec3Copy(&cv);
+				break;
+			case 4:
+				o->faces[j].p = o->faces[j].constantP;
+				break;
+		}
 	}
 }
 
@@ -136,7 +146,7 @@ void p_updateVP(Obj *o, int rc)
 {
 	for (int j = 0; j < o->faceNum; ++j) {
 		p_faceP(&o->faces[j]);
-		p_faceV(&o->faces[j], rc);
+		p_faceVE(&o->faces[j], rc);
 	}
 }
 
@@ -177,16 +187,16 @@ void p_updateM(Obj *o)
 void p_sysTick(struct Sys *s)
 {
 	for (int i = 0; i < s->objNum; ++i) {
-		real criterion = 10000.0f;
-		real residual = 2.0f * criterion;
+		real criterion = 1.0e12;
+		real residual = 0.0;
 
 		do {
+			//p_setBoundary(&s->objs[i]);
+
 			p_pGrads(&s->objs[i]);
 			p_vGrads(&s->objs[i]);
 			p_pFaceGrad(&s->objs[i]);
 			p_vFaceGrad(&s->objs[i]);
-
-			//p_setBoundary(&s->objs[i]);
 
 			/*			for (int j = 0; j < s->objs[i].volNum; ++j) {
 				real sum = 0.0;
@@ -204,16 +214,19 @@ void p_sysTick(struct Sys *s)
 				vec3Print(&s->objs[i].volumes[j].vb);
 			}*/
 
-			p_computeVBoundCoeffs(&s->objs[i]);
-
 			p_computeD(&s->objs[i]);
+
+			p_computeVBoundCoeffs(&s->objs[i]);
 
 			p_constructVMatX(&s->objs[i]);
 			GaussSeidelSG(&s->objs[i].a, &s->objs[i].b, &s->objs[i].vx, s->maxIt, s->epsilon);
 			p_getVX(&s->objs[i]);
 
 			if (s->debugFlag) {
+				printf("A\n");
 				matPrint(&s->objs[i].a);
+				printf("B\n");
+				matPrint(&s->objs[i].b);
 
 				exit(0);
 			}
@@ -235,11 +248,13 @@ void p_sysTick(struct Sys *s)
 			matDestroyS(&s->objs[i].a);
 			matDestroy(&s->objs[i].b);
 
-			/*p_pGrads(&s->objs[i]);
-			p_vGrads(&s->objs[i]);*/
-			//p_correctRC(&s->objs[i]);
-
+#if 1
+			p_pGrads(&s->objs[i]);
+			p_vGrads(&s->objs[i]);
+			p_correctRC(&s->objs[i]);
+#else
 			p_updateVP(&s->objs[i], 1);
+#endif
 
 			p_computePCoeffs(&s->objs[i]);
 
@@ -260,12 +275,15 @@ void p_sysTick(struct Sys *s)
 			for (int j = 0; j < s->objs[i].volNum; ++j) {
 				s->objs[i].volumes[j].p += s->objs[i].volumes[j].pc * s->objs[i].pRelax;
 
-				residual += fabs(s->objs[i].volumes[j].pc * s->objs[i].pRelax);
+				residual += fabs(s->objs[i].volumes[j].pc);
 
 #if 1
-				s->objs[i].volumes[j].v.x -= s->objs[i].volumes[j].d.x * s->objs[i].volumes[j].pcGrad.x * s->objs[i].pRelax;
-				s->objs[i].volumes[j].v.y -= s->objs[i].volumes[j].d.y * s->objs[i].volumes[j].pcGrad.y * s->objs[i].pRelax;
-				s->objs[i].volumes[j].v.z -= s->objs[i].volumes[j].d.z * s->objs[i].volumes[j].pcGrad.z * s->objs[i].pRelax;
+				s->objs[i].volumes[j].v.x -=
+						s->objs[i].volumes[j].d.x * s->objs[i].volumes[j].pcGrad.x * s->objs[i].pRelax;
+				s->objs[i].volumes[j].v.y -=
+						s->objs[i].volumes[j].d.y * s->objs[i].volumes[j].pcGrad.y * s->objs[i].pRelax;
+				s->objs[i].volumes[j].v.z -=
+						s->objs[i].volumes[j].d.z * s->objs[i].volumes[j].pcGrad.z * s->objs[i].pRelax;
 #else
 				s->objs[i].volumes[j].v.x -= s->objs[i].volumes[j].d.x * s->objs[i].volumes[j].pcGrad.x;
 				s->objs[i].volumes[j].v.y -= s->objs[i].volumes[j].d.y * s->objs[i].volumes[j].pcGrad.y;
@@ -275,7 +293,7 @@ void p_sysTick(struct Sys *s)
 				if (s->objs[i].volumes[j].p < 0.0 && false)
 					s->objs[i].volumes[j].p = 0.0;
 			}
-		} while (residual > criterion && false);
+		} while (residual > criterion);
 
 		s->objs[i].t += s->objs[i].dt;
 

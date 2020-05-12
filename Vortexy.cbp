@@ -11,70 +11,30 @@
 				<Option working_dir="/home/rak/Dropbox/Dev/Vortexy"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="install/strip">
 				<Option working_dir="/home/rak/Dropbox/Dev/Vortexy"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 install/strip"/>
-					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="install/local">
-				<Option working_dir="/home/rak/Dropbox/Dev/Vortexy"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 install/local"/>
-					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="install">
-				<Option working_dir="/home/rak/Dropbox/Dev/Vortexy"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 install"/>
-					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="list_install_components">
-				<Option working_dir="/home/rak/Dropbox/Dev/Vortexy"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 list_install_components"/>
-					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="rebuild_cache">
-				<Option working_dir="/home/rak/Dropbox/Dev/Vortexy"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 install/strip"/>
+					<CompileFile command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
 				<Option working_dir="/home/rak/Dropbox/Dev/Vortexy"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="Vortexy">
@@ -85,19 +45,14 @@
 				<Option compiler="gcc"/>
 				<Compiler>
 					<Add directory="/home/rak/Dropbox/Dev/Vortexy/src"/>
+					<Add directory="/home/rak/Dropbox/Dev/Vortexy/lib/glew/include"/>
 					<Add directory="/home/rak/Dropbox/Dev/Vortexy/lib/glfw/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/10/../../../../include/c++/10"/>
-					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/10/../../../../include/c++/10/x86_64-redhat-linux"/>
-					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/10/../../../../include/c++/10/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/10/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 Vortexy"/>
-					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 Vortexy"/>
+					<CompileFile command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="Vortexy/fast">
@@ -108,29 +63,64 @@
 				<Option compiler="gcc"/>
 				<Compiler>
 					<Add directory="/home/rak/Dropbox/Dev/Vortexy/src"/>
+					<Add directory="/home/rak/Dropbox/Dev/Vortexy/lib/glew/include"/>
 					<Add directory="/home/rak/Dropbox/Dev/Vortexy/lib/glfw/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/10/../../../../include/c++/10"/>
-					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/10/../../../../include/c++/10/x86_64-redhat-linux"/>
-					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/10/../../../../include/c++/10/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/10/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 Vortexy/fast"/>
-					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 Vortexy/fast"/>
+					<CompileFile command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install">
+				<Option working_dir="/home/rak/Dropbox/Dev/Vortexy"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 install"/>
+					<CompileFile command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/rak/Dropbox/Dev/Vortexy"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="list_install_components">
+				<Option working_dir="/home/rak/Dropbox/Dev/Vortexy"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 list_install_components"/>
+					<CompileFile command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install/local">
+				<Option working_dir="/home/rak/Dropbox/Dev/Vortexy"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 install/local"/>
+					<CompileFile command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="uninstall">
 				<Option working_dir="/home/rak/Dropbox/Dev/Vortexy/lib/glfw"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/lib/glfw/Makefile&quot;  VERBOSE=1 uninstall"/>
-					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/lib/glfw/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/lib/glfw/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/lib/glfw/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/lib/glfw/Makefile&quot;  VERBOSE=1 uninstall"/>
+					<CompileFile command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/lib/glfw/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/lib/glfw/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/lib/glfw/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="glfw">
@@ -144,18 +134,12 @@
 					<Add directory="/home/rak/Dropbox/Dev/Vortexy/src"/>
 					<Add directory="/home/rak/Dropbox/Dev/Vortexy/lib/glfw/include"/>
 					<Add directory="/home/rak/Dropbox/Dev/Vortexy/lib/glfw/src"/>
-					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/10/../../../../include/c++/10"/>
-					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/10/../../../../include/c++/10/x86_64-redhat-linux"/>
-					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/10/../../../../include/c++/10/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/10/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/lib/glfw/src/Makefile&quot;  VERBOSE=1 glfw"/>
-					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/lib/glfw/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/lib/glfw/src/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/lib/glfw/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/lib/glfw/src/Makefile&quot;  VERBOSE=1 glfw"/>
+					<CompileFile command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/lib/glfw/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/lib/glfw/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/lib/glfw/src/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="glfw/fast">
@@ -169,18 +153,12 @@
 					<Add directory="/home/rak/Dropbox/Dev/Vortexy/src"/>
 					<Add directory="/home/rak/Dropbox/Dev/Vortexy/lib/glfw/include"/>
 					<Add directory="/home/rak/Dropbox/Dev/Vortexy/lib/glfw/src"/>
-					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/10/../../../../include/c++/10"/>
-					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/10/../../../../include/c++/10/x86_64-redhat-linux"/>
-					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/10/../../../../include/c++/10/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/10/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/lib/glfw/src/Makefile&quot;  VERBOSE=1 glfw/fast"/>
-					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/lib/glfw/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/lib/glfw/src/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/rak/Dropbox/Dev/Vortexy/lib/glfw/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/lib/glfw/src/Makefile&quot;  VERBOSE=1 glfw/fast"/>
+					<CompileFile command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/lib/glfw/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/lib/glfw/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -f &quot;/home/rak/Dropbox/Dev/Vortexy/lib/glfw/src/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>

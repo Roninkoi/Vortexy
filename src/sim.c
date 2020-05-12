@@ -58,7 +58,7 @@ void s_run(struct Sim *s)
 	s->renderer.vs = s->vs;
 	s->renderer.vis = s->rmode;
 
-	s->renderer.clrCol = Vec4(1.0, 1.0, 1.0, 1.0);
+	s->renderer.clrCol = Vec4(s->bgcol.x, s->bgcol.y, s->bgcol.z, 1.0);
 #endif
 
 	p_addObj(&s->sys, s->fluidPath, s->mode);

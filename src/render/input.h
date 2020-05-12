@@ -6,10 +6,6 @@
 #include "render.h"
 #include "phys/sys.h"
 
-void scrollCallback(GLFWwindow *window, double xoffs, double yoffs) {
-	scroll += -(float) yoffs / 10.0f;
-}
-
 int ctrlDown;
 int shiftDown;
 
@@ -24,6 +20,10 @@ int n7Down;
 int uDown;
 
 int lmbDown;
+
+void scrollCallback(GLFWwindow *window, double xoffs, double yoffs) {
+	scroll += -(float) yoffs / 10.0f;
+}
 
 void r_getInput(struct Renderer *r, struct Sys* s)
 {

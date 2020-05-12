@@ -47,6 +47,7 @@ struct Sim {
 	float rs;
 	float ps;
 	float vs;
+	vec3 bgcol;
 	int rmode;
 
 	int autoquit;

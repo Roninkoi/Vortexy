@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <math.h>
 
+// data type for vector math
 #define real double
 
 // three-vector type
@@ -97,5 +98,7 @@ vec3 vec3Copy(vec3 *v);
 vec3 vec3Outwards(vec3 *p0, vec3 *p1, vec3 *v);
 
 real vec3Sign(vec3 *p0, vec3 *p1, vec3 *v);
+
+int vec3Equ(vec3 *v0, vec3 *v1);
 
 #endif
