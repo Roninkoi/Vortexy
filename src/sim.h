@@ -53,6 +53,7 @@ struct Sim {
 	int autoquit;
 
 	FILE *file;
+	int outputt;
 	int outputting;
 	int outputf;
 	int inputf;

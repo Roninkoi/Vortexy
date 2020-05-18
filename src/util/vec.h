@@ -71,6 +71,7 @@ vec3 Vec3(real x, real y, real z);
 void vec3Init(vec3 *v, real x, real y, real z);
 
 void vec3Print(vec3 *v);
+void vec3Prints(vec3 *v);
 
 vec3 ivec3();
 

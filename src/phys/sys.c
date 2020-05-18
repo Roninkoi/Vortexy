@@ -5,14 +5,18 @@
 #include "sys.h"
 #include "util/mat.h"
 
-void p_sysInit(struct Sys *s)
-{
-	s->objs = NULL;
-	s->objNum = 0;
-	s->simulating = 1;
-	s->reset = 0;
-	s->selected = 0;
-	s->debugFlag = 0;
+#define GRAD2
+
+#define printVField(prefix, postfix0, postfix1, pfn) \
+for (int pfi = 0; pfi < pfn; ++pfi) { \
+	vec3Prints(&(prefix[pfi].postfix0)); \
+	vec3Print(&(prefix[pfi].postfix1)); \
+}
+
+#define printSField(prefix, postfix0, postfix1, pfn) \
+for (int pfi = 0; pfi < pfn; ++pfi) { \
+	vec3Prints(&(prefix[pfi].postfix0)); \
+	printf("%f\n", (prefix[pfi].postfix1)); \
 }
 
 void p_addObj(struct Sys *s, char *fluidPath, int mode)
@@ -74,7 +78,7 @@ void p_setInitial(Obj *o)
 		vec3Mul(&v0, o->faces[j].initialV);
 
 		o->faces[j].v = vec3Copy(&v0);
-		o->faces[j].p = o->fluid.bp + o->faces[j].initialP;
+		o->faces[j].p = o->faces[j].initialP;
 
 		o->faces[j].d = nvec3();
 		o->faces[j].pGradI = nvec3();
@@ -116,31 +120,6 @@ void p_sysRestart(struct Sys *s, char *fluidPath)
 	p_sysStart(s);
 }
 
-void p_sysStart(struct Sys *s)
-{
-	for (int i = 0; i < s->objNum; ++i) {
-		s->objs[i].t = 0.0f;
-
-		p_decomposeSurfs(&s->objs[i]);
-
-		p_setInitial(&s->objs[i]);
-
-		for (int j = 0; j < s->objs[i].volNum; ++j) {
-			s->objs[i].volumes[j].d = nvec3();
-			s->objs[i].volumes[j].pGrad = nvec3();
-			s->objs[i].volumes[j].pcGrad = nvec3();
-
-			volV(&s->objs[i].volumes[j]);
-			volP(&s->objs[i].volumes[j]);
-		}
-
-		s->objs[i].vx = Mat(1.0f, s->objs[i].volNum, 1);
-		s->objs[i].vy = Mat(1.0f, s->objs[i].volNum, 1);
-		s->objs[i].vz = Mat(1.0f, s->objs[i].volNum, 1);
-		s->objs[i].vp = Mat(1.0f, s->objs[i].volNum, 1);
-	}
-}
-
 // update velocity and pressure at faces
 void p_updateVP(Obj *o, int rc)
 {
@@ -168,6 +147,31 @@ void p_correctRC(Obj *o)
 	}
 }
 
+// save old iteration values
+void p_in(Obj *o)
+{
+	for (int j = 0; j < o->volNum; ++j) {
+		o->volumes[j].vn = vec3Copy(&o->volumes[j].v);
+	}
+	for (int j = 0; j < o->faceNum; ++j) {
+		o->faces[j].vn = vec3Copy(&o->faces[j].v);
+		o->faces[j].vin = vec3Copy(&o->faces[j].vi);
+	}
+}
+
+// save old time values
+void p_tn(Obj *o)
+{
+	for (int j = 0; j < o->volNum; ++j) {
+		o->volumes[j].vtn = vec3Copy(&o->volumes[j].v);
+	}
+	for (int j = 0; j < o->faceNum; ++j) {
+		o->faces[j].vtn = vec3Copy(&o->faces[j].v);
+		o->faces[j].vitn = vec3Copy(&o->faces[j].vi);
+		o->faces[j].dtn = vec3Copy(&o->faces[j].d);
+	}
+}
+
 // update mass flow
 void p_updateM(Obj *o)
 {
@@ -183,6 +187,34 @@ void p_updateM(Obj *o)
 	}
 }
 
+void p_sysStart(struct Sys *s)
+{
+	for (int i = 0; i < s->objNum; ++i) {
+		s->objs[i].t = 0.0;
+
+		p_decomposeSurfs(&s->objs[i]);
+
+		p_setInitial(&s->objs[i]);
+
+		for (int j = 0; j < s->objs[i].volNum; ++j) {
+			s->objs[i].volumes[j].d = nvec3();
+			s->objs[i].volumes[j].pGrad = nvec3();
+			s->objs[i].volumes[j].pcGrad = nvec3();
+
+			volV(&s->objs[i].volumes[j]);
+			volP(&s->objs[i].volumes[j]);
+		}
+
+		s->objs[i].vx = Matc(1.0, s->objs[i].volNum);
+		s->objs[i].vy = Matc(1.0, s->objs[i].volNum);
+		s->objs[i].vz = Matc(1.0, s->objs[i].volNum);
+		s->objs[i].vp = Matc(1.0, s->objs[i].volNum);
+
+		p_in(&s->objs[i]);
+		p_tn(&s->objs[i]);
+	}
+}
+
 // main simulation loop
 void p_sysTick(struct Sys *s)
 {
@@ -190,11 +222,22 @@ void p_sysTick(struct Sys *s)
 		real criterion = 1.0e12;
 		real residual = 0.0;
 
+		int in = 0;
+		int imax = 4;
+
 		do {
 			//p_setBoundary(&s->objs[i]);
 
-			p_pGrads(&s->objs[i]);
-			p_vGrads(&s->objs[i]);
+#ifdef GRAD2
+			p_pGradsh(&s->objs[i]);
+			p_vGradsh(&s->objs[i]);
+#else
+			p_updateVP(&s->objs[i], 0);
+
+			p_pGrad(&s->objs[i]);
+			p_vGrad(&s->objs[i]);
+#endif
+
 			p_pFaceGrad(&s->objs[i]);
 			p_vFaceGrad(&s->objs[i]);
 
@@ -208,13 +251,15 @@ void p_sysTick(struct Sys *s)
 			p_computeFaceFs(&s->objs[i]);
 
 			p_computeVCoeffs(&s->objs[i]);
-			p_computeVFaceCoeffs(&s->objs[i]);
+			//p_computeVFaceCoeffs(&s->objs[i]); // unnecessary
 
 			/*for (int j = 0; j < s->objs[i].volNum; ++j) {
 				vec3Print(&s->objs[i].volumes[j].vb);
 			}*/
 
 			p_computeD(&s->objs[i]);
+
+			p_faceBoundP(&s->objs[i]); // extrapolate pressure at boundary faces?
 
 			p_computeVBoundCoeffs(&s->objs[i]);
 
@@ -227,6 +272,13 @@ void p_sysTick(struct Sys *s)
 				matPrint(&s->objs[i].a);
 				printf("B\n");
 				matPrint(&s->objs[i].b);
+				printf("A X ~ B\n");
+				mat c = matMul(&s->objs[i].a, &s->objs[i].vx);
+				mat cc = matSub(&c, &s->objs[i].b);
+				matPrint(&c);
+				printf("max error %f\n", matMax(&cc));
+				matDestroy(&c);
+				matDestroy(&cc);
 
 				exit(0);
 			}
@@ -248,7 +300,7 @@ void p_sysTick(struct Sys *s)
 			matDestroyS(&s->objs[i].a);
 			matDestroy(&s->objs[i].b);
 
-#if 1
+#if 0
 			p_pGrads(&s->objs[i]);
 			p_vGrads(&s->objs[i]);
 			p_correctRC(&s->objs[i]);
@@ -257,7 +309,6 @@ void p_sysTick(struct Sys *s)
 #endif
 
 			p_computePCoeffs(&s->objs[i]);
-
 			p_computePBoundCoeffs(&s->objs[i]);
 
 			p_constructPMat(&s->objs[i]);
@@ -267,7 +318,19 @@ void p_sysTick(struct Sys *s)
 			matDestroyS(&s->objs[i].a);
 			matDestroy(&s->objs[i].b);
 
-			p_pcGrads(&s->objs[i]);
+#ifdef GRAD2
+			p_pcGradsh(&s->objs[i]);
+#else
+			p_pcGrad(&s->objs[i]);
+#endif
+
+			/*printf("pc\n");
+			printSField(s->objs[i].volumes, centroid, pc, s->objs[i].volNum);
+			printf("pc end\n");
+
+			printf("pcgrad\n");
+			printVField(s->objs[i].volumes, centroid, pcGrad, s->objs[i].volNum);
+			printf("pcgrad end\n");*/
 
 			residual = 0.0f;
 
@@ -290,12 +353,22 @@ void p_sysTick(struct Sys *s)
 				s->objs[i].volumes[j].v.z -= s->objs[i].volumes[j].d.z * s->objs[i].volumes[j].pcGrad.z;
 #endif
 
-				if (s->objs[i].volumes[j].p < 0.0 && false)
-					s->objs[i].volumes[j].p = 0.0;
+				if (s->objs[i].volumes[j].p < 0.0) {
+					//s->objs[i].volumes[j].p = 0.0;
+					s->unreal = 4;
+				}
 			}
-		} while (residual > criterion);
+
+			p_in(&s->objs[i]);
+
+			//printf("(%i / %i)\n", in, imax);
+
+			++in;
+		} while (/*residual > criterion &&*/ in < imax);
 
 		s->objs[i].t += s->objs[i].dt;
+
+		p_tn(&s->objs[i]);
 
 		if (s->objs[i].t > s->endt)
 			s->simulating = 0;

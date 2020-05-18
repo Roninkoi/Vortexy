@@ -91,23 +91,23 @@ void GaussSeidelSG(mat *a, mat *b, mat *g, int maxIt, real epsilon)
 {
 	int n = a->r;
 
-	real delta = 0.0f;
+	real delta = 0.0;
 
 	int conv = 0;
 
 	for (int k = 0; k < maxIt; ++k) {
-		delta = 0.0f;
+		delta = 0.0;
 
 		for (int i = 0; i < n; ++i) {
-			real x = 1.0f / a->m[i][i];
+			real x = 1.0 / a->m[i][i];
 
-			real s0 = 0.0f;
+			real s0 = 0.0;
 
 			for (int j = a->rmin[i]; j <= i - 1; ++j) {
 				s0 += a->m[i][j] * g->m[j][0];
 			}
 
-			real s1 = 0.0f;
+			real s1 = 0.0;
 
 			for (int j = i + 1; j <= a->rmax[i]; ++j) {
 				s1 += a->m[i][j] * g->m[j][0];
@@ -181,21 +181,21 @@ mat GaussSeidel(mat *a, mat *b, int maxIt, real epsilon)
 
 	mat r = matCopy(b);
 
-	real delta = 0.0f;
+	real delta = 0.0;
 
 	for (int k = 0; k < maxIt; ++k) {
-		delta = 0.0f;
+		delta = 0.0;
 		
 		for (int i = 0; i < n; ++i) {
-			real x = 1.0f / a->m[i][i];
+			real x = 1.0 / a->m[i][i];
 
-			real s0 = 0.0f;
+			real s0 = 0.0;
 
 			for (int j = 0; j <= i - 1; ++j) {
 				s0 += a->m[i][j] * r.m[j][0];
 			}
 
-			real s1 = 0.0f;
+			real s1 = 0.0;
 			
 			for (int j = i + 1; j < n; ++j) {
 				s1 += a->m[i][j] * r.m[j][0];

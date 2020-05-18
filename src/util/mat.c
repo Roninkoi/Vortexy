@@ -22,6 +22,26 @@ mat Mat(real s, int r, int c)
 	return m;
 }
 
+mat Matc(real s, int r)
+{
+	mat m;
+
+	m.m = malloc(sizeof(real *) * r);
+
+	for (int i = 0; i < r; ++i) {
+		m.m[i] = calloc(1, sizeof(real));
+	}
+
+	for (int i = 0; i < r; ++i) {
+		m.m[i][0] = s;
+	}
+
+	m.r = r;
+	m.c = 1;
+
+	return m;
+}
+
 mat matVec3(vec3 *v)
 {
 	mat m = Mat(0.0f, 3, 1);
@@ -216,6 +236,21 @@ mat matRandom(real s, int r, int c)
 	}
 
 	return m;
+}
+
+real matMax(mat *m)
+{
+	real max = 0.0;
+
+	for (int i = 0; i < m->r; ++i) {
+		for (int j = 0; j < m->c; ++j) {
+			if (fabs(m->m[i][j]) > max) {
+				max = fabs(m->m[i][j]);
+			}
+		}
+	}
+
+	return max;
 }
 
 void matPrint(mat *m)

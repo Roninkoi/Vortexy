@@ -22,9 +22,19 @@ struct Sys {
 	int simulating;
 
 	int debugFlag;
+	int unreal;
 };
 
-void p_sysInit(struct Sys *s);
+void p_sysInit(struct Sys *s)
+{
+	s->objs = NULL;
+	s->objNum = 0;
+	s->simulating = 1;
+	s->reset = 0;
+	s->selected = 0;
+	s->debugFlag = 0;
+	s->unreal = 0;
+}
 
 void p_sysTick(struct Sys *s);
 

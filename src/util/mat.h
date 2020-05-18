@@ -14,6 +14,7 @@ typedef struct {
 } mat;
 
 mat Mat(real s, int r, int c);
+mat Matc(real s, int r);
 
 mat matCopy(mat *m);
 real matDiagProd(mat *m);
@@ -47,6 +48,8 @@ mat matVec3(vec3 *v);
 vec3 vec3Mat(mat *m);
 
 mat matVec4(vec4 *v);
+
+real matMax(mat *m);
 
 // 4 x 4 square matrix type
 typedef struct {

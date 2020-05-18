@@ -19,6 +19,8 @@ void p_facePI(struct Face *f);
 
 void p_faceP(struct Face *f);
 
+void p_faceBoundP(Obj *o);
+
 void p_faceV(struct Face *f, int rc);
 void p_faceVE(struct Face *f, real urf);
 
@@ -56,5 +58,14 @@ void p_vGrads(Obj *o);
 
 // volume pressure correction gradient
 void p_pcGrads(Obj *o);
+
+// volume pressure gradient halfway
+void p_pGradsh(Obj *o);
+
+// volume velocity gradient halfway
+void p_vGradsh(Obj *o);
+
+// volume pressure correction gradient halfway
+void p_pcGradsh(Obj *o);
 
 #endif //GRADIENT_H

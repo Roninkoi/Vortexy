@@ -14,9 +14,11 @@ struct Face { // triangle
 
 	vec3 v; // velocity
 	vec3 vn; // velocity
+	vec3 vtn; // velocity
 	real p; // pressure
 	vec3 vi; // velocity
 	vec3 vin; // velocity
+	vec3 vitn; // velocity
 	real pi; // pressure
 
 	real initialV; // initial conditions
@@ -50,6 +52,7 @@ struct Face { // triangle
 	real pci;
 
 	vec3 d;
+	vec3 dtn;
 
 	vec3 ed;
 
@@ -78,6 +81,7 @@ void faceInit(struct Face *f)
 	f->centroid = nvec3();
 	f->flux = nvec3();
 	f->d = nvec3();
+	f->dtn = nvec3();
 	f->mRate = 0.0;
 	f->boundary = 0;
 	f->isWall = 0;
@@ -94,6 +98,7 @@ void faceInit(struct Face *f)
 	f->vGradI = Mat(0.0, 3, 3);
 	f->v = nvec3();
 	f->vn = nvec3();
+	f->vtn = nvec3();
 	f->p = 0.0;
 	f->va = nvec3();
 	f->pa = 0.0;
@@ -101,7 +106,7 @@ void faceInit(struct Face *f)
 	f->pci = 0.0;
 	f->df = 0.0;
 	f->vi = nvec3();
-	f->vin = nvec3();
+	f->vitn = nvec3();
 	f->pi = 0.0;
 	f->vNum = 0;
 	f->thisVol[0] = NULL;
@@ -116,12 +121,14 @@ struct Volume { // tetrahedron
 
 	//int faceNum;
 
-	vec3 v; // volume
+	vec3 v; // velocity
+	vec3 vn; // velocity
+	vec3 vtn; // velocity
 	real p; // pressure
 
 	vec3 s; // source
 
-	mat vGrad; // volume gradient
+	mat vGrad; // velocity gradient
 	vec3 pGrad; // pressure gradient
 	vec3 pcGrad; // pressure correction gradient
 
@@ -154,6 +161,14 @@ void volInit(struct Volume *v)
 {
 	v->flux = 0.0;
 	v->mRate = 0.0;
+	v->v = nvec3();
+	v->vn = nvec3();
+	v->vtn = nvec3();
+	v->p = 0.0;
+	v->va = nvec3();
+	v->vb = nvec3();
+	v->pa = 0.0;
+	v->pb = 0.0;
 	v->mFlux = nvec3();
 	v->vFlux = nvec3();
 	v->pGrad = nvec3();

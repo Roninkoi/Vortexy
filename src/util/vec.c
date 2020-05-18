@@ -154,6 +154,11 @@ void vec3Print(vec3 *v)
 	printf("(%.10f, %.10f, %.10f)\n", v->x, v->y, v->z);
 }
 
+void vec3Prints(vec3 *v)
+{
+	printf("(%.10f, %.10f, %.10f) ", v->x, v->y, v->z);
+}
+
 vec3 ivec3()
 {
 	return Vec3(1.0f, 1.0f, 1.0f);

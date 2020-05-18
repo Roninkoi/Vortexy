@@ -225,7 +225,7 @@ void rtl(struct Renderer *r, struct Sys *s)
 
 			vec4 col = Vec4(l, fmax(0.0f, 1.0f - l * 0.1f), 0.0f, 1.0f);
 
-			r_drawVec(r, n, nn, col, log10(l * 0.1f + 1.0f) + 0.1f);
+			r_drawVec(r, n, nn, col, l * 0.01f + 0.01f);
 		}
 	}
 	r_render(r);
@@ -254,7 +254,7 @@ void rftl(struct Renderer *r, struct Sys *s)
 
 			vec4 col = Vec4(l, fmax(0.0f, 1.0f - l * 0.1f), 0.0f, 1.0f);
 
-			r_drawVec(r, n, nn, col, log10(l * 0.1f + 1.0f) + 0.1f);
+			r_drawVec(r, n, nn, col, l * 0.01f + 0.01f);
 		}
 	}
 	r_render(r);
@@ -272,7 +272,7 @@ void rtl_debug(struct Renderer *r, struct Sys *s)
 			vec4 n = vec4Copy3(&s->objs[i].volumes[j].centroid);
 			vec4 nn = vec4Copy3(&s->objs[i].volumes[j].pGrad);
 
-			vec4Mul(&nn, 1.0f / r->vs / 100000.0f);
+			vec4Mul(&nn, 1.0f / 100000.0f);
 
 			float l = vec4Len(&nn);
 

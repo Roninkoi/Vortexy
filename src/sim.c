@@ -87,13 +87,17 @@ void s_run(struct Sim *s)
 
 	while (s->running) {
 		s->time = timeMillis() - s->startTime;
-		int p = s->time - s->timeOld >= 1000;
+		int p = (s->time - s->timeOld >= 1000);
+		int ps = p && s->sys.simulating;
 
 		if (p) {
 			s->st = s->time - s->timeOld;
 			s->timeOld = s->time;
 			s->tps = s->ticks - s->ticksOld;
 			s->ticksOld = s->ticks;
+
+			if (!ps)
+				continue;
 
 			printf("ticks: %i, st (ms): %i\n", s->tps, s->st);
 
@@ -106,7 +110,12 @@ void s_run(struct Sim *s)
 				if (s->divhalt)
 					s->sys.simulating = 0; // stop
 
-				printf("Solution not converging!\n");
+				printf("Solver not converging!\n");
+			}
+
+			if (s->sys.unreal) {
+				printf("Solution not physical (code: %i)\n", s->sys.unreal);
+				s->sys.unreal = 0;
 			}
 		}
 
@@ -136,7 +145,7 @@ void s_run(struct Sim *s)
 		if (!s->rendered)
 			continue;
 
-		if (p) {
+		if (ps) {
 			printf("draws: %i, batches: %i\n", s->renderer.draws, s->renderer.batches);
 		}
 
@@ -168,6 +177,9 @@ void s_run(struct Sim *s)
 
 void s_output(struct Sim *s)
 {
+	if (!s->outputt)
+		s->file = freopen(s->filePath, "w", s->file);
+
 	fprintf(s->file, "s %i\n", s->ticks);
 
 	for (int i = 0; i < s->sys.objNum; ++i) {

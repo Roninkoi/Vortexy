@@ -145,6 +145,9 @@ void simParser(struct Sim *s, char *path)
 			if (strcmp(words[i], "outputting") == 0) {
 				s->outputting = atoi(words[i + 1]);
 			}
+			if (strcmp(words[i], "outputt") == 0) {
+				s->outputt = atoi(words[i + 1]);
+			}
 			if (strcmp(words[i], "outputf") == 0) {
 				s->outputf = atoi(words[i + 1]);
 			}

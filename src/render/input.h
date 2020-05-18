@@ -21,6 +21,12 @@ int uDown;
 
 int lmbDown;
 
+float msx;
+float msy;
+float selx;
+float sely;
+int kset;
+
 void scrollCallback(GLFWwindow *window, double xoffs, double yoffs) {
 	scroll += -(float) yoffs / 10.0f;
 }
@@ -58,6 +64,9 @@ void r_getInput(struct Renderer *r, struct Sys* s)
 			mp.x -= 1.0f;
 			mp.y += 1.0f;
 
+			msx = mp.x;
+			msy = mp.y;
+
 			for (int i = 0; i < s->objs[0].mesh.indNum / 3; i += 1) {
 				float x = s->objs[0].mesh.vertData[s->objs[0].mesh.indData[i * 3] * 4];
 				x += s->objs[0].mesh.vertData[s->objs[0].mesh.indData[i * 3 + 1] * 4];
@@ -78,22 +87,45 @@ void r_getInput(struct Renderer *r, struct Sys* s)
 				p = mat4MulV(&mi, &p);
 				p.x /= fabs(p.z);
 				p.y /= fabs(p.z);
-				p.z *= 0.001f;
+
+				if (p.z < 0.0)
+					continue;
+
+				p.z = 0.0;
+				p.w = 0.0;
+
+				if (kset && s->objs[0].faces[i].vNum == 1) {
+					if (((p.x < mp.x && p.x > selx) || (p.x > mp.x && p.x < selx)) && ((p.y < mp.y && p.y > sely) || (p.y > mp.y && p.y < sely))) {
+						s->objs[0].faces[i].boundary = 1;
+					}
+				}
 
 				vec4Sub(&p, &mp);
 
 				float cz = vec4Len3(&p);
+
+				if (i == s->selected)
+					continue;
 
 				if (cz < minz) {
 					minz = cz;
 					ind = i;
 				}
 			}
+			if (kset) {
+				kset = 0;
+			}
 
 			printf("face index: %i\n", ind);
 
 			if (ind >= 0) {
 				s->selected = ind;
+
+				printf("face v: ");
+				vec3Print(&s->objs[0].faces[ind].v);
+				printf("face pGrad: ");
+				vec3Print(&s->objs[0].faces[ind].pGrad);
+				printf("face p: %f\n", s->objs[0].faces[ind].p);
 			}
 		}
 	}
@@ -268,6 +300,11 @@ void r_getInput(struct Renderer *r, struct Sys* s)
 
 	if (glfwGetKey(r->window.window, GLFW_KEY_B)) {
 		s->debugFlag = 1;
+	}
+	if (glfwGetKey(r->window.window, GLFW_KEY_K)) {
+		selx = msx;
+		sely = msy;
+		kset = 1;
 	}
 }
 

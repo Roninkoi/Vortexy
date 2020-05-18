@@ -5,7 +5,7 @@
 #include "gradient.h"
 
 //#define HALF // halfway approximation
-#define GRADIT 3 // gradient iterations
+#define GRADIT 2 // gradient iterations
 
 // calculate geometric weighting factor
 real getGWF(struct Face *f)
@@ -14,9 +14,28 @@ real getGWF(struct Face *f)
 
 	vec3Sub(&d0, &f->centroid);
 
+	return vec3Len(&d0) / vec3Len(&f->volDist);
+}
+
+// calculate geometric weighting factor
+real getGWFp(struct Face *f)
+{
 #ifdef HALF
 	return 0.5;
 #endif
+
+	return getGWF(f);
+
+	vec3 e = vec3Copy(&f->volDist);
+	vec3Normalize(&e);
+
+	vec3 fc = vec3Copy(&e);
+	real fd = vec3Dot(&f->centroid, &f->normal) / vec3Dot(&e, &f->normal);
+	vec3Mul(&fc, fd);
+
+	vec3 d0 = vec3Copy(&f->thisVol[1]->centroid);
+
+	vec3Sub(&d0, &fc);
 
 	return vec3Len(&d0) / vec3Len(&f->volDist);
 }
@@ -31,11 +50,7 @@ void p_faceD(struct Face *f)
 		return;
 	}
 
-	vec3 d0 = vec3Copy(&f->thisVol[1]->centroid);
-
-	vec3Sub(&d0, &f->centroid);
-
-	real g0 = vec3Len(&d0) / vec3Len(&f->volDist);
+	real g0 = getGWF(f);
 
 	vec3 pd0 = vec3Copy(&f->thisVol[0]->d);
 	vec3Mul(&pd0, g0);
@@ -62,7 +77,7 @@ void p_faceVI(struct Face *f)
 
 	vec3Sub(&d0, &f->centroid);
 
-	real g0 = getGWF(f);
+	real g0 = getGWFp(f);
 
 	vec3 vel0 = vec3Copy(&f->thisVol[0]->v);
 	vec3Mul(&vel0, g0);
@@ -85,7 +100,7 @@ void p_facePI(struct Face *f)
 		return;
 	}
 
-	real g0 = getGWF(f);
+	real g0 = getGWFp(f);
 
 	real pre0 = f->thisVol[0]->p * g0;
 
@@ -105,7 +120,7 @@ void p_facePCI(struct Face *f)
 		return;
 	}
 
-	real g0 = getGWF(f);
+	real g0 = getGWFp(f);
 
 	real pre0 = f->thisVol[0]->pc * g0;
 
@@ -142,9 +157,9 @@ real boundaryPressure(struct Face *f)
 	t.y *= f->d.y;
 	t.z *= f->d.z;
 
-	f->p = vol->p;
+	//f->p = vol->p;
 
-	real pc = (vec3Dot(&vol->pGrad, &s) - vec3Dot(&f->pGrad, &t)) / vec3Len(&f->volDist); // d_c == d?
+	real pc = (vec3Dot(&vol->pGrad, &s) - vec3Dot(&f->pGrad, &t)) / f->df; // d_c == e / d_cb? or d?
 #else
 	real pc = vec3Dot(&f->thisVol[0]->pGrad, &f->volDist); // taylor
 #endif
@@ -152,22 +167,29 @@ real boundaryPressure(struct Face *f)
 	return pc;
 }
 
+void p_faceBoundP(Obj *o)
+{
+	for (int i = 0; i < o->faceNum; ++i) {
+		struct Face *f = &o->faces[i];
+
+		switch (f->boundary) {
+			case 1:
+			case 2:
+			case 3: // same for 1, 2, 3
+				f->p += boundaryPressure(f);
+				return;
+			case 4:
+				f->p = f->constantP;
+				return;
+		}
+	}
+}
+
 void p_faceP(struct Face *f)
 {
 	p_facePI(f);
 
 	f->p = f->pi;
-
-	switch (f->boundary) {
-		case 1:
-		case 2:
-		case 3:
-			f->p += boundaryPressure(f);
-			return;
-		case 4:
-			f->p = f->constantP;
-			return;
-	}
 }
 
 // Rhie-Chow interpolation
@@ -201,19 +223,28 @@ void p_faceVRCE(struct Face *f, real urf)
 
 	vec3Sub(&f->v, &vc);
 
-	vc = vec3Copy(&f->vn);
-
+	vc = vec3Copy(&f->vn); // under-relaxation
 	vec3Sub(&vc, &f->vin);
 	vec3Mul(&vc, 1.0 - urf);
 
 	vec3Add(&f->v, &vc);
+
+	return;
+
+	vc = vec3Copy(&f->vtn); // transient
+	vec3Sub(&vc, &f->vitn);
+
+	if (vec3Len(&f->dtn) == 0.0) return;
+
+	vc.x *= f->d.x / f->dtn.x;
+	vc.y *= f->d.y / f->dtn.y;
+	vc.z *= f->d.z / f->dtn.z;
+
+	vec3Add(&f->v, &vc);
 }
 
-void p_faceV(struct Face *f, int rc)
+void fv(struct Face *f)
 {
-	f->vin = vec3Copy(&f->vi);
-	f->vn = vec3Copy(&f->v);
-
 	p_faceVI(f);
 
 	f->v = vec3Copy(&f->vi);
@@ -226,6 +257,11 @@ void p_faceV(struct Face *f, int rc)
 			f->v = vec3Copy(&cv);
 			return;
 	}
+}
+
+void p_faceV(struct Face *f, int rc)
+{
+	fv(f);
 
 	if (rc)
 		p_faceVRC(f);
@@ -234,12 +270,7 @@ void p_faceV(struct Face *f, int rc)
 // if urf == 0.0 then rc = 0
 void p_faceVE(struct Face *f, real urf)
 {
-	f->vin = vec3Copy(&f->vi);
-	f->vn = vec3Copy(&f->v);
-
-	p_faceVI(f);
-
-	f->v = vec3Copy(&f->vi);
+	fv(f);
 
 	if (urf > 0.0)
 		p_faceVRCE(f, urf);
@@ -255,10 +286,7 @@ void p_pFaceGradI(Obj *o)
 			vec3 g0 = vec3Copy(&o->faces[i].thisVol[0]->pGrad);
 			vec3 g1 = vec3Copy(&o->faces[i].thisVol[1]->pGrad);
 
-			vec3 d0 = vec3Copy(&o->faces[i].thisVol[1]->centroid);
-
-			vec3Sub(&d0, &o->faces[i].centroid);
-			real wf = vec3Len(&d0) / vec3Len(&o->faces[i].volDist);
+			real wf = getGWF(&o->faces[i]);
 
 			vec3Mul(&g0, wf);
 			vec3Mul(&g1, 1.0 - wf);
@@ -281,10 +309,7 @@ void p_vFaceGradI(Obj *o)
 			mat g0 = matCopy(&o->faces[i].thisVol[0]->vGrad);
 			mat g1 = matCopy(&o->faces[i].thisVol[1]->vGrad);
 
-			vec3 d0 = vec3Copy(&o->faces[i].thisVol[1]->centroid);
-			vec3Sub(&d0, &o->faces[i].centroid);
-
-			real wf = vec3Len(&d0) / vec3Len(&o->faces[i].volDist);
+			real wf = getGWF(&o->faces[i]);
 
 			mat s0 = Mat(wf, 3, 3);
 			mat s1 = Mat(1.0 - wf, 3, 3);
@@ -293,6 +318,14 @@ void p_vFaceGradI(Obj *o)
 			mat gg1 = matMul(&g1, &s1);
 
 			o->faces[i].vGradI = matAdd(&gg0, &gg1);
+
+			/*printf("=\n");
+			matPrint(&g0);
+			printf("-\n");
+			matPrint(&g1);
+			printf("-\n");
+			matPrint(&o->faces[i].vGradI);
+			printf(".\n");*/
 
 			matDestroy(&g0);
 			matDestroy(&g1);
@@ -311,15 +344,21 @@ void p_pFaceGrad(Obj *o)
 	for (int i = 0; i < o->faceNum; ++i) {
 		o->faces[i].pGrad = vec3Copy(&o->faces[i].pGradI);
 
-		if (o->faces[i].vNum < 2)
-			continue;
+		real op;
+
+		if (o->faces[i].vNum < 2) {
+			op = o->faces[i].p;
+		}
+		else {
+			op = o->faces[i].thisVol[1]->p;
+		}
 
 		vec3 e = vec3Copy(&o->faces[i].volDist);
 		vec3Normalize(&e);
 
 		vec3 pc = vec3Copy(&e);
 
-		real c = (o->faces[i].thisVol[1]->p - o->faces[i].thisVol[0]->p) / vec3Len(&o->faces[i].volDist);
+		real c = (op - o->faces[i].thisVol[0]->p) / vec3Len(&o->faces[i].volDist);
 		c -= vec3Dot(&o->faces[i].pGradI, &e);
 
 		vec3Mul(&pc, c);
@@ -335,27 +374,28 @@ void p_vFaceGrad(Obj *o)
 	for (int i = 0; i < o->faceNum; ++i) {
 		matDestroy(&o->faces[i].vGrad);
 
-		if (o->faces[i].vNum < 2) {
-			o->faces[i].vGrad = matCopy(&o->faces[i].vGradI);
+		vec3 ov;
 
-			continue;
+		if (o->faces[i].vNum < 2) {
+			ov = vec3Copy(&o->faces[i].v);
+		}
+		else {
+			ov = vec3Copy(&o->faces[i].thisVol[1]->v);
 		}
 
 		vec3 e = vec3Copy(&o->faces[i].volDist);
+		vec3Normalize(&e);
 
-		vec3 v0 = vec3Copy(&o->faces[i].thisVol[1]->v);
+		vec3 v0 = vec3Copy(&ov);
 		vec3 v1 = vec3Copy(&o->faces[i].thisVol[0]->v);
 
 		vec3Sub(&v0, &v1);
-		vec3Mul(&v0, 1.0 / vec3Len(&e));
+		vec3Div(&v0, vec3Len(&o->faces[i].volDist));
 		mat vm = matVec3(&v0);
 
-		vec3Normalize(&e);
-
-		mat vg0 = matCopy(&o->faces[i].vGradI);
 		mat em = matVec3(&e);
 		mat emt = matTranspose(&em);
-		mat vg1 = matMul(&vg0, &em);
+		mat vg1 = matMul(&o->faces[i].vGradI, &em);
 
 		mat vg2 = matSub(&vm, &vg1);
 		mat vg3 = matMul(&vg2, &emt);
@@ -363,7 +403,6 @@ void p_vFaceGrad(Obj *o)
 		o->faces[i].vGrad = matAdd(&o->faces[i].vGradI, &vg3);
 
 		matDestroy(&vm);
-		matDestroy(&vg0);
 		matDestroy(&em);
 		matDestroy(&emt);
 		matDestroy(&vg1);
@@ -372,7 +411,7 @@ void p_vFaceGrad(Obj *o)
 	}
 }
 
-// volume pressure gradient
+// volume pressure gradient (Green-Gauss)
 void p_pGrad(Obj *o)
 {
 	for (int i = 0; i < o->volNum; ++i) {
@@ -470,24 +509,24 @@ void p_pGrads(Obj *o)
 				continue;
 
 			if (f->vNum < 2) {
-				continue;
+				continue; // lower order estimate at boundary?
 			}
 
-			real wf = getGWF(f);
+			real wf = getGWFp(f);
 
 			vec3 gc0 = vec3Copy(&f->thisVol[0]->pGrad);
 			vec3 gc1 = vec3Copy(&f->thisVol[1]->pGrad);
 
 			vec3 rf = vec3Copy(&f->centroid);
 
-			vec3 rc0 = vec3Copy(&f->thisVol[0]->centroid);
-			vec3 rc1 = vec3Copy(&f->thisVol[1]->centroid);
+			vec3 rc0 = vec3Copy(&rf);
+			vec3 rc1 = vec3Copy(&rf);
 
-			vec3Sub(&rc0, &rf); // rc0 - rf
-			vec3Sub(&rc1, &rf);
+			vec3Sub(&rc0, &f->thisVol[0]->centroid); // rf - rc
+			vec3Sub(&rc1, &f->thisVol[1]->centroid);
 
-			real c0 = -wf * (vec3Dot(&gc0, &rc0)); // wf gc0 . (rf - rc0)
-			real c1 = -(1.0 - wf) * (vec3Dot(&gc1, &rc1));
+			real c0 = wf * (vec3Dot(&gc0, &rc0)); // wf gc0 . (rf - rc0)
+			real c1 = (1.0 - wf) * (vec3Dot(&gc1, &rc1));
 
 			f->p = f->pi + c0 + c1;
 		}
@@ -518,37 +557,32 @@ void p_vGrads(Obj *o)
 				continue;
 			}
 
-			real wf = getGWF(f);
-
-			mat gc0 = matCopy(&f->thisVol[0]->vGrad);
-			mat gc1 = matAdd(&gc0, &f->thisVol[1]->vGrad);
+			real wf = getGWFp(f);
 
 			vec3 rf = vec3Copy(&f->centroid);
 
-			vec3 rc0 = vec3Copy(&f->thisVol[0]->centroid);
-			vec3 rc1 = vec3Copy(&f->thisVol[1]->centroid);
+			vec3 rc0 = vec3Copy(&rf);
+			vec3 rc1 = vec3Copy(&rf);
 
-			vec3Sub(&rc0, &rf); // rc0 - rf
-			vec3Sub(&rc1, &rf);
+			vec3Sub(&rc0, &f->thisVol[0]->centroid); // rf - rc
+			vec3Sub(&rc1, &f->thisVol[1]->centroid);
 
 			mat rc0m = matVec3(&rc0);
 			mat rc1m = matVec3(&rc1);
 
-			mat gr0 = matMul(&gc0, &rc0m);
-			mat gr1 = matMul(&gc1, &rc1m);
+			mat gr0 = matDot(&f->thisVol[0]->vGrad, &rc0m);
+			mat gr1 = matDot(&f->thisVol[1]->vGrad, &rc1m);
 
 			vec3 cv0 = vec3Mat(&gr0);
 			vec3 cv1 = vec3Mat(&gr1);
 
-			vec3Mul(&cv0, -wf);
-			vec3Mul(&cv1, -(1.0 - wf));
+			vec3Mul(&cv0, wf);
+			vec3Mul(&cv1, (1.0 - wf));
 
 			f->v = vec3Copy(&f->vi);
 			vec3Add(&f->v, &cv0);
 			vec3Add(&f->v, &cv1);
 
-			matDestroy(&gc0);
-			matDestroy(&gc1);
 			matDestroy(&rc0m);
 			matDestroy(&rc1m);
 			matDestroy(&gr0);
@@ -565,9 +599,7 @@ void p_pcGrads(Obj *o)
 	for (int i = 0; i < o->faceNum; ++i) {
 		struct Face *f = &o->faces[i];
 
-		p_facePCI(f);
-
-		f->pc = f->pci;
+		p_facePC(f);
 	}
 
 	p_pcGrad(o);
@@ -583,21 +615,21 @@ void p_pcGrads(Obj *o)
 				continue;
 			}
 
-			real wf = getGWF(f);
+			real wf = getGWFp(f);
 
 			vec3 gc0 = vec3Copy(&f->thisVol[0]->pcGrad);
 			vec3 gc1 = vec3Copy(&f->thisVol[1]->pcGrad);
 
 			vec3 rf = vec3Copy(&f->centroid);
 
-			vec3 rc0 = vec3Copy(&f->thisVol[0]->centroid);
-			vec3 rc1 = vec3Copy(&f->thisVol[1]->centroid);
+			vec3 rc0 = vec3Copy(&rf);
+			vec3 rc1 = vec3Copy(&rf);
 
-			vec3Sub(&rc0, &rf); // rc0 - rf
-			vec3Sub(&rc1, &rf);
+			vec3Sub(&rc0, &f->thisVol[0]->centroid); // rf - rc
+			vec3Sub(&rc1, &f->thisVol[1]->centroid);
 
-			real c0 = -wf * (vec3Dot(&gc0, &rc0)); // wf gc0 . (rf - rc0)
-			real c1 = -(1.0 - wf) * (vec3Dot(&gc1, &rc1));
+			real c0 = wf * (vec3Dot(&gc0, &rc0)); // wf gc0 . (rf - rc0)
+			real c1 = (1.0 - wf) * (vec3Dot(&gc1, &rc1));
 
 			f->pc = f->pci + c0 + c1;
 		}
@@ -606,3 +638,142 @@ void p_pcGrads(Obj *o)
 	}
 }
 
+// volume pressure gradient halfway
+void p_pGradsh(Obj *o)
+{
+	for (int i = 0; i < o->faceNum; ++i) {
+		struct Face *f = &o->faces[i];
+
+		p_faceP(f);
+	}
+
+	p_pGrad(o);
+
+	for (int k = 0; k < GRADIT; ++k) {
+		for (int i = 0; i < o->faceNum; ++i) {
+			struct Face *f = &o->faces[i];
+
+			if (f->vNum == 0)
+				continue;
+
+			if (f->vNum < 2) {
+				continue; // lower order estimate at boundary?
+			}
+
+			vec3 gc0 = vec3Copy(&f->thisVol[0]->pGrad);
+			vec3 gc1 = vec3Copy(&f->thisVol[1]->pGrad);
+
+			vec3Add(&gc0, &gc1);
+
+			vec3 rf = vec3Copy(&f->centroid);
+
+			vec3 rcf = vec3Copy(&f->thisVol[0]->centroid);
+			vec3Add(&rcf, &f->thisVol[1]->centroid);
+			vec3Mul(&rcf, 0.5);
+
+			vec3Sub(&rf, &rcf);
+
+			real c = 0.5 * vec3Dot(&gc0, &rf); // wf gc0 . (rf - rc0)
+
+			f->p = f->pi + c;
+		}
+
+		p_pGrad(o);
+	}
+}
+
+// volume velocity gradient halfway
+void p_vGradsh(Obj *o)
+{
+	for (int i = 0; i < o->faceNum; ++i) {
+		struct Face *f = &o->faces[i];
+
+		p_faceV(f, 0);
+	}
+
+	p_vGrad(o);
+
+	for (int k = 0; k < GRADIT; ++k) {
+		for (int i = 0; i < o->faceNum; ++i) {
+			struct Face *f = &o->faces[i];
+
+			if (f->vNum == 0)
+				continue;
+
+			if (f->vNum < 2) {
+				continue;
+			}
+
+			mat gc0 = matCopy(&f->thisVol[0]->vGrad);
+			mat gc1 = matAdd(&gc0, &f->thisVol[1]->vGrad); // gc0 = vg0 + vg1
+
+			vec3 rf = vec3Copy(&f->centroid);
+
+			vec3 rcf = vec3Copy(&f->thisVol[0]->centroid);
+			vec3Add(&rcf, &f->thisVol[1]->centroid);
+			vec3Mul(&rcf, 0.5);
+
+			vec3Sub(&rf, &rcf);
+
+			mat rfm = matVec3(&rf);
+
+			mat d = matDot(&gc0, &rfm);
+			vec3 c = vec3Mat(&d);
+			vec3Mul(&c, 0.5);
+
+			f->v = vec3Copy(&f->vi);
+			vec3Add(&f->v, &c);
+
+			matDestroy(&gc0);
+			matDestroy(&gc1);
+			matDestroy(&rfm);
+			matDestroy(&d);
+		}
+
+		p_vGrad(o);
+	}
+}
+
+// pressure correction gradient halfway
+void p_pcGradsh(Obj *o)
+{
+	for (int i = 0; i < o->faceNum; ++i) {
+		struct Face *f = &o->faces[i];
+
+		p_facePC(f);
+	}
+
+	p_pcGrad(o);
+
+	for (int k = 0; k < GRADIT; ++k) {
+		for (int i = 0; i < o->faceNum; ++i) {
+			struct Face *f = &o->faces[i];
+
+			if (f->vNum == 0)
+				continue;
+
+			if (f->vNum < 2) {
+				continue;
+			}
+
+			vec3 gc0 = vec3Copy(&f->thisVol[0]->pcGrad);
+			vec3 gc1 = vec3Copy(&f->thisVol[1]->pcGrad);
+
+			vec3Add(&gc0, &gc1);
+
+			vec3 rf = vec3Copy(&f->centroid);
+
+			vec3 rcf = vec3Copy(&f->thisVol[0]->centroid);
+			vec3Add(&rcf, &f->thisVol[1]->centroid);
+			vec3Mul(&rcf, 0.5);
+
+			vec3Sub(&rf, &rcf);
+
+			real c = 0.5 * vec3Dot(&gc0, &rf); // wf gc0 . (rf - rc0)
+
+			f->pc = f->pci + c;
+		}
+
+		p_pcGrad(o);
+	}
+}
