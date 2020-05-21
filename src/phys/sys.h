@@ -14,8 +14,15 @@ struct Sys {
 
 	real endt;
 
+	int dtMaxIt;
 	int maxIt;
 	real epsilon;
+	int relaxm;
+	real residual; // residual target
+	real res; // current residual
+	int in; // iteration number
+
+	int printitn;
 
 	int reset;
 	int selected;
@@ -34,6 +41,9 @@ void p_sysInit(struct Sys *s)
 	s->selected = 0;
 	s->debugFlag = 0;
 	s->unreal = 0;
+	s->residual = 0.0;
+	s->res = 0.0;
+	s->in = 0;
 }
 
 void p_sysTick(struct Sys *s);

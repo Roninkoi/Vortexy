@@ -48,7 +48,7 @@ void s_init(struct Sim *s)
 // main loop
 void s_run(struct Sim *s)
 {
-#if RENDER_ENABLED == 1
+#if RENDER_ENABLED
 	if (s->rendered)
 		r_init(&s->renderer, &s->running);
 
@@ -101,6 +101,8 @@ void s_run(struct Sim *s)
 
 			printf("ticks: %i, st (ms): %i\n", s->tps, s->st);
 
+			printf("residual %f, in %i\n", s->sys.res, s->sys.in);
+
 			for (int i = 0; i < s->sys.objNum; ++i)
 				printf("o %i, t (s): %f\n", i, s->sys.objs[i].t);
 
@@ -141,7 +143,7 @@ void s_run(struct Sim *s)
 		if (!s->sys.simulating && s->autoquit && !s->mode)
 			break;
 
-#if RENDER_ENABLED == 1
+#if RENDER_ENABLED
 		if (!s->rendered)
 			continue;
 

@@ -9,14 +9,14 @@
 
 #define printVField(prefix, postfix0, postfix1, pfn) \
 for (int pfi = 0; pfi < pfn; ++pfi) { \
-	vec3Prints(&(prefix[pfi].postfix0)); \
-	vec3Print(&(prefix[pfi].postfix1)); \
+    vec3Prints(&(prefix[pfi].postfix0)); \
+    vec3Print(&(prefix[pfi].postfix1)); \
 }
 
 #define printSField(prefix, postfix0, postfix1, pfn) \
 for (int pfi = 0; pfi < pfn; ++pfi) { \
-	vec3Prints(&(prefix[pfi].postfix0)); \
-	printf("%f\n", (prefix[pfi].postfix1)); \
+    vec3Prints(&(prefix[pfi].postfix0)); \
+    printf("%f\n", (prefix[pfi].postfix1)); \
 }
 
 void p_addObj(struct Sys *s, char *fluidPath, int mode)
@@ -219,15 +219,9 @@ void p_sysStart(struct Sys *s)
 void p_sysTick(struct Sys *s)
 {
 	for (int i = 0; i < s->objNum; ++i) {
-		real criterion = 1.0e12;
-		real residual = 0.0;
-
-		int in = 0;
-		int imax = 4;
+		s->in = 0;
 
 		do {
-			//p_setBoundary(&s->objs[i]);
-
 #ifdef GRAD2
 			p_pGradsh(&s->objs[i]);
 			p_vGradsh(&s->objs[i]);
@@ -241,21 +235,10 @@ void p_sysTick(struct Sys *s)
 			p_pFaceGrad(&s->objs[i]);
 			p_vFaceGrad(&s->objs[i]);
 
-			/*			for (int j = 0; j < s->objs[i].volNum; ++j) {
-				real sum = 0.0;
-				for (int k = 0; k < 4; ++k)
-					sum += p_getMrate(&s->objs[i].volumes[j], s->objs[i].volumes[j].faces[k], s->objs[i].fluid.rho);
-				printf("%f\n", sum);
-				}*/
 			p_computeVolFs(&s->objs[i]);
 			p_computeFaceFs(&s->objs[i]);
 
 			p_computeVCoeffs(&s->objs[i]);
-			//p_computeVFaceCoeffs(&s->objs[i]); // unnecessary
-
-			/*for (int j = 0; j < s->objs[i].volNum; ++j) {
-				vec3Print(&s->objs[i].volumes[j].vb);
-			}*/
 
 			p_computeD(&s->objs[i]);
 
@@ -324,34 +307,29 @@ void p_sysTick(struct Sys *s)
 			p_pcGrad(&s->objs[i]);
 #endif
 
-			/*printf("pc\n");
-			printSField(s->objs[i].volumes, centroid, pc, s->objs[i].volNum);
-			printf("pc end\n");
-
-			printf("pcgrad\n");
-			printVField(s->objs[i].volumes, centroid, pcGrad, s->objs[i].volNum);
-			printf("pcgrad end\n");*/
-
-			residual = 0.0f;
+			s->res = 0.0;
 
 			// apply field corrections
 			for (int j = 0; j < s->objs[i].volNum; ++j) {
 				s->objs[i].volumes[j].p += s->objs[i].volumes[j].pc * s->objs[i].pRelax;
 
-				residual += fabs(s->objs[i].volumes[j].pc);
+				real corr = fabs(s->objs[i].volumes[j].pc);
 
-#if 1
-				s->objs[i].volumes[j].v.x -=
-						s->objs[i].volumes[j].d.x * s->objs[i].volumes[j].pcGrad.x * s->objs[i].pRelax;
-				s->objs[i].volumes[j].v.y -=
-						s->objs[i].volumes[j].d.y * s->objs[i].volumes[j].pcGrad.y * s->objs[i].pRelax;
-				s->objs[i].volumes[j].v.z -=
-						s->objs[i].volumes[j].d.z * s->objs[i].volumes[j].pcGrad.z * s->objs[i].pRelax;
-#else
-				s->objs[i].volumes[j].v.x -= s->objs[i].volumes[j].d.x * s->objs[i].volumes[j].pcGrad.x;
-				s->objs[i].volumes[j].v.y -= s->objs[i].volumes[j].d.y * s->objs[i].volumes[j].pcGrad.y;
-				s->objs[i].volumes[j].v.z -= s->objs[i].volumes[j].d.z * s->objs[i].volumes[j].pcGrad.z;
-#endif
+				if (corr > s->res)
+					s->res = corr;
+
+				if (s->relaxm) {
+					s->objs[i].volumes[j].v.x -=
+							s->objs[i].volumes[j].d.x * s->objs[i].volumes[j].pcGrad.x * s->objs[i].pRelax;
+					s->objs[i].volumes[j].v.y -=
+							s->objs[i].volumes[j].d.y * s->objs[i].volumes[j].pcGrad.y * s->objs[i].pRelax;
+					s->objs[i].volumes[j].v.z -=
+							s->objs[i].volumes[j].d.z * s->objs[i].volumes[j].pcGrad.z * s->objs[i].pRelax;
+				} else {
+					s->objs[i].volumes[j].v.x -= s->objs[i].volumes[j].d.x * s->objs[i].volumes[j].pcGrad.x;
+					s->objs[i].volumes[j].v.y -= s->objs[i].volumes[j].d.y * s->objs[i].volumes[j].pcGrad.y;
+					s->objs[i].volumes[j].v.z -= s->objs[i].volumes[j].d.z * s->objs[i].volumes[j].pcGrad.z;
+				}
 
 				if (s->objs[i].volumes[j].p < 0.0) {
 					//s->objs[i].volumes[j].p = 0.0;
@@ -361,10 +339,11 @@ void p_sysTick(struct Sys *s)
 
 			p_in(&s->objs[i]);
 
-			//printf("(%i / %i)\n", in, imax);
+			++s->in;
 
-			++in;
-		} while (/*residual > criterion &&*/ in < imax);
+			if (s->printitn)
+				printf("itn %i / %i, res %f\n", s->in, s->dtMaxIt, s->res);
+		} while (s->res > s->residual && s->in < s->dtMaxIt);
 
 		s->objs[i].t += s->objs[i].dt;
 

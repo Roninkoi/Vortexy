@@ -16,7 +16,7 @@
 #define RENDER_ENABLED 1
 
 // renderer include
-#if RENDER_ENABLED == 1
+#if RENDER_ENABLED
 
 #include "render/render.h"
 #include "render/input.h"
@@ -24,7 +24,7 @@
 #endif
 
 struct Sim {
-#if RENDER_ENABLED == 1
+#if RENDER_ENABLED
 	struct Renderer renderer;
 #endif
 

@@ -4,8 +4,9 @@
 
 #include "gradient.h"
 
-//#define HALF // halfway approximation
-#define GRADIT 2 // gradient iterations
+#define HALF // halfway approximation
+#define GRADIT 4 // gradient iterations
+#define RCTRANS // rhie-chow transient term
 
 // calculate geometric weighting factor
 real getGWF(struct Face *f)
@@ -190,6 +191,12 @@ void p_faceP(struct Face *f)
 	p_facePI(f);
 
 	f->p = f->pi;
+
+	switch (f->boundary) {
+		case 4:
+			f->p = f->constantP;
+			return;
+	}
 }
 
 // Rhie-Chow interpolation
@@ -229,12 +236,15 @@ void p_faceVRCE(struct Face *f, real urf)
 
 	vec3Add(&f->v, &vc);
 
+#ifndef RCTRANS
 	return;
+#endif
 
-	vc = vec3Copy(&f->vtn); // transient
+	vc = vec3Copy(&f->vtn); // transient (first-order euler only)
 	vec3Sub(&vc, &f->vitn);
 
-	if (vec3Len(&f->dtn) == 0.0) return;
+	if (f->dtn.x == 0.0 || f->dtn.y == 0.0 || f->dtn.z == 0.0)
+		return;
 
 	vc.x *= f->d.x / f->dtn.x;
 	vc.y *= f->d.y / f->dtn.y;
@@ -251,6 +261,9 @@ void fv(struct Face *f)
 
 	vec3 cv;
 	switch (f->boundary) {
+		case 1:
+			//f->v = nvec3();
+			return;
 		case 3:
 			cv = vec3Copy(&f->normal);
 			vec3Mul(&cv, f->constantV);

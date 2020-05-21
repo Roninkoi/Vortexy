@@ -118,8 +118,14 @@ void simParser(struct Sim *s, char *path)
 			if (strcmp(words[i], "divhalt") == 0) {
 				s->divhalt = atoi(words[i + 1]);
 			}
+			if (strcmp(words[i], "printitn") == 0) {
+				s->sys.printitn = atoi(words[i + 1]);
+			}
 			if (strcmp(words[i], "epsilon") == 0) {
 				s->sys.epsilon = atof(words[i + 1]);
+			}
+			if (strcmp(words[i], "residual") == 0) {
+				s->sys.residual = atof(words[i + 1]);
 			}
 			if (strcmp(words[i], "bgcol") == 0) {
 				s->bgcol = Vec3(atof(words[i + 1]), atof(words[i + 2]), atof(words[i + 3]));
@@ -138,6 +144,12 @@ void simParser(struct Sim *s, char *path)
 			}
 			if (strcmp(words[i], "rmode") == 0) {
 				s->rmode = atof(words[i + 1]);
+			}
+			if (strcmp(words[i], "relaxm") == 0) {
+				s->sys.relaxm = atoi(words[i + 1]);
+			}
+			if (strcmp(words[i], "dtmaxit") == 0) {
+				s->sys.dtMaxIt = atoi(words[i + 1]);
 			}
 			if (strcmp(words[i], "maxit") == 0) {
 				s->sys.maxIt = atoi(words[i + 1]);

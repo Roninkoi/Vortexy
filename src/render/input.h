@@ -27,6 +27,8 @@ float selx;
 float sely;
 int kset;
 
+int selboundary = 0;
+
 void scrollCallback(GLFWwindow *window, double xoffs, double yoffs) {
 	scroll += -(float) yoffs / 10.0f;
 }
@@ -96,7 +98,7 @@ void r_getInput(struct Renderer *r, struct Sys* s)
 
 				if (kset && s->objs[0].faces[i].vNum == 1) {
 					if (((p.x < mp.x && p.x > selx) || (p.x > mp.x && p.x < selx)) && ((p.y < mp.y && p.y > sely) || (p.y > mp.y && p.y < sely))) {
-						s->objs[0].faces[i].boundary = 1;
+						s->objs[0].faces[i].boundary = selboundary;
 					}
 				}
 
@@ -305,6 +307,16 @@ void r_getInput(struct Renderer *r, struct Sys* s)
 		selx = msx;
 		sely = msy;
 		kset = 1;
+	}
+
+	if (glfwGetKey(r->window.window, GLFW_KEY_F1)) {
+		selboundary = 0;
+	}
+	if (glfwGetKey(r->window.window, GLFW_KEY_F2)) {
+		selboundary = 1;
+	}
+	if (glfwGetKey(r->window.window, GLFW_KEY_F3)) {
+		selboundary = 2;
 	}
 }
 
