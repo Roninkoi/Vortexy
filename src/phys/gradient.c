@@ -262,12 +262,15 @@ void fv(struct Face *f)
 	vec3 cv;
 	switch (f->boundary) {
 		case 1:
-			//f->v = nvec3();
+			f->v = nvec3(); // ??
 			return;
 		case 3:
 			cv = vec3Copy(&f->normal);
 			vec3Mul(&cv, f->constantV);
 			f->v = vec3Copy(&cv);
+			return;
+		case 10:
+			f->v = Vec3(100.0, 0.0, 0.0);
 			return;
 	}
 }

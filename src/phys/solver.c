@@ -414,6 +414,32 @@ void p_computeVBoundCoeffs(Obj *o)
 					break;
 				case 4:
 					break;
+				case 10: // lid
+					v->va.x += (o->fluid.mu * sl / dn) * (1.0 - n.x * n.x);
+					v->vb.x += (o->fluid.mu * sl / dn) *
+							   (fb->v.x * (1.0 - n.x * n.x) +
+								(v->v.y - fb->v.y) * n.y * n.x +
+								(v->v.z - fb->v.z) * n.z * n.x
+							   );
+
+					v->va.y += (o->fluid.mu * sl / dn) * (1.0 - n.y * n.y);
+					v->vb.y += (o->fluid.mu * sl / dn) *
+							   ((v->v.x - fb->v.x) * n.y * n.x +
+								fb->v.y * (1.0 - n.y * n.y) +
+								(v->v.z - fb->v.z) * n.z * n.x
+							   );
+
+					v->va.z += (o->fluid.mu * sl / dn) * (1.0 - n.z * n.z);
+					v->vb.z += (o->fluid.mu * sl / dn) *
+							   ((v->v.x - fb->v.x) * n.z * n.x +
+								(v->v.y - fb->v.y) * n.y * n.x +
+								fb->v.z * (1.0 - n.z * n.z)
+							   );
+
+					a = p_getVFaceCoeff(fb, v, &o->fluid);
+
+					v->vb.x -= a * 100.0;
+					break;
 			}
 		}
 	}
