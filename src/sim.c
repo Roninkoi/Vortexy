@@ -30,7 +30,8 @@ void s_init(struct Sim *s)
 	s->vs = 1.0f;
 	s->ps = 1.0f;
 
-	convergence = 1;
+	gsconvergence = 1;
+	gsiterations = 0;
 	sk = 0;
 
 	s->inputi = 0;
@@ -101,13 +102,17 @@ void s_run(struct Sim *s)
 
 			printf("ticks: %i, st (ms): %i\n", s->tps, s->st);
 
-			printf("residual %f, in %i\n", s->sys.res, s->sys.in);
+			printf("residual %.4e, in %i\n", s->sys.res, s->sys.in);
+
+			printf("max gs iterations: %i\n", gsiterations);
+			gsiterations = 0;
+
 
 			for (int i = 0; i < s->sys.objNum; ++i)
 				printf("o %i, t (s): %f\n", i, s->sys.objs[i].t);
 
-			if (!convergence) {
-				convergence = 1;
+			if (!gsconvergence) {
+				gsconvergence = 1;
 
 				if (s->divhalt)
 					s->sys.simulating = 0; // stop

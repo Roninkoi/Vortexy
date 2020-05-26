@@ -9,6 +9,7 @@
 #define MINDC 1 // minimum correction
 #define ORTHODC 0 // orthogonal correction
 //#define CONVSCH // using convection scheme
+#define LIDV 5.2714e-2
 
 // calculate face mass flow rate for volume
 real p_getMrate(struct Volume *v, struct Face *f, real rho)
@@ -345,103 +346,141 @@ void p_computePBoundCoeffs(Obj *o)
 	}
 }
 
+void VBoundB(struct Volume *v, struct Fluid *fluid)
+{
+	for (int j = 0; j < 4; ++j) { // twice for middle boundary?
+		struct Face *fb = v->faces[j];
+
+		if (!fb->boundary)
+			continue;
+
+		vec3 s = vec3Outwards(&v->centroid,
+							  &fb->centroid,
+							  &fb->surface);
+
+		real sl = vec3Len(&s);
+
+		vec3 n = vec3Outwards(&v->centroid,
+							  &fb->centroid,
+							  &fb->normal);
+
+		vec3 dcb = vec3Copy(&fb->volDist);
+
+		real dn = vec3Dot(&dcb, &n);
+
+		real a;
+
+		vec3 cv;
+
+		switch (fb->boundary) {
+			case 1: // no-slip wall
+				v->vb.x += (fluid->mu * sl / dn) *
+						   (fb->v.x * (1.0 - n.x * n.x) +
+							(v->v.y - fb->v.y) * n.y * n.x +
+							(v->v.z - fb->v.z) * n.z * n.x
+						   );
+
+				v->vb.y += (fluid->mu * sl / dn) *
+						   ((v->v.x - fb->v.x) * n.y * n.x +
+							fb->v.y * (1.0 - n.y * n.y) +
+							(v->v.z - fb->v.z) * n.z * n.x
+						   );
+
+				v->vb.z += (fluid->mu * sl / dn) *
+						   ((v->v.x - fb->v.x) * n.z * n.x +
+							(v->v.y - fb->v.y) * n.y * n.x +
+							fb->v.z * (1.0 - n.z * n.z)
+						   );
+				break;
+			case 2: // slip wall
+				break;
+			case 3: // velocity inlet
+				a = p_getVFaceCoeff(fb, v, fluid);
+
+				cv = vec3Copy(&fb->normal); // constant velocity
+				vec3Mul(&cv, fb->constantV);
+
+				v->vb.x -= a * cv.x;
+				v->vb.y -= a * cv.y;
+				v->vb.z -= a * cv.z;
+				break;
+			case 4:
+				break;
+			case 10: // lid
+				v->vb.x += (fluid->mu * sl / dn) *
+						   ((fb->v.x + LIDV) * (1.0 - n.x * n.x) +
+							(v->v.y - fb->v.y) * n.y * n.x +
+							(v->v.z - fb->v.z) * n.z * n.x
+						   );
+
+				v->vb.y += (fluid->mu * sl / dn) *
+						   ((v->v.x - (fb->v.x + LIDV)) * n.y * n.x +
+							fb->v.y * (1.0 - n.y * n.y) +
+							(v->v.z - fb->v.z) * n.z * n.x
+						   );
+
+				v->vb.z += (fluid->mu * sl / dn) *
+						   ((v->v.x - (fb->v.x + LIDV)) * n.z * n.x +
+							(v->v.y - fb->v.y) * n.y * n.x +
+							fb->v.z * (1.0 - n.z * n.z)
+						   );
+				break;
+		}
+	}
+}
+
+void VBoundA(struct Volume *v, struct Fluid *fluid)
+{
+	for (int j = 0; j < 4; ++j) { // twice for middle boundary?
+		struct Face *fb = v->faces[j];
+
+		if (!fb->boundary)
+			continue;
+
+		vec3 s = vec3Outwards(&v->centroid,
+							  &fb->centroid,
+							  &fb->surface);
+
+		real sl = vec3Len(&s);
+
+		vec3 n = vec3Outwards(&v->centroid,
+							  &fb->centroid,
+							  &fb->normal);
+
+		vec3 dcb = vec3Copy(&fb->volDist);
+
+		real dn = vec3Dot(&dcb, &n);
+
+		real a;
+
+		vec3 cv;
+
+		switch (fb->boundary) {
+			case 1: // no-slip wall
+				v->va.x += (fluid->mu * sl / dn) * (1.0 - n.x * n.x);
+				v->va.y += (fluid->mu * sl / dn) * (1.0 - n.y * n.y);
+				v->va.z += (fluid->mu * sl / dn) * (1.0 - n.z * n.z);
+				break;
+			case 2: // slip wall
+				break;
+			case 3: // velocity inlet
+				break;
+			case 4:
+				break;
+			case 10: // lid
+				v->va.x += (fluid->mu * sl / dn) * (1.0 - n.x * n.x);
+				v->va.y += (fluid->mu * sl / dn) * (1.0 - n.y * n.y);
+				v->va.z += (fluid->mu * sl / dn) * (1.0 - n.z * n.z);
+				break;
+		}
+	}
+}
+
 void p_computeVBoundCoeffs(Obj *o)
 {
 	for (int i = 0; i < o->volNum; ++i) {
-		for (int j = 0; j < 4; ++j) { // twice for middle boundary?
-			struct Volume *v = &o->volumes[i];
-			struct Face *fb = o->volumes[i].faces[j];
-
-			if (!fb->boundary)
-				continue;
-
-			vec3 s = vec3Outwards(&v->centroid,
-								  &fb->centroid,
-								  &fb->surface);
-
-			real sl = vec3Len(&s);
-
-			vec3 n = vec3Outwards(&v->centroid,
-								  &fb->centroid,
-								  &fb->normal);
-
-			vec3 dcb = vec3Copy(&fb->volDist);
-
-			real dn = vec3Dot(&dcb, &n);
-
-			real a;
-
-			vec3 cv;
-
-			switch (fb->boundary) {
-				case 1: // no-slip wall
-					v->va.x += (o->fluid.mu * sl / dn) * (1.0 - n.x * n.x);
-					v->vb.x += (o->fluid.mu * sl / dn) *
-							   (fb->v.x * (1.0 - n.x * n.x) +
-								(v->v.y - fb->v.y) * n.y * n.x +
-								(v->v.z - fb->v.z) * n.z * n.x
-							   )/* - fb->p * s.x*/;
-
-					v->va.y += (o->fluid.mu * sl / dn) * (1.0 - n.y * n.y);
-					v->vb.y += (o->fluid.mu * sl / dn) *
-							   ((v->v.x - fb->v.x) * n.y * n.x +
-								fb->v.y * (1.0 - n.y * n.y) +
-								(v->v.z - fb->v.z) * n.z * n.x
-							   )/* - fb->p * s.y*/;
-
-					v->va.z += (o->fluid.mu * sl / dn) * (1.0 - n.z * n.z);
-					v->vb.z += (o->fluid.mu * sl / dn) *
-							   ((v->v.x - fb->v.x) * n.z * n.x +
-								(v->v.y - fb->v.y) * n.y * n.x +
-								fb->v.z * (1.0 - n.z * n.z)
-							   )/* - fb->p * s.z*/;
-					break;
-				case 2: // slip wall
-					/*cv = vec3Copy(&s);
-					vec3Mul(&cv, fb->p);
-
-					vec3Sub(&v->vb, &cv);*/
-					break;
-				case 3: // velocity inlet
-					a = p_getVFaceCoeff(fb, v, &o->fluid);
-
-					cv = vec3Copy(&fb->normal); // constant velocity
-					vec3Mul(&cv, fb->constantV);
-
-					v->vb.x -= a * cv.x;
-					v->vb.y -= a * cv.y;
-					v->vb.z -= a * cv.z;
-					break;
-				case 4:
-					break;
-				case 10: // lid
-					v->va.x += (o->fluid.mu * sl / dn) * (1.0 - n.x * n.x);
-					v->vb.x += (o->fluid.mu * sl / dn) *
-							   (fb->v.x * (1.0 - n.x * n.x) +
-								(v->v.y - fb->v.y) * n.y * n.x +
-								(v->v.z - fb->v.z) * n.z * n.x
-							   );
-
-					v->va.y += (o->fluid.mu * sl / dn) * (1.0 - n.y * n.y);
-					v->vb.y += (o->fluid.mu * sl / dn) *
-							   ((v->v.x - fb->v.x) * n.y * n.x +
-								fb->v.y * (1.0 - n.y * n.y) +
-								(v->v.z - fb->v.z) * n.z * n.x
-							   );
-
-					v->va.z += (o->fluid.mu * sl / dn) * (1.0 - n.z * n.z);
-					v->vb.z += (o->fluid.mu * sl / dn) *
-							   ((v->v.x - fb->v.x) * n.z * n.x +
-								(v->v.y - fb->v.y) * n.y * n.x +
-								fb->v.z * (1.0 - n.z * n.z)
-							   );
-
-					a = p_getVFaceCoeff(fb, v, &o->fluid);
-
-					v->vb.x -= a * 100.0;
-					break;
-			}
-		}
+		VBoundA(&o->volumes[i], &o->fluid);
+		VBoundB(&o->volumes[i], &o->fluid);
 	}
 }
 
@@ -532,6 +571,8 @@ void p_computeVCoeffs(Obj *o)
 			o->volumes[i].va.z += o->volumes[i].faces[j]->flux.z + mr;
 		}
 
+		VBoundA(&o->volumes[i], &o->fluid);
+
 		o->volumes[i].vb = nvec3();
 		vec3Sub(&o->volumes[i].vb, &o->volumes[i].vFlux);
 
@@ -596,6 +637,9 @@ void p_computeVCoeffs(Obj *o)
 
 		vec3Add(&o->volumes[i].vb, &br);
 	}
+
+	for (int i = 0; i < o->volNum; ++i)
+		VBoundB(&o->volumes[i], &o->fluid);
 }
 
 void p_computeVFaceCoeffs(Obj *o)

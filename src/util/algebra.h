@@ -4,7 +4,8 @@
 #include "mat.h"
 #include "util.h"
 
-int convergence;
+int gsconvergence;
+int gsiterations;
 
 // row reduction
 void GaussElim(mat *m);

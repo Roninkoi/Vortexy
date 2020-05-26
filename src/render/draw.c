@@ -68,9 +68,10 @@ void rw(struct Renderer *r, struct Sys *s)
 
 void rv(struct Renderer *r, struct Sys *s)
 {
-	glEnable(GL_DEPTH_TEST);
-	glDisable(GL_BLEND);
-	glBlendFunc(GL_DST_ALPHA, GL_SRC_ALPHA);
+	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+	glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
+	glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
 	r->tex = &r->flat;
 	for (int i = 0; i < s->objNum; ++i) {
@@ -80,6 +81,9 @@ void rv(struct Renderer *r, struct Sys *s)
 			continue;
 
 		r_drawVolume(r, &s->objs[i].volumes[l], Vec4(1.0f, 0.0f, 0.0f, 1.0f));
+
+		for (int j = 0; j < s->objs[i].volumes[l].neiNum; ++j)
+			r_drawVolume(r, s->objs[i].volumes[l].neighbours[j], Vec4(1.0f, 0.8f, 0.0f, 0.5f));
 	}
 
 	r_render(r);
@@ -90,7 +94,7 @@ void rv(struct Renderer *r, struct Sys *s)
 		if (l >= s->objs[i].volNum)
 			continue;
 
-		r_drawVolume(r, &s->objs[i].volumes[l], Vec4(1.0f, 0.0f, 0.0f, 1.0f));
+		//r_drawVolume(r, &s->objs[i].volumes[l], Vec4(1.0f, 0.0f, 0.0f, 1.0f));
 
 		for (int j = 0; j < 4; ++j) {
 			vec4 c = vec4Copy3(&s->objs[i].volumes[l].faces[j]->centroid);
@@ -272,7 +276,7 @@ void rtl_debug(struct Renderer *r, struct Sys *s)
 			vec4 n = vec4Copy3(&s->objs[i].volumes[j].centroid);
 			vec4 nn = vec4Copy3(&s->objs[i].volumes[j].pGrad);
 
-			vec4Mul(&nn, 1.0f / 100000.0f);
+			vec4Mul(&nn, 1.0f / 1000.0f);
 
 			float l = vec4Len(&nn);
 
@@ -283,7 +287,7 @@ void rtl_debug(struct Renderer *r, struct Sys *s)
 
 			vec4 col = Vec4(l, fmax(0.0f, 1.0f - l * 0.1f), 0.0f, 1.0f);
 
-			r_drawVec(r, n, nn, col, log10(l * 0.1f + 1.0f) + 0.1f);
+			r_drawVec(r, n, nn, col, r->rs * l * 0.01f + 0.01f);
 		}
 	}
 	r_render(r);

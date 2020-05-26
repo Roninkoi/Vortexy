@@ -128,6 +128,12 @@ void r_getInput(struct Renderer *r, struct Sys* s)
 				printf("face pGrad: ");
 				vec3Print(&s->objs[0].faces[ind].pGrad);
 				printf("face p: %f\n", s->objs[0].faces[ind].p);
+
+				printf("connects: ");
+				for (int vi = 0; vi < s->objs[0].faces[ind].vNum; ++vi) {
+					printf("%i ", s->objs[0].faces[ind].thisVol[vi]->index);
+				}
+				printf("\n");
 			}
 		}
 	}

@@ -38,6 +38,7 @@ void p_sysInit(struct Sys *s)
 	s->objNum = 0;
 	s->simulating = 1;
 	s->reset = 0;
+	s->ticks = 0;
 	s->selected = 0;
 	s->debugFlag = 0;
 	s->unreal = 0;

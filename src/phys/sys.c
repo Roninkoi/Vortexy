@@ -5,19 +5,20 @@
 #include "sys.h"
 #include "util/mat.h"
 
+//#define RELRES
 #define GRAD2
 
-#define printVField(prefix, postfix0, postfix1, pfn) \
-for (int pfi = 0; pfi < pfn; ++pfi) { \
-    vec3Prints(&(prefix[pfi].postfix0)); \
-    vec3Print(&(prefix[pfi].postfix1)); \
-}
+#define printVField(prefix, postfix0, postfix1, pfn)	\
+	for (int pfi = 0; pfi < pfn; ++pfi) {				\
+		vec3Prints(&(prefix[pfi].postfix0));			\
+		vec3Print(&(prefix[pfi].postfix1));				\
+	}
 
-#define printSField(prefix, postfix0, postfix1, pfn) \
-for (int pfi = 0; pfi < pfn; ++pfi) { \
-    vec3Prints(&(prefix[pfi].postfix0)); \
-    printf("%f\n", (prefix[pfi].postfix1)); \
-}
+#define printSField(prefix, postfix0, postfix1, pfn)	\
+	for (int pfi = 0; pfi < pfn; ++pfi) {				\
+		vec3Prints(&(prefix[pfi].postfix0));			\
+		printf("%f\n", (prefix[pfi].postfix1));			\
+	}
 
 void p_addObj(struct Sys *s, char *fluidPath, int mode)
 {
@@ -244,7 +245,7 @@ void p_sysTick(struct Sys *s)
 
 			p_faceBoundP(&s->objs[i]); // extrapolate pressure at boundary faces?
 
-			p_computeVBoundCoeffs(&s->objs[i]);
+			//p_computeVBoundCoeffs(&s->objs[i]);
 
 			p_constructVMatX(&s->objs[i]);
 			GaussSeidelSG(&s->objs[i].a, &s->objs[i].b, &s->objs[i].vx, s->maxIt, s->epsilon);
@@ -314,17 +315,20 @@ void p_sysTick(struct Sys *s)
 				s->objs[i].volumes[j].p += s->objs[i].volumes[j].pc * s->objs[i].pRelax;
 
 				real corr = fabs(s->objs[i].volumes[j].pc);
+#ifdef RELRES
+				corr /= fabs(s->objs[i].volumes[j].p);
+#endif
 
 				if (corr > s->res)
 					s->res = corr;
 
 				if (s->relaxm) {
 					s->objs[i].volumes[j].v.x -=
-							s->objs[i].volumes[j].d.x * s->objs[i].volumes[j].pcGrad.x * s->objs[i].pRelax;
+						s->objs[i].volumes[j].d.x * s->objs[i].volumes[j].pcGrad.x * s->objs[i].pRelax;
 					s->objs[i].volumes[j].v.y -=
-							s->objs[i].volumes[j].d.y * s->objs[i].volumes[j].pcGrad.y * s->objs[i].pRelax;
+						s->objs[i].volumes[j].d.y * s->objs[i].volumes[j].pcGrad.y * s->objs[i].pRelax;
 					s->objs[i].volumes[j].v.z -=
-							s->objs[i].volumes[j].d.z * s->objs[i].volumes[j].pcGrad.z * s->objs[i].pRelax;
+						s->objs[i].volumes[j].d.z * s->objs[i].volumes[j].pcGrad.z * s->objs[i].pRelax;
 				} else {
 					s->objs[i].volumes[j].v.x -= s->objs[i].volumes[j].d.x * s->objs[i].volumes[j].pcGrad.x;
 					s->objs[i].volumes[j].v.y -= s->objs[i].volumes[j].d.y * s->objs[i].volumes[j].pcGrad.y;
@@ -337,12 +341,14 @@ void p_sysTick(struct Sys *s)
 				}
 			}
 
+			//printSField(s->objs[i].volumes, centroid, p, s->objs[i].volNum);
+
 			p_in(&s->objs[i]);
 
 			++s->in;
 
 			if (s->printitn)
-				printf("itn %i / %i, res %f\n", s->in, s->dtMaxIt, s->res);
+				printf("itn %i / %i, res %.4e\n", s->in, s->dtMaxIt, s->res);
 		} while (s->res > s->residual && s->in < s->dtMaxIt);
 
 		s->objs[i].t += s->objs[i].dt;

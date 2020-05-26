@@ -5,7 +5,7 @@
 #include "gradient.h"
 
 #define HALF // halfway approximation
-#define GRADIT 4 // gradient iterations
+#define GRADIT 8 // gradient iterations
 #define RCTRANS // rhie-chow transient term
 
 // calculate geometric weighting factor
@@ -177,6 +177,7 @@ void p_faceBoundP(Obj *o)
 			case 1:
 			case 2:
 			case 3: // same for 1, 2, 3
+			case 10:
 				f->p += boundaryPressure(f);
 				return;
 			case 4:
@@ -191,6 +192,8 @@ void p_faceP(struct Face *f)
 	p_facePI(f);
 
 	f->p = f->pi;
+
+	return;
 
 	switch (f->boundary) {
 		case 4:
@@ -259,10 +262,12 @@ void fv(struct Face *f)
 
 	f->v = vec3Copy(&f->vi);
 
+	return;
+
 	vec3 cv;
 	switch (f->boundary) {
 		case 1:
-			f->v = nvec3(); // ??
+			f->v = nvec3();
 			return;
 		case 3:
 			cv = vec3Copy(&f->normal);

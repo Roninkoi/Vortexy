@@ -17,6 +17,4 @@ struct Fluid {
 	int ebc; // edge boundary condition
 };
 
-void p_loadFluid(struct Fluid *f, char *path);
-
 #endif
