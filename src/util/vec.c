@@ -29,12 +29,12 @@ void vec4Print(vec4 *v)
 
 vec4 ivec4()
 {
-	return Vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	return Vec4(1.0, 1.0, 1.0, 1.0);
 }
 
 vec4 nvec4()
 {
-	return Vec4(0.0f, 0.0f, 0.0f, 0.0f);
+	return Vec4(0.0, 0.0, 0.0, 0.0);
 }
 
 void vec4Add(vec4 *v0, vec4 *v1) // v0 += v1
@@ -71,12 +71,12 @@ void vec4Div(vec4 *v, real s)
 
 real vec4Len3(vec4 *v)
 {
-	return sqrtf(v->x * v->x + v->y * v->y + v->z * v->z);
+	return sqrt(v->x * v->x + v->y * v->y + v->z * v->z);
 }
 
 real vec4Len(vec4 *v)
 {
-	return sqrtf(v->x * v->x + v->y * v->y + v->z * v->z + v->w * v->w);
+	return sqrt(v->x * v->x + v->y * v->y + v->z * v->z + v->w * v->w);
 }
 
 // dot product
@@ -93,7 +93,7 @@ vec4 vec4Cross(vec4 *v0, vec4 *v1)
 	v.x = v0->y * v1->z - v0->z * v1->y;
 	v.y = v0->z * v1->x - v0->x * v1->z;
 	v.z = v0->x * v1->y - v0->y * v1->x;
-	v.w = 0.0f;
+	v.w = 0.0;
 
 	return v;
 }
@@ -126,7 +126,7 @@ vec4 vec4Copy(vec4 *v)
 
 vec4 vec4Copy3(vec3 *v)
 {
-	return Vec4(v->x, v->y, v->z, 0.0f);
+	return Vec4(v->x, v->y, v->z, 0.0);
 }
 
 /*
@@ -161,12 +161,12 @@ void vec3Prints(vec3 *v)
 
 vec3 ivec3()
 {
-	return Vec3(1.0f, 1.0f, 1.0f);
+	return Vec3(1.0, 1.0, 1.0);
 }
 
 vec3 nvec3()
 {
-	return Vec3(0.0f, 0.0f, 0.0f);
+	return Vec3(0.0, 0.0, 0.0);
 }
 
 void vec3Add(vec3 *v0, vec3 *v1) // v0 += v1
@@ -199,7 +199,7 @@ void vec3Div(vec3 *v, real s)
 
 real vec3Len(vec3 *v)
 {
-	return sqrtf(v->x * v->x + v->y * v->y + v->z * v->z);
+	return sqrt(v->x * v->x + v->y * v->y + v->z * v->z);
 }
 
 // dot product

@@ -3,7 +3,7 @@
 
 #define RELEPS
 
-#define THREADNUM 8
+#define THREADNUM 16
 #define MULTITHREADING_ENABLED 0
 
 #if MULTITHREADING_ENABLED
@@ -99,44 +99,39 @@ int diagDom(mat *m)
 
 #if MULTITHREADING_ENABLED
 
-struct gsmt_args {
+struct mt_args {
 	mat *a;
 	mat *b;
 	mat *g;
+	mat *gi;
 	real epsilon;
 	int start;
 	int end;
 	real *delta;
 };
 
-pthread_mutex_t mtx;
-
-void *gsmt(void *args)
+void *gsmt(void *args) // TODO: thread synchronization
 {
-	struct gsmt_args *gargs = args;
+	struct mt_args *gargs = args;
 
 	*gargs->delta = 0.0;
 
 	for (int i = gargs->start; i < gargs->end; ++i) {
 		real x = 1.0 / gargs->a->m[i][i];
 
-		pthread_mutex_lock(&mtx);
-
 		real s0 = 0.0;
 
-		for (int j = gargs->a->rmin[i]; j <= i - 1; ++j) {
-			s0 += gargs->a->m[i][j] * gargs->g->m[j][0];
+		for (int j = a->rmin[i]; j <= i - 1; ++j) {
+			s0 += a->m[i][j] * g->m[j][0];
 		}
 
 		real s1 = 0.0;
 
-		for (int j = i + 1; j <= gargs->a->rmax[i]; ++j) {
-			s1 += gargs->a->m[i][j] * gargs->g->m[j][0];
+		for (int j = i + 1; j <= a->rmax[i]; ++j) {
+			s1 += a->m[i][j] * g->m[j][0];
 		}
 
-		pthread_mutex_unlock(&mtx);
-
-		x *= (gargs->b->m[i][0] - s0 - s1);
+		x *= (b->m[i][0] - s0 - s1);
 
 		if (x != x) {
 			printf("NaN\n");
@@ -155,7 +150,44 @@ void *gsmt(void *args)
 	}
 }
 
-#define TN8
+void *jcmt(void *args) // jacobi method
+{
+	struct mt_args *gargs = args;
+
+	*gargs->delta = 0.0;
+
+	for (int i = gargs->start; i < gargs->end; ++i) {
+		real x = 1.0 / gargs->a->m[i][i];
+
+		real s0 = 0.0;
+
+		for (int j = gargs->a->rmin[i]; j <= gargs->a->rmax[i]; ++j) {
+			if (j == i)
+				continue;
+
+			s0 += gargs->a->m[i][j] * gargs->gi->m[j][0];
+		}
+
+		x *= (gargs->b->m[i][0] - s0);
+
+		if (x != x) {
+			printf("NaN\n");
+			continue;
+		}
+
+		real d = fabs(gargs->gi->m[i][0] - x);
+#ifdef RELEPS
+		d /= fabs(gargs->gi->m[i][0]);
+#endif
+
+		if (d > gargs->epsilon)
+			*gargs->delta = d;
+
+		gargs->g->m[i][0] = x;
+	}
+}
+
+//#define TN8
 
 void GaussSeidelSG_MT(mat *a, mat *b, mat *g, int maxIt, real epsilon)
 {
@@ -165,7 +197,7 @@ void GaussSeidelSG_MT(mat *a, mat *b, mat *g, int maxIt, real epsilon)
 
 	int conv = 0;
 
-	mtx = pthread_mutex_init(&mtx, NULL);
+	mat gi = matCopy(g);
 
 	for (int k = 0; k < maxIt; ++k) {
 		delta = 0.0;
@@ -189,23 +221,25 @@ void GaussSeidelSG_MT(mat *a, mat *b, mat *g, int maxIt, real epsilon)
 		real d6;
 		real d7;
 
-		struct gsmt_args a0 = {a, b, g, g0, epsilon, 0, n / 8, &d0};
-		struct gsmt_args a1 = {a, b, g, g0, epsilon, n / 8, 2 * n / 8, &d1};
-		struct gsmt_args a2 = {a, b, g, g0, epsilon, 2 * n / 8, 3 * n / 8, &d2};
-		struct gsmt_args a3 = {a, b, g, g0, epsilon, 3 * n / 8, 4 * n / 8, &d3};
-		struct gsmt_args a4 = {a, b, g, g0, epsilon, 4 * n / 8, 5 * n / 8, &d4};
-		struct gsmt_args a5 = {a, b, g, g0, epsilon, 5 * n / 8, 6 * n / 8, &d5};
-		struct gsmt_args a6 = {a, b, g, g0, epsilon, 6 * n / 8, 7 * n / 8, &d6};
-		struct gsmt_args a7 = {a, b, g, g0, epsilon, 7 * n / 8, n, &d7};
+		matPaste(&gi, g);
 
-		pthread_create(&t0, NULL, gsmt, &a0);
-		pthread_create(&t1, NULL, gsmt, &a1);
-		pthread_create(&t2, NULL, gsmt, &a2);
-		pthread_create(&t3, NULL, gsmt, &a3);
-		pthread_create(&t4, NULL, gsmt, &a4);
-		pthread_create(&t5, NULL, gsmt, &a5);
-		pthread_create(&t6, NULL, gsmt, &a6);
-		pthread_create(&t7, NULL, gsmt, &a7);
+		struct mt_args a0 = {a, b, g, &gi, epsilon, 0, n / 8, &d0};
+		struct mt_args a1 = {a, b, g, &gi, epsilon, n / 8, 2 * n / 8, &d1};
+		struct mt_args a2 = {a, b, g, &gi, epsilon, 2 * n / 8, 3 * n / 8, &d2};
+		struct mt_args a3 = {a, b, g, &gi, epsilon, 3 * n / 8, 4 * n / 8, &d3};
+		struct mt_args a4 = {a, b, g, &gi, epsilon, 4 * n / 8, 5 * n / 8, &d4};
+		struct mt_args a5 = {a, b, g, &gi, epsilon, 5 * n / 8, 6 * n / 8, &d5};
+		struct mt_args a6 = {a, b, g, &gi, epsilon, 6 * n / 8, 7 * n / 8, &d6};
+		struct mt_args a7 = {a, b, g, &gi, epsilon, 7 * n / 8, n, &d7};
+
+		pthread_create(&t0, NULL, jcmt, &a0);
+		pthread_create(&t1, NULL, jcmt, &a1);
+		pthread_create(&t2, NULL, jcmt, &a2);
+		pthread_create(&t3, NULL, jcmt, &a3);
+		pthread_create(&t4, NULL, jcmt, &a4);
+		pthread_create(&t5, NULL, jcmt, &a5);
+		pthread_create(&t6, NULL, jcmt, &a6);
+		pthread_create(&t7, NULL, jcmt, &a7);
 
 		pthread_join(t0, NULL);
 		pthread_join(t1, NULL);
@@ -231,10 +265,10 @@ void GaussSeidelSG_MT(mat *a, mat *b, mat *g, int maxIt, real epsilon)
 		struct gsmt_args args[THREADNUM];
 
 		for (int ti = 0; ti < THREADNUM; ++ti) {
-			args[ti] = (struct gsmt_args) {a, b, g, epsilon,
+			args[ti] = (struct mt_args) {a, b, g, &gi, epsilon,
 					ti * n / THREADNUM,
 					(ti + 1) * n / THREADNUM, &d[ti]};
-			pthread_create(&t[ti], NULL, gsmt, &args[ti]);
+			pthread_create(&t[ti], NULL, jcmt, &args[ti]);
 		}
 
 		for (int ti = 0; ti < THREADNUM; ++ti) {
@@ -243,17 +277,16 @@ void GaussSeidelSG_MT(mat *a, mat *b, mat *g, int maxIt, real epsilon)
 		}
 #endif
 
+		if (k > gsiterations)
+			gsiterations = k;
+
 		if (fabs(delta) < epsilon) { // has converged
 			conv = 1;
-
-			if (k > gsiterations)
-				gsiterations = k;
 
 			break;
 		}
 	}
-
-	pthread_mutex_destroy(&mtx);
+	matDestroy(&gi);
 
 	gsconvergence &= conv;
 }
@@ -271,6 +304,11 @@ void GaussSeidelSG(mat *a, mat *b, mat *g, int maxIt, real epsilon)
 	real delta = 0.0;
 
 	int conv = 0;
+
+#if 0 // no guess
+	matDestroy(g);
+	*g = Matc(0.0, n);
+#endif
 
 	for (int k = 0; k < maxIt; ++k) {
 		delta = 0.0;
@@ -308,11 +346,11 @@ void GaussSeidelSG(mat *a, mat *b, mat *g, int maxIt, real epsilon)
 			g->m[i][0] = x;
 		}
 
+		if (k > gsiterations)
+			gsiterations = k;
+
 		if (fabs(delta) < epsilon) { // has converged
 			conv = 1;
-
-			if (k > gsiterations)
-				gsiterations = k;
 
 			break;
 		}

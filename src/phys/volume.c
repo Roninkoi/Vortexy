@@ -1,6 +1,8 @@
 #include "volume.h"
 #include "util/util.h"
 
+#define DEBUGPRINT 0
+
 // triangle cross product area
 void computeArea(struct Face *f)
 {
@@ -33,7 +35,7 @@ void computeFaceCent(struct Face *f)
 	y /= 3.0;
 	z /= 3.0;
 
-	f->centroid = Vec3(x, y, z);
+	f->r = Vec3(x, y, z);
 }
 
 // face unit normal
@@ -164,9 +166,12 @@ void computeConnections(struct Face *f, const int fn)
 			connects(f, fl, fln, i, j);
 		}
 
+#if DEBUGPRINT
 		printf("C %i/%i n %i\n", i, fn, fln[i]);
+#endif
 	}
 
+#if DEBUGPRINT
 	for (int i = 0; i < fn; ++i) {
 		printf("%s ", "CON");
 		for (int j = 0; j < fln[i]; ++j) {
@@ -174,6 +179,7 @@ void computeConnections(struct Face *f, const int fn)
 		}
 		printf("\n");
 	}
+#endif
 
 	for (int i = 0; i < fn; ++i) {
 		f[i].connecting = malloc(sizeof(struct Face *) * fln[i]);
@@ -194,13 +200,17 @@ struct Face *p_loadFaces(Mesh *m, int *faceNum, int mode)
 	const int fn = m->indNum / 3;
 	*faceNum = fn;
 
+#if DEBUGPRINT
 	printf("%s %i\n", "FACES", fn);
+#endif
 
 	f = malloc(sizeof(struct Face) * fn);
 
 	for (int i = 0; i < fn; ++i) {
 		faceInit(&f[i]);
+	}
 
+	for (int i = 0; i < fn; ++i) {
 		f[i].index = i;
 
 		f[i].inds[0] = m->indData[i * 3 + 0];
@@ -280,16 +290,16 @@ void computeVolumeCent(struct Volume *v)
 		if (v->faces[i] == NULL)
 			continue;
 
-		x += v->faces[i]->centroid.x;
-		y += v->faces[i]->centroid.y;
-		z += v->faces[i]->centroid.z;
+		x += v->faces[i]->r.x;
+		y += v->faces[i]->r.y;
+		z += v->faces[i]->r.z;
 	}
 
 	x /= 4.0;
 	y /= 4.0;
 	z /= 4.0;
 
-	v->centroid = Vec3(x, y, z);
+	v->r = Vec3(x, y, z);
 }
 
 int containsFace(struct Face **f, struct Face *c, int n)
@@ -307,8 +317,6 @@ void computeTopology(struct Volume *v, const int vn)
 	for (int i = 0; i < vn; ++i)
 		v[i].neiNum = 0;
 
-#if 0
-#else
 	for (int i = 0; i < vn; ++i) {
 		for (int j = i + 1; j < vn; ++j) {
 			int cf = 0;
@@ -345,10 +353,11 @@ void computeTopology(struct Volume *v, const int vn)
 			}
 		}
 
+#if DEBUGPRINT
 		if (i % 100 == 0)
 			printf("T %i / %i\n", i, vn);
-	}
 #endif
+	}
 }
 
 int sharesEdge(struct Face *f0, struct Face *f1, struct Face *f2, struct Face *f3)
@@ -478,8 +487,10 @@ struct Volume *p_loadVolumes(struct Face *f, int faceNum, int *volNum)
 			}
 		}
 
+#if DEBUGPRINT
 		if (i % 100 == 0)
 			printf("%i / %i\n", i, faceNum);
+#endif
 	}
 
 	/*for (int i = 0; i < n; ++i) {
@@ -528,6 +539,10 @@ struct Volume *p_loadVolumes(struct Face *f, int faceNum, int *volNum)
 	v = malloc(sizeof(struct Volume) * n);
 
 	for (int i = 0; i < n; ++i) {
+		volInit(&v[i]);
+	}
+
+	for (int i = 0; i < n; ++i) {
 		v[i].index = i;
 
 		v[i].faces[0] = &f[vi[i][0]];
@@ -547,8 +562,6 @@ struct Volume *p_loadVolumes(struct Face *f, int faceNum, int *volNum)
 		v[i].faces[2]->thisVol[v[i].faces[2]->vNum++] = &v[i];
 		v[i].faces[3]->thisVol[v[i].faces[3]->vNum++] = &v[i];
 
-		volInit(&v[i]);
-
 		computeVolumeCent(&v[i]);
 		computeVolume(&v[i]);
 
@@ -557,12 +570,13 @@ struct Volume *p_loadVolumes(struct Face *f, int faceNum, int *volNum)
 
 	free(vi);
 
+	computeTopology(v, n);
+
+#if DEBUGPRINT
 	for (int i = 0; i < n; ++i) {
 		printf("VOL %f %i %i %i %i\n", v[i].vol, v[i].faces[0]->index,
 			   v[i].faces[1]->index, v[i].faces[2]->index, v[i].faces[3]->index);
 	}
-
-	computeTopology(v, n);
 
 	for (int i = 0; i < n; ++i) {
 		printf("%s ", "NEI");
@@ -570,6 +584,7 @@ struct Volume *p_loadVolumes(struct Face *f, int faceNum, int *volNum)
 			printf("%i ", v[i].neighbours[j]->index);
 		printf("\n");
 	}
+#endif
 
 	return v;
 }
@@ -606,33 +621,3 @@ struct Face *p_connectingFace(struct Volume *v0, struct Volume *v1)
 
 	return NULL;
 }
-
-void destroyFace(struct Face *f)
-{
-	matDestroy(&f->vGrad);
-	matDestroy(&f->vGradI);
-}
-
-void destroyVolume(struct Volume *v)
-{
-	matDestroy(&v->vGrad);
-}
-
-void p_destroyFaces(struct Face *f, int faceNum)
-{
-	for (int i = 0; i < faceNum; ++i) {
-		destroyFace(&f[i]);
-	}
-
-	free(f);
-}
-
-void p_destroyVolumes(struct Volume *v, int volNum)
-{
-	for (int i = 0; i < volNum; ++i) {
-		destroyVolume(&v[i]);
-	}
-
-	free(v);
-}
-

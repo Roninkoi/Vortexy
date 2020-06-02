@@ -17,6 +17,7 @@ mat Mat(real s, int r, int c);
 mat Matc(real s, int r);
 
 mat matCopy(mat *m);
+void matPaste(mat *r, mat *m);
 real matDiagProd(mat *m);
 
 mat matAdd(mat *m0, mat *m1);
@@ -92,5 +93,29 @@ mat4 mat4Inverse(mat4 *m);
 real mat4Determinant(mat4* m);
 
 void mat4Print(mat4 *m);
+
+// 3 x 3 square matrix type
+typedef struct {
+	real m[3][3];
+} mat3;
+
+mat3 Mat3(real s);
+
+mat3 imat3(); // identity
+mat3 nmat3(); // zero
+
+mat3 mat3Copy(mat3 *m);
+
+vec3 mat3MulV(mat3 *m, vec3 *v); // mat3 x vec3
+mat3 mat3MulVV(vec3 *v0, vec3 *v1); // vec3 x vec3
+mat3 mat3Mul(mat3 *m0, mat3 *m1); // mat3 x mat3
+vec3 mat3DotV(mat3 *m, vec3 *v); // mat3 . vec3
+
+mat3 mat3Add(mat3 *m0, mat3 *m1);
+mat3 mat3Sub(mat3 *m0, mat3 *m1);
+
+mat3 mat3Scale(mat3 *m, real s);
+
+mat3 mat3Transpose(mat3 *m); // transpose matrix
 
 #endif

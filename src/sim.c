@@ -195,7 +195,7 @@ void s_output(struct Sim *s)
 			fprintf(s->file, "o %i", i);
 
 			fprintf(s->file, " t %f f %i", s->sys.objs[i].t, j);
-			fprintf(s->file, " x %f %f %f", f->centroid.x, f->centroid.y, f->centroid.z);
+			fprintf(s->file, " x %f %f %f", f->r.x, f->r.y, f->r.z);
 			fprintf(s->file, " v %f %f %f", f->v.x, f->v.y, f->v.z);
 			fprintf(s->file, " p %f", f->p);
 			fprintf(s->file, "\n");

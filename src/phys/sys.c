@@ -81,7 +81,7 @@ void p_setInitial(Obj *o)
 		o->faces[j].v = vec3Copy(&v0);
 		o->faces[j].p = o->faces[j].initialP;
 
-		o->faces[j].d = nvec3();
+		o->faces[j].c = nvec3();
 		o->faces[j].pGradI = nvec3();
 		o->faces[j].pGrad = nvec3();
 	}
@@ -156,7 +156,7 @@ void p_in(Obj *o)
 	}
 	for (int j = 0; j < o->faceNum; ++j) {
 		o->faces[j].vn = vec3Copy(&o->faces[j].v);
-		o->faces[j].vin = vec3Copy(&o->faces[j].vi);
+		o->faces[j].vIn = vec3Copy(&o->faces[j].vI);
 	}
 }
 
@@ -168,8 +168,8 @@ void p_tn(Obj *o)
 	}
 	for (int j = 0; j < o->faceNum; ++j) {
 		o->faces[j].vtn = vec3Copy(&o->faces[j].v);
-		o->faces[j].vitn = vec3Copy(&o->faces[j].vi);
-		o->faces[j].dtn = vec3Copy(&o->faces[j].d);
+		o->faces[j].vItn = vec3Copy(&o->faces[j].vI);
+		o->faces[j].ctn = vec3Copy(&o->faces[j].c);
 	}
 }
 
@@ -198,7 +198,7 @@ void p_sysStart(struct Sys *s)
 		p_setInitial(&s->objs[i]);
 
 		for (int j = 0; j < s->objs[i].volNum; ++j) {
-			s->objs[i].volumes[j].d = nvec3();
+			s->objs[i].volumes[j].c = nvec3();
 			s->objs[i].volumes[j].pGrad = nvec3();
 			s->objs[i].volumes[j].pcGrad = nvec3();
 
@@ -324,15 +324,15 @@ void p_sysTick(struct Sys *s)
 
 				if (s->relaxm) {
 					s->objs[i].volumes[j].v.x -=
-						s->objs[i].volumes[j].d.x * s->objs[i].volumes[j].pcGrad.x * s->objs[i].pRelax;
+							s->objs[i].volumes[j].c.x * s->objs[i].volumes[j].pcGrad.x * s->objs[i].pRelax;
 					s->objs[i].volumes[j].v.y -=
-						s->objs[i].volumes[j].d.y * s->objs[i].volumes[j].pcGrad.y * s->objs[i].pRelax;
+							s->objs[i].volumes[j].c.y * s->objs[i].volumes[j].pcGrad.y * s->objs[i].pRelax;
 					s->objs[i].volumes[j].v.z -=
-						s->objs[i].volumes[j].d.z * s->objs[i].volumes[j].pcGrad.z * s->objs[i].pRelax;
+							s->objs[i].volumes[j].c.z * s->objs[i].volumes[j].pcGrad.z * s->objs[i].pRelax;
 				} else {
-					s->objs[i].volumes[j].v.x -= s->objs[i].volumes[j].d.x * s->objs[i].volumes[j].pcGrad.x;
-					s->objs[i].volumes[j].v.y -= s->objs[i].volumes[j].d.y * s->objs[i].volumes[j].pcGrad.y;
-					s->objs[i].volumes[j].v.z -= s->objs[i].volumes[j].d.z * s->objs[i].volumes[j].pcGrad.z;
+					s->objs[i].volumes[j].v.x -= s->objs[i].volumes[j].c.x * s->objs[i].volumes[j].pcGrad.x;
+					s->objs[i].volumes[j].v.y -= s->objs[i].volumes[j].c.y * s->objs[i].volumes[j].pcGrad.y;
+					s->objs[i].volumes[j].v.z -= s->objs[i].volumes[j].c.z * s->objs[i].volumes[j].pcGrad.z;
 				}
 
 				if (s->objs[i].volumes[j].p < 0.0) {

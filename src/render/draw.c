@@ -30,20 +30,6 @@ void rm(struct Renderer *r, struct Sys *s)
 			s->objs[i].mesh.colData[ind * 4 + 1] *= f;
 			ind = s->objs[i].mesh.indData[j * 3 + 2];
 			s->objs[i].mesh.colData[ind * 4 + 1] *= f;
-
-			if (s->objs[i].faces[j].boundary > 0 && false) {
-				//s->objs[i].mesh.colData[ind * 4+0] = 0.0f;
-				s->objs[i].mesh.colData[ind * 4+1] += 1.0f;
-				s->objs[i].mesh.colData[ind * 4+2] *= 0.5f;
-				ind = s->objs[i].mesh.indData[j * 3 + 1];
-				//s->objs[i].mesh.colData[ind * 4+0] = 0.0f;
-				s->objs[i].mesh.colData[ind * 4+1] += 1.0f;
-				s->objs[i].mesh.colData[ind * 4+2] *= 0.5f;
-				ind = s->objs[i].mesh.indData[j * 3 + 2];
-				//s->objs[i].mesh.colData[ind * 4+0] = 0.0f;
-				s->objs[i].mesh.colData[ind * 4+1] += 1.0f;
-				s->objs[i].mesh.colData[ind * 4+2] *= 0.5f;
-			}
 		}
 
 		r_drawMesh(r, &s->objs[i].mesh);
@@ -97,10 +83,10 @@ void rv(struct Renderer *r, struct Sys *s)
 		//r_drawVolume(r, &s->objs[i].volumes[l], Vec4(1.0f, 0.0f, 0.0f, 1.0f));
 
 		for (int j = 0; j < 4; ++j) {
-			vec4 c = vec4Copy3(&s->objs[i].volumes[l].faces[j]->centroid);
+			vec4 c = vec4Copy3(&s->objs[i].volumes[l].faces[j]->r);
 
-			vec3 s3 = vec3Outwards(&s->objs[i].volumes[l].centroid,
-								  &s->objs[i].volumes[l].faces[j]->centroid,
+			vec3 s3 = vec3Outwards(&s->objs[i].volumes[l].r,
+								  &s->objs[i].volumes[l].faces[j]->r,
 								  &s->objs[i].volumes[l].faces[j]->surface);
 
 			vec4 s4 = vec4Copy3(&s3);
@@ -130,7 +116,7 @@ void rf(struct Renderer *r, struct Sys *s)
 		r_drawFace(r, &s->objs[i].faces[l], Vec4(1.0f, (float) s->objs[i].faces[l].boundary, 0.0f, 1.0f));
 		r_render(r);
 
-		vec4 n = vec4Copy3(&s->objs[i].faces[l].centroid);
+		vec4 n = vec4Copy3(&s->objs[i].faces[l].r);
 		vec4 nn = vec4Copy3(&s->objs[i].faces[l].surface);
 
 		vec4 n0 = vec4Copy(&n);
@@ -144,6 +130,39 @@ void rf(struct Renderer *r, struct Sys *s)
 	}
 }
 
+void rfb(struct Renderer *r, struct Sys *s)
+{
+	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_BLEND);
+	glBlendFunc(GL_DST_ALPHA, GL_SRC_ALPHA);
+
+	r->tex = &r->flat;
+	for (int i = 0; i < s->objNum; ++i) {
+		for (int l = 0; l < s->objs[i].faceNum; ++l) {
+			if (!s->objs[i].faces[l].boundary)
+				continue;
+
+		if (l >= s->objs[i].faceNum)
+			continue;
+
+		r_drawFace(r, &s->objs[i].faces[l], Vec4(1.0f, (float) s->objs[i].faces[l].boundary, 0.0f, 1.0f));
+		r_render(r);
+
+		vec4 n = vec4Copy3(&s->objs[i].faces[l].r);
+		vec4 nn = vec4Copy3(&s->objs[i].faces[l].surface);
+
+		vec4 n0 = vec4Copy(&n);
+
+		vec4Add(&nn, &n0);
+
+		vec4 col = Vec4(1.0f, 0.0f, 1.0f, 1.0f);
+
+		r_drawLine(r, n, nn, col, 2.0f);
+		r_render(r);
+		}
+	}
+}
+
 void rl(struct Renderer *r, struct Sys *s)
 {
 	glEnable(GL_DEPTH_TEST);
@@ -153,7 +172,7 @@ void rl(struct Renderer *r, struct Sys *s)
 	r->tex = &r->flat;
 	for (int i = 0; i < s->objNum; ++i) {
 		for (int j = 0; j < s->objs[i].volNum; ++j) {
-			vec4 n = vec4Copy3(&s->objs[i].volumes[j].centroid);
+			vec4 n = vec4Copy3(&s->objs[i].volumes[j].r);
 			vec4 nn = vec4Copy3(&s->objs[i].volumes[j].v);
 
 			vec4Mul(&nn, 1.0f / r->vs);
@@ -184,7 +203,7 @@ void rfl(struct Renderer *r, struct Sys *s)
 	r->tex = &r->flat;
 	for (int i = 0; i < s->objNum; ++i) {
 		for (int j = 0; j < s->objs[i].faceNum; ++j) {
-			vec4 n = vec4Copy3(&s->objs[i].faces[j].centroid);
+			vec4 n = vec4Copy3(&s->objs[i].faces[j].r);
 			vec4 nn = vec4Copy3(&s->objs[i].faces[j].v);
 
 			vec4Mul(&nn, 1.0f / r->vs);
@@ -215,7 +234,7 @@ void rtl(struct Renderer *r, struct Sys *s)
 	r->tex = &r->flat;
 	for (int i = 0; i < s->objNum; ++i) {
 		for (int j = 0; j < s->objs[i].volNum; ++j) {
-			vec4 n = vec4Copy3(&s->objs[i].volumes[j].centroid);
+			vec4 n = vec4Copy3(&s->objs[i].volumes[j].r);
 			vec4 nn = vec4Copy3(&s->objs[i].volumes[j].v);
 
 			vec4Mul(&nn, 1.0f / r->vs);
@@ -244,7 +263,7 @@ void rftl(struct Renderer *r, struct Sys *s)
 	r->tex = &r->flat;
 	for (int i = 0; i < s->objNum; ++i) {
 		for (int j = 0; j < s->objs[i].faceNum; ++j) {
-			vec4 n = vec4Copy3(&s->objs[i].faces[j].centroid);
+			vec4 n = vec4Copy3(&s->objs[i].faces[j].r);
 			vec4 nn = vec4Copy3(&s->objs[i].faces[j].v);
 
 			vec4Mul(&nn, 1.0f / r->vs);
@@ -273,7 +292,7 @@ void rtl_debug(struct Renderer *r, struct Sys *s)
 	r->tex = &r->flat;
 	for (int i = 0; i < s->objNum; ++i) {
 		for (int j = 0; j < s->objs[i].volNum; ++j) {
-			vec4 n = vec4Copy3(&s->objs[i].volumes[j].centroid);
+			vec4 n = vec4Copy3(&s->objs[i].volumes[j].r);
 			vec4 nn = vec4Copy3(&s->objs[i].volumes[j].pGrad);
 
 			vec4Mul(&nn, 1.0f / 1000.0f);
@@ -313,6 +332,8 @@ void r_draw(struct Renderer *r, struct Sys *s)
 
 	if (getBit(r->vis, 7))
 		rtl_debug(r, s);
+	if (getBit(r->vis, 8))
+		rfb(r, s);
 }
 
 void r_rdraw(struct Renderer *r, struct Sys *s)

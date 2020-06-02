@@ -16,8 +16,11 @@ int n4Down;
 int n5Down;
 int n6Down;
 int n7Down;
+int n8Down;
 
 int uDown;
+
+int nDown;
 
 int lmbDown;
 
@@ -99,6 +102,7 @@ void r_getInput(struct Renderer *r, struct Sys* s)
 				if (kset && s->objs[0].faces[i].vNum == 1) {
 					if (((p.x < mp.x && p.x > selx) || (p.x > mp.x && p.x < selx)) && ((p.y < mp.y && p.y > sely) || (p.y > mp.y && p.y < sely))) {
 						s->objs[0].faces[i].boundary = selboundary;
+						printf("set f %i bc %i\n", i, selboundary);
 					}
 				}
 
@@ -281,6 +285,16 @@ void r_getInput(struct Renderer *r, struct Sys* s)
 	else {
 		n7Down = 0;
 	}
+	
+	if (glfwGetKey(r->window.window, GLFW_KEY_8)) {
+		if (!n8Down) {
+			n8Down = 1;
+			r->vis = setBit(r->vis, 8, !getBit(r->vis, 8));
+		}
+	}
+	else {
+		n8Down = 0;
+	}
 
 	if (glfwGetKey(r->window.window, GLFW_KEY_I)) {
 		if (!s->simulating)
@@ -305,6 +319,22 @@ void r_getInput(struct Renderer *r, struct Sys* s)
 	else {
 		uDown = 0;
 	}
+	
+	if (glfwGetKey(r->window.window, GLFW_KEY_N)) {
+		if (!nDown) {
+			nDown = 1;
+
+			for (int i = 0; i < s->objs[0].faceNum; ++i) {
+				if (!s->objs[0].faces[i].boundary)
+					continue;
+				
+				printf("bc %i %i\n", i, s->objs[0].faces[i].boundary);
+			}
+		}
+	}
+	else {
+		nDown = 0;
+	}
 
 	if (glfwGetKey(r->window.window, GLFW_KEY_B)) {
 		s->debugFlag = 1;
@@ -323,6 +353,12 @@ void r_getInput(struct Renderer *r, struct Sys* s)
 	}
 	if (glfwGetKey(r->window.window, GLFW_KEY_F3)) {
 		selboundary = 2;
+	}
+	if (glfwGetKey(r->window.window, GLFW_KEY_F4)) {
+		selboundary = 3;
+	}
+	if (glfwGetKey(r->window.window, GLFW_KEY_F5)) {
+		selboundary = 4;
 	}
 }
 
