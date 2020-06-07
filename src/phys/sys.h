@@ -14,11 +14,16 @@ struct Sys {
 
 	real endt;
 
-	int dtMaxIt;
-	int maxIt;
-	real epsilon;
-	int relaxm;
+	int dtMaxIt; // iterations within time-step
 	real residual; // residual target
+
+	int maxIt; // solver iterations
+	real epsilon;
+
+	int gradIt; // gradient iterations
+
+	int relaxm;
+
 	real res; // current residual
 	int in; // iteration number
 
@@ -29,7 +34,7 @@ struct Sys {
 	int simulating;
 
 	int debugFlag;
-	int unreal;
+	unsigned int unreal;
 };
 
 void p_sysInit(struct Sys *s)
@@ -45,6 +50,7 @@ void p_sysInit(struct Sys *s)
 	s->residual = 0.0;
 	s->res = 0.0;
 	s->in = 0;
+	s->gradIt = 2;
 }
 
 void p_sysTick(struct Sys *s);

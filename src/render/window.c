@@ -10,7 +10,7 @@ void r_createWindow(struct Window *w)
 
 	glfwWindowHint(GLFW_REFRESH_RATE, GLFW_DONT_CARE);
 	glfwWindowHint(GLFW_SAMPLES, 16);
-	w->swapInterval = 0; // 0 no vsync, -1 default
+	//w->swapInterval = 0; // 0 no vsync, -1 default
 
 	w->monitor = glfwGetPrimaryMonitor();
 

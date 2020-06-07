@@ -23,6 +23,7 @@ void r_init(struct Renderer *r, int *running)
 		printf("Failed to init GLFW %i%s", glfwErr, "\n");
 	}
 
+	r->window.swapInterval = 1;
 	r_createWindow(&r->window);
 
 	glewExperimental = GL_TRUE;

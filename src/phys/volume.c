@@ -429,7 +429,7 @@ struct Volume *p_loadVolumes(struct Face *f, int faceNum, int *volNum)
 	int **vi = NULL;
 	int n = 0;
 
-	printf("Starting volume (%i) computation...\n", faceNum);
+	printf("Starting volume (%i faces) computation...\n", faceNum);
 
 #if 1
 	for (int i = 0; i < faceNum; ++i) {
@@ -533,6 +533,8 @@ struct Volume *p_loadVolumes(struct Face *f, int faceNum, int *volNum)
 		printf("%i / %i\n", i, faceNum);
 	}
 #endif
+
+	printf("Number of volumes: %i\n", n);
 
 	*volNum = n;
 

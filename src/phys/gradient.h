@@ -5,31 +5,7 @@
 #ifndef GRADIENT_H
 #define GRADIENT_H
 
-#include "volume.h"
-#include "sys.h"
-
-// interpolate face D from volumes
-void p_faceD(struct Face *f);
-
-// interpolate face velocity from volumes
-void p_faceVI(struct Face *f);
-
-// interpolate face pressure from volumes
-void p_facePI(struct Face *f);
-
-void p_faceP(struct Face *f);
-
-void p_faceBoundP(Obj *o);
-
-void p_faceV(struct Face *f, int rc);
-void p_faceVE(struct Face *f, real urf);
-
-void p_facePC(struct Face *f);
-
-// velocity correction
-void p_faceVRC(struct Face *f);
-
-void p_faceVRCE(struct Face *f, real urf);
+#include "interpolate.h"
 
 // interpolated face pressure gradient
 void p_pFaceGradI(Obj *o);

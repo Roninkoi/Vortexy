@@ -3,13 +3,13 @@
 #include "util/algebra.h"
 #include <signal.h>
 
-int sk; // sim kill
+unsigned int simkill; // quit simulation (gracefully)
 
 void handler(int sn)
 {
 	if (sn == SIGINT) {
 		printf("SIGINT\n");
-		sk = 1;
+		simkill = 1;
 	}
 }
 
@@ -30,9 +30,9 @@ void s_init(struct Sim *s)
 	s->vs = 1.0f;
 	s->ps = 1.0f;
 
-	gsconvergence = 1;
-	gsiterations = 0;
-	sk = 0;
+	msconvergence = 1;
+	msiterations = 0;
+	simkill = 0;
 
 	s->inputi = 0;
 	s->inputram = 0;
@@ -50,6 +50,9 @@ void s_init(struct Sim *s)
 void s_run(struct Sim *s)
 {
 #if RENDER_ENABLED
+	if (s->mode == 1)
+		s->rendered = 1;
+
 	if (s->rendered)
 		r_init(&s->renderer, &s->running);
 
@@ -64,7 +67,7 @@ void s_run(struct Sim *s)
 
 	p_addObj(&s->sys, s->fluidPath, s->mode);
 
-	if (!s->mode) {
+	if (s->mode == 0) {
 		p_sysStart(&s->sys);
 	} else {
 		s->outputting = 0;
@@ -104,15 +107,14 @@ void s_run(struct Sim *s)
 
 			printf("residual %.4e, in %i\n", s->sys.res, s->sys.in);
 
-			printf("max gs iterations: %i\n", gsiterations);
-			gsiterations = 0;
-
+			printf("max gs iterations: %i\n", msiterations);
+			msiterations = 0;
 
 			for (int i = 0; i < s->sys.objNum; ++i)
 				printf("o %i, t (s): %f\n", i, s->sys.objs[i].t);
 
-			if (!gsconvergence) {
-				gsconvergence = 1;
+			if (!msconvergence) {
+				msconvergence = 1;
 
 				if (s->divhalt)
 					s->sys.simulating = 0; // stop
@@ -128,14 +130,14 @@ void s_run(struct Sim *s)
 
 		s_tick(s);
 
-		if (sk) {
+		if (simkill) {
 			s->running = 0;
 		}
 
 		if (s->sys.reset) {
 			s->sys.reset = 0;
 
-			if (!s->mode) {
+			if (s->mode == 0) {
 				p_sysRestart(&s->sys, s->fluidPath);
 			} else {
 				s->inputi = 0;
@@ -145,7 +147,7 @@ void s_run(struct Sim *s)
 			}
 		}
 
-		if (!s->sys.simulating && s->autoquit && !s->mode)
+		if (!s->sys.simulating && s->autoquit && s->mode == 0)
 			break;
 
 #if RENDER_ENABLED
@@ -158,13 +160,16 @@ void s_run(struct Sim *s)
 
 		if (s->tps > 0) {
 			s->renderer.delta = 60.0f / (float) s->tps;
+
+			if (s->renderer.window.swapInterval != 0)
+				s->renderer.delta = 1.0f;
 		} else {
 			s->renderer.delta = 0.001f;
 		}
 
 		r_getInput(&s->renderer, &s->sys);
 
-		if (!s->mode) {
+		if (s->mode == 0) {
 			r_draw(&s->renderer, &s->sys);
 		} else {
 			r_rdraw(&s->renderer, &s->sys);
@@ -172,12 +177,12 @@ void s_run(struct Sim *s)
 #endif
 	}
 
-	if (s->outputting || s->mode) {
+	if (s->outputting || s->mode == 1) {
 		if (!s->inputram)
 			fclose(s->file);
 	}
 
-	if (!s->mode) {
+	if (s->mode == 0) {
 		p_sysEnd(&s->sys);
 	}
 }
@@ -302,14 +307,14 @@ void s_inputr(struct Sim *s)
 
 void s_tick(struct Sim *s)
 {
-	if (s->sys.simulating && !s->mode) {
+	if (s->sys.simulating && s->mode == 0) {
 		if (s->outputting && s->ticks % s->outputf == 0)
 			s_output(s);
 
 		p_sysTick(&s->sys);
 	}
 
-	if (s->mode && s->ticks % s->inputf == 0 && s->sys.simulating) {
+	if (s->mode == 1 && s->ticks % s->inputf == 0 && s->sys.simulating) {
 		if (s->inputram) {
 			s_inputr(s);
 		}

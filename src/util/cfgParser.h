@@ -154,6 +154,9 @@ void simParser(struct Sim *s, char *path)
 			if (strcmp(words[i], "maxit") == 0) {
 				s->sys.maxIt = atoi(words[i + 1]);
 			}
+			if (strcmp(words[i], "gradit") == 0) {
+				s->sys.gradIt = atoi(words[i + 1]);
+			}
 			if (strcmp(words[i], "outputting") == 0) {
 				s->outputting = atoi(words[i + 1]);
 			}

@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
 {
 	char *cfg;
 	char *m;
-	int mode = 0;
+	int mode = 0; // simulator mode: 0 = simulate, 1 = render
 
 	if (argc < 3) {
 		printf("No config file!\n");
@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 
 	char *date = currentDateTime();
 
-	printf("Vortexy Roninkoi %s\n", date);
+	printf("Vortexy Roninkoi (roninkoi@iki.fi) %s\n", date);
 
 	free(date);
 

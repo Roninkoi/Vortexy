@@ -30,6 +30,9 @@ struct Face { // triangle
 
 	int isWall;
 
+	int vSkip;
+	int pSkip;
+
 	vec3 normal; // unit normal
 	vec3 surface; // surface vector with area
 	vec3 surfaceE; // big
@@ -58,6 +61,7 @@ struct Face { // triangle
 	mat3 vGradI; // interpolated
 	vec3 pGrad; // pressure gradient
 	vec3 pGradI; // interpolated
+	vec3 pGradn; // pressure gradient
 
 	vec3 va; // velocity coefficients
 	real pa; // pressure coefficients
@@ -93,6 +97,9 @@ void faceInit(struct Face *f)
 
 	f->isWall = 0;
 
+	f->vSkip = 0;
+	f->pSkip = 0;
+
 	f->normal = nvec3();
 	f->surface = nvec3();
 	f->surfaceE = nvec3();
@@ -121,6 +128,7 @@ void faceInit(struct Face *f)
 	f->vGradI = nmat3();
 	f->pGrad = nvec3();
 	f->pGradI = nvec3();
+	f->pGradn = nvec3();
 
 	f->va = nvec3();
 	f->pa = 0.0;
@@ -155,6 +163,7 @@ struct Volume { // tetrahedron
 
 	mat3 vGrad; // velocity gradient
 	vec3 pGrad; // pressure gradient
+	vec3 pGradn; // pressure gradient
 	vec3 pcGrad; // pressure correction gradient
 
 	real mRate; // mass flow rate
@@ -205,6 +214,7 @@ void volInit(struct Volume *v)
 
 	v->vGrad = nmat3();
 	v->pGrad = nvec3();
+	v->pGradn = nvec3();
 	v->pcGrad = nvec3();
 
 	v->mRate = 0.0;
@@ -250,10 +260,12 @@ struct Face *p_connectingFace(struct Volume *v0, struct Volume *v1);
 
 void destroyFace(struct Face *f)
 {
+	// nothing dynamically allocated
 }
 
 void destroyVolume(struct Volume *v)
 {
+	// nothing dynamically allocated
 }
 
 void p_destroyFaces(struct Face *f, int faceNum)

@@ -1,7 +1,7 @@
 #include "algebra.h"
 #include "randomUtil.h"
 
-#define RELEPS
+//#define RELEPS
 
 #define THREADNUM 16
 #define MULTITHREADING_ENABLED 0
@@ -9,6 +9,37 @@
 #if MULTITHREADING_ENABLED
 
 #include <pthread.h>
+
+#endif
+
+#define LAPACK_ENABLED 0
+
+#if LAPACK_ENABLED
+
+#include <lapacke/lapacke.h>
+
+void LPS(mat *a, mat *b, mat *g)
+{
+	real *inputa = matFlatten(a);
+	real *bx = matFlatten(b);
+	int *p = calloc(sizeof(int), a->r);
+
+	LAPACKE_dgesv(LAPACK_ROW_MAJOR,
+			a->r,
+			1,
+			inputa,
+			a->c,
+			p,
+			bx,
+			1);
+
+	matDestroy(g);
+	*g = matBuild(bx, b->r, b->c);
+
+	free(inputa);
+	free(bx);
+	free(p);
+}
 
 #endif
 
@@ -110,46 +141,6 @@ struct mt_args {
 	real *delta;
 };
 
-void *gsmt(void *args) // TODO: thread synchronization
-{
-	struct mt_args *gargs = args;
-
-	*gargs->delta = 0.0;
-
-	for (int i = gargs->start; i < gargs->end; ++i) {
-		real x = 1.0 / gargs->a->m[i][i];
-
-		real s0 = 0.0;
-
-		for (int j = a->rmin[i]; j <= i - 1; ++j) {
-			s0 += a->m[i][j] * g->m[j][0];
-		}
-
-		real s1 = 0.0;
-
-		for (int j = i + 1; j <= a->rmax[i]; ++j) {
-			s1 += a->m[i][j] * g->m[j][0];
-		}
-
-		x *= (b->m[i][0] - s0 - s1);
-
-		if (x != x) {
-			printf("NaN\n");
-			continue;
-		}
-
-		real d = fabs(gargs->g->m[i][0] - x);
-#ifdef RELEPS
-		d /= fabs(gargs->g->m[i][0]);
-#endif
-
-		if (d > gargs->epsilon)
-			*gargs->delta = d;
-
-		gargs->g->m[i][0] = x;
-	}
-}
-
 void *jcmt(void *args) // jacobi method
 {
 	struct mt_args *gargs = args;
@@ -189,7 +180,7 @@ void *jcmt(void *args) // jacobi method
 
 //#define TN8
 
-void GaussSeidelSG_MT(mat *a, mat *b, mat *g, int maxIt, real epsilon)
+void MTSolve(mat *a, mat *b, mat *g, int maxIt, real epsilon)
 {
 	int n = a->r;
 
@@ -277,8 +268,8 @@ void GaussSeidelSG_MT(mat *a, mat *b, mat *g, int maxIt, real epsilon)
 		}
 #endif
 
-		if (k > gsiterations)
-			gsiterations = k;
+		if (k > msiterations)
+			msiterations = k;
 
 		if (fabs(delta) < epsilon) { // has converged
 			conv = 1;
@@ -292,13 +283,8 @@ void GaussSeidelSG_MT(mat *a, mat *b, mat *g, int maxIt, real epsilon)
 }
 #endif
 
-void GaussSeidelSG(mat *a, mat *b, mat *g, int maxIt, real epsilon)
+void GaussSeidel(mat *a, mat *b, mat *g, int maxIt, real epsilon)
 {
-#if MULTITHREADING_ENABLED
-	GaussSeidelSG_MT(a, b, g, maxIt, epsilon);
-	return;
-#endif
-
 	int n = a->r;
 
 	real delta = 0.0;
@@ -346,8 +332,8 @@ void GaussSeidelSG(mat *a, mat *b, mat *g, int maxIt, real epsilon)
 			g->m[i][0] = x;
 		}
 
-		if (k > gsiterations)
-			gsiterations = k;
+		if (k > msiterations)
+			msiterations = k;
 
 		if (fabs(delta) < epsilon) { // has converged
 			conv = 1;
@@ -356,92 +342,20 @@ void GaussSeidelSG(mat *a, mat *b, mat *g, int maxIt, real epsilon)
 		}
 	}
 
-	gsconvergence &= conv;
+	msconvergence &= conv;
 }
 
-mat GaussSeidelS(mat *a, mat *b, int maxIt, real epsilon)
+void solve(mat *a, mat *b, mat *g, int maxIt, real epsilon)
 {
-	int n = a->r;
+#if MULTITHREADING_ENABLED
+	MTSolve(a, b, g, maxIt, epsilon);
+	return;
+#endif
 
-	mat r = matCopy(b);
+#if LAPACK_ENABLED
+	LPS(a, b, g);
+	return;
+#endif
 
-	real delta = 0.0f;
-
-	int conv = 0;
-
-	for (int k = 0; k < maxIt; ++k) {
-		delta = 0.0f;
-
-		for (int i = 0; i < n; ++i) {
-			real x = 1.0f / a->m[i][i];
-
-			real s0 = 0.0f;
-
-			for (int j = a->rmin[i]; j <= i - 1; ++j) {
-				s0 += a->m[i][j] * r.m[j][0];
-			}
-
-			real s1 = 0.0f;
-
-			for (int j = i + 1; j <= a->rmax[i]; ++j) {
-				s1 += a->m[i][j] * r.m[j][0];
-			}
-
-			x *= (b->m[i][0] - s0 - s1);
-
-			delta += r.m[i][0] - x;
-
-			r.m[i][0] = x;
-		}
-
-		if (fabs(delta) < epsilon) { // has converged
-			conv = 1;
-			break;
-		}
-	}
-
-	gsconvergence &= conv;
-
-	return r;
+	GaussSeidel(a, b, g, maxIt, epsilon);
 }
-
-mat GaussSeidel(mat *a, mat *b, int maxIt, real epsilon)
-{
-	int n = a->r;
-
-	mat r = matCopy(b);
-
-	real delta = 0.0;
-
-	for (int k = 0; k < maxIt; ++k) {
-		delta = 0.0;
-
-		for (int i = 0; i < n; ++i) {
-			real x = 1.0 / a->m[i][i];
-
-			real s0 = 0.0;
-
-			for (int j = 0; j <= i - 1; ++j) {
-				s0 += a->m[i][j] * r.m[j][0];
-			}
-
-			real s1 = 0.0;
-
-			for (int j = i + 1; j < n; ++j) {
-				s1 += a->m[i][j] * r.m[j][0];
-			}
-
-			x *= (b->m[i][0] - s0 - s1);
-
-			delta += r.m[i][0] - x;
-
-			r.m[i][0] = x;
-		}
-
-		if (fabs(delta) < epsilon) // has converged
-			break;
-	}
-
-	return r;
-}
-

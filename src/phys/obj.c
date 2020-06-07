@@ -6,21 +6,26 @@ void p_loadObj(Obj *o, char *fluidPath, int mode)
 	o->faces = NULL;
 	o->volumes = NULL;
 
+	// default values
 	o->t = 0.0f;
+	o->dt = 1.0f;
+	o->vRelax = 0.7;
+	o->pRelax = 0.3;
 
 	printf("Loading %s\n", fluidPath);
 
+	// load fluid mesh
 	fluidMeshParser(o, fluidPath);
 
 	p_loadObjMesh(o);
 	o->faces = p_loadFaces(&o->mesh, &o->faceNum, mode);
 
-	if (mode) {
+	if (mode == 1) { // if only rendering, don't compute fvm
 		fluidParser(o, fluidPath);
 
 		return;
 	}
-		
+
 	p_loadObjVolumes(o);
 
 	p_reloadObj(o, fluidPath);
@@ -52,8 +57,17 @@ void p_reloadObj(Obj *o, char *fluidPath)
 			o->faces[i].boundary = 0;
 		}
 
-		if (o->faces[i].boundary == 1 || o->faces[i].boundary == 2)
+		if (o->faces[i].boundary == 1 ||
+			o->faces[i].boundary == 2)
 			o->faces[i].isWall = 1;
+
+		if (o->faces[i].boundary == 1 ||
+			o->faces[i].boundary == 2 ||
+			o->faces[i].boundary == 6)
+			o->faces[i].vSkip = 1;
+
+		if (o->faces[i].boundary > 0)
+			o->faces[i].pSkip = 1;
 
 		o->faces[i].constantP += o->fluid.bp;
 		o->faces[i].initialP += o->fluid.bp;

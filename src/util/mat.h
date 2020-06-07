@@ -45,6 +45,9 @@ void matPrint(mat *m);
 void matDestroy(mat *m);
 void matDestroyS(mat *m);
 
+real *matFlatten(mat *m);
+mat matBuild(real *m, int r, int c);
+
 mat matVec3(vec3 *v);
 vec3 vec3Mat(mat *m);
 

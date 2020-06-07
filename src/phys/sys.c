@@ -7,6 +7,7 @@
 
 //#define RELRES
 #define GRAD2
+//#define CONSTGRAD
 
 #define printVField(prefix, postfix0, postfix1, pfn)	\
 	for (int pfi = 0; pfi < pfn; ++pfi) {				\
@@ -153,10 +154,12 @@ void p_in(Obj *o)
 {
 	for (int j = 0; j < o->volNum; ++j) {
 		o->volumes[j].vn = vec3Copy(&o->volumes[j].v);
+		o->volumes[j].pGradn = vec3Copy(&o->volumes[j].pGrad);
 	}
 	for (int j = 0; j < o->faceNum; ++j) {
 		o->faces[j].vn = vec3Copy(&o->faces[j].v);
 		o->faces[j].vIn = vec3Copy(&o->faces[j].vI);
+		o->faces[j].pGradn = vec3Copy(&o->faces[j].pGrad);
 	}
 }
 
@@ -190,6 +193,8 @@ void p_updateM(Obj *o)
 
 void p_sysStart(struct Sys *s)
 {
+	gradIt = s->gradIt;
+
 	for (int i = 0; i < s->objNum; ++i) {
 		s->objs[i].t = 0.0;
 
@@ -224,13 +229,18 @@ void p_sysTick(struct Sys *s)
 
 		do {
 #ifdef GRAD2
-			p_pGradsh(&s->objs[i]);
-			p_vGradsh(&s->objs[i]);
+			p_pGrads(&s->objs[i]);
+			p_vGrads(&s->objs[i]);
 #else
 			p_updateVP(&s->objs[i], 0);
 
 			p_pGrad(&s->objs[i]);
 			p_vGrad(&s->objs[i]);
+#endif
+
+#ifdef CONSTGRAD
+			for (int j = 0; j < s->objs[i].faceNum; ++j)
+				s->objs[i].faces[j].pGrad = Vec3(1.0, 0.0, 0.0);
 #endif
 
 			p_pFaceGrad(&s->objs[i]);
@@ -248,7 +258,7 @@ void p_sysTick(struct Sys *s)
 			//p_computeVBoundCoeffs(&s->objs[i]);
 
 			p_constructVMatX(&s->objs[i]);
-			GaussSeidelSG(&s->objs[i].a, &s->objs[i].b, &s->objs[i].vx, s->maxIt, s->epsilon);
+			solve(&s->objs[i].a, &s->objs[i].b, &s->objs[i].vx, s->maxIt, s->epsilon);
 			p_getVX(&s->objs[i]);
 
 			if (s->debugFlag) {
@@ -266,19 +276,18 @@ void p_sysTick(struct Sys *s)
 
 				exit(0);
 			}
-
 			matDestroyS(&s->objs[i].a);
 			matDestroy(&s->objs[i].b);
 
 			p_constructVMatY(&s->objs[i]);
-			GaussSeidelSG(&s->objs[i].a, &s->objs[i].b, &s->objs[i].vy, s->maxIt, s->epsilon);
+			solve(&s->objs[i].a, &s->objs[i].b, &s->objs[i].vy, s->maxIt, s->epsilon);
 			p_getVY(&s->objs[i]);
 
 			matDestroyS(&s->objs[i].a);
 			matDestroy(&s->objs[i].b);
 
 			p_constructVMatZ(&s->objs[i]);
-			GaussSeidelSG(&s->objs[i].a, &s->objs[i].b, &s->objs[i].vz, s->maxIt, s->epsilon);
+			solve(&s->objs[i].a, &s->objs[i].b, &s->objs[i].vz, s->maxIt, s->epsilon);
 			p_getVZ(&s->objs[i]);
 
 			matDestroyS(&s->objs[i].a);
@@ -296,14 +305,14 @@ void p_sysTick(struct Sys *s)
 			p_computePBoundCoeffs(&s->objs[i]);
 
 			p_constructPMat(&s->objs[i]);
-			GaussSeidelSG(&s->objs[i].a, &s->objs[i].b, &s->objs[i].vp, s->maxIt, s->epsilon);
+			solve(&s->objs[i].a, &s->objs[i].b, &s->objs[i].vp, s->maxIt, s->epsilon);
 			p_getP(&s->objs[i]);
 
 			matDestroyS(&s->objs[i].a);
 			matDestroy(&s->objs[i].b);
 
 #ifdef GRAD2
-			p_pcGradsh(&s->objs[i]);
+			p_pcGrads(&s->objs[i]);
 #else
 			p_pcGrad(&s->objs[i]);
 #endif
@@ -337,7 +346,7 @@ void p_sysTick(struct Sys *s)
 
 				if (s->objs[i].volumes[j].p < 0.0) {
 					//s->objs[i].volumes[j].p = 0.0;
-					s->unreal = 4;
+					s->unreal |= 4;
 				}
 			}
 

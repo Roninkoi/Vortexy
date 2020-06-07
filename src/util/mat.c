@@ -1,6 +1,7 @@
 #include "mat.h"
 #include "util.h"
 #include "randomUtil.h"
+#include <string.h>
 
 mat Mat(real s, int r, int c)
 {
@@ -41,6 +42,33 @@ mat Matc(real s, int r)
 	m.c = 1;
 
 	return m;
+}
+
+real *matFlatten(mat *m)
+{
+	real *r = calloc(sizeof(real), m->r * m->c);
+	//memcpy(r, &m->m, m->r * m->c);
+
+	for (int i = 0; i < m->r; ++i) {
+		for (int j = 0; j < m->c; ++j) {
+			r[i * m->c + j] = m->m[i][j];
+		}
+	}
+
+	return r;
+}
+
+mat matBuild(real *m, int r, int c)
+{
+	mat rm = Mat(0.0, r, c);
+
+	for (int i = 0; i < r; ++i) {
+		for (int j = 0; j < c; ++j) {
+			rm.m[i][j] = m[i * c + j];
+		}
+	}
+
+	return rm;
 }
 
 mat matVec3(vec3 *v)

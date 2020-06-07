@@ -6,8 +6,9 @@
 #include "util/util.h"
 
 // decomposition method
-#define MINDC 1 // minimum correction
+#define MINDC 0 // minimum correction
 #define ORTHODC 0 // orthogonal correction
+#define ORDC 1 // over-relaxed correction
 //#define CONVSCH // using convection scheme
 
 // calculate face mass flow rate for volume
@@ -100,11 +101,30 @@ void p_getP(Obj *o)
 	}
 }
 
+void p_computePFaceCoeff(struct Face *connecting, struct Volume *vol, struct Fluid *fluid)
+{
+	switch (connecting->boundary) {
+		case 0:
+		case 1: // no-slip wall
+		case 2: // slip wall
+		case 3: // velocity inlet
+		case 5: // velocity outlet
+			connecting->pa = 0.0;
+			break;
+		case 4: // pressure inlet
+			connecting->pa = fluid->rho * connecting->df;
+			break;
+		case 6: // pressure outlet
+			connecting->pa = fluid->rho * connecting->df;
+			break;
+	}
+}
+
 // construct pressure equation matrix
 void p_constructPMat(Obj *o)
 {
 	o->a = Mat(1.0, o->volNum, o->volNum);
-	o->b = Mat(0.0, o->volNum, 1);
+	o->b = Matc(0.0, o->volNum);
 
 	o->a.rmin = malloc(sizeof(int) * o->volNum);
 	o->a.rmax = malloc(sizeof(int) * o->volNum);
@@ -131,7 +151,10 @@ void p_constructPMat(Obj *o)
 			if (n > o->a.rmax[i])
 				o->a.rmax[i] = n;
 
-			o->a.m[i][n] = -o->fluid.rho * connecting->df;
+			//o->a.m[i][n] = -o->fluid.rho * connecting->df;
+			p_computePFaceCoeff(connecting, &o->volumes[i], &o->fluid);
+
+			o->a.m[i][n] = connecting->pa;
 		}
 	}
 
@@ -154,6 +177,8 @@ void p_computeVFaceCoeff(struct Face *connecting, struct Volume *vol, struct Flu
 		case 2: // slip wall
 		case 3: // velocity inlet
 		case 4: // pressure inlet
+		case 5: // velocity outlet
+		case 6: // pressure outlet
 			connecting->va.x = 0.0;
 			connecting->va.y = 0.0;
 			connecting->va.z = 0.0;
@@ -170,7 +195,7 @@ void p_computeVFaceCoeff(struct Face *connecting, struct Volume *vol, struct Flu
 void p_constructVMatX(Obj *o)
 {
 	o->a = Mat(1.0, o->volNum, o->volNum);
-	o->b = Mat(0.0, o->volNum, 1);
+	o->b = Matc(0.0, o->volNum);
 
 	o->a.rmin = malloc(sizeof(int) * o->volNum);
 	o->a.rmax = malloc(sizeof(int) * o->volNum);
@@ -211,7 +236,7 @@ void p_constructVMatX(Obj *o)
 void p_constructVMatY(Obj *o)
 {
 	o->a = Mat(1.0, o->volNum, o->volNum);
-	o->b = Mat(0.0, o->volNum, 1);
+	o->b = Matc(0.0, o->volNum);
 
 	o->a.rmin = malloc(sizeof(int) * o->volNum);
 	o->a.rmax = malloc(sizeof(int) * o->volNum);
@@ -252,7 +277,7 @@ void p_constructVMatY(Obj *o)
 void p_constructVMatZ(Obj *o)
 {
 	o->a = Mat(1.0, o->volNum, o->volNum);
-	o->b = Mat(0.0, o->volNum, 1);
+	o->b = Matc(0.0, o->volNum);
 
 	o->a.rmin = malloc(sizeof(int) * o->volNum);
 	o->a.rmax = malloc(sizeof(int) * o->volNum);
@@ -315,13 +340,23 @@ void p_computeD(Obj *o)
 
 		o->faces[i].df = d;
 #elif ORTHODC
-		d = o->faces[i].d.x * o->faces[i].surface.x * o->faces[i].d.x * o->faces[i].surface.x +
-			o->faces[i].d.y * o->faces[i].surface.y * o->faces[i].d.y * o->faces[i].surface.y +
-			o->faces[i].d.z * o->faces[i].surface.z * o->faces[i].d.z * o->faces[i].surface.z; // orthogonal correction
+		d = o->faces[i].c.x * o->faces[i].surface.x * o->faces[i].c.x * o->faces[i].surface.x +
+			o->faces[i].c.y * o->faces[i].surface.y * o->faces[i].c.y * o->faces[i].surface.y +
+			o->faces[i].c.z * o->faces[i].surface.z * o->faces[i].c.z * o->faces[i].surface.z; // orthogonal correction
 
 		d /= (dist.x * dist.x + dist.y * dist.y + dist.z * dist.z);
 
 		o->faces[i].df = sqrt(d); // ortho
+#elif ORDC
+		d = o->faces[i].c.x * o->faces[i].surface.x * o->faces[i].c.x * o->faces[i].surface.x +
+			o->faces[i].c.y * o->faces[i].surface.y * o->faces[i].c.y * o->faces[i].surface.y +
+			o->faces[i].c.z * o->faces[i].surface.z * o->faces[i].c.z * o->faces[i].surface.z; // over-relaxed
+
+		d /= (fabs(dist.x * o->faces[i].c.x * o->faces[i].surface.x) +
+			  fabs(dist.y * o->faces[i].c.y * o->faces[i].surface.y) +
+			  fabs(dist.z * o->faces[i].c.z * o->faces[i].surface.z));
+
+		o->faces[i].df = d;
 #endif
 	}
 }
@@ -333,12 +368,21 @@ void p_computePBoundCoeffs(Obj *o)
 			vec3 bb = nvec3();
 
 			switch (o->volumes[i].faces[j]->boundary) {
+				case 0:
 				case 1: // no-slip wall
 				case 2: // slip wall
 				case 3: // velocity inlet
+				case 5: // velocity outlet
 					break;
 				case 4: // pressure inlet
 					o->volumes[i].pa += o->fluid.rho * o->volumes[i].faces[j]->df;
+
+					o->volumes[i].pb -= p_getMrate(&o->volumes[i], o->volumes[i].faces[j], o->fluid.rho);
+					break;
+				case 6: // pressure outlet
+					o->volumes[i].pa += o->fluid.rho * o->volumes[i].faces[j]->df;
+
+					o->volumes[i].pb -= p_getMrate(&o->volumes[i], o->volumes[i].faces[j], o->fluid.rho);
 					break;
 			}
 		}
@@ -394,6 +438,7 @@ void VBoundB(struct Volume *v, struct Fluid *fluid)
 			case 2: // slip wall
 				break;
 			case 3: // velocity inlet
+			case 5: // velocity outlet
 				a = p_getVFaceCoeff(fb, v, fluid);
 
 				cv = vec3Copy(&fb->normal); // constant velocity
@@ -406,9 +451,18 @@ void VBoundB(struct Volume *v, struct Fluid *fluid)
 			case 4: // pressure inlet
 				a = p_getVFaceCoeff(fb, v, fluid);
 
-				v->vb.x -= a * fb->v.x;
-				v->vb.y -= a * fb->v.y;
-				v->vb.z -= a * fb->v.z;
+				v->vb.x -= a * fb->vn.x;
+				v->vb.y -= a * fb->vn.y;
+				v->vb.z -= a * fb->vn.z;
+				break;
+			case 6: // pressure outlet
+				fb->mRate = p_getMrate(v, fb, fluid->rho);
+
+				cv = mat3DotV(&fb->vGrad, &fb->volDist);
+
+				v->vb.x -= fb->constantP * fb->surface.x + cv.x * fb->mRate;
+				v->vb.y -= fb->constantP * fb->surface.y + cv.y * fb->mRate;
+				v->vb.z -= fb->constantP * fb->surface.z + cv.z * fb->mRate;
 				break;
 			case 10: // lid
 				v->vb.x += (fluid->mu * sl / dn) *
@@ -468,8 +522,16 @@ void VBoundA(struct Volume *v, struct Fluid *fluid)
 			case 2: // slip wall
 				break;
 			case 3: // velocity inlet
+			case 5: // velocity outlet
 				break;
-			case 4:
+			case 4: // pressure inlet
+				break;
+			case 6: // pressure outlet
+				fb->mRate = p_getMrate(v, fb, fluid->rho);
+
+				v->va.x += fb->mRate;
+				v->va.y += fb->mRate;
+				v->va.z += fb->mRate;
 				break;
 			case 10: // lid
 				v->va.x += (fluid->mu * sl / dn) * (1.0 - n.x * n.x);
@@ -494,7 +556,7 @@ void p_computePCoeffs(Obj *o)
 	for (int i = 0; i < o->volNum; ++i) {
 		o->volumes[i].pa = 0.0;
 		for (int j = 0; j < 4; ++j) {
-			if (o->volumes[i].faces[j]->isWall)
+			if (o->volumes[i].faces[j]->pSkip)
 				continue;
 
 			o->volumes[i].pa += o->fluid.rho * o->volumes[i].faces[j]->df;
@@ -502,7 +564,7 @@ void p_computePCoeffs(Obj *o)
 
 		o->volumes[i].pb = 0.0;
 		for (int j = 0; j < 4; ++j) {
-			if (o->volumes[i].faces[j]->isWall)
+			if (o->volumes[i].faces[j]->pSkip)
 				continue;
 
 			o->volumes[i].pb -= p_getMrate(&o->volumes[i], o->volumes[i].faces[j], o->fluid.rho);
@@ -516,7 +578,7 @@ vec3 p_pGradInt(struct Volume *vol)
 	vec3 r = nvec3();
 
 	for (int i = 0; i < 4; ++i) {
-		if (vol->faces[i]->isWall) // ???
+		if (vol->faces[i]->boundary > 0) // ???
 			continue;
 
 		vec3 s = vec3Outwards(&vol->r,
@@ -556,7 +618,7 @@ void p_computeVCoeffs(Obj *o)
 		o->volumes[i].va.z = o->volumes[i].flux;
 
 		for (int j = 0; j < 4; ++j) {
-			if (o->volumes[i].faces[j]->isWall)
+			if (o->volumes[i].faces[j]->vSkip)
 				continue;
 
 			real mr = max(p_getMrate(&o->volumes[i], o->volumes[i].faces[j], o->fluid.rho), 0.0);
@@ -592,7 +654,7 @@ void p_computeVCoeffs(Obj *o)
 		o->volumes[i].va.z /= o->vRelax;
 
 		for (int j = 0; j < 4; ++j) {
-			if (o->volumes[i].faces[j]->isWall)
+			if (o->volumes[i].faces[j]->vSkip)
 				continue;
 
 #ifdef CONVSCH
@@ -702,6 +764,10 @@ void decomposedET(struct Face *f)
 #elif ORTHODC
 	f->surfaceE = vec3Copy(&e); // orthogonal
 	vec3Mul(&f->surfaceE, vec3Len(&s));
+#elif ORDC
+	f->surfaceE = vec3Copy(&e); // over-relaxed
+
+	vec3Mul(&f->surfaceE, vec3Len(&s) * vec3Len(&s) / (vec3Dot(&e, &s)));
 #endif
 
 	f->surfaceT = vec3Copy(&s);

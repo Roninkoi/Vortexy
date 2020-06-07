@@ -4,17 +4,17 @@
 #include "mat.h"
 #include "util.h"
 
-int gsconvergence;
-int gsiterations;
+unsigned int msconvergence; // matrix solver converged?
+unsigned int msiterations; // number of matrix solver iterations
 
 // row reduction
 void GaussElim(mat *m);
 
 // GS method solve
-mat GaussSeidel(mat *a, mat *b, int maxIt, real epsilon);
-mat GaussSeidelS(mat *a, mat *b, int maxIt, real epsilon);
+void GaussSeidel(mat *a, mat *b, mat *g, int maxIt, real epsilon);
 
-void GaussSeidelSG(mat *a, mat *b, mat *g, int maxIt, real epsilon);
+// solve matrix equation A x = b
+void solve(mat *a, mat *b, mat *g, int maxIt, real epsilon);
 
 // decompose matrix into lower and strictly upper: A = L* + U
 void decompose(mat *a, mat *b, mat *c);
