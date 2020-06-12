@@ -39,8 +39,6 @@ struct Sim {
 	unsigned int timeOld;
 	unsigned int startTime;
 
-	int divhalt;
-
 	unsigned int st;
 	
 	float rz;

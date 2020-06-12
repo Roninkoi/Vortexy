@@ -390,7 +390,7 @@ In the simulator the GS solver is implemented thusly:
 
 \subsection{Simulation mesh}
 
-Triangular/tetrahedral, closed, connected, Delaunay tetrahedralization with spatial Hilbert curve sorting
+Irregular, non-orthogonal Delaunay tetrahedralization
 
 \subsection{Solver}
 
@@ -421,11 +421,79 @@ Building using default options:
 
 \subsubsection{Simulation config}
 
+\begin{verbatim}
+# simulator options
+render 0 # use renderer
+simulating 1 # start simulation right away
+autoquit 1 # quit when not simulating
+divhalt 0 # halt simulation upon divergence
+
+fluid data/lid16/lid100.cfg # fluid config file
+endt 0.15 # end time / sim duration
+maxit 10000 # max solver iterations
+epsilon 1.0e-6 # solver target
+dtmaxit 15 # max time-step iterations
+residual 5.0e0 # solution residual
+gradit 2 # gradient iterations
+relaxm 1.0 # relax mass flow
+
+# IO options
+file data/lid16/out100.dat # input/output file
+printitn 1 # print time-step iteration number
+outputting 1 # writing to output file?
+outputt 0 # outputting time data
+outputf 1 # frequency of output (1/cycle)
+inputf 20 # frequency of input (1/cycle)
+inputram 0 # bytes to load into memory, 0 for direct file access
+
+# rendering options
+# f  v  t  l  w  m
+# 64 32 16 8  4  2
+rmode 10 # rendering mode (see above)
+rz -4.0 # camera z
+rs 0.3 # render scale
+bgcol 1.0 1.0 1.0 # background color
+
+vs 1.0 # velocity scale (m/s)
+ps 100000.0 # pressure scale (Pa)
+
+end # optional
+\end{verbatim}
+
 \subsubsection{Fluid config}
 
-\subsection{Output data}
+\begin{verbatim}
+mu 2.0e-1 # viscosity
+rho 1.0e-1 # density
 
-Format:
+dt 0.001 # time step
+
+vr 0.7 # velocity urf
+pr 0.3 # pressure under-relaxation factor
+
+mesh data/lid16/plane_16x16_s2.1.mesh
+
+f 0.0 0.0 0.0
+
+bp 1.0e3 # base pressure, p = bp + ip
+
+ebc 1 # boundary condition for all edges
+
+# bc <f id> <bc> = boundary condition
+# 0 = open, 1 = no-slip wall, 2 = slip wall
+# 3 = velocity inlet, 4 = pressure inlet
+# 5 = mass flow outlet, 6 = pressure outlet
+# iv <f id> <v> = initial velocity, ip <f id> <p> = initial pressure
+# cv <f id> <v> = constant velocity, cp <f id> <p> = constant pressure
+
+bc 244 3 # velocity inlet for face id 244
+cv 244 10.0e2
+iv 244 10.0e2
+
+end # optional
+\end{verbatim}
+
+\subsection{Output data}
 
 \begin{verbatim}
 s <sim tick>
@@ -433,14 +501,6 @@ o <object id> t <time in s> f <face id> x <face centroid x in m> <y> <z>
 v <face velocity x in m/s> <y> <z> p <face pressure in Pa>
 e
 \end{verbatim}
-
-\subsection{Examples}
-
-\subsubsection{Lid-driven cavity}
-
-\subsubsection{Pipe flow}
-
-\subsection{Problems}
 
 \addcontentsline{toc}{section}{References}
 \begin{thebibliography}{9}

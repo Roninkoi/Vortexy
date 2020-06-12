@@ -42,7 +42,7 @@ real getGWFp(struct Face *f)
 	return vec3Len(&d0) / vec3Len(&f->volDist);
 }
 
-void p_faceD(struct Face *f)
+void p_faceC(struct Face *f)
 {
 	if (f->vNum == 0)
 		return;
@@ -79,7 +79,7 @@ void p_faceVI(struct Face *f)
 
 	vec3Sub(&d0, &f->r);
 
-	real g0 = getGWF(f);
+	real g0 = getGWFh(f);
 
 	vec3 vel0 = vec3Copy(&f->thisVol[0]->v);
 	vec3Mul(&vel0, g0);
@@ -102,7 +102,7 @@ void p_facePI(struct Face *f)
 		return;
 	}
 
-	real g0 = getGWF(f);
+	real g0 = getGWFh(f);
 
 	real pre0 = f->thisVol[0]->p * g0;
 
@@ -122,7 +122,7 @@ void p_facePCI(struct Face *f)
 		return;
 	}
 
-	real g0 = getGWF(f);
+	real g0 = getGWFh(f);
 
 	real pre0 = f->thisVol[0]->pc * g0;
 
@@ -141,7 +141,7 @@ void p_facePC(struct Face *f)
 // extrapolate pressure to boundary
 real boundaryPressure(struct Face *f)
 {
-#if 1
+#if 0
 	struct Volume *vol = f->thisVol[0]; // rhie-chow
 
 	vec3 s = vec3Outwards(&vol->r,
@@ -266,20 +266,13 @@ void fv(struct Face *f)
 
 	f->v = vec3Copy(&f->vI);
 
-	return;
-
 	vec3 cv;
 	switch (f->boundary) {
-		case 1:
-			f->v = nvec3();
-			return;
 		case 3:
+		case 5:
 			cv = vec3Copy(&f->normal);
 			vec3Mul(&cv, f->constantV);
 			f->v = vec3Copy(&cv);
-			return;
-		case 10:
-			f->v = Vec3(f->constantV, 0.0, 0.0);
 			return;
 	}
 }

@@ -248,7 +248,7 @@ void rtl(struct Renderer *r, struct Sys *s)
 
 			vec4 col = Vec4(l, fmax(0.0f, 1.0f - l * 0.1f), 0.0f, 1.0f);
 
-			r_drawVec(r, n, nn, col, r->rs * l * 0.01f + 0.01f);
+			r_drawVec(r, n, nn, col, r->rs * log10(l + 1.0) * 0.1f + 0.01f);
 		}
 	}
 	r_render(r);
@@ -277,7 +277,7 @@ void rftl(struct Renderer *r, struct Sys *s)
 
 			vec4 col = Vec4(l, fmax(0.0f, 1.0f - l * 0.1f), 0.0f, 1.0f);
 
-			r_drawVec(r, n, nn, col, r->rs * l * 0.01f + 0.01f);
+			r_drawVec(r, n, nn, col, r->rs * log10(l + 1.0) * 0.1f + 0.01f);
 		}
 	}
 	r_render(r);

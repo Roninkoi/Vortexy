@@ -9,7 +9,10 @@
 #define MINDC 0 // minimum correction
 #define ORTHODC 0 // orthogonal correction
 #define ORDC 1 // over-relaxed correction
-//#define CONVSCH // using convection scheme
+
+#define CONVSCH // using convection scheme
+#define CONVF 1 // first-iteration scheme?
+#define CONVT 1 // first time-step scheme?
 
 // calculate face mass flow rate for volume
 real p_getMrate(struct Volume *v, struct Face *f, real rho)
@@ -18,7 +21,9 @@ real p_getMrate(struct Volume *v, struct Face *f, real rho)
 						  &f->r,
 						  &f->surface);
 
-	return rho * vec3Dot(&f->v, &s);
+	f->mRate = rho * vec3Dot(&f->v, &s);
+
+	return f->mRate;
 }
 
 // volume upwind from face
@@ -104,20 +109,18 @@ void p_getP(Obj *o)
 void p_computePFaceCoeff(struct Face *connecting, struct Volume *vol, struct Fluid *fluid)
 {
 	switch (connecting->boundary) {
-		case 0:
 		case 1: // no-slip wall
 		case 2: // slip wall
 		case 3: // velocity inlet
-		case 5: // velocity outlet
-			connecting->pa = 0.0;
-			break;
 		case 4: // pressure inlet
-			connecting->pa = fluid->rho * connecting->df;
-			break;
+		case 5: // velocity outlet
 		case 6: // pressure outlet
-			connecting->pa = fluid->rho * connecting->df;
-			break;
+		case 10: // lid
+			connecting->pa = 0.0;
+			return;
 	}
+
+	connecting->pa = -fluid->rho * connecting->df;
 }
 
 // construct pressure equation matrix
@@ -179,6 +182,7 @@ void p_computeVFaceCoeff(struct Face *connecting, struct Volume *vol, struct Flu
 		case 4: // pressure inlet
 		case 5: // velocity outlet
 		case 6: // pressure outlet
+		case 10: // lid
 			connecting->va.x = 0.0;
 			connecting->va.y = 0.0;
 			connecting->va.z = 0.0;
@@ -315,7 +319,7 @@ void p_constructVMatZ(Obj *o)
 	}
 }
 
-void p_computeD(Obj *o)
+void p_computeC(Obj *o)
 {
 	for (int i = 0; i < o->volNum; ++i) {
 		o->volumes[i].c = Vec3(o->volumes[i].vol / o->volumes[i].va.x,
@@ -323,7 +327,7 @@ void p_computeD(Obj *o)
 							   o->volumes[i].vol / o->volumes[i].va.z);
 	}
 	for (int i = 0; i < o->faceNum; ++i) {
-		p_faceD(&o->faces[i]);
+		p_faceC(&o->faces[i]);
 	}
 
 	for (int i = 0; i < o->faceNum; ++i) {
@@ -361,37 +365,60 @@ void p_computeD(Obj *o)
 	}
 }
 
+void PBound(struct Volume *v, struct Fluid *fluid)
+{
+	for (int j = 0; j < 4; ++j) {
+		struct Face *fb = v->faces[j];
+
+		if (!fb->boundary)
+			continue;
+
+		vec3 s = vec3Outwards(&v->r,
+							  &fb->r,
+							  &fb->surface);
+
+		vec3 cv;
+
+		switch (fb->boundary) {
+			case 0:
+			case 1: // no-slip wall
+			case 2: // slip wall
+			case 3: // velocity inlet
+			case 5: // velocity outlet
+			case 10: // lid
+				break;
+			case 4: // pressure inlet
+				fb->mRate = p_getMrate(v, fb, fluid->rho);
+
+				cv = vec3Copy(&fb->v);
+				vec3Mul(&cv, fluid->rho);
+
+				/*v->pa += fluid->rho * fb->mRate * fb->df /
+						 (fb->mRate - fb->df * vec3Dot(&cv, &cv));*/
+
+				v->pa += fluid->rho * fb->df;
+
+				v->pb -= p_getMrate(v, fb, fluid->rho);
+				break;
+			case 6: // pressure outlet
+				v->pa += fluid->rho * fb->df;
+
+				v->pb -= p_getMrate(v, fb, fluid->rho);
+				break;
+		}
+	}
+}
+
 void p_computePBoundCoeffs(Obj *o)
 {
 	for (int i = 0; i < o->volNum; ++i) {
-		for (int j = 0; j < 4; ++j) {
-			vec3 bb = nvec3();
-
-			switch (o->volumes[i].faces[j]->boundary) {
-				case 0:
-				case 1: // no-slip wall
-				case 2: // slip wall
-				case 3: // velocity inlet
-				case 5: // velocity outlet
-					break;
-				case 4: // pressure inlet
-					o->volumes[i].pa += o->fluid.rho * o->volumes[i].faces[j]->df;
-
-					o->volumes[i].pb -= p_getMrate(&o->volumes[i], o->volumes[i].faces[j], o->fluid.rho);
-					break;
-				case 6: // pressure outlet
-					o->volumes[i].pa += o->fluid.rho * o->volumes[i].faces[j]->df;
-
-					o->volumes[i].pb -= p_getMrate(&o->volumes[i], o->volumes[i].faces[j], o->fluid.rho);
-					break;
-			}
-		}
+		PBound(&o->volumes[i], &o->fluid);
 	}
 }
 
 void VBoundB(struct Volume *v, struct Fluid *fluid)
 {
-	for (int j = 0; j < 4; ++j) { // twice for middle boundary?
+	for (int j = 0; j < 4; ++j) {
 		struct Face *fb = v->faces[j];
 
 		if (!fb->boundary)
@@ -460,9 +487,9 @@ void VBoundB(struct Volume *v, struct Fluid *fluid)
 
 				cv = mat3DotV(&fb->vGrad, &fb->volDist);
 
-				v->vb.x -= fb->constantP * fb->surface.x + cv.x * fb->mRate;
-				v->vb.y -= fb->constantP * fb->surface.y + cv.y * fb->mRate;
-				v->vb.z -= fb->constantP * fb->surface.z + cv.z * fb->mRate;
+				v->vb.x -= cv.x * fb->mRate;
+				v->vb.y -= cv.y * fb->mRate;
+				v->vb.z -= cv.z * fb->mRate;
 				break;
 			case 10: // lid
 				v->vb.x += (fluid->mu * sl / dn) *
@@ -569,6 +596,8 @@ void p_computePCoeffs(Obj *o)
 
 			o->volumes[i].pb -= p_getMrate(&o->volumes[i], o->volumes[i].faces[j], o->fluid.rho);
 		}
+
+		PBound(&o->volumes[i], &o->fluid);
 	}
 }
 
@@ -578,7 +607,7 @@ vec3 p_pGradInt(struct Volume *vol)
 	vec3 r = nvec3();
 
 	for (int i = 0; i < 4; ++i) {
-		if (vol->faces[i]->boundary > 0) // ???
+		if (vol->faces[i]->pSkip)
 			continue;
 
 		vec3 s = vec3Outwards(&vol->r,
@@ -708,18 +737,24 @@ void p_computeVFaceCoeffs(Obj *o)
 }
 
 // compute face fluxes
-void p_computeFaceFs(Obj *o)
+void p_computeFaceFs(Obj *o, int in, int tn)
 {
 	for (int i = 0; i < o->faceNum; ++i) {
 		o->faces[i].conFlux = nvec3();
 	}
 
 #ifdef CONVSCH
-	for (int i = 0; i < o->volNum; ++i) { // convection scheme
+	for (int i = 0; i < o->volNum && (in > 0 || CONVF) && (tn > 0 || CONVT); ++i) { // convection scheme
 		struct Face *uf = getUpwindFace(&o->volumes[i]);
-		//struct Volume *uv = getUpwindVol(uf);
+		struct Volume *uv = getUpwindVol(uf);
 
 		uf->conFlux = vec3Copy(&o->volumes[i].v);
+
+		vec3 rfc = vec3Copy(&uf->r);
+		vec3Sub(&rfc, &o->volumes[i].r);
+
+		vec3 ucu = mat3DotV(&uv->vGrad, &rfc); // second-order upwind
+
 		vec3Sub(&uf->conFlux, &uf->v);
 	}
 #endif

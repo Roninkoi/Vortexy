@@ -20,6 +20,7 @@ inline char *strAppend(char *str, char c)
 	}
 
 	newStr[len] = c;
+	newStr[len + 1] = '\0';
 
 	free(str);
 

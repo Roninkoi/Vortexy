@@ -22,6 +22,9 @@ void fluidParser(Obj *o, char *path)
 
 	for (int i = 0; i < wordNum; ++i) {
 		if (i + 1 < wordNum) {
+			if (strcmp(words[i], "end") == 0) {
+				break;
+			}
 			if (strcmp(words[i], "mu") == 0) {
 				o->fluid.mu = atof(words[i + 1]);
 				printf("mu %f\n", o->fluid.mu);
@@ -86,8 +89,11 @@ void fluidMeshParser(Obj *o, char *path)
 
 	for (int i = 0; i < wordNum; ++i) {
 		if (i + 1 < wordNum) {
+			if (strcmp(words[i], "end") == 0) {
+				break;
+			}
 			if (strcmp(words[i], "mesh") == 0) {
-				o->meshPath = calloc(strlen(words[i + 1]), sizeof(char));
+				o->meshPath = calloc(strlen(words[i + 1])+1, sizeof(char));
 				strncpy(o->meshPath, words[i + 1], strlen(words[i + 1]));
 			}
 		}
@@ -103,6 +109,9 @@ void simParser(struct Sim *s, char *path)
 
 	for (int i = 0; i < wordNum; ++i) {
 		if (i + 1 < wordNum) {
+			if (strcmp(words[i], "end") == 0) {
+				break;
+			}
 			if (strcmp(words[i], "render") == 0) {
 				s->rendered = atoi(words[i + 1]);
 			}
@@ -116,7 +125,7 @@ void simParser(struct Sim *s, char *path)
 				s->autoquit = atoi(words[i + 1]);
 			}
 			if (strcmp(words[i], "divhalt") == 0) {
-				s->divhalt = atoi(words[i + 1]);
+				s->sys.divhalt = atoi(words[i + 1]);
 			}
 			if (strcmp(words[i], "printitn") == 0) {
 				s->sys.printitn = atoi(words[i + 1]);
@@ -146,7 +155,7 @@ void simParser(struct Sim *s, char *path)
 				s->rmode = atof(words[i + 1]);
 			}
 			if (strcmp(words[i], "relaxm") == 0) {
-				s->sys.relaxm = atoi(words[i + 1]);
+				s->sys.relaxm = atof(words[i + 1]);
 			}
 			if (strcmp(words[i], "dtmaxit") == 0) {
 				s->sys.dtMaxIt = atoi(words[i + 1]);
@@ -173,11 +182,11 @@ void simParser(struct Sim *s, char *path)
 				s->inputram = atoi(words[i + 1]);
 			}
 			if (strcmp(words[i], "fluid") == 0) {
-				s->fluidPath = calloc(strlen(words[i + 1]), sizeof(char));
+				s->fluidPath = calloc(strlen(words[i + 1]) + 1, sizeof(char));
 				strncpy(s->fluidPath, words[i + 1], strlen(words[i + 1]));
 			}
 			if (strcmp(words[i], "file") == 0) {
-				s->filePath = calloc(strlen(words[i + 1]), sizeof(char));
+				s->filePath = calloc(strlen(words[i + 1]) + 1, sizeof(char));
 				strncpy(s->filePath, words[i + 1], strlen(words[i + 1]));
 			}
 		}

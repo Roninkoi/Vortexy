@@ -16,7 +16,7 @@ void p_getP(Obj *o);
 // construct pressure equation matrix
 void p_constructPMat(Obj *o);
 
-void p_computeD(Obj *o);
+void p_computeC(Obj *o);
 
 void p_computePBoundCoeffs(Obj *o);
 
@@ -36,7 +36,7 @@ void p_computeVCoeffs(Obj *o);
 void p_computeVFaceCoeffs(Obj *o);
 
 // compute face fluxes
-void p_computeFaceFs(Obj *o);
+void p_computeFaceFs(Obj *o, int in, int tn);
 
 // compute volume fluxes
 void p_computeVolFs(Obj *o);

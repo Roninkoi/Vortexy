@@ -16,8 +16,8 @@ real getGWF(struct Face *f);
 real getGWFh(struct Face *f);
 real getGWFp(struct Face *f);
 
-// interpolate face D from volumes
-void p_faceD(struct Face *f);
+// interpolate face C from volumes
+void p_faceC(struct Face *f);
 
 // interpolate face velocity from volumes
 void p_faceVI(struct Face *f);

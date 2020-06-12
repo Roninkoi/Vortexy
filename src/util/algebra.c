@@ -327,7 +327,7 @@ void GaussSeidel(mat *a, mat *b, mat *g, int maxIt, real epsilon)
 #endif
 
 			if (d > epsilon)
-				delta = d;
+				delta = d /* 0.5 + delta * 0.5*/;
 
 			g->m[i][0] = x;
 		}

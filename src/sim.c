@@ -3,8 +3,6 @@
 #include "util/algebra.h"
 #include <signal.h>
 
-unsigned int simkill; // quit simulation (gracefully)
-
 void handler(int sn)
 {
 	if (sn == SIGINT) {
@@ -105,27 +103,7 @@ void s_run(struct Sim *s)
 
 			printf("ticks: %i, st (ms): %i\n", s->tps, s->st);
 
-			printf("residual %.4e, in %i\n", s->sys.res, s->sys.in);
-
-			printf("max gs iterations: %i\n", msiterations);
-			msiterations = 0;
-
-			for (int i = 0; i < s->sys.objNum; ++i)
-				printf("o %i, t (s): %f\n", i, s->sys.objs[i].t);
-
-			if (!msconvergence) {
-				msconvergence = 1;
-
-				if (s->divhalt)
-					s->sys.simulating = 0; // stop
-
-				printf("Solver not converging!\n");
-			}
-
-			if (s->sys.unreal) {
-				printf("Solution not physical (code: %i)\n", s->sys.unreal);
-				s->sys.unreal = 0;
-			}
+			p_sysStatus(&s->sys);
 		}
 
 		s_tick(s);
@@ -147,8 +125,11 @@ void s_run(struct Sim *s)
 			}
 		}
 
-		if (!s->sys.simulating && s->autoquit && s->mode == 0)
+		if (!s->sys.simulating && s->autoquit && s->mode == 0) {
+			p_sysStatus(&s->sys);
+
 			break;
+		}
 
 #if RENDER_ENABLED
 		if (!s->rendered)

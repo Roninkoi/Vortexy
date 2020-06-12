@@ -34,11 +34,11 @@ void p_loadObj(Obj *o, char *fluidPath, int mode)
 void p_reloadObj(Obj *o, char *fluidPath)
 {
 	for (int i = 0; i < o->faceNum; ++i) {
-		o->faces[i].initialV = 0.0f;
-		o->faces[i].constantV = 0.0f;
+		o->faces[i].initialV = 0.0;
+		o->faces[i].constantV = 0.0;
 
-		o->faces[i].initialP = 0.0f;
-		o->faces[i].constantP = 0.0f;
+		o->faces[i].initialP = 0.0;
+		o->faces[i].constantP = 0.0;
 
 		o->faces[i].boundary = -1;
 
