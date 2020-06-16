@@ -1,6 +1,6 @@
 # Vortexy - Fluid dynamics simulator
 
-Vortexy, CFD software written in C.
+Vortexy, CFD code written in C.
 
 Usage:
 
@@ -29,7 +29,7 @@ sim
 render
 - OpenGL
 - GLEW
-- glfw
+- GLFW
 
 ## Technical description
 
@@ -54,3 +54,4 @@ render
 | 4 | Vectors |
 | I | Start simulation |
 | O | Stop simulation |
+| U | Reset simulation |

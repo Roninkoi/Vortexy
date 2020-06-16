@@ -4,8 +4,6 @@
 
 #include "interpolate.h"
 
-#define RCTRANS // rhie-chow transient term
-
 // calculate geometric weighting factor
 real getGWF(struct Face *f)
 {
@@ -181,6 +179,7 @@ void p_faceBoundP(Obj *o)
 			case 1:
 			case 2:
 			case 3: // same for 1, 2, 3
+			case 5:
 			case 10:
 				f->p += boundaryPressure(f);
 				return;
@@ -243,9 +242,8 @@ void p_faceVRCE(struct Face *f, real urf)
 
 	vec3Add(&f->v, &vc);
 
-#ifndef RCTRANS
-	return;
-#endif
+	if (!transient)
+		return;
 
 	vc = vec3Copy(&f->vtn); // transient (first-order euler only)
 	vec3Sub(&vc, &f->vItn);
@@ -268,11 +266,16 @@ void fv(struct Face *f)
 
 	vec3 cv;
 	switch (f->boundary) {
+		case 1:
+			f->v = nvec3();
 		case 3:
 		case 5:
 			cv = vec3Copy(&f->normal);
 			vec3Mul(&cv, f->constantV);
 			f->v = vec3Copy(&cv);
+			return;
+		case 10:
+			f->v = Vec3(f->constantV, 0.0, 0.0);
 			return;
 	}
 }
@@ -293,4 +296,3 @@ void p_faceVE(struct Face *f, real urf)
 	if (urf > 0.0)
 		p_faceVRCE(f, urf);
 }
-

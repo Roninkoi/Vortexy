@@ -23,8 +23,10 @@ struct Sys {
 	real epsilon;
 
 	int gradIt; // gradient iterations
+	int transient;
 
 	real relaxm;
+	int relres; // relative residual
 
 	real res; // current residual
 	int in; // iteration number
@@ -32,6 +34,7 @@ struct Sys {
 	int printitn;
 
 	int divhalt;
+	int msdivhalt;
 
 	int reset;
 	int selected;
@@ -51,11 +54,13 @@ void p_sysInit(struct Sys *s)
 
 	s->dtMaxIt = 10;
 	s->residual = 1.0e1;
+	s->relres = 0;
 
 	s->maxIt = 1000;
 	s->epsilon = 1.0e-3;
 
 	s->gradIt = 2;
+	s->transient = 1;
 
 	s->relaxm = 1.0;
 
@@ -65,6 +70,7 @@ void p_sysInit(struct Sys *s)
 	s->printitn = 1;
 
 	s->divhalt = 0;
+	s->msdivhalt = 0;
 
 	s->reset = 0;
 	s->selected = 0;

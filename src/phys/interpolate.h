@@ -10,6 +10,7 @@
 
 unsigned int halfGWF = 0; // halfway approximation for interpolation
 unsigned int gradIt = 2; // number of gradient iterations
+unsigned int transient = 1; // transient solution?
 
 // calculate geometric weighting factor
 real getGWF(struct Face *f);

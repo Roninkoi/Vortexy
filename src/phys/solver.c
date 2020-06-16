@@ -388,10 +388,10 @@ void PBound(struct Volume *v, struct Fluid *fluid)
 			case 10: // lid
 				break;
 			case 4: // pressure inlet
-				fb->mRate = p_getMrate(v, fb, fluid->rho);
+				/*fb->mRate = p_getMrate(v, fb, fluid->rho);
 
 				cv = vec3Copy(&fb->v);
-				vec3Mul(&cv, fluid->rho);
+				vec3Mul(&cv, fluid->rho);*/
 
 				/*v->pa += fluid->rho * fb->mRate * fb->df /
 						 (fb->mRate - fb->df * vec3Dot(&cv, &cv));*/
@@ -607,9 +607,6 @@ vec3 p_pGradInt(struct Volume *vol)
 	vec3 r = nvec3();
 
 	for (int i = 0; i < 4; ++i) {
-		if (vol->faces[i]->pSkip)
-			continue;
-
 		vec3 s = vec3Outwards(&vol->r,
 							  &vol->faces[i]->r,
 							  &vol->faces[i]->surface);

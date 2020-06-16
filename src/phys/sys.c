@@ -5,9 +5,6 @@
 #include "sys.h"
 #include "util/mat.h"
 
-#define RELRES
-//#define CONSTPGRAD
-
 #define printVField(prefix, postfix0, postfix1, pfn)    \
     for (int pfi = 0; pfi < pfn; ++pfi) {                \
         vec3Prints(&(prefix[pfi].postfix0));            \
@@ -193,6 +190,7 @@ void p_updateM(Obj *o)
 void p_sysStart(struct Sys *s)
 {
 	gradIt = s->gradIt;
+	transient = s->transient;
 
 	for (int i = 0; i < s->objNum; ++i) {
 		s->objs[i].t = 0.0;
@@ -263,11 +261,6 @@ void p_sysTick(struct Sys *s)
 				p_vGrad(&s->objs[i]);
 			}
 
-#ifdef CONSTPGRAD
-			for (int j = 0; j < s->objs[i].volNum; ++j)
-				s->objs[i].volumes[j].pGrad = Vec3(-10.0e0, 0.0, 0.0);
-#endif
-
 			p_pFaceGrad(&s->objs[i]);
 			p_vFaceGrad(&s->objs[i]);
 
@@ -280,27 +273,9 @@ void p_sysTick(struct Sys *s)
 
 			p_faceBoundP(&s->objs[i]); // extrapolate pressure at boundary faces?
 
-			//p_computeVBoundCoeffs(&s->objs[i]);
-
 			p_constructVMatX(&s->objs[i]);
 			solve(&s->objs[i].a, &s->objs[i].b, &s->objs[i].vx, s->maxIt, s->epsilon);
 			p_getVX(&s->objs[i]);
-
-			if (s->debugFlag) {
-				printf("A\n");
-				matPrint(&s->objs[i].a);
-				printf("B\n");
-				matPrint(&s->objs[i].b);
-				printf("A X ~ B\n");
-				mat c = matMul(&s->objs[i].a, &s->objs[i].vx);
-				mat cc = matSub(&c, &s->objs[i].b);
-				matPrint(&c);
-				printf("max error %f\n", matMax(&cc));
-				matDestroy(&c);
-				matDestroy(&cc);
-
-				exit(0);
-			}
 
 			matDestroyS(&s->objs[i].a);
 			matDestroy(&s->objs[i].b);
@@ -319,13 +294,7 @@ void p_sysTick(struct Sys *s)
 			matDestroyS(&s->objs[i].a);
 			matDestroy(&s->objs[i].b);
 
-#if 0
-			p_pGrads(&s->objs[i]);
-			p_vGrads(&s->objs[i]);
-			p_correctRC(&s->objs[i]);
-#else
 			p_updateVP(&s->objs[i], 1);
-#endif
 
 			p_computePCoeffs(&s->objs[i]);
 			p_computePBoundCoeffs(&s->objs[i]);
@@ -344,18 +313,22 @@ void p_sysTick(struct Sys *s)
 			}
 
 			s->res = 0.0;
-
 			real avgP = 0.0;
+
 			// apply field corrections
 			for (int j = 0; j < s->objs[i].volNum; ++j) {
 				avgP += s->objs[i].volumes[j].p;
+
 				s->objs[i].volumes[j].p += s->objs[i].volumes[j].pc * s->objs[i].pRelax;
 
 				real corr = fabs(s->objs[i].volumes[j].pc);
 
-				/*if (corr > s->res)
-					s->res = corr;*/
-				s->res += corr;
+				if (s->relres) {
+					s->res += corr;
+				}
+				else if (corr > s->res) {
+					s->res = corr;
+				}
 
 				s->objs[i].volumes[j].v.x -=
 						s->objs[i].volumes[j].c.x * s->objs[i].volumes[j].pcGrad.x * s->relaxm;
@@ -369,24 +342,22 @@ void p_sysTick(struct Sys *s)
 					s->unreal |= 4;
 				}
 			}
+
 			avgP /= s->objs[i].volNum;
-#ifdef RELRES
-			s->res /= avgP;
-#endif
+
+			if (s->relres)
+				s->res /= avgP;
 
 			//printSField(s->objs[i].volumes, r, p, s->objs[i].volNum);
-			/*if (s->in > 1)
-				s->debugFlag = 1;*/
 
 			p_in(&s->objs[i]);
-
 			++s->in;
 
 			if (s->printitn)
 				printf("itn %i / %i, res %.4e, msi %i\n", s->in, s->dtMaxIt, s->res, msiterations);
 
 			//solver not converging
-			if (s->divhalt && !msconvergence) {
+			if (s->msdivhalt && !msconvergence) {
 				s->simulating = 0;
 				break;
 			}
@@ -396,7 +367,6 @@ void p_sysTick(struct Sys *s)
 		} while (s->res > s->residual && s->in < s->dtMaxIt);
 
 		p_tn(&s->objs[i]);
-
 		s->objs[i].t += s->objs[i].dt;
 
 		// solution not converging

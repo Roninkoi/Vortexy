@@ -127,6 +127,12 @@ void simParser(struct Sim *s, char *path)
 			if (strcmp(words[i], "divhalt") == 0) {
 				s->sys.divhalt = atoi(words[i + 1]);
 			}
+			if (strcmp(words[i], "msdivhalt") == 0) {
+				s->sys.msdivhalt = atoi(words[i + 1]);
+			}
+			if (strcmp(words[i], "relres") == 0) {
+				s->sys.relres = atoi(words[i + 1]);
+			}
 			if (strcmp(words[i], "printitn") == 0) {
 				s->sys.printitn = atoi(words[i + 1]);
 			}
@@ -165,6 +171,9 @@ void simParser(struct Sim *s, char *path)
 			}
 			if (strcmp(words[i], "gradit") == 0) {
 				s->sys.gradIt = atoi(words[i + 1]);
+			}
+			if (strcmp(words[i], "transient") == 0) {
+				s->sys.transient = atoi(words[i + 1]);
 			}
 			if (strcmp(words[i], "outputting") == 0) {
 				s->outputting = atoi(words[i + 1]);
