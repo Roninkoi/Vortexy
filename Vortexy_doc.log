@@ -1,4 +1,4 @@
-This is LuaTeX, Version 1.10.0 (TeX Live 2019)  (format=lualatex 2020.2.14)  11 JUN 2020 09:02
+This is LuaTeX, Version 1.10.0 (TeX Live 2019)  (format=lualatex 2020.2.14)  17 JUN 2020 10:25
  restricted system commands enabled.
  file:line:error style messages enabled.
 **\input Vortexy_doc.tex
@@ -32,7 +32,7 @@ Inserting `luaotfload.aux.patch_cambria_domh' at position 2 in `luaotfload.patch
 Inserting `luaotfload.aux.fixup_fontdata' at position 1 in `luaotfload.patch_font_unsafe'.
 Inserting `luaotfload.aux.set_capheight' at position 3 in `luaotfload.patch_font'.
 Inserting `luaotfload.rewrite_fontname' at position 4 in `luaotfload.patch_font'.
-luaotfload | main : initialization completed in 0.048 seconds
+luaotfload | main : initialization completed in 0.064 seconds
 
 (./Vortexy_doc.tex (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2018/09/03 v1.4i Standard LaTeX document class
@@ -599,19 +599,19 @@ Underfull \hbox (badness 10000) in paragraph at lines 411--412
  []
 
 [7] [8]
-Underfull \hbox (badness 10000) in paragraph at lines 514--515
+Underfull \hbox (badness 10000) in paragraph at lines 515--516
 [][]$\TU/lmtt/m/n/12 https://www.openfoam.com/documentation/guides/latest/doc/
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 519.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 520.
 [9]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 519.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 520.
  (./Vortexy_doc.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 519.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 519.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 520.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 520.
 Package rerunfilecheck Info: File `Vortexy_doc.out' has not changed.
 (rerunfilecheck)             Checksum: 2DE4AF6A914FB34F8D1321036B53AECC;1215.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 519.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 520.
 )
 
 Here is how much of LuaTeX's memory you used:
@@ -620,7 +620,7 @@ Here is how much of LuaTeX's memory you used:
  785 words of node memory still in use:
    6 hlist, 2 vlist, 2 rule, 3 glue, 4 kern, 1 glyph, 68 attribute, 72 glue_spec
 , 35 attribute_list, 1 write, 2 pdf_action nodes
-   avail lists: 2:1374,3:314,4:36,5:269,6:50,7:2714,8:105,9:673,10:13,11:224
+   avail lists: 2:1374,3:314,4:36,5:269,6:50,7:2710,8:105,9:673,10:13,11:223
  13674 multiletter control sequences out of 65536+600000
  71 fonts using 5167599 bytes
  36i,18n,43p,510b,616s stack positions out of 5000i,500n,10000p,200000b,100000s
@@ -639,7 +639,7 @@ c/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
 ts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
 r8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on Vortexy_doc.pdf (10 pages, 143967 bytes).
+Output written on Vortexy_doc.pdf (10 pages, 144065 bytes).
 
 PDF statistics: 323 PDF objects out of 1000 (max. 8388607)
  276 compressed objects within 3 object streams

@@ -434,7 +434,8 @@ maxit 10000 # max solver iterations
 epsilon 1.0e-6 # solver target
 dtmaxit 15 # max time-step iterations
 residual 5.0e0 # solution residual
-gradit 2 # gradient iterations
+transient 0 # include Chie-Chow transient term
+gradit 2 # gradient iterations, if 0 -> first-order
 relaxm 1.0 # relax mass flow
 
 # IO options
