@@ -308,51 +308,6 @@ The iteration for the GS method can be defined as \cite[p.~510]{golub}:
   x_i^{(k + 1)} = \frac{b_i - \sum_{j=1}^{i-1} a_{ij} x_j^{(k + 1)} - \sum_{j=i+1}^{n} a_{ij} x_j^{(k)}}{a_{ii}}
 \end{equation}
 
-In the simulator the GS solver is implemented thusly:
-
-\begin{algorithm}[H]
-  \SetKwInOut{Input}{Input}
-  \SetKwInOut{Output}{Output}
-  \underline{function GaussSeidel} $(A, b, m, \varepsilon)$
-
-  \Input{$N \times N$ matrix $A$, $N$-vector $\vb b$, maximum iteration count $m$ and convergence criterion $\varepsilon$}
-  \Output{Solution $N$-vector $x$}
-
-  \For{$k \in [0, m[$} {
-    $\delta = 0$
-    
-    \For{$i \in [0, N[$} {
-      $s_0 = \frac{1}{A_{ii}}$
-
-      $s_1 = 0$
-      
-      \For{$j \in [0, i - 1]$} {
-        $s_1 \pe A_{ij} x_{j}$
-      }
-      
-      $s_2 = 0$
-      
-      \For{$j \in [i + 1, N[$} {
-        $s_2 \pe A_{ij} x_{j}$
-      }
-
-      $s_0 \te b_{i} - s_1 - s_2$
-
-      $\delta \pe x_{i} - s_0$
-
-      $x_i = s_0$
-    }
-
-    \If{$|\delta| < \varepsilon$} {
-      break
-    }
-  }
-
-  return x
-  
-  \caption{Gauss-Seidel method}
-\end{algorithm}
-
 \subsection{Boundary conditions}
 
 \indent

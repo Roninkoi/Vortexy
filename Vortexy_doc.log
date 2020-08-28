@@ -1,45 +1,34 @@
-This is LuaTeX, Version 1.10.0 (TeX Live 2019)  (format=lualatex 2020.2.14)  17 JUN 2020 10:25
+This is LuaTeX, Version 1.07.0 (TeX Live 2018)  (format=lualatex 2020.5.31)  5 JUL 2020 12:24
  restricted system commands enabled.
  file:line:error style messages enabled.
 **\input Vortexy_doc.tex
-Lua module: luaotfload-main 2019-05-18 2.97 luaotfload entry point
-Lua module: luaotfload-init 2019-05-18 2.97 luaotfload submodule / initialization
-Lua module: lualibs 2019-07-04 2.66 ConTeXt Lua standard libraries.
-Lua module: lualibs-extended 2019-07-04 2.66 ConTeXt Lua libraries -- extended collection.
-Lua module: luaotfload-log 2019-05-18 2.97 luaotfload submodule / logging
-Lua module: luaotfload-parsers 2019-05-18 2.97 luaotfload submodule / filelist
-Lua module: luaotfload-configuration 2019-05-18 2.97 luaotfload submodule / config file reader
-luaotfload | conf : Root cache directory is /home/rak/.texlive2019/texmf-var/luatex-cache/generic/names.
-luaotfload | init : Loading fontloader “fontloader-2019-05-18.lua” from kpse-resolved path “/usr/share/texlive/texmf-dist/tex/luatex/luaotfload/fontloader-2019-05-18.lua”.
-Lua-only attribute luaotfload@state = 2
-Lua-only attribute luaotfload@noligature = 3
-Lua-only attribute luaotfload@syllabe = 4
-luaotfload | init : Context OpenType loader version “3.108”
+Lua module: luaotfload-main 2017/01/29 2.80001 OpenType layout system.
+Lua module: lualibs 2017-02-01 2.5 ConTeXt Lua standard libraries.
+Lua module: lualibs-extended 2017-02-01 2.5 ConTeXt Lua libraries -- extended collection.(using write cache: /home/rak/.texlive2018/texmf-var/luatex-cache/generic)(using read cache: /usr/share/texlive/texmf-var/luatex-cache/generic /home/rak/.texlive2018/texmf-var/luatex-cache/generic)
+luaotfload | conf : Root cache directory is /home/rak/.texlive2018/texmf-var/luatex-cache/generic/names.
+luaotfload | init : Loading fontloader “fontloader-2017-02-11.lua” from kpse-resolved path “/usr/share/texlive/texmf-dist/tex/luatex/luaotfload/fontloader-2017-02-11.lua”.
+Lua-only attribute luaotfload@state = 1
+Lua-only attribute luaotfload@noligature = 2
+Lua-only attribute luaotfload@syllabe = 3
+luaotfload | init : Context OpenType loader version “3.027”
 Inserting `luaotfload.node_processor' at position 1 in `pre_linebreak_filter'.
 Inserting `luaotfload.node_processor' at position 1 in `hpack_filter'.
-Lua module: luaotfload-loaders 2019-05-18 2.97 luaotfload submodule / callback handling
 Inserting `luaotfload.define_font' at position 1 in `define_font'.
-Lua module: luaotfload-database 2019-05-18 2.97 luaotfload submodule / database
-Lua module: luaotfload-colors 2019-05-18 2.97 luaotfload submodule / color
-Lua-only attribute luaotfload_color_attribute = 5
-Lua module: luaotfload-resolvers 2019-05-18 2.97 luaotfload submodule / resolvers
-luaotfload | conf : Root cache directory is /home/rak/.texlive2019/texmf-var/luatex-cache/generic/names.
-Lua module: luaotfload-features 2019-05-18 2.97 luaotfload submodule / features
-Lua module: luaotfload-letterspace 2019-05-18 2.97 luaotfload submodule / color
-Lua module: luaotfload-auxiliary 2019-05-18 2.97 luaotfload submodule / auxiliary functions
+Lua-only attribute luaotfload_color_attribute = 4
+luaotfload | conf : Root cache directory is /home/rak/.texlive2018/texmf-var/luatex-cache/generic/names.
 Inserting `luaotfload.aux.set_sscale_dimens' at position 1 in `luaotfload.patch_font'.
 Inserting `luaotfload.aux.patch_cambria_domh' at position 2 in `luaotfload.patch_font'.
 Inserting `luaotfload.aux.fixup_fontdata' at position 1 in `luaotfload.patch_font_unsafe'.
 Inserting `luaotfload.aux.set_capheight' at position 3 in `luaotfload.patch_font'.
 Inserting `luaotfload.rewrite_fontname' at position 4 in `luaotfload.patch_font'.
-luaotfload | main : initialization completed in 0.064 seconds
-
+luaotfload | main : initialization completed in 0.645 seconds
 (./Vortexy_doc.tex (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
-Document Class: article 2018/09/03 v1.4i Standard LaTeX document class
+Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
 (/usr/share/texlive/texmf-dist/tex/latex/base/size12.clo
-File: size12.clo 2018/09/03 v1.4i Standard LaTeX file (size option)
-luaotfload | db : Font names database loaded from /home/rak/.texlive2019/texmf-v
-ar/luatex-cache/generic/names/luaotfload-names.luc)
+File: size12.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+luaotfload | db : Font names database loaded from /home/rak/.texlive2018/texmf-v
+ar/luatex-cache/generic/names/luaotfload-names.luc(load luc: /home/rak/.texlive2
+018/texmf-var/luatex-cache/generic/fonts/otl/lmroman12-regular.luc))
 \c@part=\count80
 \c@section=\count81
 \c@subsection=\count82
@@ -88,37 +77,32 @@ Package color Info: Driver file: luatex.def on input line 147.
 File: luatex.def 2018/01/08 v1.0l Graphics/color driver for luatex
 ))
 (/usr/share/texlive/texmf-dist/tex/generic/babel/babel.sty
-Package: babel 2019/07/19 3.33 The Babel package
+Package: babel 2018/06/05 3.22 The Babel package
 
 (/usr/share/texlive/texmf-dist/tex/generic/babel/switch.def
-File: switch.def 2019/07/19 3.33 Babel switching mechanism
+File: switch.def 2018/06/05 3.22 Babel switching mechanism
 )
 (/usr/share/texlive/texmf-dist/tex/generic/babel/luababel.def
 \l@dumylang=\language2
 Package babel Info: Non-standard hyphenation setup on input line 114.
 \l@nohyphenation=\language3
+\l@finnish=\language4
 )
 (/usr/share/texlive/texmf-dist/tex/generic/babel-finnish/finnish.ldf
 Language: finnish 2007/10/20 v1.3q Finnish support from the babel system
 
 (/usr/share/texlive/texmf-dist/tex/generic/babel/babel.def
-File: babel.def 2019/07/19 3.33 Babel common definitions
+File: babel.def 2018/06/05 3.22 Babel common definitions
 \babel@savecnt=\count88
 \U@D=\dimen105
 
-(/usr/share/texlive/texmf-dist/tex/generic/babel/luababel.def
-\bbl@attr@locale=\attribute6
-))
-
-Package babel Warning: No hyphenation patterns were preloaded for
-(babel)                the language `Finnish' into the format.
-(babel)                Please, configure your TeX system to add them and
-(babel)                rebuild the format. Now I will use the patterns
-(babel)                preloaded for english instead on input line 49.
-
-\l@finnish = a dialect from \language0
+(/usr/share/texlive/texmf-dist/tex/generic/babel/luababel.def))
 Package babel Info: Making " an active character on input line 89.
-) (/usr/share/texlive/texmf-dist/tex/generic/babel-english/english.ldf
+
+(/usr/share/texlive/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-fi.tex
+UTF-8 Finnish hyphenation patterns
+(/usr/share/texlive/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-fi.tex)))
+ (/usr/share/texlive/texmf-dist/tex/generic/babel-english/english.ldf
 Language: english 2017/06/06 v3.3r English support from the babel system
 \l@british = a dialect from \language\l@english 
 \l@UKenglish = a dialect from \language\l@english 
@@ -127,7 +111,7 @@ Language: english 2017/06/06 v3.3r English support from the babel system
 \l@newzealand = a dialect from \language\l@british 
 ))
 (/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
-Package: inputenc 2018/08/11 v1.3c Input encoding file
+Package: inputenc 2018/04/06 v1.3b Input encoding file
 \inpenc@prehook=\toks15
 \inpenc@posthook=\toks16
 
@@ -138,15 +122,15 @@ Package inputenc Warning: inputenc package ignored with utf8 based engines.
 \wrapoverhang=\dimen106
 \WF@size=\dimen107
 \c@WF@wrappedlines=\count89
-\WF@box=\box27
+\WF@box=\box26
 \WF@everypar=\toks17
 Package: wrapfig 2003/01/31  v 3.6
 )
 (/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
-Package: caption 2018/10/06 v3.3-154 Customizing captions (AR)
+Package: caption 2018/05/01 v3.3-147 Customizing captions (AR)
 
 (/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty
-Package: caption3 2018/09/12 v1.8c caption3 kernel (AR)
+Package: caption3 2018/05/27 v1.8a caption3 kernel (AR)
 Package caption3 Info: TeX engine: e-TeX on input line 64.
 \captionmargin=\dimen108
 \captionmargin@=\dimen109
@@ -156,12 +140,11 @@ Package caption3 Info: TeX engine: e-TeX on input line 64.
 \caption@parindent=\dimen113
 \caption@hangindent=\dimen114
 )
-\c@caption@flags=\count90
-\c@ContinuedFloat=\count91
+\c@ContinuedFloat=\count90
 Package caption Info: wrapfig package is loaded.
 )
 (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
-Package: amsmath 2018/12/01 v2.17b AMS math features
+Package: amsmath 2017/09/02 v2.17a AMS math features
 \@mathmargin=\skip43
 
 For additional information on amsmath, use the `?' option.
@@ -180,30 +163,30 @@ Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2016/03/08 v2.02 operator names
 )
-\inf@bad=\count92
-LaTeX Info: Redefining \frac on input line 223.
-\uproot@=\count93
-\leftroot@=\count94
-LaTeX Info: Redefining \overline on input line 385.
-\classnum@=\count95
-\DOTSCASE@=\count96
-LaTeX Info: Redefining \ldots on input line 482.
-LaTeX Info: Redefining \dots on input line 485.
-LaTeX Info: Redefining \cdots on input line 606.
-\Mathstrutbox@=\box28
-\strutbox@=\box29
+\inf@bad=\count91
+LaTeX Info: Redefining \frac on input line 213.
+\uproot@=\count92
+\leftroot@=\count93
+LaTeX Info: Redefining \overline on input line 375.
+\classnum@=\count94
+\DOTSCASE@=\count95
+LaTeX Info: Redefining \ldots on input line 472.
+LaTeX Info: Redefining \dots on input line 475.
+LaTeX Info: Redefining \cdots on input line 596.
+\Mathstrutbox@=\box27
+\strutbox@=\box28
 \big@size=\dimen117
-LaTeX Font Info:    Redeclaring font encoding OML on input line 729.
-LaTeX Font Info:    Redeclaring font encoding OMS on input line 730.
-\macc@depth=\count97
-\c@MaxMatrixCols=\count98
+LaTeX Font Info:    Redeclaring font encoding OML on input line 712.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
+\macc@depth=\count96
+\c@MaxMatrixCols=\count97
 \dotsspace@=\muskip10
-\c@parentequation=\count99
-\dspbrk@lvl=\count100
+\c@parentequation=\count98
+\dspbrk@lvl=\count99
 \tag@help=\toks19
-\row@=\count101
-\column@=\count102
-\maxfields@=\count103
+\row@=\count100
+\column@=\count101
+\maxfields@=\count102
 \andhelp@=\toks20
 \eqnshift@=\dimen118
 \alignsep@=\dimen119
@@ -215,8 +198,8 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 730.
 \multlinegap=\skip44
 \multlinetaggap=\skip45
 \mathdisplay@stack=\toks22
-LaTeX Info: Redefining \[ on input line 2844.
-LaTeX Info: Redefining \] on input line 2845.
+LaTeX Info: Redefining \[ on input line 2817.
+LaTeX Info: Redefining \] on input line 2818.
 )
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
@@ -226,7 +209,7 @@ LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 )
 (/usr/share/texlive/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
-Package: fancyhdr 2019/01/31 v3.10 Extensive control of page headers and footers
+Package: fancyhdr 2017/06/30 v3.9a Extensive control of page headers and footers
 
 \f@nch@headwidth=\skip46
 \f@nch@O@elh=\skip47
@@ -248,7 +231,7 @@ Package: titling 2009/09/04 v2.1d maketitle typesetting
 Package: geometry 2018/04/16 v5.8 Page Geometry
 
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty
-Package: ifpdf 2018/09/07 v3.3 Provides the ifpdf switch
+Package: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
 )
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifvtex.sty
 Package: ifvtex 2016/05/16 v1.6 Detect VTeX and its facilities (HO)
@@ -257,9 +240,9 @@ Package ifvtex Info: VTeX not detected.
 (/usr/share/texlive/texmf-dist/tex/generic/ifxetex/ifxetex.sty
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
-\Gm@cnth=\count104
-\Gm@cntv=\count105
-\c@Gm@tempcnt=\count106
+\Gm@cnth=\count103
+\Gm@cntv=\count104
+\c@Gm@tempcnt=\count105
 \Gm@bindingoffset=\dimen124
 \Gm@wd@mp=\dimen125
 \Gm@odd@mp=\dimen126
@@ -272,14 +255,14 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
 (/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count107
+\c@float@type=\count106
 \float@exts=\toks24
-\float@box=\box30
+\float@box=\box29
 \@float@everytoks=\toks25
-\@floatcapt=\box31
+\@floatcapt=\box30
 )
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
-Package: hyperref 2019/06/12 v6.88h Hypertext links for LaTeX
+Package: hyperref 2018/02/06 v6.86b Hypertext links for LaTeX
 
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
 Package: hobsub-hyperref 2016/05/16 v1.14 Bundle oberdiek, subset hyperref (HO)
@@ -300,7 +283,7 @@ Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
 Package: luatex-loader 2016/05/16 v0.6 Lua module loader (HO)
 
 (/usr/share/texlive/texmf-dist/scripts/oberdiek/oberdiek.luatex.lua)
-Package: pdftexcmds 2018/09/10 v0.29 Utility functions of pdfTeX for LuaTeX (HO)
+Package: pdftexcmds 2018/01/30 v0.27 Utility functions of pdfTeX for LuaTeX (HO)
 
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
@@ -329,54 +312,54 @@ Package: auxhook 2016/05/16 v1.4 Hooks for auxiliary files (HO)
 Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
 )
 \@linkdim=\dimen132
-\Hy@linkcounter=\count108
-\Hy@pagecounter=\count109
+\Hy@linkcounter=\count107
+\Hy@pagecounter=\count108
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def
-File: pd1enc.def 2019/06/12 v6.88h Hyperref: PDFDocEncoding definition (HO)
+File: pd1enc.def 2018/02/06 v6.86b Hyperref: PDFDocEncoding definition (HO)
 )
-\Hy@SavedSpaceFactor=\count110
+\Hy@SavedSpaceFactor=\count109
 
 (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/hyperref.cfg
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
 )
-Package hyperref Info: Hyper figures OFF on input line 4550.
-Package hyperref Info: Link nesting OFF on input line 4555.
-Package hyperref Info: Hyper index ON on input line 4558.
-Package hyperref Info: Plain pages OFF on input line 4565.
-Package hyperref Info: Backreferencing OFF on input line 4570.
+Package hyperref Info: Hyper figures OFF on input line 4509.
+Package hyperref Info: Link nesting OFF on input line 4514.
+Package hyperref Info: Hyper index ON on input line 4517.
+Package hyperref Info: Plain pages OFF on input line 4524.
+Package hyperref Info: Backreferencing OFF on input line 4529.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
-Package hyperref Info: Bookmarks ON on input line 4803.
-\c@Hy@tempcnt=\count111
+Package hyperref Info: Bookmarks ON on input line 4762.
+\c@Hy@tempcnt=\count110
 
 (/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip11
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-LaTeX Info: Redefining \url on input line 5156.
+LaTeX Info: Redefining \url on input line 5115.
 \XeTeXLinkMargin=\dimen133
-\Fld@menulength=\count112
+\Fld@menulength=\count111
 \Field@Width=\dimen134
 \Fld@charsize=\dimen135
-Package hyperref Info: Hyper figures OFF on input line 6411.
-Package hyperref Info: Link nesting OFF on input line 6416.
-Package hyperref Info: Hyper index ON on input line 6419.
-Package hyperref Info: backreferencing OFF on input line 6426.
-Package hyperref Info: Link coloring OFF on input line 6431.
-Package hyperref Info: Link coloring with OCG OFF on input line 6436.
-Package hyperref Info: PDF/A mode OFF on input line 6441.
-LaTeX Info: Redefining \ref on input line 6481.
-LaTeX Info: Redefining \pageref on input line 6485.
-\Hy@abspage=\count113
-\c@Item=\count114
-\c@Hfootnote=\count115
+Package hyperref Info: Hyper figures OFF on input line 6369.
+Package hyperref Info: Link nesting OFF on input line 6374.
+Package hyperref Info: Hyper index ON on input line 6377.
+Package hyperref Info: backreferencing OFF on input line 6384.
+Package hyperref Info: Link coloring OFF on input line 6389.
+Package hyperref Info: Link coloring with OCG OFF on input line 6394.
+Package hyperref Info: PDF/A mode OFF on input line 6399.
+LaTeX Info: Redefining \ref on input line 6439.
+LaTeX Info: Redefining \pageref on input line 6443.
+\Hy@abspage=\count112
+\c@Item=\count113
+\c@Hfootnote=\count114
 )
 Package hyperref Info: Driver (autodetected): hluatex.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hluatex.def
-File: hluatex.def 2019/06/12 v6.88h Hyperref driver for luaTeX
-\Fld@listcount=\count116
-\c@bookmark@seq@number=\count117
+File: hluatex.def 2018/02/06 v6.86b Hyperref driver for luaTeX
+\Fld@listcount=\count115
+\c@bookmark@seq@number=\count116
 
 (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
 Package: rerunfilecheck 2016/05/16 v1.8 Rerun checks for auxiliary files (HO)
@@ -389,9 +372,9 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 28
 Package: authblk 2001/02/27 1.3 (PWD)
 \affilsep=\skip59
 \@affilsep=\skip60
-\c@Maxaffil=\count118
-\c@authors=\count119
-\c@affil=\count120
+\c@Maxaffil=\count117
+\c@authors=\count118
+\c@affil=\count119
 )
 (/usr/share/texlive/texmf-dist/tex/latex/comment/comment.sty
 \CommentStream=\write3
@@ -399,7 +382,7 @@ Package: authblk 2001/02/27 1.3 (PWD)
 Excluding comment 'comment')
 (/usr/share/texlive/texmf-dist/tex/latex/algorithm2e/algorithm2e.sty
 Package: algorithm2e 2017/07/18 v5.2 algorithms environments
-\c@AlgoLine=\count121
+\c@AlgoLine=\count120
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
@@ -408,7 +391,7 @@ Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 
 (/usr/share/texlive/texmf-dist/tex/latex/ifoddpage/ifoddpage.sty
 Package: ifoddpage 2016/04/23 v1.1 Conditionals for odd/even page detection
-\c@checkoddpage=\count122
+\c@checkoddpage=\count121
 )
 (/usr/share/texlive/texmf-dist/tex/latex/tools/xspace.sty
 Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
@@ -431,26 +414,26 @@ Package: relsize 2013/03/29 ver 4.1
 \interspacealgoruled=\dimen140
 \interspacetitleboxruled=\dimen141
 \algocf@ruledwidth=\skip70
-\algocf@inoutbox=\box32
-\algocf@inputbox=\box33
+\algocf@inoutbox=\box31
+\algocf@inputbox=\box32
 \AlCapSkip=\skip71
 \AlCapHSkip=\skip72
 \algoskipindent=\skip73
-\algocf@nlbox=\box34
-\algocf@hangingbox=\box35
-\algocf@untilbox=\box36
+\algocf@nlbox=\box33
+\algocf@hangingbox=\box34
+\algocf@untilbox=\box35
 \algocf@skipuntil=\skip74
-\algocf@capbox=\box37
+\algocf@capbox=\box36
 \algocf@lcaptionbox=\skip75
 \algoheightruledefault=\skip76
 \algoheightrule=\skip77
 \algotitleheightruledefault=\skip78
 \algotitleheightrule=\skip79
-\c@algocfline=\count123
-\c@algocfproc=\count124
-\c@algocf=\count125
-\algocf@algoframe=\box38
-\algocf@algobox=\box39
+\c@algocfline=\count122
+\c@algocfproc=\count123
+\c@algocf=\count124
+\algocf@algoframe=\box37
+\algocf@algobox=\box38
 )
 (./Vortexy_doc.aux)
 \openout1 = Vortexy_doc.aux
@@ -474,16 +457,16 @@ LaTeX Font Info:    ... okay on input line 82.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count126
+\scratchcounter=\count125
 \scratchdimen=\dimen142
-\scratchbox=\box40
-\nofMPsegments=\count127
-\nofMParguments=\count128
+\scratchbox=\box39
+\nofMPsegments=\count126
+\nofMParguments=\count127
 \everyMPshowfont=\toks27
-\MPscratchCnt=\count129
+\MPscratchCnt=\count128
 \MPscratchDim=\dimen143
-\MPnumerator=\count130
-\makeMPintoPDFobject=\count131
+\MPnumerator=\count129
+\makeMPintoPDFobject=\count130
 \everyMPtoPDFconversion=\toks28
 ) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
@@ -541,7 +524,7 @@ Package caption Info: End \AtBeginDocument code.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-\AtBeginShipoutBox=\box41
+\AtBeginShipoutBox=\box40
 Package hyperref Info: Link coloring OFF on input line 82.
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
@@ -549,7 +532,7 @@ Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count132
+\c@section@level=\count131
 )
 LaTeX Info: Redefining \ref on input line 82.
 LaTeX Info: Redefining \pageref on input line 82.
@@ -559,6 +542,8 @@ LaTeX Info: Redefining \nameref on input line 82.
 \@outlinefile=\write4
 
 \openout4 = Vortexy_doc.out
+(load luc: /home/rak/.texlive2018/texmf-var/luatex-cache/generic/fonts/otl/lmrom
+an17-regular.luc)
 LaTeX Font Info:    Try loading font information for U+msa on input line 91.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
@@ -568,17 +553,24 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 91.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [1
+)(load luc: /home/rak/.texlive2018/texmf-var/luatex-cache/generic/fonts/otl/lmro
+man10-regular.luc)(load luc: /home/rak/.texlive2018/texmf-var/luatex-cache/gener
+ic/fonts/otl/lmroman8-regular.luc) [1
 Non-PDF special ignored!
 
-{/usr/share/texlive/texmf-dist/fonts/map/pdftex/updmap/pdftex.map}] (./Vortexy_
-doc.toc)
+{/usr/share/texlive/texmf-dist/fonts/map/pdftex/updmap/pdftex.map}](load luc: /h
+ome/rak/.texlive2018/texmf-var/luatex-cache/generic/fonts/otl/lmroman12-bold.luc
+) (./Vortexy_doc.toc)
 \tf@toc=\write5
 
 \openout5 = Vortexy_doc.toc
 
 warning  (pdf backend): ignoring duplicate destination with the name 'page.1'
-[1] [2]
+[1](load luc: /home/rak/.texlive2018/texmf-var/luatex-cache/generic/fonts/otl/lm
+roman8-bold.luc)(load luc: /home/rak/.texlive2018/texmf-var/luatex-cache/generic
+/fonts/otl/lmroman6-regular.luc)(load luc: /home/rak/.texlive2018/texmf-var/luat
+ex-cache/generic/fonts/otl/lmroman6-bold.luc)(load luc: /home/rak/.texlive2018/t
+exmf-var/luatex-cache/generic/fonts/otl/lmroman12-italic.luc) [2]
 Underfull \hbox (badness 10000) in paragraph at lines 236--237
 
  []
@@ -588,61 +580,61 @@ Underfull \hbox (badness 10000) in paragraph at lines 243--245
 
  []
 
-[4] [5] [6]
-Underfull \hbox (badness 10000) in paragraph at lines 409--410
+[4] [5](load luc: /home/rak/.texlive2018/texmf-var/luatex-cache/generic/fonts/ot
+l/lmmono12-regular.luc)
+Underfull \hbox (badness 10000) in paragraph at lines 364--365
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 411--412
+Underfull \hbox (badness 10000) in paragraph at lines 366--367
 
  []
 
-[7] [8]
-Underfull \hbox (badness 10000) in paragraph at lines 515--516
+[6] [7]
+Underfull \hbox (badness 10000) in paragraph at lines 470--471
 [][]$\TU/lmtt/m/n/12 https://www.openfoam.com/documentation/guides/latest/doc/
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 520.
-[9]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 520.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 475.
+[8]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 475.
  (./Vortexy_doc.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 520.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 520.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 475.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 475.
 Package rerunfilecheck Info: File `Vortexy_doc.out' has not changed.
 (rerunfilecheck)             Checksum: 2DE4AF6A914FB34F8D1321036B53AECC;1215.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 520.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 475.
 )
 
 Here is how much of LuaTeX's memory you used:
- 9935 strings out of 494291
+ 9838 strings out of 494412
  100000,319454 words of node,token memory allocated
- 785 words of node memory still in use:
-   6 hlist, 2 vlist, 2 rule, 3 glue, 4 kern, 1 glyph, 68 attribute, 72 glue_spec
-, 35 attribute_list, 1 write, 2 pdf_action nodes
-   avail lists: 2:1374,3:314,4:36,5:269,6:50,7:2710,8:105,9:673,10:13,11:223
- 13674 multiletter control sequences out of 65536+600000
- 71 fonts using 5167599 bytes
- 36i,18n,43p,510b,616s stack positions out of 5000i,500n,10000p,200000b,100000s
+ 696 words of node memory still in use:
+   6 hlist, 2 vlist, 2 rule, 3 glue, 1 kern, 34 attribute, 73 glue_spec, 34 attr
+ibute_list, 1 write, 2 pdf_action nodes
+   avail lists: 2:696,3:314,4:36,5:269,6:50,7:2714,8:122,9:636,10:6,11:223
+ 13527 multiletter control sequences out of 65536+600000
+ 71 fonts using 5165887 bytes
+ 36i,12n,43p,510b,440s stack positions out of 5000i,500n,10000p,200000b,100000s
 </usr/share/texlive/texmf-dist/fonts/opentype/public/lm/lmmono12-regular.otf></u
-sr/share/texlive/texmf-dist/fonts/opentype/public/lm/lmroman8-bold.otf></usr/sha
-re/texlive/texmf-dist/fonts/opentype/public/lm/lmroman12-italic.otf></usr/share/
-texlive/texmf-dist/fonts/opentype/public/lm/lmroman12-bold.otf></usr/share/texli
-ve/texmf-dist/fonts/opentype/public/lm/lmroman8-regular.otf></usr/share/texlive/
-texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf></usr/share/texlive/te
-xmf-dist/fonts/opentype/public/lm/lmroman12-regular.otf></usr/share/texlive/texm
-f-dist/fonts/opentype/public/lm/lmroman17-regular.otf></usr/share/texlive/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/typ
-e1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-r8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on Vortexy_doc.pdf (10 pages, 144065 bytes).
+sr/share/texlive/texmf-dist/fonts/opentype/public/lm/lmroman12-italic.otf></usr/
+share/texlive/texmf-dist/fonts/opentype/public/lm/lmroman12-bold.otf></usr/share
+/texlive/texmf-dist/fonts/opentype/public/lm/lmroman8-regular.otf></usr/share/te
+xlive/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf></usr/share/texl
+ive/texmf-dist/fonts/opentype/public/lm/lmroman12-regular.otf></usr/share/texliv
+e/texmf-dist/fonts/opentype/public/lm/lmroman17-regular.otf></usr/share/texlive/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy1
+0.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on Vortexy_doc.pdf (9 pages, 135732 bytes).
 
-PDF statistics: 323 PDF objects out of 1000 (max. 8388607)
- 276 compressed objects within 3 object streams
- 87 named destinations out of 1000 (max. 131072)
+PDF statistics: 287 PDF objects out of 1000 (max. 8388607)
+ 244 compressed objects within 3 object streams
+ 62 named destinations out of 1000 (max. 131072)
  161 words of extra memory for PDF output out of 10000 (max. 100000000)
 

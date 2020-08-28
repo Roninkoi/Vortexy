@@ -1,6 +1,7 @@
 doc
 CMakeCache.txt
 CMakeFiles
+lib
 old
 .idea
 .tags

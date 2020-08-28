@@ -1,22 +1,22 @@
 \babel@toc {english}{}
 \babel@toc {english}{}
-\contentsline {section}{\numberline {1}Introduction}{2}{section.1}% 
-\contentsline {section}{\numberline {2}Background}{2}{section.2}% 
-\contentsline {subsection}{\numberline {2.1}Navier-Stokes equations}{2}{subsection.2.1}% 
-\contentsline {subsection}{\numberline {2.2}Turbulence}{2}{subsection.2.2}% 
-\contentsline {subsection}{\numberline {2.3}Finite volume method}{2}{subsection.2.3}% 
-\contentsline {subsection}{\numberline {2.4}SIMPLE algorithm}{3}{subsection.2.4}% 
-\contentsline {subsection}{\numberline {2.5}Discretization}{3}{subsection.2.5}% 
-\contentsline {subsection}{\numberline {2.6}Gauss-Seidel method}{5}{subsection.2.6}% 
-\contentsline {subsection}{\numberline {2.7}Boundary conditions}{6}{subsection.2.7}% 
-\contentsline {section}{\numberline {3}Implementation}{6}{section.3}% 
-\contentsline {subsection}{\numberline {3.1}Simulation mesh}{6}{subsection.3.1}% 
-\contentsline {subsection}{\numberline {3.2}Solver}{7}{subsection.3.2}% 
-\contentsline {subsection}{\numberline {3.3}Rendering}{7}{subsection.3.3}% 
-\contentsline {section}{\numberline {4}Software}{7}{section.4}% 
-\contentsline {subsection}{\numberline {4.1}Compilation}{7}{subsection.4.1}% 
-\contentsline {subsection}{\numberline {4.2}Configuration}{7}{subsection.4.2}% 
-\contentsline {subsubsection}{\numberline {4.2.1}Simulation config}{7}{subsubsection.4.2.1}% 
-\contentsline {subsubsection}{\numberline {4.2.2}Fluid config}{8}{subsubsection.4.2.2}% 
-\contentsline {subsection}{\numberline {4.3}Output data}{9}{subsection.4.3}% 
-\contentsline {section}{References}{9}{subsection.4.3}% 
+\contentsline {section}{\numberline {1}Introduction}{2}{section.1}
+\contentsline {section}{\numberline {2}Background}{2}{section.2}
+\contentsline {subsection}{\numberline {2.1}Navier-Stokes equations}{2}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Turbulence}{2}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Finite volume method}{2}{subsection.2.3}
+\contentsline {subsection}{\numberline {2.4}SIMPLE algorithm}{3}{subsection.2.4}
+\contentsline {subsection}{\numberline {2.5}Discretization}{3}{subsection.2.5}
+\contentsline {subsection}{\numberline {2.6}Gauss-Seidel method}{5}{subsection.2.6}
+\contentsline {subsection}{\numberline {2.7}Boundary conditions}{5}{subsection.2.7}
+\contentsline {section}{\numberline {3}Implementation}{5}{section.3}
+\contentsline {subsection}{\numberline {3.1}Simulation mesh}{5}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Solver}{6}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Rendering}{6}{subsection.3.3}
+\contentsline {section}{\numberline {4}Software}{6}{section.4}
+\contentsline {subsection}{\numberline {4.1}Compilation}{6}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Configuration}{6}{subsection.4.2}
+\contentsline {subsubsection}{\numberline {4.2.1}Simulation config}{6}{subsubsection.4.2.1}
+\contentsline {subsubsection}{\numberline {4.2.2}Fluid config}{7}{subsubsection.4.2.2}
+\contentsline {subsection}{\numberline {4.3}Output data}{8}{subsection.4.3}
+\contentsline {section}{References}{8}{subsection.4.3}
