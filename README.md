@@ -21,7 +21,10 @@ Or non-graphical (set RENDER_ENABLED to 0 in sim.h)
 ./buildsim.sh
 ```
 
-![Selection_035](https://user-images.githubusercontent.com/12766039/84868790-e35ec800-b085-11ea-8db5-0219b06b81c2.png)
+<p float="left">
+  <img src="https://user-images.githubusercontent.com/12766039/102574397-55799d80-40f9-11eb-9c7d-c690e24ee513.png" width="100" />
+  <img src="https://user-images.githubusercontent.com/12766039/84868790-e35ec800-b085-11ea-8db5-0219b06b81c2.png" width="100" />
+</p>
 
 ## Dependencies
 
