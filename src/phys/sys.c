@@ -191,6 +191,7 @@ void p_sysStart(struct Sys *s)
 {
 	gradIt = s->gradIt;
 	transient = s->transient;
+	convsch = s->convsch;
 
 	for (int i = 0; i < s->objNum; ++i) {
 		s->objs[i].t = 0.0;

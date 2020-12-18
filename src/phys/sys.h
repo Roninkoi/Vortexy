@@ -20,12 +20,13 @@ struct Sys {
 	real residual; // residual target
 
 	int maxIt; // solver iterations
-	real epsilon;
+	real epsilon; // matrix solve error
 
 	int gradIt; // gradient iterations
-	int transient;
+	int transient; // transient term
+	int convsch; // convection scheme
 
-	real relaxm;
+	real relaxm; // relax mass flux
 	int relres; // relative residual
 
 	real res; // current residual
@@ -61,6 +62,7 @@ void p_sysInit(struct Sys *s)
 
 	s->gradIt = 2;
 	s->transient = 1;
+	s->convsch = 0;
 
 	s->relaxm = 1.0;
 

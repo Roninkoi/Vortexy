@@ -5,6 +5,9 @@
 #include "sys.h"
 #include "gradient.h"
 
+// convection scheme
+unsigned int convsch;
+
 // get velocity field from matrix
 void p_getVX(Obj *o);
 void p_getVY(Obj *o);

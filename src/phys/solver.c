@@ -10,7 +10,7 @@
 #define ORTHODC 0 // orthogonal correction
 #define ORDC 1 // over-relaxed correction
 
-#define CONVSCH // using convection scheme
+//#define CONVSCH // using convection scheme
 #define CONVF 1 // first-iteration scheme?
 #define CONVT 1 // first time-step scheme?
 
@@ -683,15 +683,15 @@ void p_computeVCoeffs(Obj *o)
 			if (o->volumes[i].faces[j]->vSkip)
 				continue;
 
-#ifdef CONVSCH
-			vec3 cf = vec3Copy(&o->volumes[i].faces[j]->conFlux); // convection scheme flux
-
-			real mr = p_getMrate(&o->volumes[i], o->volumes[i].faces[j], o->fluid.rho);
-
-			vec3Mul(&cf, mr);
-
-			vec3Add(&b1, &cf);
-#endif
+			if (convsch > 0) {
+				vec3 cf = vec3Copy(&o->volumes[i].faces[j]->conFlux); // convection scheme flux
+				
+				real mr = p_getMrate(&o->volumes[i], o->volumes[i].faces[j], o->fluid.rho);
+				
+				vec3Mul(&cf, mr);
+				
+				vec3Add(&b1, &cf);
+			}
 
 			getFaceVFlux(o->volumes[i].faces[j], &o->volumes[i], &o->fluid);
 			vec3Add(&b1, &o->volumes[i].faces[j]->vFlux);
@@ -740,21 +740,21 @@ void p_computeFaceFs(Obj *o, int in, int tn)
 		o->faces[i].conFlux = nvec3();
 	}
 
-#ifdef CONVSCH
-	for (int i = 0; i < o->volNum && (in > 0 || CONVF) && (tn > 0 || CONVT); ++i) { // convection scheme
-		struct Face *uf = getUpwindFace(&o->volumes[i]);
-		struct Volume *uv = getUpwindVol(uf);
-
-		uf->conFlux = vec3Copy(&o->volumes[i].v);
-
-		vec3 rfc = vec3Copy(&uf->r);
-		vec3Sub(&rfc, &o->volumes[i].r);
-
-		vec3 ucu = mat3DotV(&uv->vGrad, &rfc); // second-order upwind
-
-		vec3Sub(&uf->conFlux, &uf->v);
+	if (convsch > 0) {
+		for (int i = 0; i < o->volNum && (in > 0 || CONVF) && (tn > 0 || CONVT); ++i) { // convection scheme
+			struct Face *uf = getUpwindFace(&o->volumes[i]);
+			struct Volume *uv = getUpwindVol(uf);
+			
+			uf->conFlux = vec3Copy(&o->volumes[i].v);
+			
+			vec3 rfc = vec3Copy(&uf->r);
+			vec3Sub(&rfc, &o->volumes[i].r);
+			
+			vec3 ucu = mat3DotV(&uv->vGrad, &rfc); // second-order upwind
+			
+			vec3Sub(&uf->conFlux, &uf->v);
+		}
 	}
-#endif
 
 	for (int i = 0; i < o->faceNum; ++i) {
 		o->faces[i].flux = o->fluid.mu * vec3Len(&o->faces[i].surfaceE) / vec3Len(&o->faces[i].volDist);

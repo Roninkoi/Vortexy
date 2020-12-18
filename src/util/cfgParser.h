@@ -163,6 +163,9 @@ void simParser(struct Sim *s, char *path)
 			if (strcmp(words[i], "relaxm") == 0) {
 				s->sys.relaxm = atof(words[i + 1]);
 			}
+			if (strcmp(words[i], "convsch") == 0) {
+				s->sys.convsch = atoi(words[i + 1]);
+			}
 			if (strcmp(words[i], "dtmaxit") == 0) {
 				s->sys.dtMaxIt = atoi(words[i + 1]);
 			}
