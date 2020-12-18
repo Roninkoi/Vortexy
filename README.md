@@ -1,6 +1,6 @@
 # Vortexy - Fluid dynamics simulator
 
-Vortexy, CFD code written in C.
+Vortexy, CFD code written in C. Includes an OpenGL renderer for visualization.
 
 Usage:
 
@@ -40,11 +40,13 @@ render
 
 - finite volume method
 - SIMPLE algorithm
-- irregular tetrahedral meshes
-- mesh defined in a file (.mesh/.obj)
-- boundary conditions defined in a file
+- Rhie-Chow interpolation with correction terms
+- up to second-order upwind convection schemes
+- Gauss-Seidel solver
+- irregular tetrahedral meshes: boundary .stl -> volume .mesh (e.g. using Tetgen)
+- boundary conditions defined in a .cfg file
 
-### Controls
+### Renderer controls
 
 | Key | Action |
 | --- | ------ |

@@ -76,8 +76,13 @@
 \newcommand{\es}{\text{e}}
 \newcommand{\tp}[1]{ \times 10^{#1}}
 \newcommand{\vb}[1]{\text{\textbf{#1}}}
+\newcommand{\T}{\text{T}}
 
 \newcommand{\x}{\text}
+
+\newcommand{\Ren}{\x{Re}}
+\newcommand{\fnb}{F_{\x{nb}}}
+\newcommand{\sumnb}{\sum_{f \in \fnb}}
 
 \begin{document}
 
@@ -113,53 +118,47 @@ The simulator is based on irregular tetrahedral meshes. These meshes can be comp
 
 \subsection{Navier-Stokes equations}
 
-\noindent
-
-The Navier-Stokes equations form the basis for all of fluid dynamics. The momentum equation is typically written as \cite[p.~59]{tri}
-
+The \textit{Navier-Stokes equations} form the basis for all of fluid dynamics. The momentum equation is typically written as \cite[p.~59]{tri}
 \begin{equation}
   \frac{\partial \vb u}{\partial t} + (\vb u \cdot \nabla) \vb u = -\frac{1}{\rho} \nabla p + \nu \nabla^2 \vb u + g,
 \end{equation}
-
 where $\vb u = (u, v, w)$ is velocity in $\un{m} \ \up{s}{-1}$, t time in $\un{s}$, $\rho$ density in $\un{kg} \ \up{m}{-3}$, $p$ pressure in $\un{Pa}$, $\nu=\frac{\mu}{\rho}$ kinematic viscosity in $\up{m}{2} \ \up{s}{-1}$, $g$ gravity in $\un{m} \ \up{s}{-2}$.
 
 The continuity equation must be satisfied for incompressible fluids that have no sinks of sources
-
 \begin{equation}
-  \nabla \cdot \vb u = 0,
+  \frac{\partial \rho}{\partial t} + \nabla \cdot (\rho \vb u) = 0 \rightarrow \nabla \cdot \vb u = 0,
 \end{equation}
-
 where $\vb u = (u, v, w)$ is velocity in $\un{m} \ \up{s}{-1}$.
 
 \subsection{Turbulence}
 
-\noindent
-
-A simple way of predicting onset of turbulence is the Reynolds number \cite{tri}:
-
+A simple way of predicting onset of turbulence is the \textit{Reynolds number} \cite{tri}:
 $$
 \text{Re} = \frac{\mu u L}{\rho} = \frac{u L}{\nu}
 $$
-
 Turbulence models in simulations include RANS (Reynolds Averaged), LES (Large Eddy) and DNS (Direct).
+
+\section{Methods}
 
 \subsection{Finite volume method}
 
 The \textit{finite volume method} (FVM) is based on a simulation mesh with volume elements. This enables evaluation of partial differential equations (PDEs) prevalent in physics. The divergence theorem allows us to convert volume integrals to surface integrals
-
 $$
 \int_V \nabla \cdot \vb F \ \D V = \oint_S \vb F \cdot \D \vb S,
 $$
-
-\noindent
 so volume terms can be computed from fluxes at element faces.
+
+Gradients need to be calculated for both fields. This can be achieved using the Green-Gauss gradient, which can be calculated as
+$$
+\nabla \phi = \frac{1}{V} \int_S \phi \ \D \vb S = \frac{1}{V} \sum_{f \in \fnb} \phi_f \ \vb S_f.
+$$
+Face values can be computed from the volume element values by linear interpolation.
 
 \subsection{SIMPLE algorithm}
 
-The SIMPLE algorithm solves the Navier-Stokes equations using an iterative procedure. First the momentum equation is solved, producing a momentum-conserving field $u^*$. However, this resultant field is not necessarily divergence free, meaning it does not satisfy the continuity equation. The SIMPLE algorithm solves this by calculating a correction $u'$ to the intermediate field by solving the \textit{pressure equation}. The pressure equation is derived from the continuity equation.
+The \textit{Semi-Implicit Method for Pressure-Linked Equations algorithm} solves the Navier-Stokes equations using an iterative procedure. First the momentum equation is solved, producing a momentum-conserving field $u^*$. However, this resultant field is not necessarily divergence free, meaning it does not satisfy the continuity equation. The SIMPLE algorithm solves this by calculating a correction $u'$ to the intermediate field by solving the \textit{pressure equation}. The pressure equation is derived from the continuity equation.
 
 The SIMPLE algorithm can be summarized as follows \cite{mou, cws}:
-
 \begin{enumerate}
 \item Set boundary conditions, set $u$ and $p$
 \item Compute gradients $\nabla u$ and $\nabla p$
@@ -171,25 +170,24 @@ The SIMPLE algorithm can be summarized as follows \cite{mou, cws}:
 \item Repeat
 \end{enumerate}
 
+Rhie-Chow interpolation is performed as
+$$
+\vb u_f = \overline{\vb u_f} - \underbrace{\overline{C_f} \lb \nabla p_f - \overline{\nabla p_f} \rb}_\text{Pressure correction} + \underbrace{(1 - \alpha_u) \lb \vb u_f^{(i)} - \overline{\vb u_f^{(i)}} \rb}_\text{Relaxation correction} + \underbrace{\frac{\overline{C_f}}{\overline{C_f^{(t)}}} \lb \vb u_f^{(t)} - \overline{\vb u_f^{(t)}} \rb}_\text{Transient correction}.
+$$
+
 \subsection{Discretization}
 
 \noindent
 
 The momentum equation is written in a form conducive for discretization \cite{mou}:
 $$
-\frac{\partial \vb u}{\partial t} + \nabla \cdot (\vb u \otimes \vb u) = - \frac{\nabla p}{\rho} + \frac{\mu}{\rho} \nabla \cdot (\nabla u) + \nabla \cdot (\nabla u)^T + \vb f_b
+  \underbrace{\frac{\partial \vb u}{\partial t}}_\text{Transient} + \underbrace{(\vb u \cdot \nabla) \vb u}_\text{Convection} = \underbrace{\nu \nabla \cdot (\nabla \vb u)}_\text{Diffusion} + \underbrace{\nu \nabla \cdot (\nabla \vb u)^\T + \frac{1}{\rho} \nabla p + \vb g}_\text{Source}.
 $$
+The continuity equation for fluids is
 $$
-\vb{transient} + \vb{convective} =  \vb{diffusive} + \vb{sources}
+\nabla \cdot \vb u = 0.
 $$
-
-Continuity equation:
-$$
-\nabla \cdot \vb u = 0
-$$
-
-This saddle-point problem can be represented in matrix form as \cite{mou, qs}:
-
+This saddle-point problem can be represented in matrix form as \cite{mou, qs}
 $$
 A \vb u = \begin{pmatrix}
   F & B^T \\
@@ -202,22 +200,18 @@ A \vb u = \begin{pmatrix}
 \begin{pmatrix}
   \vb f_b \\
   0
-\end{pmatrix}
+\end{pmatrix}.
 $$
-
 Discretization for the one-dimensional momentum equation \cite{mou}:
-
 \begin{equation}
-  a_v u_v + \sum_{f \in f_{nb}} a_f u_f = b_v,
+  a_V u_V + \sum_{f \in f_{nb}} a_f u_f = b_V,
 \end{equation}
-
-where $a_v$ refers to a volume element and $a_f$ to a face element coefficient. This can be represented in matrix form as:
-
+where $a_V$ refers to a volume element and $a_f$ to a face element coefficient. This can be represented in matrix form as
 $$
 \begin{pmatrix}
   a_{00} & a_{01} & 0 & \dots & 0 \\
   \vdots & \ddots & &  & \vdots \\
-  a_f & a_f & a_v & a_f & a_f \\
+  a_f & a_f & a_V & a_f & a_f \\
   \vdots & &  & \ddots & \vdots \\
   0 & \dots & 0 & a_{n (n - 1)} & a_{nn}
 \end{pmatrix}
@@ -232,65 +226,49 @@ $$
   b_n
 \end{pmatrix},
 $$
-
-where $u_0 \dots u_n$ represents volume element velocities. In the pressure calculation these are referred to as $u^*$, i.e. momentum conserving. The coefficients $a$ and $b$ are calculated for each volume element and assembled into a matrix. Components X, Y and Z are calculated one after another.\\
-
+where $u_0 \dots u_n$ represents volume element velocities. In the pressure calculation these are referred to as $u^*$, i.e. momentum conserving. The coefficients $a$ and $b$ are calculated for each volume element and assembled into a matrix. Components X, Y and Z are calculated one after another.
 Face fluxes:
 \begin{align}
-  \phi_f = \max(\dot m_f, 0) + \mu \frac{E_f}{d_{vf}} \\
-  \Phi_f = -\max(-\dot m_f, 0) - \mu \frac{E_f}{d_{vf}} \\
+  \phi_f = \max(\dot m_f, 0) + \mu \frac{E_f}{d_{vf}}, \\
+  \Phi_f = -\max(-\dot m_f, 0) - \mu \frac{E_f}{d_{vf}}, \\
   \vec \psi_f = - \mu (\nabla \vb u_f) \cdot \vb T_f + \dot m_f (\vb u_f^{\text{hr}} - \vb u_f^{\text{uw}}),
 \end{align}
-where $\vb S_f = A_f \hat n_f = \vb E_f + \vb T_f$ and $\dot m_f = \rho \vb u_f \cdot \vb S_f$. High-resolution model velocity $\vb u_f^{\text{hr}} = \vb u_f^{\text{uw}}$.\\
-
+where $\vb S_f = A_f \hat n_f = \vb E_f + \vb T_f$ and $\dot m_f = \rho \vb u_f \cdot \vb S_f$.
 Volume fluxes:
 \begin{align}
-  \phi_v = \frac{\rho V}{\Delta t} \\
-  \vec \psi_v = \frac{\rho V}{\Delta t} \vb u_v - \vb f_b V
+  \phi_V = \frac{\rho V}{\Delta t}, \\
+  \vec \psi_V = \frac{\rho V}{\Delta t} \vb u_V - \vb f_b V.
 \end{align}
-
 Coefficients:
 \begin{align}
-  a_v = \phi_v + \sum_{f \in f_{nb}} \phi_f = \frac{\rho V}{\Delta t} + \sum_{f \in f_{nb}} \lb \max(\dot m_f, 0) + \mu \frac{E_f}{d_{vf}} \rb \\
-  a_f = \Phi_f = -\max(-\dot m_f, 0) - \mu \frac{E_f}{d_{vf}}
+  a_V = \phi_V + \sum_{f \in f_{nb}} \phi_f = \frac{\rho V}{\Delta t} + \sum_{f \in f_{nb}} \lb \max(\dot m_f, 0) + \mu \frac{E_f}{d_{vf}} \rb, \\
+  a_f = \Phi_f = -\max(-\dot m_f, 0) - \mu \frac{E_f}{d_{vf}},
 \end{align}
 \begin{equation}
-  \vb b_v = -\vec \psi_v - \sum_{f \in f_{nb}} \vec \psi_f + \sum_{f \in f_{nb}} \lb \mu (\nabla \vb u_f)^T \cdot \vb S_f \rb - V \nabla p_v
+  \vb b_V = -\vec \psi_v - \sum_{f \in f_{nb}} \vec \psi_f + \sum_{f \in f_{nb}} \lb \mu (\nabla \vb u_f)^T \cdot \vb S_f \rb - V \nabla p_v,
 \end{equation}
 $$
-= - \frac{\rho V}{\Delta t} \vb u_v - \vb f_b V - \sum_{f \in f_{nb}} \lb - \mu (\nabla \vb u_f) \cdot \vb T_f + \dot m_f (\vb u_f - \vb u_f^{\text{uw}}) \rb + \sum_{f \in f_{nb}} \lb \mu (\nabla \vb u_f)^T \cdot \vb S_f \rb - V \nabla p_v
+= - \frac{\rho V}{\Delta t} \vb u_V - \vb f_b V - \sum_{f \in f_{nb}} \lb - \mu (\nabla \vb u_f) \cdot \vb T_f + \dot m_f (\vb u_f - \vb u_f^{\text{uw}}) \rb + \sum_{f \in f_{nb}} \lb \mu (\nabla \vb u_f)^T \cdot \vb S_f \rb - V \nabla p_v.
 $$
-
+For interpolation we define:
 $$
-\vb D_v = \frac{V}{a_v}
+\vb C_V = \frac{V}{a_V}.
 $$
-
-Intermediate momentum equation:
-
+Similarly, the pressure correction equation can be discretized as \cite{mou}
 \begin{equation}
-  u_v^* + \sum_{f \in f_{nb}} \frac{a_f}{a_c} \vb u_f^* = -\frac{V}{a_v} \nabla p_v + \frac{b_v + V \nabla p_v}{a_v}
+  a_V p_v' + \sum_{f \in f_{nb}} a_f p_f' = b_V
 \end{equation}
-
-Similarly, the pressure correction equation can be discretized \cite{mou}:
-
-\begin{equation}
-  a_v p_v' + \sum_{f \in f_{nb}} a_f p_f' = b_v
-\end{equation}
-
-With coefficients:
-
+with coefficients
 \begin{align}
-  a_f = -\rho \mathcal{D}_f \\
-  a_v = \sum_{f \in f_{nb}} \rho \mathcal{D}_f\\
-  b_v = - \sum_{f \in f_{nb}} \dot m_f^* = - \sum_{f \in f_{nb}} \rho \vb u_f^* \cdot \vb S_f,
+  a_f = -\rho \mathcal{D}_f, \\
+  a_V = \sum_{f \in f_{nb}} \rho \mathcal{D}_f,\\
+  b_V = - \sum_{f \in f_{nb}} \dot m_f^* = - \sum_{f \in f_{nb}} \rho \vb u_f^* \cdot \vb S_f,
 \end{align}
-where $\mathcal{D}_f$ is calculated using the minimum correction approach:
-
+where $\mathcal{D}_f$ is calculated e.g. using the minimum correction approach:
 $$
-\mathcal{D}_f = \frac{d_{vf}^x S_f^x \overline{D_f^x} + d_{vf}^y S_f^y \overline{D_f^y} + d_{vf}^z S_f^z \overline{D_f^z}}{(d_{vf}^x)^2 + (d_{vf}^y)^2 + (d_{vf}^z)^2}.
+\mathcal{D}_f = \frac{d_{vf}^x S_f^x \overline{C_f^x} + d_{vf}^y S_f^y \overline{C_f^y} + d_{vf}^z S_f^z \overline{C_f^z}}{(d_{vf}^x)^2 + (d_{vf}^y)^2 + (d_{vf}^z)^2},
 $$
-
-
+where the overlined values have been interpolated from volume elements to faces.
 
 All of these are $n \times n$ diagonally dominant matrices which can be solved using a numerical matrix solver, such as Gauss-Seidel. The off-diagonal coefficients represent neighbouring elements, so they will be mostly zero.
 
@@ -302,10 +280,10 @@ A \vb x = \vb b
 $$
 is found by an iterative algorithm. GS has better efficiency for large systems than other methods such as matrix inversion.
 
-The iteration for the GS method can be defined as \cite[p.~510]{golub}:
+The iteration for the GS method can be defined as \cite[p.~510]{golub}
 
 \begin{equation}
-  x_i^{(k + 1)} = \frac{b_i - \sum_{j=1}^{i-1} a_{ij} x_j^{(k + 1)} - \sum_{j=i+1}^{n} a_{ij} x_j^{(k)}}{a_{ii}}
+  x_i^{(k + 1)} = \frac{b_i - \sum_{j=1}^{i-1} a_{ij} x_j^{(k + 1)} - \sum_{j=i+1}^{n} a_{ij} x_j^{(k)}}{a_{ii}}.
 \end{equation}
 
 \subsection{Boundary conditions}
@@ -341,32 +319,22 @@ The iteration for the GS method can be defined as \cite[p.~510]{golub}:
   \caption{Four main types of boundary conditions}
 \end{table}
 
-\section{Implementation}
-
 \subsection{Simulation mesh}
 
-Irregular, non-orthogonal Delaunay tetrahedralization
-
-\subsection{Solver}
-
-Gauss-Seidel with some sparse matrix optimizations
-
-\subsection{Rendering}
-
-OpenGL 3.1, GLSL 150
+Irregular, non-orthogonal Delaunay tetrahedralization.
 
 \section{Software}
 
+\subsection{Rendering}
+
+OpenGL 3.1, GLSL 150.
+
 \subsection{Compilation}
 
-The software is compiled using CMake. The \verb|CMakeLists.txt| file is found in the root directory. There are two main ways to configure the simulator: with rendering and without. This is achieved by passing the \verb|-DSIMONLY=ON| flag to CMake. The non-graphical version is linked entirely statically. The graphical version has its \verb|RPATH| set to \verb|./lib/|, so required dynamically linked libraries can be placed there.
+The software is compiled using CMake. The \verb|CMakeLists.txt| file is found in the root directory. There are two main ways to configure the simulator: with rendering and without. Rendering can be disabled by passing the \verb|-DSIMONLY=ON| flag to CMake. The non-graphical version is linked entirely statically. The graphical version has its \verb|RPATH| set to \verb|./lib/|, so required dynamically linked libraries can be placed there.
 
 The root directory contains shell scripts that can be used for compilation. To build the simulator, renderer and libraries use the script \verb|buildall.sh|. To build the simulator without the renderer use the script \verb|buildsim.h| and set \verb|RENDER_ENABLED| to 0 in \verb|sim.h|.\\
-
-Dependencies: libc, libm, (OpenGL, GLEW, GLFW)\\
-
-Building using default options:
-
+Building using default options (dependencies: libc, libm, OpenGL, GLEW, GLFW):
 \begin{verbatim}
   cmake .
   make
@@ -390,6 +358,7 @@ epsilon 1.0e-6 # solver target
 dtmaxit 15 # max time-step iterations
 residual 5.0e0 # solution residual
 transient 0 # include Chie-Chow transient term
+convsch 0 # convection scheme, 0 = upwind, 1 = second-order upwind
 gradit 2 # gradient iterations, if 0 -> first-order
 relaxm 1.0 # relax mass flow
 
@@ -460,12 +429,11 @@ e
 
 \addcontentsline{toc}{section}{References}
 \begin{thebibliography}{9}
-  \bibitem{tri} D. J. Tritton. (1977). Physical Fluid Dynamics. Springer.
-  
+\bibitem{tri} D. J. Tritton. (1977). Physical Fluid Dynamics. Springer.  
 \bibitem{mou} F. Moukalled, L. Mangani \& M. Darwish. (2016). The Finite Volume Method in Computational Fluid Dynamics: An Advanced Introduction with OpenFOAM and Matlab. Fluid Mechanics and Its Applications Volume 113. Springer International Publishing, Cham. \url{https://doi.org/10.1007/978-3-319-16874-6}
 
-  \bibitem{golub} G. H. Golub \& C. F. Van Loan. (1996). Matrix Computations. The John Hopkins University Press.
-  
+\bibitem{golub} G. H. Golub \& C. F. Van Loan. (1996). Matrix Computations. The John Hopkins University Press.
+\bibitem{koi} R. Koitermaa. (2020). Virtauslaskenta nesteille käyttäen tilavuusmenetelmää (BSc thesis). University of Helsinki.
 \bibitem{qs} \url{https://quickersim.com/tutorial/tutorial-2-numerics-simple-scheme/}
 \bibitem{ofs} \url{https://www.openfoam.com/documentation/guides/latest/doc/guide-applications-solvers-simple.html}
 \bibitem{cws} \url{https://www.cfd-online.com/Wiki/SIMPLE_algorithm}
