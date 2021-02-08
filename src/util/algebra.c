@@ -12,40 +12,9 @@
 
 #endif
 
-#define LAPACK_ENABLED 0
-
-#if LAPACK_ENABLED
-
-#include <lapacke/lapacke.h>
-
-void LPS(mat *a, mat *b, mat *g)
-{
-	real *inputa = matFlatten(a);
-	real *bx = matFlatten(b);
-	int *p = calloc(sizeof(int), a->r);
-
-	LAPACKE_dgesv(LAPACK_ROW_MAJOR,
-			a->r,
-			1,
-			inputa,
-			a->c,
-			p,
-			bx,
-			1);
-
-	matDestroy(g);
-	*g = matBuild(bx, b->r, b->c);
-
-	free(inputa);
-	free(bx);
-	free(p);
-}
-
-#endif
-
 void swapRows(mat *m, int r0, int r1)
 {
-	//if (r0 >= m->r || r1 >= m->r) return;
+	if (r0 >= m->r || r1 >= m->r) return;
 
 	for (int c = 0; c < m->c; ++c) {
 		real old = m->m[r0][c];
@@ -57,7 +26,7 @@ void swapRows(mat *m, int r0, int r1)
 
 int maxRow(mat *m, int r0, int c)
 {
-	//if (c >= m->c) return 0;
+	if (c >= m->c) return 0;
 
 	real maxv = fabs(m->m[r0][c]);
 	int maxr = r0;
