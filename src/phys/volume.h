@@ -13,13 +13,15 @@ struct Face { // triangle
 	//int indNum;
 
 	vec3 v; // velocity
-	vec3 vn; // velocity
-	vec3 vtn; // velocity
+	vec3 vn; // velocity previous iteration
+	vec3 vtn; // velocity previous time
+	
+	vec3 vI; // velocity interpolated
+	vec3 vIn; // velocity interpolated previous iteration
+	vec3 vItn; // velocity interpolated previous time
+	
 	real p; // pressure
-	vec3 vI; // velocity
-	vec3 vIn; // velocity
-	vec3 vItn; // velocity
-	real pI; // pressure
+	real pI; // pressure interpolated
 
 	real initialV; // initial conditions
 	real initialP;
@@ -155,8 +157,9 @@ struct Volume { // tetrahedron
 	//int faceNum;
 
 	vec3 v; // velocity
-	vec3 vn; // velocity
-	vec3 vtn; // velocity
+	vec3 vn; // velocity previous iteration
+	vec3 vtn; // velocity previous time
+	
 	real p; // pressure
 
 	vec3 s; // source

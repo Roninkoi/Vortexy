@@ -5,6 +5,17 @@
 #include "sys.h"
 #include "gradient.h"
 
+// boundary conditions
+enum boundary {
+	open,
+	noSlip,  // 1
+	slip,    // 2
+	vInlet,  // 3
+	pInlet,  // 4
+	vOutlet, // 5
+	pOutlet  // 6
+};
+
 // convection scheme
 unsigned int convsch;
 

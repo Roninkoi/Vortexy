@@ -109,13 +109,12 @@ void p_getP(Obj *o)
 void p_computePFaceCoeff(struct Face *connecting, struct Volume *vol, struct Fluid *fluid)
 {
 	switch (connecting->boundary) {
-		case 1: // no-slip wall
-		case 2: // slip wall
-		case 3: // velocity inlet
-		case 4: // pressure inlet
-		case 5: // velocity outlet
-		case 6: // pressure outlet
-		case 10: // lid
+		case noSlip: // no-slip wall
+		case slip: // slip wall
+		case vInlet: // velocity inlet
+		case pInlet: // pressure inlet
+		case vOutlet: // velocity outlet
+		case pOutlet: // pressure outlet
 			connecting->pa = 0.0;
 			return;
 	}
@@ -176,13 +175,12 @@ real p_getVFaceCoeff(struct Face *connecting, struct Volume *vol, struct Fluid *
 void p_computeVFaceCoeff(struct Face *connecting, struct Volume *vol, struct Fluid *fluid)
 {
 	switch (connecting->boundary) {
-		case 1: // no-slip wall
-		case 2: // slip wall
-		case 3: // velocity inlet
-		case 4: // pressure inlet
-		case 5: // velocity outlet
-		case 6: // pressure outlet
-		case 10: // lid
+		case noSlip: // no-slip wall
+		case slip: // slip wall
+		case vInlet: // velocity inlet
+		case pInlet: // pressure inlet
+		case vOutlet: // velocity outlet
+		case pOutlet: // pressure outlet
 			connecting->va.x = 0.0;
 			connecting->va.y = 0.0;
 			connecting->va.z = 0.0;
@@ -380,14 +378,13 @@ void PBound(struct Volume *v, struct Fluid *fluid)
 		vec3 cv;
 
 		switch (fb->boundary) {
-			case 0:
-			case 1: // no-slip wall
-			case 2: // slip wall
-			case 3: // velocity inlet
-			case 5: // velocity outlet
-			case 10: // lid
+			case open:
+			case noSlip: // no-slip wall
+			case slip: // slip wall
+			case vInlet: // velocity inlet
+			case vOutlet: // velocity outlet
 				break;
-			case 4: // pressure inlet
+			case pInlet: // pressure inlet
 				/*fb->mRate = p_getMrate(v, fb, fluid->rho);
 
 				cv = vec3Copy(&fb->v);
@@ -400,7 +397,7 @@ void PBound(struct Volume *v, struct Fluid *fluid)
 
 				v->pb -= p_getMrate(v, fb, fluid->rho);
 				break;
-			case 6: // pressure outlet
+			case pOutlet: // pressure outlet
 				v->pa += fluid->rho * fb->df;
 
 				v->pb -= p_getMrate(v, fb, fluid->rho);
@@ -443,7 +440,7 @@ void VBoundB(struct Volume *v, struct Fluid *fluid)
 		vec3 cv;
 
 		switch (fb->boundary) {
-			case 1: // no-slip wall
+			case noSlip: // no-slip wall
 				v->vb.x += (fluid->mu * sl / dn) *
 						   (fb->v.x * (1.0 - n.x * n.x) +
 							(v->v.y - fb->v.y) * n.y * n.x +
@@ -462,10 +459,10 @@ void VBoundB(struct Volume *v, struct Fluid *fluid)
 							fb->v.z * (1.0 - n.z * n.z)
 						   );
 				break;
-			case 2: // slip wall
+			case slip: // slip wall
 				break;
-			case 3: // velocity inlet
-			case 5: // velocity outlet
+			case vInlet: // velocity inlet
+			case vOutlet: // velocity outlet
 				a = p_getVFaceCoeff(fb, v, fluid);
 
 				cv = vec3Copy(&fb->normal); // constant velocity
@@ -475,14 +472,14 @@ void VBoundB(struct Volume *v, struct Fluid *fluid)
 				v->vb.y -= a * cv.y;
 				v->vb.z -= a * cv.z;
 				break;
-			case 4: // pressure inlet
+			case pInlet: // pressure inlet
 				a = p_getVFaceCoeff(fb, v, fluid);
 
 				v->vb.x -= a * fb->vn.x;
 				v->vb.y -= a * fb->vn.y;
 				v->vb.z -= a * fb->vn.z;
 				break;
-			case 6: // pressure outlet
+			case pOutlet: // pressure outlet
 				fb->mRate = p_getMrate(v, fb, fluid->rho);
 
 				cv = mat3DotV(&fb->vGrad, &fb->volDist);
@@ -490,25 +487,6 @@ void VBoundB(struct Volume *v, struct Fluid *fluid)
 				v->vb.x -= cv.x * fb->mRate;
 				v->vb.y -= cv.y * fb->mRate;
 				v->vb.z -= cv.z * fb->mRate;
-				break;
-			case 10: // lid
-				v->vb.x += (fluid->mu * sl / dn) *
-						   ((fb->v.x + fb->constantV) * (1.0 - n.x * n.x) +
-							(v->v.y - fb->v.y) * n.y * n.x +
-							(v->v.z - fb->v.z) * n.z * n.x
-						   );
-
-				v->vb.y += (fluid->mu * sl / dn) *
-						   ((v->v.x - (fb->v.x + fb->constantV)) * n.y * n.x +
-							fb->v.y * (1.0 - n.y * n.y) +
-							(v->v.z - fb->v.z) * n.z * n.x
-						   );
-
-				v->vb.z += (fluid->mu * sl / dn) *
-						   ((v->v.x - (fb->v.x + fb->constantV)) * n.z * n.x +
-							(v->v.y - fb->v.y) * n.y * n.x +
-							fb->v.z * (1.0 - n.z * n.z)
-						   );
 				break;
 		}
 	}
@@ -541,29 +519,24 @@ void VBoundA(struct Volume *v, struct Fluid *fluid)
 		vec3 cv;
 
 		switch (fb->boundary) {
-			case 1: // no-slip wall
+			case noSlip: // no-slip wall
 				v->va.x += (fluid->mu * sl / dn) * (1.0 - n.x * n.x);
 				v->va.y += (fluid->mu * sl / dn) * (1.0 - n.y * n.y);
 				v->va.z += (fluid->mu * sl / dn) * (1.0 - n.z * n.z);
 				break;
-			case 2: // slip wall
+			case slip: // slip wall
 				break;
-			case 3: // velocity inlet
-			case 5: // velocity outlet
+			case vInlet: // velocity inlet
+			case vOutlet: // velocity outlet
 				break;
-			case 4: // pressure inlet
+			case pInlet: // pressure inlet
 				break;
-			case 6: // pressure outlet
+			case pOutlet: // pressure outlet
 				fb->mRate = p_getMrate(v, fb, fluid->rho);
 
 				v->va.x += fb->mRate;
 				v->va.y += fb->mRate;
 				v->va.z += fb->mRate;
-				break;
-			case 10: // lid
-				v->va.x += (fluid->mu * sl / dn) * (1.0 - n.x * n.x);
-				v->va.y += (fluid->mu * sl / dn) * (1.0 - n.y * n.y);
-				v->va.z += (fluid->mu * sl / dn) * (1.0 - n.z * n.z);
 				break;
 		}
 	}

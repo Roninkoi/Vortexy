@@ -136,7 +136,7 @@ A simple way of predicting onset of turbulence is the \textit{Reynolds number} \
 $$
 \text{Re} = \frac{\mu u L}{\rho} = \frac{u L}{\nu}
 $$
-Turbulence models in simulations include RANS (Reynolds Averaged), LES (Large Eddy) and DNS (Direct).
+Turbulence models in simulations include RANS (Reynolds Averaged) e.g. $k$-$\varepsilon$, LES (Large Eddy) and DNS (Direct).
 
 \section{Methods}
 
@@ -152,7 +152,7 @@ Gradients need to be calculated for both fields. This can be achieved using the 
 $$
 \nabla \phi = \frac{1}{V} \int_S \phi \ \D \vb S = \frac{1}{V} \sum_{f \in \fnb} \phi_f \ \vb S_f.
 $$
-Face values can be computed from the volume element values by linear interpolation.
+Face values can be computed from the volume element values by linear interpolation. Second-order gradients are computed by iterative correction.
 
 \subsection{SIMPLE algorithm}
 
@@ -177,13 +177,11 @@ $$
 
 \subsection{Discretization}
 
-\noindent
-
 The momentum equation is written in a form conducive for discretization \cite{mou}:
 $$
   \underbrace{\frac{\partial \vb u}{\partial t}}_\text{Transient} + \underbrace{(\vb u \cdot \nabla) \vb u}_\text{Convection} = \underbrace{\nu \nabla \cdot (\nabla \vb u)}_\text{Diffusion} + \underbrace{\nu \nabla \cdot (\nabla \vb u)^\T + \frac{1}{\rho} \nabla p + \vb g}_\text{Source}.
 $$
-The continuity equation for fluids is
+The continuity equation for liquids is
 $$
 \nabla \cdot \vb u = 0.
 $$
@@ -209,24 +207,24 @@ Discretization for the one-dimensional momentum equation \cite{mou}:
 where $a_V$ refers to a volume element and $a_f$ to a face element coefficient. This can be represented in matrix form as
 $$
 \begin{pmatrix}
-  a_{00} & a_{01} & 0 & \dots & 0 \\
+  a_{11} & \dots & 0 & \dots & 0 \\
   \vdots & \ddots & &  & \vdots \\
   a_f & a_f & a_V & a_f & a_f \\
   \vdots & &  & \ddots & \vdots \\
-  0 & \dots & 0 & a_{n (n - 1)} & a_{nn}
+  0 & \dots & 0 & \dots & a_{nn}
 \end{pmatrix}
 \begin{pmatrix}
-  u_0 \\
+  u_1 \\
   \vdots \\
   u_n
 \end{pmatrix} =
 \begin{pmatrix}
-  b_{0} \\
+  b_{1} \\
   \vdots \\
   b_n
 \end{pmatrix},
 $$
-where $u_0 \dots u_n$ represents volume element velocities. In the pressure calculation these are referred to as $u^*$, i.e. momentum conserving. The coefficients $a$ and $b$ are calculated for each volume element and assembled into a matrix. Components X, Y and Z are calculated one after another.
+where $u_1 \dots u_n$ represents volume element velocities. In the pressure calculation these are referred to as $u^*$, i.e. momentum conserving. The coefficients $a$ and $b$ are calculated for each volume element and assembled into a matrix. Components X, Y and Z are calculated one after another.
 Face fluxes:
 \begin{align}
   \phi_f = \max(\dot m_f, 0) + \mu \frac{E_f}{d_{vf}}, \\
@@ -331,7 +329,7 @@ OpenGL 3.1, GLSL 150.
 
 \subsection{Compilation}
 
-The software is compiled using CMake. The \verb|CMakeLists.txt| file is found in the root directory. There are two main ways to configure the simulator: with rendering and without. Rendering can be disabled by passing the \verb|-DSIMONLY=ON| flag to CMake. The non-graphical version is linked entirely statically. The graphical version has its \verb|RPATH| set to \verb|./lib/|, so required dynamically linked libraries can be placed there.
+The software is compiled using CMake. The \verb|CMakeLists.txt| file is found in the root directory. There are two main ways to configure the simulator: with rendering and without. Rendering can be disabled by passing the \verb|-DSIMONLY=ON| flag to CMake. The non-graphical version is linked entirely statically. The graphical version has its \verb|RPATH| set to \verb|lib/|, so required dynamically linked libraries can be placed there.
 
 The root directory contains shell scripts that can be used for compilation. To build the simulator, renderer and libraries use the script \verb|buildall.sh|. To build the simulator without the renderer use the script \verb|buildsim.h| and set \verb|RENDER_ENABLED| to 0 in \verb|sim.h|.\\
 Building using default options (dependencies: libc, libm, OpenGL, GLEW, GLFW):

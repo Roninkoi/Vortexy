@@ -176,15 +176,14 @@ void p_faceBoundP(Obj *o)
 		struct Face *f = &o->faces[i];
 
 		switch (f->boundary) {
-			case 1:
-			case 2:
-			case 3: // same for 1, 2, 3
-			case 5:
-			case 10:
+			case noSlip:
+			case slip:
+			case vInlet: // same for 1, 2, 3
+			case vOutlet:
 				f->p += boundaryPressure(f);
 				return;
-			case 4:
-			case 6:
+			case pInlet:
+			case pOutlet:
 				f->p = f->constantP;
 				return;
 		}
@@ -198,8 +197,8 @@ void p_faceP(struct Face *f)
 	f->p = f->pI;
 
 	switch (f->boundary) {
-		case 4:
-		case 6:
+		case pInlet:
+		case pOutlet:
 			f->p = f->constantP;
 			return;
 	}
@@ -266,16 +265,13 @@ void fv(struct Face *f)
 
 	vec3 cv;
 	switch (f->boundary) {
-		case 1:
+		case noSlip:
 			f->v = nvec3();
-		case 3:
-		case 5:
+		case vInlet:
+		case vOutlet:
 			cv = vec3Copy(&f->normal);
 			vec3Mul(&cv, f->constantV);
 			f->v = vec3Copy(&cv);
-			return;
-		case 10:
-			f->v = Vec3(f->constantV, 0.0, 0.0);
 			return;
 	}
 }
