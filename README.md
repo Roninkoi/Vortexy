@@ -22,8 +22,8 @@ Or non-graphical (set RENDER_ENABLED to 0 in sim.h)
 ```
 
 <p align="middle">
-  <img src="https://user-images.githubusercontent.com/12766039/109258624-46068700-7803-11eb-87c2-31ef4d1717ce.png" width="49%" />
-  <img src="https://user-images.githubusercontent.com/12766039/109258811-aac1e180-7803-11eb-8a20-6d47d3817459.png" width="49%" />
+  <img src="https://user-images.githubusercontent.com/12766039/109259406-ce395c00-7804-11eb-9f96-ba6f32aa5e1b.png" width="49%" />
+  <img src="https://user-images.githubusercontent.com/12766039/109259469-f1640b80-7804-11eb-9deb-fc93af566ffc.png" width="49%" />
 </p>
 
 ## Dependencies
