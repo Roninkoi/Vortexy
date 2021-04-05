@@ -82,16 +82,20 @@ void p_sysInit(struct Sys *s)
 	s->unreal = 0;
 }
 
+// main simulation loop for SIMPLE algorithm
 void p_sysTick(struct Sys *s);
 
 void p_sysStart(struct Sys *s);
 
 void p_sysRestart(struct Sys *s, char *fluidPath);
 
+// destroy objects
 void p_sysEnd(struct Sys *s);
 
+// add fluid object to system
 void p_addObj(struct Sys *s, char *fluidPath, int mode);
 
+// print status of simulation
 void p_sysStatus(struct Sys *s);
 
 #endif

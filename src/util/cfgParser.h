@@ -93,8 +93,8 @@ void fluidMeshParser(Obj *o, char *path)
 				break;
 			}
 			if (strcmp(words[i], "mesh") == 0) {
-				o->meshPath = calloc(strlen(words[i + 1])+1, sizeof(char));
-				strncpy(o->meshPath, words[i + 1], strlen(words[i + 1]));
+				o->meshPath = calloc(strlen(words[i + 1]) + 1, sizeof(char));
+				memcpy(o->meshPath, words[i + 1], strlen(words[i + 1]));
 			}
 		}
 	}
@@ -195,11 +195,11 @@ void simParser(struct Sim *s, char *path)
 			}
 			if (strcmp(words[i], "fluid") == 0) {
 				s->fluidPath = calloc(strlen(words[i + 1]) + 1, sizeof(char));
-				strncpy(s->fluidPath, words[i + 1], strlen(words[i + 1]));
+				memcpy(s->fluidPath, words[i + 1], strlen(words[i + 1]));
 			}
 			if (strcmp(words[i], "file") == 0) {
 				s->filePath = calloc(strlen(words[i + 1]) + 1, sizeof(char));
-				strncpy(s->filePath, words[i + 1], strlen(words[i + 1]));
+				memcpy(s->filePath, words[i + 1], strlen(words[i + 1]));
 			}
 		}
 	}

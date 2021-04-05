@@ -1,10 +1,5 @@
-//
-// Created by rak on 4/10/20.
-//
-
 #include "gradient.h"
 
-// interpolated face pressure gradient
 void p_pFaceGradI(Obj *o)
 {
 	for (int i = 0; i < o->faceNum; ++i) {
@@ -25,7 +20,6 @@ void p_pFaceGradI(Obj *o)
 	}
 }
 
-// interpolated face velocity gradient
 void p_vFaceGradI(Obj *o)
 {
 	for (int i = 0; i < o->faceNum; ++i) {
@@ -106,7 +100,6 @@ void p_vFaceGrad(Obj *o)
 	}
 }
 
-// volume pressure gradient (Green-Gauss)
 void p_pGrad(Obj *o)
 {
 	for (int i = 0; i < o->volNum; ++i) {
@@ -126,7 +119,6 @@ void p_pGrad(Obj *o)
 	}
 }
 
-// volume velocity gradient
 void p_vGrad(Obj *o)
 {
 	for (int i = 0; i < o->volNum; ++i) {
@@ -147,7 +139,6 @@ void p_vGrad(Obj *o)
 	}
 }
 
-// volume pressure correction gradient
 void p_pcGrad(Obj *o)
 {
 	for (int i = 0; i < o->volNum; ++i) {
@@ -166,7 +157,6 @@ void p_pcGrad(Obj *o)
 	}
 }
 
-// volume pressure gradient
 void p_pGrads(Obj *o)
 {
 	for (int i = 0; i < o->faceNum; ++i) {
@@ -211,7 +201,6 @@ void p_pGrads(Obj *o)
 	}
 }
 
-// volume velocity gradient
 void p_vGrads(Obj *o)
 {
 	for (int i = 0; i < o->faceNum; ++i) {
@@ -258,7 +247,6 @@ void p_vGrads(Obj *o)
 	}
 }
 
-// pressure correction gradient
 void p_pcGrads(Obj *o)
 {
 	for (int i = 0; i < o->faceNum; ++i) {
@@ -303,7 +291,6 @@ void p_pcGrads(Obj *o)
 	}
 }
 
-// volume pressure gradient halfway
 void p_pGradsh(Obj *o)
 {
 	halfGWF = 1;
@@ -349,7 +336,6 @@ void p_pGradsh(Obj *o)
 	}
 }
 
-// volume velocity gradient halfway
 void p_vGradsh(Obj *o)
 {
 	halfGWF = 1;
@@ -395,7 +381,6 @@ void p_vGradsh(Obj *o)
 	}
 }
 
-// pressure correction gradient halfway
 void p_pcGradsh(Obj *o)
 {
 	halfGWF = 1;

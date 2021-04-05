@@ -321,10 +321,5 @@ void solve(mat *a, mat *b, mat *g, int maxIt, real epsilon)
 	return;
 #endif
 
-#if LAPACK_ENABLED
-	LPS(a, b, g);
-	return;
-#endif
-
 	GaussSeidel(a, b, g, maxIt, epsilon);
 }

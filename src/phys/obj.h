@@ -17,15 +17,15 @@ typedef struct {
 
 	struct Fluid fluid;
 
-	real pRelax;
-	real vRelax;
+	real pRelax; // pressure relaxation factor
+	real vRelax; // velocity relaxation factor
 
 	real dt;
 	real t;
 
-	mat a;
-	mat b;
-	mat vx;
+	mat a; // coefficient matrix
+	mat b; // source vector
+	mat vx; // solution vectors
 	mat vy;
 	mat vz;
 	mat vp;

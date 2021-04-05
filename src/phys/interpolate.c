@@ -1,10 +1,5 @@
-//
-// Created by rak on 6/4/20.
-//
-
 #include "interpolate.h"
 
-// calculate geometric weighting factor
 real getGWF(struct Face *f)
 {
 	vec3 d0 = vec3Copy(&f->thisVol[1]->r);
@@ -14,7 +9,6 @@ real getGWF(struct Face *f)
 	return vec3Len(&d0) / vec3Len(&f->volDist);
 }
 
-// calculate geometric weighting factor halfway
 real getGWFh(struct Face *f)
 {
 	if (halfGWF)
@@ -23,7 +17,6 @@ real getGWFh(struct Face *f)
 		return getGWF(f);
 }
 
-// calculate geometric weighting factor with extrapolation
 real getGWFp(struct Face *f)
 {
 	vec3 e = vec3Copy(&f->volDist);
@@ -62,7 +55,6 @@ void p_faceC(struct Face *f)
 	vec3Add(&f->c, &pd1);
 }
 
-// interpolate face velocity from volumes
 void p_faceVI(struct Face *f)
 {
 	if (f->vNum == 0)
@@ -89,7 +81,6 @@ void p_faceVI(struct Face *f)
 	vec3Add(&f->vI, &vel1);
 }
 
-// interpolate face pressure from volumes
 void p_facePI(struct Face *f)
 {
 	if (f->vNum == 0)
@@ -109,7 +100,6 @@ void p_facePI(struct Face *f)
 	f->pI = pre0 + pre1;
 }
 
-// interpolate face pressure correction from volumes
 void p_facePCI(struct Face *f)
 {
 	if (f->vNum == 0)
@@ -136,7 +126,6 @@ void p_facePC(struct Face *f)
 	f->pc = f->pcI;
 }
 
-// extrapolate pressure to boundary
 real boundaryPressure(struct Face *f)
 {
 #if 0
@@ -204,7 +193,6 @@ void p_faceP(struct Face *f)
 	}
 }
 
-// Rhie-Chow interpolation
 void p_faceVRC(struct Face *f)
 {
 	f->v = vec3Copy(&f->vI);
@@ -220,7 +208,6 @@ void p_faceVRC(struct Face *f)
 	vec3Sub(&f->v, &vc);
 }
 
-// Rhie-Chow interpolation extended
 void p_faceVRCE(struct Face *f, real urf)
 {
 	f->v = vec3Copy(&f->vI);

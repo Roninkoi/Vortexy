@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 ./clean.sh
-cmake -DSIMONLY=ON .
+cmake -DRENDER=OFF .
 make
 

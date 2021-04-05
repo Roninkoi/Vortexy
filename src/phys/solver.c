@@ -1,7 +1,3 @@
-//
-// Created by rak on 2/25/20.
-//
-
 #include "solver.h"
 #include "util/util.h"
 
@@ -14,7 +10,6 @@
 #define CONVF 1 // first-iteration scheme?
 #define CONVT 1 // first time-step scheme?
 
-// calculate face mass flow rate for volume
 real p_getMrate(struct Volume *v, struct Face *f, real rho)
 {
 	vec3 s = vec3Outwards(&v->r,
@@ -26,7 +21,6 @@ real p_getMrate(struct Volume *v, struct Face *f, real rho)
 	return f->mRate;
 }
 
-// volume upwind from face
 struct Volume *getUpwindVol(struct Face *f)
 {
 	vec3 vs = vec3Outwards(&f->thisVol[0]->r,
@@ -50,7 +44,6 @@ struct Volume *getUpwindVol(struct Face *f)
 	return f->thisVol[0];
 }
 
-// face upwind from volume
 struct Face *getUpwindFace(struct Volume *v)
 {
 	struct Face *maxf = v->faces[0];
@@ -98,7 +91,6 @@ void p_getVZ(Obj *o)
 	}
 }
 
-// get pressure from matrix
 void p_getP(Obj *o)
 {
 	for (int i = 0; i < o->volNum; ++i) {
@@ -122,7 +114,6 @@ void p_computePFaceCoeff(struct Face *connecting, struct Volume *vol, struct Flu
 	connecting->pa = -fluid->rho * connecting->df;
 }
 
-// construct pressure equation matrix
 void p_constructPMat(Obj *o)
 {
 	o->a = Mat(1.0, o->volNum, o->volNum);
@@ -550,7 +541,6 @@ void p_computeVBoundCoeffs(Obj *o)
 	}
 }
 
-// calculate coefficients for pressure equation
 void p_computePCoeffs(Obj *o)
 {
 	for (int i = 0; i < o->volNum; ++i) {
@@ -575,7 +565,7 @@ void p_computePCoeffs(Obj *o)
 }
 
 // gradient integral
-vec3 p_pGradInt(struct Volume *vol)
+vec3 pGradInt(struct Volume *vol)
 {
 	vec3 r = nvec3();
 
@@ -608,7 +598,6 @@ void getFaceVFlux(struct Face *f, struct Volume *v, struct Fluid *fluid)
 	vec3Mul(&f->vFlux, -fluid->mu);
 }
 
-// calculate coefficients for momentum equation
 void p_computeVCoeffs(Obj *o)
 {
 	for (int i = 0; i < o->volNum; ++i) {
@@ -634,7 +623,7 @@ void p_computeVCoeffs(Obj *o)
 
 		vec3 b0;
 #if 0
-		b0 = p_pGradInt(&o->volumes[i]);
+		b0 = pGradInt(&o->volumes[i]);
 #else
 		b0 = vec3Copy(&o->volumes[i].pGrad);
 		vec3Mul(&b0, o->volumes[i].vol);
@@ -706,7 +695,6 @@ void p_computeVFaceCoeffs(Obj *o)
 	}
 }
 
-// compute face fluxes
 void p_computeFaceFs(Obj *o, int in, int tn)
 {
 	for (int i = 0; i < o->faceNum; ++i) {
@@ -734,7 +722,6 @@ void p_computeFaceFs(Obj *o, int in, int tn)
 	}
 }
 
-// compute volume fluxes
 void p_computeVolFs(Obj *o)
 {
 	for (int i = 0; i < o->volNum; ++i) {
@@ -779,7 +766,6 @@ void decomposedET(struct Face *f)
 	vec3Sub(&f->surfaceT, &f->surfaceE);
 }
 
-// minimum correction decomposition of surfaces
 void p_decomposeSurfs(Obj *o)
 {
 	for (int i = 0; i < o->faceNum; ++i) {

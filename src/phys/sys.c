@@ -245,13 +245,12 @@ void p_sysStatus(struct Sys *s)
 	}
 }
 
-// main simulation loop
 void p_sysTick(struct Sys *s)
 {
 	for (int i = 0; i < s->objNum; ++i) {
 		s->in = 0;
 
-		do {
+		do { // SIMPLE algorithm
 			if (s->gradIt > 0) {
 				p_pGradsh(&s->objs[i]);
 				p_vGradsh(&s->objs[i]);
