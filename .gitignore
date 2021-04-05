@@ -10,3 +10,6 @@ plots
 Vortexy_doc.*
 !Vortexy_doc.tex
 !Vortexy_doc.pdf
+Vortexy.cbp
+cmake_install.cmake
+
