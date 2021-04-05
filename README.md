@@ -1,11 +1,11 @@
 # Vortexy - Fluid dynamics simulator
 
-Vortexy, CFD code written in C. Includes an OpenGL renderer for visualization.
+Vortexy, CFD code written in C. Includes an OpenGL renderer for visualization. Output can also be analyzed using the included Mathematica notebooks.
 
 Usage:
 
 ```
-./Vortexy -s <sim.cfg>
+./Vortexy <-s / -r> <sim.cfg>
 ```
 -s = simulate, -r = render
 
@@ -15,16 +15,15 @@ Compilation:
 cmake .
 make
 ```
-or
-```
-./build.sh
-```
 
 Or non-graphical, statically linked (set RENDER_ENABLED to 0 in sim.h)
 
 ```
-./buildsim.sh
+cmake -DRENDER=OFF .
+make
 ```
+
+The respective scripts build.sh and buildsim.sh can be used for compilation.
 
 <p align="middle">
   <img src="https://user-images.githubusercontent.com/12766039/109259406-ce395c00-7804-11eb-9f96-ba6f32aa5e1b.png" width="49%" />
