@@ -12,10 +12,15 @@ Usage:
 Compilation:
 
 ```
+cmake .
+make
+```
+or
+```
 ./build.sh
 ```
 
-Or non-graphical (set RENDER_ENABLED to 0 in sim.h)
+Or non-graphical, statically linked (set RENDER_ENABLED to 0 in sim.h)
 
 ```
 ./buildsim.sh
