@@ -17,6 +17,8 @@
 \usepackage{comment}
 \usepackage[linesnumbered,ruled]{algorithm2e}
 
+\usepackage{rakmacros/rakmacros}
+
 \pagestyle{fancy}
 
 \title {
@@ -43,39 +45,6 @@
 
 \renewcommand\maketitlehooka{\vspace{0.2\textheight}}
 % \renewcommand\maketitlehookd{\vfill}
-
-% MACROS
-% math
-\newcommand{\D}{\text{d}}
-\newcommand{\BD}{\text{D}}
-\newcommand{\I}{\text{i}}
-\newcommand{\mln}{\overline{\ln}}
-\newcommand{\Ln}{\text{Ln}}
-\newcommand{\Arg}{\text{Arg}}
-\newcommand{\Res}{\text{Res}}
-\newcommand{\Ind}{\text{Ind}}
-\newcommand{\lb}{\left(}
-  \newcommand{\rb}{\right)}
-\newcommand{\Imag}{\text{Im} \ }
-\newcommand{\Real}{\text{Re} \ }
-\newcommand{\ft}{\mathcal{F}}
-\newcommand{\lt}{\mathcal{L}}
-\newcommand{\pe}{\mathrel{+}=}
-\newcommand{\te}{\mathrel{+}=}
-% units
-\newcommand{\us}[1]{ \ \text{#1}}
-\newcommand{\un}[1]{ \text{#1}}
-\newcommand{\up}[2]{\text{#1}^{#2}} % unit power
-\newcommand{\uf}[2]{ \ \frac{\text{#1}}{\text{#2}}} % fraction of units
-\newcommand{\mic}{$\upmu$}
-\newcommand{\degc}{ \ ^\circ\text{C}}
-\newcommand{\degs}{^\circ}
-\newcommand{\es}{\text{e}}
-\newcommand{\tp}[1]{ \times 10^{#1}}
-\newcommand{\vb}[1]{\text{\textbf{#1}}}
-\newcommand{\T}{\text{T}}
-
-\newcommand{\x}{\text}
 
 % fluids
 \newcommand{\Ren}{\x{Re}}
@@ -137,6 +106,8 @@ $$
 Turbulence models in simulations include RANS (Reynolds Averaged) e.g. $k$-$\varepsilon$, LES (Large Eddy) and DNS (Direct).
 
 \section{Methods}
+
+\trifig{plots/streamex.pdf}{Stream plot example.}{plots/pipe_vm.pdf}{Poiseuille, velocity \mbox{$x$-component}, cross section.}{plots/pipe_vdp.png}{Pipe flow velocity magnitude, 3D view.}
 
 \subsection{Finite volume method}
 
@@ -221,7 +192,7 @@ $$
   b_n
 \end{pmatrix},
 $$
-where $u_1 \dots u_n$ represents volume element velocities. In the pressure calculation these are referred to as $u^*$, i.e. momentum conserving. The coefficients $a$ and $b$ are calculated for each volume element and assembled into a matrix. Components X, Y and Z are calculated one after another.
+where $u_1 \dots u_n$ represents volume element velocities. In the pressure calculation these are referred to as $u^*$, i.e. momentum conserving. The coefficients $a$ and $b$ are calculated for each volume element and assembled into a matrix. Components $x$, $y$ and $z$ are calculated one after another.
 Face fluxes:
 \begin{align}
   \phi_f = \max(\dot m_f, 0) + \mu \frac{E_f}{d_{vf}}, \\
@@ -304,7 +275,7 @@ The boundary conditions at each face define the matrix coefficients $a_f$. For e
 
 \subsection{Simulation mesh}
 
-The simulation mesh is an irregular, non-orthogonal Delaunay tetrahedralization that is generated from a closed boundary surface. A triangular surface can be used to generate tetrahedra that fill up the bounded volume with constraints such as angle, volume and edge length. Each volume element has four faces and four neighbouring volume elements.
+The simulation mesh is an irregular, non-orthogonal Delaunay tetrahedralization that is generated from a closed boundary surface. A triangular surface can be used to generate tetrahedra that fill up the bounded volume with constraints such as angle, volume and edge length. Each volume element has four faces and up to four neighbouring volume elements.
 
 \section{Software}
 
