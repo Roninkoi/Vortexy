@@ -279,6 +279,8 @@ The simulation mesh is an irregular, non-orthogonal Delaunay tetrahedralization 
 
 \section{Software}
 
+Vortexy consists of two parts: the simulator and the renderer. The renderer can be used to view output of the simulator in real time and from files. It can also be used to set boundary conditions, but this functionality is limited. The simulator is implemented in the folder \verb|src/phys|. This contains code for finite volume mesh computation (\verb|volume.c|), gradient computation using the Green-Gauss theorem (\verb|gradient.c|) and interpolation (\verb|interpolate.c|). Finally, there is the solver itself that assembles the matrix equations (\verb|solver.c|). The SIMPLE algorithm is implemented in file \verb|sys.c| function \verb|p_sysTick()|. This is the main loop that solves the matrix equations at every time step. The equations are solved iteratively until the desired residual is reached.
+
 \subsection{Rendering}
 
 OpenGL 3.1, GLSL 150.
@@ -287,7 +289,7 @@ OpenGL 3.1, GLSL 150.
 
 The software is compiled using CMake. The \verb|CMakeLists.txt| file is found in the root directory. The simulator can be configured either in graphical or non-graphical mode. Rendering can be disabled by passing the \verb|-DRENDER=OFF| flag to CMake. The non-graphical version is linked entirely statically, so static C development libraries are needed. The graphical version has its \verb|RPATH| set to \verb|lib/|, so required dynamically linked libraries can be placed there.
 
-The root directory contains shell scripts that can be used for compilation. To build the simulator, renderer and libraries use the script \verb|buildall.sh|. To build the simulator without the renderer use the script \verb|buildsim.h| and set \verb|RENDER_ENABLED| to 0 in \verb|sim.h|.\\
+The root directory contains shell scripts that can be used for compilation. To build the simulator without the renderer use the script \verb|buildsim.h| and set \verb|RENDER_ENABLED| to 0 in \verb|sim.h|.\\
 Building using default options (dependencies: libc, libm, OpenGL, GLEW, GLFW):
 \begin{verbatim}
   cmake .
