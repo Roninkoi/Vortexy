@@ -135,8 +135,8 @@ The SIMPLE algorithm can be summarized as follows \cite{mou, pat}:
 \item Solve \textit{momentum equation} using velocity guess $u^0$
 \item Solve \textit{pressure correction equation} to get $p'$
 \item Correct pressure $p = p^* + p'$ and velocity $v = v^* + v'$
-\item Increment time $t^{n+1} = t^n + \Delta t$
-\item Repeat
+\item Increment time $t^{(n+1)} = t^{(n)} + \Delta t$
+\item Jump to step 2
 \end{enumerate}
 Rhie-Chow interpolation is performed as \cite{mou}
 $$
@@ -156,8 +156,8 @@ $$
 This saddle-point problem can be represented in matrix form as \cite{mou}
 $$
 \x A \vb u = \begin{pmatrix}
-  F & B^\T \\
-  B & 0
+  \x F & \x B^\T \\
+  \x B & 0
 \end{pmatrix}
 \begin{pmatrix}
   \vb u \\
@@ -211,10 +211,10 @@ Coefficients:
   a_f = \Phi_f = -\max(-\dot m_f, 0) - \mu \frac{E_f}{d_{vf}},
 \end{align}
 \begin{equation}
-  \vb b_V = -\psi_v - \sum_{f \in \fnb} \psi_f + \sum_{f \in \fnb} \lb \mu (\nabla \vb u_f)^T \cdot \vb S_f \rb - V \nabla p_v,
+  \vb b_V = -\psi_v - \sum_{f \in \fnb} \psi_f + \sum_{f \in \fnb} \lb \mu (\nabla \vb u_f)^\T \cdot \vb S_f \rb - V \nabla p_v,
 \end{equation}
 $$
-= - \frac{\rho V}{\Delta t} \vb u_V - \vb f_b V - \sum_{f \in \fnb} \lb - \mu (\nabla \vb u_f) \cdot \vb T_f + \dot m_f (\vb u_f - \vb u_f^{\text{uw}}) \rb + \sum_{f \in \fnb} \lb \mu (\nabla \vb u_f)^T \cdot \vb S_f \rb - V \nabla p_v.
+= - \frac{\rho V}{\Delta t} \vb u_V - \vb f_b V - \sum_{f \in \fnb} \lb - \mu (\nabla \vb u_f) \cdot \vb T_f + \dot m_f (\vb u_f - \vb u_f^{\text{uw}}) \rb + \sum_{f \in \fnb} \lb \mu (\nabla \vb u_f)^\T \cdot \vb S_f \rb - V \nabla p_v.
 $$
 For interpolation we define:
 $$
