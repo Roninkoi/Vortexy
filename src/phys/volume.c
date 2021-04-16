@@ -118,7 +118,6 @@ void connects(struct Face *f, int **fl, int *fln, int i, int j)
 	if (onei < 0 || twoi < 0)
 		return;
 
-#if 1
 	if (!contains(fl[j], onei, fln[j])) {
 		fl[j] = intAppend(fl[j], onei, fln[j]);
 		++fln[j];
@@ -138,17 +137,6 @@ void connects(struct Face *f, int **fl, int *fln, int i, int j)
 		fl[i] = intAppend(fl[i], twoj, fln[i]);
 		++fln[i];
 	}
-#else
-	if (!contains(fl[i], onej, fln[i])) {
-		fl[i] = intAppend(fl[i], onej, fln[i]);
-		++fln[i];
-	}
-
-	if (!contains(fl[i], twoj, fln[i])) {
-		fl[i] = intAppend(fl[i], twoj, fln[i]);
-		++fln[i];
-	}
-#endif
 }
 
 void computeConnections(struct Face *f, const int fn)
@@ -431,7 +419,6 @@ struct Volume *p_loadVolumes(struct Face *f, int faceNum, int *volNum)
 
 	printf("Starting volume (%i faces) computation...\n", faceNum);
 
-#if 1
 	for (int i = 0; i < faceNum; ++i) {
 		for (int jj = 0; jj < f[i].conNum; ++jj) {
 			int j = f[i].connecting[jj]->index;
@@ -492,47 +479,6 @@ struct Volume *p_loadVolumes(struct Face *f, int faceNum, int *volNum)
 			printf("%i / %i\n", i, faceNum);
 #endif
 	}
-
-	/*for (int i = 0; i < n; ++i) {
-		printf("%i %i %i %i\n", vi[i][0], vi[i][1], vi[i][2], vi[i][3]);
-	}*/
-#else
-	for (int i = 0; i < faceNum; ++i) {
-		for (int j = i + 1; j < faceNum; ++j) {
-			if (!containsFace(f[i].connecting, &f[j], f[i].conNum))
-				continue;
-			for (int k = j + 1; k < faceNum; ++k) {
-				if (!containsFace(f[i].connecting, &f[k], f[i].conNum))
-					continue;
-				if (!containsFace(f[j].connecting, &f[k], f[j].conNum))
-					continue;
-				for (int l = k + 1; l < faceNum; ++l) {
-					if (!containsFace(f[i].connecting, &f[l], f[i].conNum))
-						continue;
-
-					if (!containsFace(f[j].connecting, &f[l], f[j].conNum))
-						continue;
-
-					if (!containsFace(f[k].connecting, &f[l], f[k].conNum))
-						continue;
-
-					if (sharesEdge(&f[i], &f[j], &f[k], &f[l]))
-						continue;
-
-					int *t = malloc(sizeof(int) * 4);
-					t[0] = i;
-					t[1] = j;
-					t[2] = k;
-					t[3] = l;
-
-					vi = intsAppend(vi, t, n);
-					++n;
-				}
-			}
-		}
-		printf("%i / %i\n", i, faceNum);
-	}
-#endif
 
 	printf("Number of volumes: %i\n", n);
 
