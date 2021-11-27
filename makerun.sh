@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 make
 ./Vortexy -s sim.cfg
 

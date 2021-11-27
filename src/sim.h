@@ -13,7 +13,22 @@
 #include "util/randomUtil.h"
 
 // enable rendering
-#define RENDER_ENABLED 1
+#define RENDER_ENABLED 0
+#define RENDER_ENABLED 0
+#define RENDER_ENABLED 0
+#define RENDER_ENABLED 0
+#define RENDER_ENABLED 0
+#define RENDER_ENABLED 0
+#define RENDER_ENABLED 0
+#define RENDER_ENABLED 0
+#define RENDER_ENABLED 0
+#define RENDER_ENABLED 0
+#define RENDER_ENABLED 0
+#define RENDER_ENABLED 0
+#define RENDER_ENABLED 0
+#define RENDER_ENABLED 0
+#define RENDER_ENABLED 0
+#define RENDER_ENABLED 0
 
 // renderer include
 #if RENDER_ENABLED
