@@ -14,7 +14,9 @@
 \usepackage{float}
 \usepackage{hyperref}
 \usepackage{authblk}
+\usepackage{bm}
 \usepackage{comment}
+\usepackage{mathtools}
 \usepackage[linesnumbered,ruled]{algorithm2e}
 
 \usepackage{rakmacros/rakmacros}
@@ -211,10 +213,10 @@ Coefficients:
   a_f = \Phi_f = -\max(-\dot m_f, 0) - \mu \frac{E_f}{d_{vf}},
 \end{align}
 \begin{equation}
-  \vb b_V = -\psi_v - \sum_{f \in \fnb} \psi_f + \sum_{f \in \fnb} \lb \mu (\nabla \vb u_f)^\T \cdot \vb S_f \rb - V \nabla p_v,
+  \vb b_V = -\psi_v - \sum_{f \in \fnb} \psi_f + \sum_{f \in \fnb} \lsb \mu (\nabla \vb u_f)^\T \cdot \vb S_f \rsb - V \nabla p_v,
 \end{equation}
 $$
-= - \frac{\rho V}{\Delta t} \vb u_V - \vb f_b V - \sum_{f \in \fnb} \lb - \mu (\nabla \vb u_f) \cdot \vb T_f + \dot m_f (\vb u_f - \vb u_f^{\text{uw}}) \rb + \sum_{f \in \fnb} \lb \mu (\nabla \vb u_f)^\T \cdot \vb S_f \rb - V \nabla p_v.
+= - \frac{\rho V}{\Delta t} \vb u_V - \vb f_b V - \sum_{f \in \fnb} \lsb - \mu (\nabla \vb u_f) \cdot \vb T_f + \dot m_f \lb \vb u_f - \vb u_f^{\text{uw}}\rb \rsb + \sum_{f \in \fnb} \lb \mu (\nabla \vb u_f)^\T \cdot \vb S_f \rb - V \nabla p_v.
 $$
 For interpolation we define:
 $$
@@ -289,7 +291,7 @@ OpenGL 3.1, GLSL 150.
 
 The software is compiled using CMake. The \verb|CMakeLists.txt| file is found in the root directory. The simulator can be configured either in graphical or non-graphical mode. Rendering can be disabled by passing the \verb|-DRENDER=OFF| flag to CMake. The non-graphical version is linked entirely statically, so static C development libraries are needed. The graphical version has its \verb|RPATH| set to \verb|lib/|, so required dynamically linked libraries can be placed there.
 
-The root directory contains shell scripts that can be used for compilation. To build the simulator without the renderer use the script \verb|buildsim.h| and set \verb|RENDER_ENABLED| to 0 in \verb|sim.h|.\\
+The root directory contains shell scripts that can be used for compilation. To build the simulator without the renderer use the script \verb|build.sh 0|, which sets \verb|RENDER_ENABLED| to 0 in \verb|sim.h|.\\
 Building using default options (dependencies: libc, libm, OpenGL, GLEW, GLFW):
 \begin{verbatim}
   cmake .
