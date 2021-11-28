@@ -1,6 +1,6 @@
 # Vortexy - Fluid dynamics simulator
 
-Vortexy, CFD code written in C. Includes an OpenGL renderer for visualization. Output can also be analyzed using the included Mathematica notebooks.
+Vortexy, CFD code written in C. Uses the finite volume method and SIMPLE algorithm to solve Navier-Stokes equations for incompressible fluids. Includes an OpenGL renderer for visualization. Output can also be analyzed using the included Mathematica notebooks.
 
 Usage:
 
@@ -23,7 +23,7 @@ cmake -DRENDER=OFF .
 make
 ```
 
-The respective scripts build.sh and buildsim.sh can be used for compilation.
+The script `build.sh` can be used to automatically compile either in graphical on non-graphical mode.
 
 <p align="middle">
   <img src="https://user-images.githubusercontent.com/12766039/109259406-ce395c00-7804-11eb-9f96-ba6f32aa5e1b.png" width="49%" />

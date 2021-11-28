@@ -91,18 +91,21 @@ void connects(struct Face *f, int **fl, int *fln, int i, int j)
 			if (f[i].inds[a] == f[j].inds[b]) {
 				if (onei < 0) {
 					onei = i;
-				} else {
+				}
+				else {
 					twoi = i;
 				}
 				if (onej < 0) {
 					onej = j;
-				} else {
+				}
+				else {
 					twoj = j;
 				}
 
 				if (oneind < 0) {
 					oneind = f[i].inds[a];
-				} else {
+				}
+				else {
 					twoind = f[i].inds[a];
 				}
 			}
@@ -359,7 +362,8 @@ int sharesEdge(struct Face *f0, struct Face *f1, struct Face *f2, struct Face *f
 			if (f0->inds[i] == f1->inds[j]) {
 				if (a[fi] == -1) {
 					a[fi] = f0->inds[i];
-				} else {
+				}
+				else {
 					b[fi] = f0->inds[i];
 				}
 			}
@@ -372,7 +376,8 @@ int sharesEdge(struct Face *f0, struct Face *f1, struct Face *f2, struct Face *f
 			if (f0->inds[i] == f2->inds[j]) {
 				if (a[fi] == -1) {
 					a[fi] = f0->inds[i];
-				} else {
+				}
+				else {
 					b[fi] = f0->inds[i];
 				}
 			}
@@ -385,7 +390,8 @@ int sharesEdge(struct Face *f0, struct Face *f1, struct Face *f2, struct Face *f
 			if (f0->inds[i] == f3->inds[j]) {
 				if (a[fi] == -1) {
 					a[fi] = f0->inds[i];
-				} else {
+				}
+				else {
 					b[fi] = f0->inds[i];
 				}
 			}
